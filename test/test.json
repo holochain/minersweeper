@@ -1,0 +1,30 @@
+{
+    "Tests": [
+        {
+            "Convey": "Can call create new game",
+            "Zome": "minesweeper",
+            "FnName": "newGame",
+            "Input": {
+                "text": "This is my awesome new game",
+                "gameParams": {
+                  "size" : {
+                    "x" : 30,
+                    "y" : 30
+                  },
+                  "nMines" : 4
+                }
+            },
+            "Output": "%h1%",
+            "Exposure":"public"
+        },
+        {
+            "Convey": "Can retrieve created game using getCurrentGames",
+            "Zome": "minesweeper",
+            "FnName": "getCurrentGames",
+            "Raw" : true,
+            "Input": "getCurrentGames().length",
+            "Output": 1,
+            "Exposure":"public"            
+        }
+    ]
+}

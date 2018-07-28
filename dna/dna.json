@@ -10,8 +10,7 @@
     "BasedOn": "",
     "RequiresVersion": 26,
     "DHTConfig": {
-        "HashType": "sha2-256",
-        "RedundancyFactor": 0
+        "HashType": "sha2-256"
     },
     "Progenitor": {
         "Identity": "",
