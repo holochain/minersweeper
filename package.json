@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-virtualized": "^9.20.1"
+  }
+}
