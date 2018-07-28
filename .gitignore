@@ -1,0 +1,18 @@
+agent.txt
+priv.key
+
+ui/
+node_modules/
+package-lock.json
+.dist/
+.cache/
+
+# OS generated files #
+######################
+dna/.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

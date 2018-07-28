@@ -1,0 +1,19 @@
+{
+  "type" : "object",
+  "properties" : {
+    "mines" : {"type" : "array", "items" : {
+      "type" : "object",
+      "properties" : {
+        "x" : {"type" : "integer"},
+        "y" : {"type" : "integer"}
+      }
+    }},
+    "size" : {
+      "type" : "object",
+      "properties" : {
+        "x" : {"type" : "integer"},
+        "y" : {"type" : "integer"}
+      }
+    }
+  }
+}
