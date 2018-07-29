@@ -6,11 +6,11 @@ var MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered
 =============================================*/
 
 function newGame(payload) {
-  var text = payload.text;
-  var size = payload.gameParams.size;
-  var nMines = payload.gameParams.nMines;
+  var description = payload.description;
+  var size = payload.size;
+  var nMines = payload.nMines;
 
-  var gameBoard = genGameBoard(text, size, nMines);
+  var gameBoard = genGameBoard(description, size, nMines);
   // bundleStart(1, "");
   var gameHash = commit('gameBoard', gameBoard);
   commit('gameLinks', { Links: [
@@ -44,7 +44,9 @@ function makeMove(payload) {
 
 function getCurrentGames() {
   debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true});
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
 }
 
 function getState(payload) {
@@ -74,7 +76,7 @@ function randInt(min, max) {
 }
 
 
-function genGameBoard(text, size, nMines) {
+function genGameBoard(description, size, nMines) {
   var mines = [];
   for(var i = 0; i < nMines; i++) {
     do {
@@ -88,9 +90,9 @@ function genGameBoard(text, size, nMines) {
 
   return {
     creatorHash: App.Key.Hash,
+    description: description,
     mines: mines,
     size: size,
-    text: text
   };
 }
 

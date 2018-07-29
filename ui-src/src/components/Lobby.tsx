@@ -4,15 +4,29 @@ import './Lobby.css';
 
 import {connect} from 'react-redux';
 
+import {fetchJSON} from '../common';
 import {GameParams} from '../types';
 
 import CreateGameForm from './CreateGameForm'
 
-type LobbyProps = {
+interface ILobbyProps {
   games: List<GameParams>
 }
 
-class Lobby extends React.Component<LobbyProps, {}> {
+class Lobby extends React.Component<any, {}> {
+
+  public componentWillMount() {
+    setInterval(
+      () => {
+        fetchJSON('fn/minesweeper/getCurrentGames')
+          .then(games => this.props.dispatch({
+            games,
+            type: 'FETCH_CURRENT_GAMES'
+          }))
+      },
+      1000
+     )
+  }
 
   public render() {
     const games = this.props.games || []
@@ -27,11 +41,11 @@ class Lobby extends React.Component<LobbyProps, {}> {
 
 const GameList = ({games}) => {
   if (games) {
-    return <ul>
-      {games.map(game => {
+    return <ul> {
+      games.map(game => {
         return <li key={"TODO"}>{game.description}</li>
-      })}
-    </ul>
+      })
+    } </ul>
   } else {
     return <ul/>
   }

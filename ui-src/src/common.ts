@@ -1,6 +1,6 @@
 
 
-export const fetchJSON = (url: string, data: any) => {
+export const fetchJSON = (url: string, data?: any) => {
   return fetch(url, {
     body: JSON.stringify(data),
     headers: {

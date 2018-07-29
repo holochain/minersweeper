@@ -4,26 +4,22 @@ import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
 import {Action} from './actions';
-import {CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
-
-type StoreState = {
-  lobby: StoreLobbyState,
-  game: StoreGameState
-};
-
-type StoreGameState = {
-  matrix: CellMatrix,
-};
-
-type StoreLobbyState = {
-  games: List<GameParams>,
-};
+import {
+  CellMatrix,
+  CellStatus,
+  Game,
+  GameParams,
+  StoreGameState,
+  StoreLobbyState,
+  StoreState,
+  XY
+} from './types';
 
 const initMatrix = (gameParams: GameParams): CellMatrix => {
   const rows: Array<List<CellStatus>> = []
-  for (let r = 0; r < gameParams.height; r++) {
+  for (let r = 0; r < gameParams.size.y; r++) {
     const cells: CellStatus[] = []
-    for (let c = 0; c < gameParams.width; c++) {
+    for (let c = 0; c < gameParams.size.x; c++) {
       cells.push(CellStatus.Concealed)
     }
     rows.push(List(cells))
@@ -48,7 +44,11 @@ const reduceMatrix = (matrix: CellMatrix, action): CellMatrix => {
 const startActions: Action[] = []
 
 const defaultGameState = {
-  matrix: startActions.reduce(reduceMatrix, initMatrix(tempGameParams)),
+  matrix: startActions.reduce(reduceMatrix, initMatrix({
+    description: "sample game",
+    nMines: 1,
+    size: {x: 2, y: 2}
+  })),
 }
 
 const defaultLobbyState = {
@@ -77,11 +77,12 @@ export function game (state: StoreGameState = defaultGameState, action: Action):
 }
 
 export function lobby (state: StoreLobbyState = defaultLobbyState, action: Action): StoreLobbyState {
-  const {games} = state
   switch (action.type) {
-    case 'NEW_GAME': {
-      const {params} = action
-      return {...state, games: games.push(params) }
+    case 'CONFIRM_NEW_GAME': {
+      return state
+    }
+    case 'FETCH_CURRENT_GAMES': {
+      return {...state, games: List(action.games) }
     }
   }
   return state
@@ -89,4 +90,6 @@ export function lobby (state: StoreLobbyState = defaultLobbyState, action: Actio
 
 const root = combineReducers({game, lobby})
 
-export default redux.createStore(root);
+export default redux.createStore(
+  root
+);

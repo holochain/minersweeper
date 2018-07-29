@@ -11,13 +11,35 @@ export type CellMatrix = List<List<number>>
 export type XY = {x: number, y: number}
 
 export type GameParams = {
-  width: number,
-  height: number,
   description: string,
+  nMines: number,
+  size: XY,
 }
 
-export const tempGameParams: GameParams = {
-  description: "this is the description",
-  height: 100,
-  width: 100,
+export type Game = GameParams & {
+  creatorHash: string,
 }
+
+// export const tempGameParams: GameParams = {
+//   description: "this is the description",
+//   nMines: 50,
+//   size: {
+//     x: 100,
+//     y: 100,
+//   }
+// }
+
+// store
+//
+export type StoreState = {
+  lobby: StoreLobbyState,
+  game: StoreGameState
+};
+
+export type StoreGameState = {
+  matrix: CellMatrix,
+};
+
+export type StoreLobbyState = {
+  games: List<GameParams>,
+};
