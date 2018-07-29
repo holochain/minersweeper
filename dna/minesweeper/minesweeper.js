@@ -13,9 +13,9 @@ function newGame(payload) {
   var gameBoard = genGameBoard(text, size, nMines);
   // bundleStart(1, "");
   var gameHash = commit('gameBoard', gameBoard);
-  commit('gameLinks', { Links: [ 
-    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ] 
-  });  
+  commit('gameLinks', { Links: [
+    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
+  });
   // bundleClose(true);
   return gameHash;
 }
@@ -29,8 +29,8 @@ function makeMove(payload) {
   // bundleStart(1, "");
   try {
     var actionHash = commit('action', action);
-    commit('actionLinks', { Links: [ 
-      { Base: gameHash, Link: actionHash, Tag: "" } ] 
+    commit('actionLinks', { Links: [
+      { Base: gameHash, Link: actionHash, Tag: "" } ]
     });
     return true;
   } catch (err) {
@@ -79,7 +79,7 @@ function genGameBoard(text, size, nMines) {
   for(var i = 0; i < nMines; i++) {
     do {
       var x = randInt(0, size.x);
-      var y = randInt(0, size.y);  
+      var y = randInt(0, size.y);
     } while (mines.some(function(elem) { // ensures no duplicates
       return (x===elem.x && y===elem.y)
     }));
@@ -89,7 +89,7 @@ function genGameBoard(text, size, nMines) {
   return {
     creatorHash: App.Key.Hash,
     mines: mines,
-    size: size, 
+    size: size,
     text: text
   };
 }
@@ -150,7 +150,7 @@ function validateCommit(entry_type, entry, header, pkg, sources) {
   if (entry_type === "actionLinks") {
     return validateAddAction(entry.Links[0].Base, entry.Links[0].Link, sources[0]);
   } else if (entry_type === "gameBoard"){
-    return validateGameBoard(entry);    
+    return validateGameBoard(entry);
   } else {
     return true;
   }

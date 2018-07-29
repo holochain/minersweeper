@@ -6,13 +6,16 @@ import {combineReducers} from 'redux';
 import {Action, CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
 
 type StoreState = {
-  // nav: StoreNavState,
+  lobby: StoreLobbyState,
   game: StoreGameState
 };
 
 type StoreGameState = {
   matrix: CellMatrix,
-  myActions: number
+};
+
+type StoreLobbyState = {
+  games: GameParams[],
 };
 
 const initMatrix = (gameParams: GameParams): CellMatrix => {
@@ -41,25 +44,23 @@ const reduceMatrix = (matrix: CellMatrix, action): CellMatrix => {
   return matrix
 }
 
-const startActions: Action[] = [
-
-]
+const startActions: Action[] = []
 
 const defaultGameState = {
   matrix: startActions.reduce(reduceMatrix, initMatrix(tempGameParams)),
-  myActions: 0,
+}
+
+const defaultLobbyState = {
+  games: []
 }
 
 const defaultState: StoreState = {
-  // nav: {
-  //   currentGame: null
-  // },
-  game: defaultGameState
+  game: defaultGameState,
+  lobby: defaultLobbyState,
 };
 
 
 export function game (state: StoreGameState = defaultGameState, action: Action): StoreGameState {
-  state.myActions++;
   const {matrix} = state
   switch (action.type) {
     case 'REVEAL': {
@@ -74,6 +75,17 @@ export function game (state: StoreGameState = defaultGameState, action: Action):
   return state
 }
 
-const root = combineReducers({game})
+export function lobby (state: StoreLobbyState = defaultLobbyState, action: Action): StoreLobbyState {
+  const {games} = state
+  switch (action.type) {
+    case 'NEW_GAME': {
+      return state
+      // return {...state, matrix: matrix.setIn([y, x], CellStatus.Revealed)}
+    }
+  }
+  return state
+}
+
+const root = combineReducers({game, lobby})
 
 export default redux.createStore(root);

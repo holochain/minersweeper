@@ -11,6 +11,7 @@ export type CellMatrix = List<List<number>>
 export type Action
   = { type: 'REVEAL', coords: XY }
   | { type: 'FLAG', coords: XY }
+  | { type: 'NEW_GAME', params: GameParams }
 
 export type XY = {x: number, y: number}
 

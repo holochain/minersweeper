@@ -4,13 +4,14 @@ import './App.css';
 import {GameParams, tempGameParams} from './types';
 
 import Field from './Field';
+import Lobby from './Lobby';
 
 class App extends React.Component {
   public render() {
-
     return (
       <div className="App">
-        <Field gameParams={tempGameParams} actions={[]} />
+        <Lobby/>
+        {/*<Field gameParams={tempGameParams} actions={[]} />*/}
       </div>
     );
   }
