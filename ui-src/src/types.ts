@@ -8,19 +8,16 @@ export enum CellStatus {
 
 export type CellMatrix = List<List<number>>
 
-export type Action
-  = { type: 'REVEAL', coords: XY }
-  | { type: 'FLAG', coords: XY }
-  | { type: 'NEW_GAME', params: GameParams }
-
 export type XY = {x: number, y: number}
 
 export type GameParams = {
   width: number,
   height: number,
+  description: string,
 }
 
 export const tempGameParams: GameParams = {
+  description: "this is the description",
   height: 100,
   width: 100,
 }

@@ -1,30 +1,34 @@
 import * as React from 'react';
 // import './CreateGameForm.css';
 
-// import {GameParams, tempGameParams} from '../types';
+import * as actions from '../actions';
+import store from '../store';
+import {GameParams} from '../types';
 
 class CreateGameForm extends React.Component {
 
-  private inText: HTMLInputElement | null = null
   private inWidth: HTMLInputElement | null = null
   private inHeight: HTMLInputElement | null = null
+  private inDescription: HTMLInputElement | null = null
 
   public render() {
     return <div className="CreateGameForm">
-      <input type="text" ref={el => this.inText = el}/>
       <input type="number" ref={el => this.inWidth = el}/>
       <input type="number" ref={el => this.inHeight = el}/>
+      <br/>
+      <input type="text" ref={el => this.inDescription = el}/>
+      <br/>
       <button onClick={this.handleCreate}>New Game</button>
     </div>
   }
 
-  private handleCreate() {
-    const {inText, inWidth, inHeight} = this
-    if (inText && inWidth && inHeight) {
-      const text = inText!.value
-      const width = inWidth!.value
-      const height = inHeight!.value
-
+  private handleCreate = () => {
+    const {inDescription, inWidth, inHeight} = this
+    if (inDescription && inWidth && inHeight) {
+      const description = inDescription!.value
+      const width = parseInt(inWidth!.value, 10)
+      const height = parseInt(inHeight!.value, 10)
+      store.dispatch(actions.newGame({width, height, description}))
     }
   }
 }

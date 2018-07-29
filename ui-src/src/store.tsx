@@ -3,7 +3,8 @@ import { List } from 'immutable';
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
-import {Action, CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
+import {Action} from './actions';
+import {CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
 
 type StoreState = {
   lobby: StoreLobbyState,
@@ -15,7 +16,7 @@ type StoreGameState = {
 };
 
 type StoreLobbyState = {
-  games: GameParams[],
+  games: List<GameParams>,
 };
 
 const initMatrix = (gameParams: GameParams): CellMatrix => {
@@ -51,7 +52,7 @@ const defaultGameState = {
 }
 
 const defaultLobbyState = {
-  games: []
+  games: List([])
 }
 
 const defaultState: StoreState = {
@@ -79,8 +80,8 @@ export function lobby (state: StoreLobbyState = defaultLobbyState, action: Actio
   const {games} = state
   switch (action.type) {
     case 'NEW_GAME': {
-      return state
-      // return {...state, matrix: matrix.setIn([y, x], CellStatus.Revealed)}
+      const {params} = action
+      return {...state, games: games.push(params) }
     }
   }
   return state
