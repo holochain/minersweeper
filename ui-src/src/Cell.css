@@ -1,3 +1,7 @@
 .Cell {
   border: 1px solid #ddd;
 }
+
+.Cell.revealed {
+  background: gray;
+}
