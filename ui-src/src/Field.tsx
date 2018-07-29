@@ -23,6 +23,7 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
   public render() {
     const rows = this.props.matrix.size
     const columns = this.props.matrix.get(0).size
+    const cellSize = 20
 
     return (
       <AutoSizer>{
@@ -30,10 +31,10 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
           ref={el => this.grid = el}
           cellRenderer={Cell}
           columnCount={columns}
-          columnWidth={20}
+          columnWidth={cellSize}
           height={height}
           rowCount={rows}
-          rowHeight={20}
+          rowHeight={cellSize}
           width={width}
         />
       }</AutoSizer>

@@ -45,10 +45,6 @@ const startActions: Action[] = [
 
 ]
 
-for(let i=0; i < 1000; i++) {
-  startActions.push({type: 'REVEAL', coords: {x: i, y: i}})
-}
-
 const defaultGameState = {
   matrix: startActions.reduce(reduceMatrix, initMatrix(tempGameParams)),
   myActions: 0,
