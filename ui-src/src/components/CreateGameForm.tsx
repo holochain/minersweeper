@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import './CreateGameForm.css';
 
-// import {GameParams, tempGameParams} from './types';
+// import {GameParams, tempGameParams} from '../types';
 
 class CreateGameForm extends React.Component {
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import {GameParams, tempGameParams} from './types';
+import {GameParams, tempGameParams} from '../types';
 
 import Field from './Field';
 import Lobby from './Lobby';

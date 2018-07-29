@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import './Cell.css';
 
-import store from './store'
-import {CellMatrix, CellStatus, XY} from './types'
+import store from '../store'
+import {CellMatrix, CellStatus, XY} from '../types'
 
 type CellProps = {
   columnIndex: number,
