@@ -24,6 +24,7 @@ function makeMove(payload) {
   var gameHash = payload.gameHash;
   var action = payload.move;
   action.agentHash = App.Key.Hash;
+  debug(gameHash);
 
   // bundleStart(1, "");
   try {
@@ -42,9 +43,8 @@ function makeMove(payload) {
 }
 
 function getCurrentGames() {
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
-    return elem.Entry;
-  });
+  debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true});
 }
 
 function getState(payload) {
@@ -127,7 +127,6 @@ function validateAddAction(gameHash, actionHash, agentHash) {
 
 // ensures a game board is valid before it can be added
 function validateGameBoard(gameBoard) {
-  debug(gameBoard);
   return gameBoard.size.x > 10 && gameBoard.size.y > 10 && gameBoard.mines.length < MAX_MINE_FRACTION*(gameBoard.size.x*gameBoard.size.y);
 }
 

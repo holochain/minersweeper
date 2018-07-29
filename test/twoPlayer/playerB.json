@@ -1,0 +1,37 @@
+{
+    "Tests": [
+      {
+        "Time" : 2000,
+        "Convey": "Can retrieve created game using getCurrentGames",
+        "Zome": "minesweeper",
+        "FnName": "getCurrentGames",
+        "Raw" : true,
+        "Input": "getCurrentGames().length",
+        "Output": 1      
+      },
+      {
+        "Time" : 2500,
+        "Convey": "Can retrieve created game hash for use later",
+        "Zome": "minesweeper",
+        "FnName": "getCurrentGames",
+        "Raw" : true,
+        "Input": "getCurrentGames()[0].Hash",
+        "Regexp": ".*"
+      },
+    {
+        "Time" : 3000,
+        "Convey": "Can add an action to the retrieved game",
+        "Zome": "minesweeper",
+        "FnName": "makeMove",
+        "Input": {
+          "gameHash": "%result1%",
+          "move" : {
+            "actionType" : "reveal",
+            "position" : {"x" : 20, "y" : 14}
+          }
+        },
+        "Output": true,
+        "Exposure":"public"            
+    }
+    ]
+}
