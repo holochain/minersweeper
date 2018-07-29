@@ -50,9 +50,16 @@ function getState(payload) {
 =            Private Functions            =
 =========================================*/
 
-//Returns a random integer between min (inclusive) and max (inclusive)
+var seed = 420;
+
+function random() {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+// Returns a random integer between min (inclusive) and max (inclusive)
 function randInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(random() * (max - min + 1)) + min;
 }
 
 
@@ -77,6 +84,8 @@ function genGameBoard(text, size, nMines) {
 
 // player is dead if one of their reveals is a mine position
 function isDead(gameBoard, actions) {
+  debug(gameBoard)
+  debug(actions)
   return gameBoard.mines.some(function (mine) {
     return actions.some(function(action) {
       if(action.actionType === "reveal") {
@@ -97,16 +106,19 @@ function isDead(gameBoard, actions) {
 // the main validation function of the game. All game rules are enforced here
 function validateAddAction(gameHash, actionHash, agentHash) {
   var gameBoard = get(gameHash);
-  var actions = getLinks(gameHash, "", {Load: true});
-  debug(actions)
-  debug(gameBoard.mines)
-  return !isDead(gameBoard, actions);
+  var actions = getLinks(gameHash, "", {Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
+  var actionsFromAgent = actions.filter(function(action) {
+    return action.agentHash === agentHash;
+  });
+  return !isDead(gameBoard, actionsFromAgent);
 }
 
 // ensures a game board is valid before it can be added
 function validateGameBoard(gameBoard) {
-  debug("validating: "+ JSON.stringify(gameBoard));
-  return gameBoard.mines.length < MAX_MINE_FRACTION*(gameBoard.size.x*gameBoard.size.y);
+  debug(gameBoard);
+  return gameBoard.size.x > 10 && gameBoard.size.y > 10 && gameBoard.mines.length < MAX_MINE_FRACTION*(gameBoard.size.x*gameBoard.size.y);
 }
 
 /*=====  End of Validation functions  ======*/
@@ -120,7 +132,6 @@ function genesis () {
   var h = commit('anchor', 'currentGames'); // ensure this always exists
   return true;
 }
-
 
 function validatePut(entry_type, entry, header, pkg, sources) {
   return validateCommit(entry_type, entry, header, pkg, sources);

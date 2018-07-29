@@ -76,6 +76,34 @@
             "Input": "isDead({mines: [{x: 4, y:10}]}, [])",
             "Output": false,
             "Exposure":"public"            
-        }            
+        },
+        {
+            "Convey": "Can add an action to the game that collides with a mine",
+            "Zome": "minesweeper",
+            "FnName": "makeMove",
+            "Input": {
+              "gameHash": "%h3%",
+              "move" : {
+                "actionType" : "reveal",
+                "position" : {"x" : 27, "y" : 25}
+              }
+            },
+            "Output": "%h1%",
+            "Exposure":"public"            
+        },
+        {
+            "Convey": "Cannot add another action after this",
+            "Zome": "minesweeper",
+            "FnName": "makeMove",
+            "Input": {
+              "gameHash": "%h5%",
+              "move" : {
+                "actionType" : "reveal",
+                "position" : {"x" : 0, "y" : 0}
+              }
+            },
+            "ErrMsg": "Validation Failed",
+            "Exposure":"public"            
+        }
     ]
 }
