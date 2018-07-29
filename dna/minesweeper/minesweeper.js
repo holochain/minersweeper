@@ -26,21 +26,32 @@ function makeMove(payload) {
   action.agentHash = App.Key.Hash;
 
   // bundleStart(1, "");
-  var actionHash = commit('action', action);
-  commit('actionLinks', { Links: [ 
-    { Base: gameHash, Link: actionHash, Tag: "" } ] 
-  });
+  try {
+    var actionHash = commit('action', action);
+    commit('actionLinks', { Links: [ 
+      { Base: gameHash, Link: actionHash, Tag: "" } ] 
+    });
+    return true;
+  } catch (err) {
+    debug(err);
+    return false;
+  }
+
   // bundleClose(true);
   return actionHash;
 }
 
 function getCurrentGames() {
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true});
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
 }
 
 function getState(payload) {
   var gameHash = payload.gameHash;
-  return getLinks(gameHash, "", {Load: true});
+  return getLinks(gameHash, "", {Load: true}).map(function(elem) {
+    return elem.Entry;
+  });
 }
 
 /*=====  End of Public Zome Functions  ======*/
@@ -76,6 +87,7 @@ function genGameBoard(text, size, nMines) {
   }
 
   return {
+    creatorHash: App.Key.Hash,
     mines: mines,
     size: size, 
     text: text
@@ -84,8 +96,6 @@ function genGameBoard(text, size, nMines) {
 
 // player is dead if one of their reveals is a mine position
 function isDead(gameBoard, actions) {
-  debug(gameBoard)
-  debug(actions)
   return gameBoard.mines.some(function (mine) {
     return actions.some(function(action) {
       if(action.actionType === "reveal") {

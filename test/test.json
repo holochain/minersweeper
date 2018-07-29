@@ -37,7 +37,7 @@
                 "position" : {"x" : 20, "y" : 14}
               }
             },
-            "Output": "%h1%",
+            "Output": true,
             "Exposure":"public"            
         },
         {
@@ -88,7 +88,7 @@
                 "position" : {"x" : 27, "y" : 25}
               }
             },
-            "Output": "%h1%",
+            "Output": true,
             "Exposure":"public"            
         },
         {
@@ -102,7 +102,7 @@
                 "position" : {"x" : 0, "y" : 0}
               }
             },
-            "ErrMsg": "Validation Failed",
+            "Output": false,
             "Exposure":"public"            
         }
     ]

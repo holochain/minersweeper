@@ -1,6 +1,7 @@
 {
   "type" : "object",
   "properties" : {
+    "creatorHash" : {"type" : "string"},
     "mines" : {"type" : "array", "items" : {
       "type" : "object",
       "properties" : {
@@ -15,5 +16,6 @@
         "y" : {"type" : "integer"}
       }
     }
-  }
+  },
+  "required" : ["creatorHash", "size", "mines"]
 }
