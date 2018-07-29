@@ -33,6 +33,8 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
           columnCount={columns}
           columnWidth={cellSize}
           height={height}
+          xxxOverscanColumnCount={10}
+          xxxOverscanRowCount={10}
           rowCount={rows}
           rowHeight={cellSize}
           width={width}

@@ -3,7 +3,7 @@ import { List } from 'immutable';
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
-import {Action, cellMatrix, CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
+import {Action, CellMatrix, CellStatus, GameParams, tempGameParams, XY} from './types';
 
 type StoreState = {
   // nav: StoreNavState,

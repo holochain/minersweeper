@@ -6,9 +6,7 @@ export enum CellStatus {
   Revealed,
 }
 
-export type CellMatrix = List<List<CellStatus>>
-
-export const cellMatrix = x => List<List<CellStatus>>(x)
+export type CellMatrix = List<List<number>>
 
 export type Action
   = { type: 'REVEAL', coords: XY }
