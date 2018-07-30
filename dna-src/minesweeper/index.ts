@@ -1,4 +1,4 @@
-import { GameDefinition, Size, Pos, GameBoard, MoveDefinition } from '../../@types/minesweeper';
+import { GameDefinition, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
 
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
@@ -24,6 +24,7 @@ function newGame(payload: GameDefinition): Hash {
   return gameHash;
 }
 
+
 function makeMove(payload: MoveDefinition): boolean {
   let gameHash = payload.gameHash;
   let action = payload.action;
@@ -43,20 +44,20 @@ function makeMove(payload: MoveDefinition): boolean {
   }
 }
 
-function getCurrentGames(): any[] {
-  debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
-    let game = elem.Entry;
-    game.hash = elem.Hash;
-    return game;
+function getCurrentGames(): [Hash, GameBoard][] {
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) : [Hash, GameBoard] {
+    return [elem.Hash, elem.Entry];
   });
 }
 
-function getState(payload): any[] {
+function getState(payload: {gameHash: Hash}): GameState {
   let gameHash = payload.gameHash;
-  return getLinks(gameHash, "", {Load: true}).map(function(elem) {
+  let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });
+  return {
+    actions: actions
+  }
 }
 
 /*=====  End of Public Zome Functions  ======*/

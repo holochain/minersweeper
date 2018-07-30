@@ -19,9 +19,9 @@ type GameParams = {
 
 
 declare enum ActionType {
-  Reveal,
-  Flag,
-  Chat,
+  Reveal="reveal",
+  Flag="flag",
+  Chat="chat",
 }
 
 export interface Action {
@@ -37,7 +37,7 @@ export interface MoveDefinition {
 }
 
 export interface GameState {
-  actions: List<Action>
+  actions: Action[];
 }
 
 export interface GameDefinition {
