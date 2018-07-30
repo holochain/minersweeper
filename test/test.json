@@ -5,7 +5,7 @@
             "Zome": "minesweeper",
             "FnName": "newGame",
             "Input": {
-                "text": "This is my awesome new game",
+                "description": "This is my awesome new game",
                 "gameParams": {
                   "size" : {
                     "x" : 30,

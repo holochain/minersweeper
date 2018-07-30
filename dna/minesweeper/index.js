@@ -3,10 +3,12 @@ var MAX_MINE_FRACTION = 0.5; // maximum fraction of the board that may be covere
 =            Public Zome Functions            =
 =============================================*/
 function newGame(payload) {
-    var text = payload.text;
-    var size = payload.gameParams.size;
-    var nMines = payload.gameParams.nMines;
-    var gameBoard = genGameBoard(text, size, nMines);
+    debug(payload);
+    var description = payload.description;
+    var size = payload.size;
+    var nMines = payload.nMines;
+    var gameBoard = genGameBoard(description, size, nMines);
+    debug(gameBoard);
     // bundleStart(1, "");
     var gameHash = commit('gameBoard', gameBoard);
     commit('gameLinks', { Links: [
@@ -37,7 +39,11 @@ function makeMove(payload) {
 }
 function getCurrentGames() {
     debug(getLinks(makeHash('anchor', 'currentGames'), "", { Load: true }));
-    return getLinks(makeHash('anchor', 'currentGames'), "", { Load: true });
+    return getLinks(makeHash('anchor', 'currentGames'), "", { Load: true }).map(function (elem) {
+        var game = elem.Entry;
+        game.hash = elem.Hash;
+        return game;
+    });
 }
 function getState(payload) {
     var gameHash = payload.gameHash;
@@ -58,12 +64,14 @@ function random() {
 function randInt(min, max) {
     return Math.floor(random() * (max - min + 1)) + min;
 }
-function genGameBoard(text, size, nMines) {
+function genGameBoard(description, size, nMines) {
     var mines = [];
+    var x;
+    var y;
     for (var i = 0; i < nMines; i++) {
         do {
-            var x = randInt(0, size.x);
-            var y = randInt(0, size.y);
+            x = randInt(0, size.x);
+            y = randInt(0, size.y);
         } while (mines.some(function (elem) {
             return (x === elem.x && y === elem.y);
         }));
@@ -71,9 +79,9 @@ function genGameBoard(text, size, nMines) {
     }
     return {
         creatorHash: App.Key.Hash,
+        description: description,
         mines: mines,
         size: size,
-        text: text
     };
 }
 // player is dead if one of their reveals is a mine position

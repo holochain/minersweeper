@@ -1,19 +1,21 @@
 
-var MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
+const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
 /*=============================================
 =            Public Zome Functions            =
 =============================================*/
 
 
-function newGame(payload) {
-  var description = payload.description;
-  var size = payload.size;
-  var nMines = payload.nMines;
+function newGame(payload): Hash {
+  debug(payload);
+  let description = payload.description;
+  let size = payload.size;
+  let nMines = payload.nMines;
 
-  var gameBoard = genGameBoard(description, size, nMines);
+  let gameBoard = genGameBoard(description, size, nMines);
+  debug(gameBoard);
   // bundleStart(1, "");
-  var gameHash = commit('gameBoard', gameBoard);
+  let gameHash = commit('gameBoard', gameBoard);
   commit('gameLinks', { Links: [
     { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
   });
@@ -22,14 +24,14 @@ function newGame(payload) {
 }
 
 function makeMove(payload): boolean {
-  var gameHash = payload.gameHash;
-  var action = payload.move;
+  let gameHash = payload.gameHash;
+  let action = payload.move;
   action.agentHash = App.Key.Hash;
   debug(gameHash);
 
   // bundleStart(1, "");
   try {
-    var actionHash = commit('action', action);
+    let actionHash = commit('action', action);
     commit('actionLinks', { Links: [
       { Base: gameHash, Link: actionHash, Tag: "" } ]
     });
@@ -40,17 +42,17 @@ function makeMove(payload): boolean {
   }
 }
 
-function getCurrentGames() {
+function getCurrentGames(): any[] {
   debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
   return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
-    var game = elem.Entry;
+    let game = elem.Entry;
     game.hash = elem.Hash;
     return game;
   });
 }
 
-function getState(payload) {
-  var gameHash = payload.gameHash;
+function getState(payload): any[] {
+  let gameHash = payload.gameHash;
   return getLinks(gameHash, "", {Load: true}).map(function(elem) {
     return elem.Entry;
   });
@@ -63,25 +65,27 @@ function getState(payload) {
 =            Private Functions            =
 =========================================*/
 
-var seed = 420;
+let seed = 420;
 
-function random() {
-    var x = Math.sin(seed++) * 10000;
+function random(): number {
+    let x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
 }
 
 // Returns a random integer between min (inclusive) and max (inclusive)
-function randInt(min, max) {
+function randInt(min: number, max: number): number {
     return Math.floor(random() * (max - min + 1)) + min;
 }
 
 
 function genGameBoard(description, size, nMines) {
-  var mines = [];
-  for(var i = 0; i < nMines; i++) {
+  let mines = [];
+  let x: number;
+  let y: number;
+  for(let i = 0; i < nMines; i++) {
     do {
-      var x = randInt(0, size.x);
-      var y = randInt(0, size.y);
+      x = randInt(0, size.x);
+      y = randInt(0, size.y);
     } while (mines.some(function(elem) { // ensures no duplicates
       return (x===elem.x && y===elem.y)
     }));
@@ -97,7 +101,7 @@ function genGameBoard(description, size, nMines) {
 }
 
 // player is dead if one of their reveals is a mine position
-function isDead(gameBoard, actions) {
+function isDead(gameBoard, actions): boolean {
   return gameBoard.mines.some(function (mine) {
     return actions.some(function(action) {
       if(action.actionType === "reveal") {
@@ -117,11 +121,11 @@ function isDead(gameBoard, actions) {
 
 // the main validation function of the game. All game rules are enforced here
 function validateAddAction(gameHash, actionHash, agentHash) {
-  var gameBoard = get(gameHash);
-  var actions = getLinks(gameHash, "", {Load: true}).map(function(elem) {
+  let gameBoard = get(gameHash);
+  let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) {
     return elem.Entry;
   });
-  var actionsFromAgent = actions.filter(function(action) {
+  let actionsFromAgent = actions.filter(function(action) {
     return action.agentHash === agentHash;
   });
   return !isDead(gameBoard, actionsFromAgent);
@@ -140,7 +144,7 @@ function validateGameBoard(gameBoard) {
 ==========================================*/
 
 function genesis () {
-  var h = commit('anchor', 'currentGames'); // ensure this always exists
+  let h = commit('anchor', 'currentGames'); // ensure this always exists
   return true;
 }
 

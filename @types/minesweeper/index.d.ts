@@ -8,10 +8,6 @@ declare enum CellStatus {
 
 type CellMatrix = List<List<CellStatus>>
 
-type Action
-  = { type: 'REVEAL', coords: XY }
-  | { type: 'FLAG', coords: XY }
-
 type XY = {x: number, y: number}
 
 type GameParams = {
@@ -27,7 +23,7 @@ declare enum ActionType {
 }
 
 interface Action {
-  actionType: 
+  actionType: ActionType;
 }
 
 interface GameState {
