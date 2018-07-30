@@ -2,6 +2,7 @@ agent.txt
 priv.key
 
 ui/
+dna/
 node_modules/
 package-lock.json
 .dist/
