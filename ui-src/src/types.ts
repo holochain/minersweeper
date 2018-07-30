@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 export enum CellStatus {
   Concealed,
@@ -7,6 +7,11 @@ export enum CellStatus {
 }
 
 export type CellMatrix = List<List<number>>
+
+export type ChatLog = {
+  author: string,
+  message: string
+}
 
 export type XY = {x: number, y: number}
 
@@ -38,8 +43,9 @@ export type StoreState = {
 
 export type StoreGameState = {
   matrix: CellMatrix,
-};
+  chats: List<ChatLog>
+} | null;
 
 export type StoreLobbyState = {
-  games: List<GameParams>,
+  games: Map<string, GameParams>,
 };

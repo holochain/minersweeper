@@ -6,10 +6,12 @@ import {Game, GameParams, StoreState, XY} from './types'
 export type Action
   = { type: 'REVEAL', coords: XY }
   | { type: 'FLAG', coords: XY }
+  | { type: 'FETCH_ACTIONS', actions: any[] }
 
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
-  | { type: 'FETCH_CURRENT_GAMES', games: Game[] }
+  | { type: 'FETCH_CURRENT_GAMES', games: GameWithHash[] }
 
+type GameWithHash = Game & {hash: string}
 
 export function reveal(coords:XY): Action {
   return {type: 'REVEAL', coords}

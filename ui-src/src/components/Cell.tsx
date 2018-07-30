@@ -16,7 +16,7 @@ type CellProps = {
 const handleReveal = (coords: XY) => e => store.dispatch({type: 'REVEAL', coords})
 
 const Cell = ({columnIndex, key, rowIndex, style}: CellProps) => {
-  const matrix = store.getState().game.matrix
+  const matrix = store.getState().game!.matrix
   const status: CellStatus = matrix.getIn([rowIndex, columnIndex])
   const statusClass =
     status === CellStatus.Revealed ? "revealed"

@@ -45,7 +45,9 @@ function makeMove(payload) {
 function getCurrentGames() {
   debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
   return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
-    return elem.Entry;
+    var game = elem.Entry;
+    game.hash = elem.Hash;
+    return game;
   });
 }
 

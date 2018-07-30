@@ -1,5 +1,6 @@
 import { List } from 'immutable';
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import './Lobby.css';
 
 import {connect} from 'react-redux';
@@ -42,8 +43,13 @@ class Lobby extends React.Component<any, {}> {
 const GameList = ({games}) => {
   if (games) {
     return <ul> {
-      games.map(game => {
-        return <li key={"TODO"}>{game.description}</li>
+      Object.keys(games.toJS()).map(hash => {
+        const game = games.get(hash)
+        return <li key={hash}>
+          <Link to={`/game/${hash}`}>
+            {game.description}
+          </Link>
+        </li>
       })
     } </ul>
   } else {
