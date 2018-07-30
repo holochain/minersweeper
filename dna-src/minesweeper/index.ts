@@ -1,4 +1,5 @@
-
+import { GameDefinition, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
+export = 0; // do not delete. Required for tsc to produce valid holochain code
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
 /*=============================================
@@ -6,7 +7,7 @@ const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be cover
 =============================================*/
 
 
-function newGame(payload): Hash {
+function newGame(payload: GameDefinition): Hash {
   debug(payload);
   let description = payload.description;
   let size = payload.size;
@@ -23,9 +24,10 @@ function newGame(payload): Hash {
   return gameHash;
 }
 
-function makeMove(payload): boolean {
+
+function makeMove(payload: MoveDefinition): boolean {
   let gameHash = payload.gameHash;
-  let action = payload.move;
+  let action = payload.action;
   action.agentHash = App.Key.Hash;
   debug(gameHash);
 
@@ -42,20 +44,20 @@ function makeMove(payload): boolean {
   }
 }
 
-function getCurrentGames(): any[] {
-  debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
-    let game = elem.Entry;
-    game.hash = elem.Hash;
-    return game;
+function getCurrentGames(): [Hash, GameBoard][] {
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) : [Hash, GameBoard] {
+    return [elem.Hash, elem.Entry];
   });
 }
 
-function getState(payload): any[] {
+function getState(payload: {gameHash: Hash}): GameState {
   let gameHash = payload.gameHash;
-  return getLinks(gameHash, "", {Load: true}).map(function(elem) {
+  let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });
+  return {
+    actions: actions
+  }
 }
 
 /*=====  End of Public Zome Functions  ======*/
@@ -78,7 +80,7 @@ function randInt(min: number, max: number): number {
 }
 
 
-function genGameBoard(description, size, nMines) {
+function genGameBoard(description: string, size: Size, nMines: number): GameBoard {
   let mines = [];
   let x: number;
   let y: number;
@@ -101,7 +103,7 @@ function genGameBoard(description, size, nMines) {
 }
 
 // player is dead if one of their reveals is a mine position
-function isDead(gameBoard, actions): boolean {
+function isDead(gameBoard: GameBoard, actions: Action[]): boolean {
   return gameBoard.mines.some(function (mine) {
     return actions.some(function(action) {
       if(action.actionType === "reveal") {

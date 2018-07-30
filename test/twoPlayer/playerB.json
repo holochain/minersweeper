@@ -15,7 +15,7 @@
         "Zome": "minesweeper",
         "FnName": "getCurrentGames",
         "Raw" : true,
-        "Input": "getCurrentGames()[0].Hash",
+        "Input": "getCurrentGames()[0][0]",
         "Regexp": ".*"
       },
     {
@@ -25,7 +25,7 @@
         "FnName": "makeMove",
         "Input": {
           "gameHash": "%result1%",
-          "move" : {
+          "action" : {
             "actionType" : "reveal",
             "position" : {"x" : 20, "y" : 14}
           }

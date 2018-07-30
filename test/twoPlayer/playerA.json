@@ -7,13 +7,11 @@
       "FnName": "newGame",
       "Input": {
           "text": "This is my awesome new game",
-          "gameParams": {
-            "size" : {
-              "x" : 30,
-              "y" : 30
-            },
-            "nMines" : 4
-          }
+          "size" : {
+            "x" : 30,
+            "y" : 30
+          },
+          "nMines" : 4
       },
       "Output": "%h1%",
       "Exposure":"public"
@@ -25,7 +23,7 @@
         "FnName": "makeMove",
         "Input": {
           "gameHash": "%h1%",
-          "move" : {
+          "action" : {
             "actionType" : "reveal",
             "position" : {"x" : 20, "y" : 14}
           }

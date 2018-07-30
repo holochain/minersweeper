@@ -8,7 +8,9 @@ declare enum CellStatus {
 
 type CellMatrix = List<List<CellStatus>>
 
-type XY = {x: number, y: number}
+export type XY = {x: number, y: number}
+export type Size = XY
+export type Pos = XY
 
 type GameParams = {
   width: number,
@@ -17,15 +19,36 @@ type GameParams = {
 
 
 declare enum ActionType {
-  Reveal,
-  Flag,
-  Chat,
+  Reveal="reveal",
+  Flag="flag",
+  Chat="chat",
 }
 
-interface Action {
+export interface Action {
   actionType: ActionType;
+  agentHash: Hash;
+  position?: Pos;
+  text?: string;
 }
 
-interface GameState {
-  actions: List<Action>
+export interface MoveDefinition {
+  gameHash: Hash;
+  action: Action;
+}
+
+export interface GameState {
+  actions: Action[];
+}
+
+export interface GameDefinition {
+  description: string;
+  nMines: number;
+  size: Size;
+}
+
+export interface GameBoard {
+  description: string;
+  mines: Pos[];
+  size: Size;
+  creatorHash: Hash;
 }
