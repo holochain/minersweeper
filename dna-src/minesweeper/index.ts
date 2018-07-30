@@ -1,4 +1,4 @@
-import { GameDefinition, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
+import { GameParams, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
 export = 0; // do not delete. Required for tsc to produce valid holochain code
 let module = {};
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
@@ -8,7 +8,7 @@ const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be cover
 =============================================*/
 
 
-function newGame(payload: GameDefinition): Hash {
+function newGame(payload: GameParams): Hash {
   debug(payload);
   let description = payload.description;
   let size = payload.size;
@@ -51,14 +51,12 @@ function getCurrentGames(): [Hash, GameBoard][] {
   });
 }
 
-function getState(payload: {gameHash: Hash}): GameState {
+function getState(payload: {gameHash: Hash}): Action[] {
   let gameHash = payload.gameHash;
   let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });
-  return {
-    actions: actions
-  }
+  return actions;
 }
 
 /*=====  End of Public Zome Functions  ======*/

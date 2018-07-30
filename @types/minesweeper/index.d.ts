@@ -1,21 +1,7 @@
-import { List } from 'immutable';
-
-declare enum CellStatus {
-  Concealed,
-  Flagged,
-  Revealed,
-}
-
-type CellMatrix = List<List<CellStatus>>
 
 export type XY = {x: number, y: number}
 export type Size = XY
 export type Pos = XY
-
-type GameParams = {
-  width: number,
-  height: number,
-}
 
 
 declare enum ActionType {
@@ -24,23 +10,20 @@ declare enum ActionType {
   Chat="chat",
 }
 
-export interface Action {
-  actionType: ActionType;
-  agentHash: Hash;
-  position?: Pos;
-  text?: string;
-}
+export type Action 
+  = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
+  | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
+  | { actionType: ActionType.Chat, Text: string, agentHash: Hash}
+
 
 export interface MoveDefinition {
   gameHash: Hash;
   action: Action;
 }
 
-export interface GameState {
-  actions: Action[];
-}
+export type GameState = GameBoard & {actions: Action[]}
 
-export interface GameDefinition {
+export interface GameParams {
   description: string;
   nMines: number;
   size: Size;
