@@ -15,7 +15,7 @@
         "Zome": "minesweeper",
         "FnName": "getCurrentGames",
         "Raw" : true,
-        "Input": "getCurrentGames()[0].Hash",
+        "Input": "getCurrentGames()[0][0]",
         "Regexp": ".*"
       },
     {

@@ -103,7 +103,7 @@ function genGameBoard(description: string, size: Size, nMines: number): GameBoar
 }
 
 // player is dead if one of their reveals is a mine position
-function isDead(gameBoard, actions): boolean {
+function isDead(gameBoard: GameBoard, actions: Action[]): boolean {
   return gameBoard.mines.some(function (mine) {
     return actions.some(function(action) {
       if(action.actionType === "reveal") {
