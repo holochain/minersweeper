@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "rootDir": "./dna-src/",
+    "outDir": "./dna/"
+  },
+  "exclude": [
+    "ui",
+    "ui-src",
+    "test",
+    "dna"
+  ]
+}

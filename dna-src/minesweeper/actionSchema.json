@@ -1,0 +1,16 @@
+{
+  "type" : "object",
+  "properties" : {
+    "actionType" : {"type" : "string", "enum" : ["reveal", "flag", "chat"]},
+    "agentHash" : {"type" : "string"},
+    "position" : {
+      "type" : "object",
+      "properties" : {
+        "x" : {"type" : "integer"},
+        "y" : {"type" : "integer"}
+      },
+    "text" : {"type" : "string"}
+    }
+  },
+  "required" : ["actionType"]
+}

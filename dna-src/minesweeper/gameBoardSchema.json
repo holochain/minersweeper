@@ -1,0 +1,21 @@
+{
+  "type" : "object",
+  "properties" : {
+    "creatorHash" : {"type" : "string"},
+    "mines" : {"type" : "array", "items" : {
+      "type" : "object",
+      "properties" : {
+        "x" : {"type" : "integer"},
+        "y" : {"type" : "integer"}
+      }
+    }},
+    "size" : {
+      "type" : "object",
+      "properties" : {
+        "x" : {"type" : "integer"},
+        "y" : {"type" : "integer"}
+      }
+    }
+  },
+  "required" : ["creatorHash", "size", "mines"]
+}

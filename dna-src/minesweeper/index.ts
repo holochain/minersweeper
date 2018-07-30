@@ -179,13 +179,6 @@ function validateLinkPkg(entry_type) {
   return null;
 }
 
-function validateLink(entryType, hash, links, pkg, sources) {
-  return true;
-}
-
-function validateDelPkg(entryType) {
-  return null;
-}
 
 
 /*=====  End of Required Callbacks  ======*/
