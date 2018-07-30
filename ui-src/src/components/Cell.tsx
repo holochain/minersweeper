@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import './Cell.css';
 
 import store from '../store'
-import {CellMatrix, CellStatus, XY} from '../types'
+import {CellMatrix, CellStatus} from '../types'
 
 type CellProps = {
   columnIndex: number,

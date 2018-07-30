@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import * as actions from '../actions';
 import {fetchJSON} from '../common';
 import store from '../store';
-import {GameParams} from '../types';
 
 
 class CreateGameForm extends React.Component<any, {}> {

@@ -4,6 +4,10 @@
     "rootDir": "./dna-src/",
     "outDir": "./dna/"
   },
+  "files": [
+    "@types/holochain/index.d.ts",
+    "@types/minesweeper/index.d.ts"
+  ],
   "exclude": [
     "ui",
     "ui-src",

@@ -7,11 +7,8 @@ import {Action} from './actions';
 import {
   CellMatrix,
   CellStatus,
-  Game,
-  GameParams,
   StoreGameState,
   StoreState,
-  XY
 } from './types';
 
 const initMatrix = (gameParams: GameParams): CellMatrix => {
@@ -116,10 +113,7 @@ export function reducer (state: StoreState = defaultState, action: Action): Stor
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
-      const gamePairs = action.games.map(
-        ({hash, ...game}) => [hash, game]
-      )
-      return {...state, allGames: Map(gamePairs) }
+      return {...state, allGames: Map(action.games) }
     }
   }
   return state

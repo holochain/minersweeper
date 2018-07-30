@@ -13,29 +13,6 @@ export type ChatLog = {
   message: string
 }
 
-export type XY = {x: number, y: number}
-
-export type GameParams = {
-  description: string,
-  nMines: number,
-  size: XY,
-}
-
-export type Game = GameParams & {
-  creatorHash: string,
-}
-
-// export const tempGameParams: GameParams = {
-//   description: "this is the description",
-//   nMines: 50,
-//   size: {
-//     x: 100,
-//     y: 100,
-//   }
-// }
-
-// store
-//
 export type StoreState = {
   allGames: Map<string, GameParams>,
   currentGame: StoreGameState

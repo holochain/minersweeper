@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 import './App.css';
 
-import {GameParams} from '../../../@types/minesweeper';
+import {fetchCurrentGames} from '../common';
 import store from '../store';
 
 import Field from './Field';
@@ -24,15 +24,31 @@ class App extends React.Component {
   }
 }
 
-class ViewGame extends React.Component<any, {}> {
+class ViewGame extends React.Component<any, {loading: boolean}> {
+
+  constructor(props) {
+    super(props)
+    this.state = {loading: false}
+  }
 
   public componentWillMount() {
     const hash = this.props.match.params.hash
     if (hash) {
-      store.dispatch({
-        hash,
-        type: 'VIEW_GAME',
-      })
+      const {allGames} = store.getState()
+      const dispatchViewGame = () => store.dispatch({
+          hash,
+          type: 'VIEW_GAME',
+        })
+      if (!allGames.has(hash)) {
+        this.setState({loading: true})
+        fetchCurrentGames(store.dispatch).then(() => {
+          dispatchViewGame()
+          this.forceUpdate()
+          this.setState({loading: false})
+        })
+      } else {
+        dispatchViewGame()
+      }
     }
   }
 
@@ -42,7 +58,7 @@ class ViewGame extends React.Component<any, {}> {
       const {matrix, params} = currentGame
       return <Field gameParams={currentGame} matrix={matrix} actions={[]} />
     } else {
-      return <h1>Game not found...</h1>
+      return this.state.loading ? <h1>loading...</h1> : <h1>Game not found...</h1>
     }
   }
 }

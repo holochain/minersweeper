@@ -6,7 +6,7 @@ import { AutoSizer, Grid } from 'react-virtualized';
 
 import Cell from './Cell';
 
-import {CellMatrix, GameParams, XY} from '../types';
+import {CellMatrix} from '../types';
 
 
 class Field extends React.Component<{matrix: CellMatrix}, {}> {

@@ -6,7 +6,6 @@ import './Lobby.css';
 import {connect} from 'react-redux';
 
 import {fetchJSON} from '../common';
-import {GameParams} from '../types';
 
 import CreateGameForm from './CreateGameForm'
 
