@@ -18,3 +18,18 @@ type GameParams = {
   width: number,
   height: number,
 }
+
+
+declare enum ActionType {
+  Reveal,
+  Flag,
+  Chat,
+}
+
+interface Action {
+  actionType: 
+}
+
+interface GameState {
+  actions: List<Action>
+}
