@@ -34,8 +34,6 @@ function makeMove(payload) {
         debug(err);
         return false;
     }
-    // bundleClose(true);
-    return actionHash;
 }
 function getCurrentGames() {
     debug(getLinks(makeHash('anchor', 'currentGames'), "", { Load: true }));

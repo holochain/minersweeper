@@ -5,7 +5,7 @@ var MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered
 =            Public Zome Functions            =
 =============================================*/
 
-function newGame(payload) {
+function newGame(payload): Hash {
   var text = payload.text;
   var size = payload.gameParams.size;
   var nMines = payload.gameParams.nMines;
@@ -20,7 +20,7 @@ function newGame(payload) {
   return gameHash;
 }
 
-function makeMove(payload) {
+function makeMove(payload): boolean {
   var gameHash = payload.gameHash;
   var action = payload.move;
   action.agentHash = App.Key.Hash;
@@ -37,9 +37,6 @@ function makeMove(payload) {
     debug(err);
     return false;
   }
-
-  // bundleClose(true);
-  return actionHash;
 }
 
 function getCurrentGames() {
