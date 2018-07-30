@@ -1,3 +1,4 @@
+import { GameDefinition, Size, Pos, GameBoard, MoveDefinition } from '../../@types/minesweeper';
 
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
@@ -6,7 +7,7 @@ const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be cover
 =============================================*/
 
 
-function newGame(payload): Hash {
+function newGame(payload: GameDefinition): Hash {
   debug(payload);
   let description = payload.description;
   let size = payload.size;
@@ -23,9 +24,9 @@ function newGame(payload): Hash {
   return gameHash;
 }
 
-function makeMove(payload): boolean {
+function makeMove(payload: MoveDefinition): boolean {
   let gameHash = payload.gameHash;
-  let action = payload.move;
+  let action = payload.action;
   action.agentHash = App.Key.Hash;
   debug(gameHash);
 
@@ -78,7 +79,7 @@ function randInt(min: number, max: number): number {
 }
 
 
-function genGameBoard(description, size, nMines) {
+function genGameBoard(description: string, size: Size, nMines: number): GameBoard {
   let mines = [];
   let x: number;
   let y: number;
