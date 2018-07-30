@@ -6,7 +6,7 @@ import { AutoSizer, Grid } from 'react-virtualized';
 
 import Cell from './Cell';
 
-import {CellMatrix, GameParams, XY} from './types';
+import {CellMatrix, GameParams, XY} from '../types';
 
 
 class Field extends React.Component<{matrix: CellMatrix}, {}> {
@@ -33,6 +33,8 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
           columnCount={columns}
           columnWidth={cellSize}
           height={height}
+          xxxOverscanColumnCount={10}
+          xxxOverscanRowCount={10}
           rowCount={rows}
           rowHeight={cellSize}
           width={width}

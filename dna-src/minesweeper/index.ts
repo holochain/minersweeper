@@ -5,17 +5,18 @@ var MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered
 =            Public Zome Functions            =
 =============================================*/
 
-function newGame(payload): Hash {
-  var text = payload.text;
-  var size = payload.gameParams.size;
-  var nMines = payload.gameParams.nMines;
 
-  var gameBoard = genGameBoard(text, size, nMines);
+function newGame(payload) {
+  var description = payload.description;
+  var size = payload.size;
+  var nMines = payload.nMines;
+
+  var gameBoard = genGameBoard(description, size, nMines);
   // bundleStart(1, "");
   var gameHash = commit('gameBoard', gameBoard);
-  commit('gameLinks', { Links: [ 
-    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ] 
-  });  
+  commit('gameLinks', { Links: [
+    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
+  });
   // bundleClose(true);
   return gameHash;
 }
@@ -29,8 +30,8 @@ function makeMove(payload): boolean {
   // bundleStart(1, "");
   try {
     var actionHash = commit('action', action);
-    commit('actionLinks', { Links: [ 
-      { Base: gameHash, Link: actionHash, Tag: "" } ] 
+    commit('actionLinks', { Links: [
+      { Base: gameHash, Link: actionHash, Tag: "" } ]
     });
     return true;
   } catch (err) {
@@ -41,7 +42,11 @@ function makeMove(payload): boolean {
 
 function getCurrentGames() {
   debug(getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}));
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true});
+  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) {
+    var game = elem.Entry;
+    game.hash = elem.Hash;
+    return game;
+  });
 }
 
 function getState(payload) {
@@ -71,12 +76,12 @@ function randInt(min, max) {
 }
 
 
-function genGameBoard(text, size, nMines) {
+function genGameBoard(description, size, nMines) {
   var mines = [];
   for(var i = 0; i < nMines; i++) {
     do {
       var x = randInt(0, size.x);
-      var y = randInt(0, size.y);  
+      var y = randInt(0, size.y);
     } while (mines.some(function(elem) { // ensures no duplicates
       return (x===elem.x && y===elem.y)
     }));
@@ -85,9 +90,9 @@ function genGameBoard(text, size, nMines) {
 
   return {
     creatorHash: App.Key.Hash,
+    description: description,
     mines: mines,
-    size: size, 
-    text: text
+    size: size,
   };
 }
 
@@ -147,7 +152,7 @@ function validateCommit(entry_type, entry, header, pkg, sources) {
   if (entry_type === "actionLinks") {
     return validateAddAction(entry.Links[0].Base, entry.Links[0].Link, sources[0]);
   } else if (entry_type === "gameBoard"){
-    return validateGameBoard(entry);    
+    return validateGameBoard(entry);
   } else {
     return true;
   }
