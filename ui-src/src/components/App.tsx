@@ -5,8 +5,8 @@ import {connect} from 'react-redux'
 
 import './App.css';
 
+import {GameParams} from '../../../@types/minesweeper';
 import store from '../store';
-import {GameParams} from '../types';
 
 import Field from './Field';
 import Lobby from './Lobby';

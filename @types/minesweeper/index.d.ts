@@ -1,3 +1,4 @@
+import {Hash} from '../holochain'
 
 export type XY = {x: number, y: number}
 export type Size = XY
@@ -10,7 +11,7 @@ declare enum ActionType {
   Chat="chat",
 }
 
-export type Action 
+export type Action
   = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
   | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
   | { actionType: ActionType.Chat, Text: string, agentHash: Hash}
