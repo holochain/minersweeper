@@ -1,8 +1,8 @@
-import {Hash} from '../holochain'
+/// <reference path="../../@types/holochain/index.d.ts"/>
 
-export type XY = {x: number, y: number}
-export type Size = XY
-export type Pos = XY
+type XY = {x: number, y: number}
+type Size = XY
+type Pos = XY
 
 
 declare enum ActionType {
@@ -11,26 +11,26 @@ declare enum ActionType {
   Chat="chat",
 }
 
-export type Action
+type Action
   = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
   | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
   | { actionType: ActionType.Chat, Text: string, agentHash: Hash}
 
 
-export interface MoveDefinition {
+interface MoveDefinition {
   gameHash: Hash;
   action: Action;
 }
 
-export type GameState = GameBoard & {actions: Action[]}
+type GameState = GameBoard & {actions: Action[]}
 
-export interface GameParams {
+interface GameParams {
   description: string;
   nMines: number;
   size: Size;
 }
 
-export interface GameBoard {
+interface GameBoard {
   description: string;
   mines: Pos[];
   size: Size;
