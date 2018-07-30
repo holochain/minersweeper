@@ -1,5 +1,6 @@
 import { GameDefinition, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
 export = 0; // do not delete. Required for tsc to produce valid holochain code
+let module = {};
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
 /*=============================================
