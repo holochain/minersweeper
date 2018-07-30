@@ -4,7 +4,9 @@ import {fetchJSON} from './common'
 import {Game, GameParams, StoreState, XY} from './types'
 
 export type Action
-  = { type: 'REVEAL', coords: XY }
+  = { type: 'VIEW_GAME', hash: string }
+
+  | { type: 'REVEAL', coords: XY }
   | { type: 'FLAG', coords: XY }
   | { type: 'FETCH_ACTIONS', actions: any[] }
 

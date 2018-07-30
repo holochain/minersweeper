@@ -37,15 +37,12 @@ export type Game = GameParams & {
 // store
 //
 export type StoreState = {
-  lobby: StoreLobbyState,
-  game: StoreGameState
+  allGames: Map<string, GameParams>,
+  currentGame: StoreGameState
 };
 
 export type StoreGameState = {
   matrix: CellMatrix,
-  chats: List<ChatLog>
+  chats: List<ChatLog>,
+  params: GameParams,
 } | null;
-
-export type StoreLobbyState = {
-  games: Map<string, GameParams>,
-};

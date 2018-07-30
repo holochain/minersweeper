@@ -10,7 +10,6 @@ import {
   Game,
   GameParams,
   StoreGameState,
-  StoreLobbyState,
   StoreState,
   XY
 } from './types';
@@ -33,25 +32,25 @@ const reduceGameState = (state: StoreGameState, hcAction): StoreGameState => {
     case 'reveal': {
       const {x, y} = hcAction.position
       return {
-        chats,
+        ...state!,
         matrix: matrix.setIn([y, x], CellStatus.Revealed),
       }
     }
     case 'flag': {
       const {x, y} = hcAction.position
       return {
-        chats,
+        ...state!,
         matrix: matrix.setIn([y, x], CellStatus.Flagged)
       }
     }
     case 'chat': {
       const {agentHash, text} = hcAction
       return {
+        ...state!,
         chats: chats.push({
           author: agentHash,
           message: text
         }),
-        matrix,
       }
     }
   }
@@ -68,29 +67,24 @@ const startActions: Action[] = []
 //   })),
 // }
 
-const defaultLobbyState: StoreLobbyState = {
-  games: Map({})
-}
-
 const defaultState: StoreState = {
-  game: null,
-  lobby: defaultLobbyState,
+  allGames: Map({}),
+  currentGame: null,
 };
 
-
-export function gameReducer (state: StoreGameState = null, action: Action): StoreGameState {
+function reduceGame (state: StoreGameState, action: Action) {
   if (state === null) {
     return state
   }
-  const {matrix} = state!
+  const {chats, matrix} = state!
   switch (action.type) {
     case 'REVEAL': {
       const {x, y} = action.coords
-      return {...state, matrix: matrix.setIn([y, x], CellStatus.Revealed)}
+      return {...state!, matrix: matrix.setIn([y, x], CellStatus.Revealed)}
     }
     case 'FLAG': {
       const {x, y} = action.coords
-      return {...state, matrix: matrix.setIn([y, x], CellStatus.Flagged)}
+      return {...state!, matrix: matrix.setIn([y, x], CellStatus.Flagged)}
     }
     case 'FETCH_ACTIONS': {
       return state  // TODO
@@ -99,8 +93,25 @@ export function gameReducer (state: StoreGameState = null, action: Action): Stor
   return state
 }
 
-export function lobbyReducer (state: StoreLobbyState = defaultLobbyState, action: Action): StoreLobbyState {
+export function reducer (state: StoreState = defaultState, action: Action): StoreState {
+
+  state.currentGame = reduceGame(state.currentGame, action)
+
   switch (action.type) {
+    // Game reducer
+    case 'VIEW_GAME': {
+      const {hash} = action
+      const gameParams = state.allGames.get(hash)
+      const matrix = initMatrix(gameParams)
+      const currentGame: StoreGameState = {
+        chats: List(),
+        matrix,
+        params: gameParams
+      }
+      return {...state, currentGame}
+    }
+
+    //
     case 'CONFIRM_NEW_GAME': {
       return state
     }
@@ -108,17 +119,13 @@ export function lobbyReducer (state: StoreLobbyState = defaultLobbyState, action
       const gamePairs = action.games.map(
         ({hash, ...game}) => [hash, game]
       )
-      return {...state, games: Map(gamePairs) }
+      return {...state, allGames: Map(gamePairs) }
     }
   }
   return state
 }
 
-const root = combineReducers({
-  game: gameReducer,
-  lobby: lobbyReducer,
-})
 
 export default redux.createStore(
-  root
+  reducer
 );

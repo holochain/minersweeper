@@ -19,7 +19,7 @@ class Lobby extends React.Component<any, {}> {
   public componentWillMount() {
     setInterval(
       () => {
-        fetchJSON('fn/minesweeper/getCurrentGames')
+        fetchJSON('/fn/minesweeper/getCurrentGames')
           .then(games => this.props.dispatch({
             games,
             type: 'FETCH_CURRENT_GAMES'
@@ -30,21 +30,21 @@ class Lobby extends React.Component<any, {}> {
   }
 
   public render() {
-    const games = this.props.games || []
+    const allGames = this.props.allGames
     return (
       <div className="Lobby">
         <CreateGameForm/>
-        <GameList games={games}/>
+        <GameList allGames={allGames}/>
       </div>
     );
   }
 }
 
-const GameList = ({games}) => {
-  if (games) {
+const GameList = ({allGames}) => {
+  if (allGames) {
     return <ul> {
-      Object.keys(games.toJS()).map(hash => {
-        const game = games.get(hash)
+      Object.keys(allGames.toJS()).map(hash => {
+        const game = allGames.get(hash)
         return <li key={hash}>
           <Link to={`/game/${hash}`}>
             {game.description}
@@ -57,8 +57,8 @@ const GameList = ({games}) => {
   }
 }
 
-const mapStateToProps = ({lobby}) => ({
-  games: lobby.games
+const mapStateToProps = ({allGames}) => ({
+  allGames
 })
 
 export default connect(mapStateToProps)(Lobby);

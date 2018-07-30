@@ -46,8 +46,7 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
 }
 
 const mapStateToProps = state => ({
-  matrix: state.game.matrix,
-  myActions: state.game.myActions,
+  matrix: state.currentGame.matrix,
 })
 
 export default connect(mapStateToProps)(Field);
