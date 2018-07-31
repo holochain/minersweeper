@@ -37,9 +37,11 @@ class Lobby extends React.Component<any, {}> {
   // public renderCryptoIcons() {
   //   return CryptoIcons.map((icon) => {
   //     return (
-  //       <img
+  //       <p>
+  //        <img
   //         key={icon}
   //         src={icon}/>
+  //       </p>
   //     );
   //   });
   // }
