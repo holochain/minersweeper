@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
@@ -12,12 +13,18 @@ import Field from './Field';
 import Lobby from './Lobby';
 
 class App extends React.Component {
+
+  public shouldComponentUpdate(nextProps, _, __) {
+    console.log('alskjf', nextProps)
+    return true
+  }
+
   public render() {
     return (
       <BrowserRouter>
         <div className="App">
           <Route exact={true} path="/" component={Lobby}/>
-          <Route path="/game/:hash" component={ViewGame}/>
+          <Route path="/game/:hash" component={withRouter(ViewGame)}/>
         </div>
       </BrowserRouter>
     );
@@ -63,7 +70,8 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
   }
 }
 
-// const mapStateToProps = state => {
-//   return {currentGame: state.currentGame}
-// }
-export default connect()(App);
+const mapStateToProps = state => {
+  return {currentGame: state.currentGame}
+}
+
+export default App;

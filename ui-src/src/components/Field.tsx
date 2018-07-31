@@ -2,6 +2,7 @@ import * as React from 'react';
 import './Field.css';
 
 import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import Cell from './Cell';
@@ -11,38 +12,39 @@ import {CellMatrix} from '../types';
 
 class Field extends React.Component<{matrix: CellMatrix}, {}> {
 
-  private grid: Grid = null
-
-  public shouldComponentUpdate(nextProps, _, __) {
-    if (this.grid !== null) {
-      this.grid!.forceUpdate()
-    }
-    return true
-  }
+  // public shouldComponentUpdate(nextProps, _, __) {
+  //   if (this.grid !== null) {
+  //     this.grid!.forceUpdate()
+  //   }
+  //   return true
+  // }
 
   public render() {
     const rows = this.props.matrix.size
     const columns = this.props.matrix.get(0).size
-    const cellSize = 20
+    const cellSize = 26
 
     return (
       <AutoSizer>{
         ({width, height}) => <Grid
-          ref={el => this.grid = el}
-          cellRenderer={Cell}
+          cellRenderer={this.CellWrapped}
           columnCount={columns}
           columnWidth={cellSize}
           height={height}
-          xxxOverscanColumnCount={10}
-          xxxOverscanRowCount={10}
+          isScrollingOptOut={true}
           rowCount={rows}
           rowHeight={cellSize}
           width={width}
+
+          XXXoverscanColumnCount={10}
+          XXXoverscanRowCount={10}
+          XXXscrollingResetTimeInterval={10}
         />
       }</AutoSizer>
     )
   }
 
+  private CellWrapped = (props) => (<Cell key={props.key} {...props}/>)
 }
 
 const mapStateToProps = state => ({

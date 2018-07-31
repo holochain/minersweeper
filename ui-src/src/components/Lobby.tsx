@@ -24,7 +24,7 @@ class Lobby extends React.Component<any, {}> {
             type: 'FETCH_CURRENT_GAMES'
           }))
       },
-      1000
+      5000
      )
   }
 

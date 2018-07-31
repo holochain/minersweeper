@@ -15,7 +15,8 @@ export type ChatLog = {
 
 export type StoreState = {
   allGames: Map<string, GameParams>,
-  currentGame: StoreGameState
+  currentGame: StoreGameState,
+  myActions: number,
 };
 
 export type StoreGameState = {

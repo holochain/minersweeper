@@ -67,6 +67,7 @@ const startActions: Action[] = []
 const defaultState: StoreState = {
   allGames: Map({}),
   currentGame: null,
+  myActions: 0
 };
 
 function reduceGame (state: StoreGameState, action: Action) {
@@ -91,9 +92,8 @@ function reduceGame (state: StoreGameState, action: Action) {
 }
 
 export function reducer (state: StoreState = defaultState, action: Action): StoreState {
-
   state.currentGame = reduceGame(state.currentGame, action)
-
+  state.myActions += 1
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
@@ -107,8 +107,6 @@ export function reducer (state: StoreState = defaultState, action: Action): Stor
       }
       return {...state, currentGame}
     }
-
-    //
     case 'CONFIRM_NEW_GAME': {
       return state
     }
