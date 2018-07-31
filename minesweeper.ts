@@ -3,16 +3,16 @@ export type XY = {x: number, y: number}
 export type Size = XY
 export type Pos = XY
 
-export enum ActionType {
-  Reveal = "reveal",
-  Flag = "flag",
-  Chat = "chat",
-}
+export type ActionType
+  = "reveal"
+  | "flag"
+  | "chat"
+
 
 export type Action
-  = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
-  | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
-  | { actionType: ActionType.Chat, text: string, agentHash: Hash}
+  = { actionType: "reveal", position: Pos, agentHash: Hash }
+  | { actionType: "flag", position: Pos, agentHash: Hash }
+  | { actionType: "chat", text: string, agentHash: Hash}
 
 export interface MoveDefinition {
   gameHash: Hash;

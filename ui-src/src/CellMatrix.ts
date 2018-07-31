@@ -37,10 +37,10 @@ export default class CellMatrix {
 
   public takeAction(action: Action) {
     switch(action.actionType) {
-      case ActionType.Flag:
+      case "flag":
         this.flagCell(action.position, action.agentHash);
         break;
-      case ActionType.Reveal:
+      case "reveal":
         this.triggerReveal(action.position);
         break;
     }

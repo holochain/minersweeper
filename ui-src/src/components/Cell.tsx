@@ -41,7 +41,7 @@ class Cell extends React.Component<CellProps, {}> {
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
       action: {
-        actionType: ActionType.Reveal,
+        actionType: "reveal",
         position: pos,
         agentHash: 'TODO',
       }
