@@ -25,6 +25,12 @@ export type Game = GameParams & {
   creatorHash: string,
 }
 
+export enum ActionType {
+  Reveal="reveal",
+  Flag="flag",
+  Chat="chat",
+}
+
 // export const tempGameParams: GameParams = {
 //   description: "this is the description",
 //   nMines: 50,
