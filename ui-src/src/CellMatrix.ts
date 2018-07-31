@@ -25,6 +25,17 @@ export class CellMatrix {
     });
   }
 
+  takeAction(action: Action) {
+    switch(action.actionType) {
+      case ActionType.Flag:
+        this.flagCell(action.position, action.agentHash);
+        break;
+      case ActionType.Reveal:
+        this.triggerReveal(action.position);
+        break;
+    }
+  }
+
   flagCell(pos: Pos, agentHash: Hash) {
     this.flags = this.flags.set(this.posToIndex(pos), agentHash);
     this.setFlagged(pos);
@@ -39,7 +50,6 @@ export class CellMatrix {
   }
 
   triggerReveal(pos: Pos): number {
-    // TODO: here is where the logic for revealing all adjacent zero cells should happen
     const visited = new Set<number>();
     const toVisit = Array<Pos>(pos);
     let nRevealed = 0;
