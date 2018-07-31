@@ -69,7 +69,10 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
       return state
     }
     case 'FETCH_ACTIONS': {
-      return state  // TODO
+      action.actions.forEach(a => {
+        state.matrix.takeAction(a)
+      })
+      return state
     }
   }
   return state

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
-import {fetchCurrentGames} from '../common';
+import {fetchCurrentGames, fetchJSON} from '../common';
 import store from '../store';
 
 import Field from './Field';
@@ -27,6 +27,8 @@ class App extends React.Component {
 }
 
 class ViewGame extends React.Component<any, {loading: boolean}> {
+
+  private actionsInterval: any = null
 
   constructor(props) {
     super(props)
@@ -51,7 +53,19 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
       } else {
         dispatchViewGame()
       }
+      this.actionsInterval = setInterval(
+        () => fetchJSON('/fn/minesweeper/getState', {
+          gameHash: hash
+        }).then(actions => store.dispatch({
+          type: 'FETCH_ACTIONS',
+          actions
+        })), 3000
+      )
     }
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.actionsInterval)
   }
 
   public render() {
