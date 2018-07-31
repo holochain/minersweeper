@@ -1,5 +1,4 @@
-/// <reference path="./holochain.ts"/>
-import * as HC from ""
+import { Hash } from "./holochain"
 
 export type XY = {x: number, y: number}
 export type Size = XY
