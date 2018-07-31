@@ -11,35 +11,33 @@ export enum CellStatus {
 export class CellMatrix {
   data: Uint8Array;
   size: Size;
-  flags: Map<Pos, Hash>;
+  flags: Map<number, Hash>;
 
   constructor(board: GameBoard) {
     this.size = board.size;
     this.data = new Uint8Array(this.size.x*this.size.y);
+    this.flags = Map<number, Hash>()
     for(let i=0;i<board.mines.length;i++){
       this.setMine(board.mines[i]);
     }
   }
 
   flagCell(pos: Pos, agentHash: Hash) {
-    this.flags = this.flags.set(pos, agentHash);
+    this.flags = this.flags.set(this.posToIndex(pos), agentHash);
     this.setFlagged(pos);
   }
 
   getFlag(pos: Pos): Hash | null {
     if(this.isFlagged(pos)) {
-      return this.flags.get(pos);
+      return this.flags.get(this.posToIndex(pos));
     } else {
       return null;
     }
   }
 
-  getValue(pos: Pos): number {
-    return this.data[this.size.x*pos.x + pos.y];
-  }
-
-  setValue(pos: Pos, value: number) {
-    this.data[this.size.x*pos.x + pos.y] = value;
+  revealCells(pos: Pos) {
+    // TODO: here is where the logic for revealing all adjacent zero cells should happen
+    this.setRevealed(pos);
   }
 
   getAdjacentMines(pos: Pos): number {
@@ -57,6 +55,22 @@ export class CellMatrix {
 
   isMine(pos: Pos): boolean {
     return (this.getValue(pos) & 0b00010000) > 0;
+  }
+
+  private posToIndex(pos: Pos) {
+    return this.size.x*pos.x + pos.y
+  }
+
+  private getValue(pos: Pos): number {
+    return this.data[this.posToIndex(pos)];
+  }
+
+  private setValue(pos: Pos, value: number) {
+    this.data[this.size.x*pos.x + pos.y] = value;
+  }
+
+  private setAdjacentMineCount(pos: Pos, count: number) {
+    this.setValue(pos, this.getValue(pos) | 0b01000000);
   }
 
   private setRevealed(pos: Pos) {
