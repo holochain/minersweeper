@@ -198,10 +198,6 @@ html,body {
   animation: circle 3s 3.5s 1 linear both;/*forwards*/
 }
 
-@keyframes circle {
-  0% {transform:rotate(320deg) translate(0px, 5.5em);}
-  100% {transform:rotate(43deg) translate(0px, 5.5em);}
-}
 
 .screen img:nth-child(1) {animation-delay: 0.1s;}
 .screen img:nth-child(2) {animation-delay: 0.2s;}
