@@ -17,9 +17,15 @@ export class CellMatrix {
     this.size = board.size;
     this.data = new Uint8Array(this.size.x*this.size.y);
     this.flags = Map<number, Hash>()
-    for(let i=0;i<board.mines.length;i++){
-      this.setMine(board.mines[i]);
-    }
+
+    board.mines.forEach(minePos => {
+      this.setMine(minePos);
+      [-1,0,1].forEach(dx => {
+        [-1,0,1].forEach(dy => {
+          this.incrementAdjacentMineCount({x: minePos.x+dx, y: minePos.y+dy})
+        });
+      });
+    });
   }
 
   flagCell(pos: Pos, agentHash: Hash) {
@@ -69,8 +75,8 @@ export class CellMatrix {
     this.data[this.size.x*pos.x + pos.y] = value;
   }
 
-  private setAdjacentMineCount(pos: Pos, count: number) {
-    this.setValue(pos, this.getValue(pos) | 0b01000000);
+  private incrementAdjacentMineCount(pos: Pos) {
+    this.setValue(pos, this.getValue(pos)+1);
   }
 
   private setRevealed(pos: Pos) {
