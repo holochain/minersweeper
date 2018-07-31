@@ -1,6 +1,6 @@
 // holochain ambient type defs for API
 
-/// <reference path="holochain.ts" />
+/// <reference path="holochain.d.ts" />
 
 declare function property(name: string): string;
 declare function makeHash (entryType: string, entryData: any): Hash;
@@ -20,7 +20,6 @@ declare function query(options?: object): QueryResponse[] | any[];
 declare function send(to: Hash, message: object, options?: object): any;
 declare function bundleStart(timeout: number, userParam: any): void;
 declare function bundleClose(commit: boolean): void;
-
 
 declare var HC: HolochainSystemGlobals;
 declare var App: HolochainAppGlobals;

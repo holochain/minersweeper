@@ -1,16 +1,16 @@
 // holochain type definitions
 
 
-export type Hash = string;
-export type Signature = string;
-export type HolochainError = object;
-export type PackageRequest = object;
+type Hash = string;
+type Signature = string;
+type HolochainError = object;
+type PackageRequest = object;
 
 /*============================================
 =            Holochain Data Types            =
 ============================================*/
 
-export interface Header {
+interface Header {
   Type: string;
   Time: string;
   HeaderLink: Hash;
@@ -20,13 +20,13 @@ export interface Header {
   Change: Hash;
 }
 
-export interface GetResponse {
+interface GetResponse {
   Entry?: any;
   EntryType?: string;
   Sources?: Hash[]; 
 }
 
-export interface GetLinksResponse {
+interface GetLinksResponse {
   Hash: Hash;
   Entry?: any;
   EntryType?: string;
@@ -34,13 +34,13 @@ export interface GetLinksResponse {
   Source?: Hash;
 }
 
-export interface QueryResponse {
+interface QueryResponse {
   Hash?: string
   Entry?: any
   Header?: Header
 }
 
-export interface BridgeStatus {
+interface BridgeStatus {
   Side: number;
   CalleeName?: string;
   CalleeApp?: Hash;
@@ -51,7 +51,7 @@ export interface BridgeStatus {
 /*=====  End of Holochain Data Types  ======*/
 
 
-export interface HolochainSystemGlobals {
+interface HolochainSystemGlobals {
   Version: string;
   HashNotFound: any;
   Status: any;
@@ -63,7 +63,7 @@ export interface HolochainSystemGlobals {
   BundleCancel: any;
 }
 
-export interface HolochainAppGlobals {
+interface HolochainAppGlobals {
   Name: string;
   DNA: {
     Hash: Hash;

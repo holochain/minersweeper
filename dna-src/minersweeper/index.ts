@@ -1,7 +1,10 @@
-/// <reference path="../../holochain.d.ts"/>
-/// <reference path="../../holochain.ts"/>
-/// <reference path="../../minesweeper.ts"/>
+/* tslint:disable */
 
+import { Hash } from "../../holochain"
+import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minesweeper"
+
+export = 0;
+let module = {}
 
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
