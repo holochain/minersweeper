@@ -5,7 +5,7 @@
   "proxy": "http://localhost:4141",
   "private": true,
   "scripts": {
-    "build-hc": "tsc && cpx \"dna-src/**/*.json\" dna/",
+    "build-hc": "tsc -p tsconfig.holochain.json && cpx \"dna-src/**/*.json\" /build/dna/",
     "start": "cd ui-src && react-scripts-ts start; cd ..",
     "build": "cd ui-src && react-scripts-ts build; cd ..",
     "test": "cd ui-src && react-scripts-ts test --env=jsdom; cd ..",
