@@ -61,7 +61,8 @@ class Lobby extends React.Component<any, {}> {
             </div>
           </div>
           <p/>
-          <img/>
+          <p/>
+          <p/>
            {/* {this.renderCryptoIcons()} */}
         </div>
       </div>
@@ -77,6 +78,8 @@ const GameList = ({allGames}) => {
         return <li key={hash}>
           <Link to={`/game/${hash}`}>
             {game.description}
+            {game.nMines}
+            {game.size}
             {console.log("game", game)}
           </Link>
         </li>
