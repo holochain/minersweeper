@@ -59,8 +59,9 @@ class Lobby extends React.Component<any, {}> {
               <GameList allGames={allGames}/>
             </div>
           </div>
-          <p>
-          <img/>
+          <p/>
+          <p/>
+          <p/>
            {/* {this.renderCryptoIcons()} */}
         </div>
       </div>
