@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import * as actions from '../actions';
 import {fetchJSON} from '../common';
 import store from '../store';
-import {GameParams} from '../types';
 
 
 class CreateGameForm extends React.Component<any, {}> {
@@ -37,7 +36,7 @@ class CreateGameForm extends React.Component<any, {}> {
       const y = parseInt(inHeight!.value, 10)
       const nMines = parseInt(inMines!.value, 10)
       // this.props.newGame({width, height, description})
-      fetchJSON('/fn/minesweeper/newGame', {description, nMines, size: {x,y}})
+      fetchJSON('/fn/minersweeper/newGame', {description, nMines, size: {x,y}})
         .then(hash =>
           this.props.dispatch({type: 'CONFIRM_NEW_GAME', hash})
         )

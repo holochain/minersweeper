@@ -1,16 +1,28 @@
 
 import { Map } from "immutable";
 
+import {Hash} from '../../holochain';
+import {
+  Action,
+  ActionType,
+  GameBoard,
+  GameParams,
+  Pos,
+  Size
+} from '../../minesweeper';
+
 export enum CellStatus {
   Concealed,
   Flagged,
   Revealed,
 }
 
-export class CellMatrix {
-  data: Uint8Array;
-  size: Size;
-  flags: Map<number, Hash>;
+
+export default class CellMatrix {
+  public size: Size;
+
+  private data: Uint8Array;
+  private flags: Map<number, Hash>;
 
   constructor(board: GameBoard) {
     this.size = board.size;
@@ -25,12 +37,23 @@ export class CellMatrix {
     });
   }
 
-  flagCell(pos: Pos, agentHash: Hash) {
+  public takeAction(action: Action) {
+    switch(action.actionType) {
+      case "flag":
+        this.flagCell(action.position, action.agentHash);
+        break;
+      case "reveal":
+        this.triggerReveal(action.position);
+        break;
+    }
+  }
+
+  public flagCell(pos: Pos, agentHash: Hash) {
     this.flags = this.flags.set(this.posToIndex(pos), agentHash);
     this.setFlagged(pos);
   }
 
-  getFlag(pos: Pos): Hash | null {
+  public getFlag(pos: Pos): Hash | null {
     if(this.isFlagged(pos)) {
       return this.flags.get(this.posToIndex(pos));
     } else {
@@ -38,20 +61,22 @@ export class CellMatrix {
     }
   }
 
-  triggerReveal(pos: Pos): number {
-    // TODO: here is where the logic for revealing all adjacent zero cells should happen
+  public triggerReveal(pos: Pos): number {
     const visited = new Set<number>();
     const toVisit = Array<Pos>(pos);
     let nRevealed = 0;
 
-    if(this.isMine(pos) || this.isFlagged(pos) || this.isRevealed(pos)) return 0;
+    if(this.isMine(pos) || this.isFlagged(pos) || this.isRevealed(pos)) {
+      return 0;
+    }
 
     while(toVisit.length > 0) {
       const c = toVisit.shift()!;
 
-      if(visited.has(this.posToIndex(c))) continue;
+      if(visited.has(this.posToIndex(c))) {
+        continue;
+      }
 
-      // console.log("visiting: ", c);
       this.setRevealed(c);
       visited.add(this.posToIndex(c));
       nRevealed++;
@@ -64,27 +89,24 @@ export class CellMatrix {
           }
         });
       }
-
-      // console.log("toVisit: ", toVisit);
-      // console.log();
     }
     return nRevealed;
   }
 
-  getAdjacentMines(pos: Pos): number {
+  public getAdjacentMines(pos: Pos): number {
     // return the first 4 bits as a number
     return this.getValue(pos) & 0b00001111;
   }
 
-  isRevealed(pos: Pos): boolean {
+  public isRevealed(pos: Pos): boolean {
     return (this.getValue(pos) & 0b01000000) > 0;
   }
 
-  isFlagged(pos: Pos): boolean {
+  public isFlagged(pos: Pos): boolean {
     return (this.getValue(pos) & 0b00100000) > 0;
   }
 
-  isMine(pos: Pos): boolean {
+  public isMine(pos: Pos): boolean {
     return (this.getValue(pos) & 0b00010000) > 0;
   }
 
@@ -95,8 +117,9 @@ export class CellMatrix {
   private forEachNeighbor(pos: Pos, func: any) {
     [-1,0,1].forEach(dx => {
       [-1,0,1].forEach(dy => {
-        if(dx!=0 || dy!=0) {
-          const x=pos.x+dx, y=pos.y+dy;
+        if(dx !== 0 || dy !== 0) {
+          const x = pos.x + dx;
+          const y = pos.y + dy;
           if(this.isInBounds(x, y)) {
             func(x, y);
           }

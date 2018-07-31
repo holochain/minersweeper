@@ -1,6 +1,10 @@
-/// <reference path="../../@types/holochain/index.d.ts"/>
-/// <reference path="../../@types/minesweeper/index.d.ts"/>
+/* tslint:disable */
 
+import { Hash } from "../../holochain"
+import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minesweeper"
+
+export = 0;
+let module = {}
 
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
@@ -19,6 +23,7 @@ function newGame(payload: GameParams): Hash {
   debug(gameBoard);
   // bundleStart(1, "");
   let gameHash = commit('gameBoard', gameBoard);
+  debug(gameHash)
   commit('gameLinks', { Links: [
     { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
   });
@@ -54,6 +59,7 @@ function getCurrentGames(): [Hash, GameBoard][] {
 
 function getState(payload: {gameHash: Hash}): Action[] {
   let gameHash = payload.gameHash;
+  debug("getting state from:" + gameHash);
   let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });

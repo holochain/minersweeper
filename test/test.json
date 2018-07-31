@@ -2,7 +2,7 @@
     "Tests": [
         {
             "Convey": "Can call create new game",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "newGame",
             "Input": {
                 "description": "This is my awesome new game",
@@ -17,7 +17,7 @@
         },
         {
             "Convey": "Can retrieve created game using getCurrentGames",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "getCurrentGames",
             "Raw" : true,
             "Input": "getCurrentGames().length",
@@ -26,7 +26,7 @@
         },
         {
             "Convey": "Can add an action to the game",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "makeMove",
             "Input": {
               "gameHash": "%h1%",
@@ -40,17 +40,17 @@
         },
         {
             "Convey": "Can get the state of the game which now includes an entry",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "getState",
             "Raw" : true,
-            "Input": "getState({gameHash: '%h3%'}).actions.length",
+            "Input": "getState({gameHash: '%h3%'}).length",
             "Output": 1,
             "Exposure":"public"            
         },
 
         {
             "Convey": "Is dead function correctly identifies valid moves with no death",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "isDead",
             "Raw" : true,
             "Input": "isDead({mines: [{x: 4, y:10}]}, [{actionType: 'reveal', position: {x : 1, y: 3}}])",
@@ -59,7 +59,7 @@
         },
         {
             "Convey": "Is dead function correctly identifies valid moves that result in a death",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "isDead",
             "Raw" : true,
             "Input": "isDead({mines: [{x: 4, y:10}]}, [{actionType: 'reveal', position: {x : 4, y: 10}}])",
@@ -68,7 +68,7 @@
         },
         {
             "Convey": "Is dead function with an empty list returns false",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "isDead",
             "Raw" : true,
             "Input": "isDead({mines: [{x: 4, y:10}]}, [])",
@@ -77,7 +77,7 @@
         },
         {
             "Convey": "Can add an action to the game that collides with a mine",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "makeMove",
             "Input": {
               "gameHash": "%h3%",
@@ -91,7 +91,7 @@
         },
         {
             "Convey": "Cannot add another action after this",
-            "Zome": "minesweeper",
+            "Zome": "minersweeper",
             "FnName": "makeMove",
             "Input": {
               "gameHash": "%h5%",

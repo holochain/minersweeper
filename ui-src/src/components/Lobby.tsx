@@ -3,29 +3,30 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import './Lobby.css';
 
+import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+
 import {connect} from 'react-redux';
 
 import {fetchJSON} from '../common';
-import {GameParams} from '../types';
 
 import CreateGameForm from './CreateGameForm'
 
-interface ILobbyProps {
-  games: List<GameParams>
-}
+// interface LobbyProps {
+//   games: List<GameParams>
+// }
 
 class Lobby extends React.Component<any, {}> {
 
   public componentWillMount() {
     setInterval(
       () => {
-        fetchJSON('/fn/minesweeper/getCurrentGames')
+        fetchJSON('/fn/minersweeper/getCurrentGames')
           .then(games => this.props.dispatch({
             games,
             type: 'FETCH_CURRENT_GAMES'
           }))
       },
-      1000
+      5000
      )
   }
 
