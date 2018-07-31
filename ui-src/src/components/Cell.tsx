@@ -16,6 +16,7 @@ type CellProps = {
   gameHash: Hash,
   rowIndex: number,
   style: any,
+  myActions: number,
 }
 
 class Cell extends React.Component<CellProps, {}> {
@@ -45,14 +46,15 @@ class Cell extends React.Component<CellProps, {}> {
       action: {
         actionType: "reveal",
         position: pos,
-        agentHash: 'TODO',
       }
     }
     fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
+      console.log('makeMove: ', pos, ok)
       // TODO: show score if ok
     })
   }
 
 }
 
-export default Cell;
+// TODO: check for performance?
+export default connect(state => ({myActions: state.myActions}))(Cell);

@@ -11,14 +11,16 @@ export type ActionType
   | "chat"
 
 
-export type Action
-  = { actionType: "reveal", position: Pos, agentHash: Hash }
-  | { actionType: "flag", position: Pos, agentHash: Hash }
-  | { actionType: "chat", text: string, agentHash: Hash}
+export type ActionDefinition
+  = { actionType: "reveal", position: Pos }
+  | { actionType: "flag", position: Pos }
+  | { actionType: "chat", text: string }
+
+export type Action = ActionDefinition & { agentHash: Hash }
 
 export interface MoveDefinition {
   gameHash: Hash;
-  action: Action;
+  action: ActionDefinition;
 }
 
 export type GameState = GameBoard & {actions: Action[]}

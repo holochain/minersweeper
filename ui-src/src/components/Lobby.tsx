@@ -7,7 +7,7 @@ import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../
 
 import {connect} from 'react-redux';
 
-import {fetchJSON} from '../common';
+import {fetchJSON, FETCH_LOBBY_INTERVAL} from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
@@ -17,17 +17,24 @@ import CreateGameForm from './CreateGameForm'
 
 class Lobby extends React.Component<any, {}> {
 
+  private updateLobbyInterval: any = null
+
   public componentWillMount() {
-    setInterval(
-      () => {
-        fetchJSON('/fn/minersweeper/getCurrentGames')
-          .then(games => this.props.dispatch({
-            games,
-            type: 'FETCH_CURRENT_GAMES'
-          }))
-      },
-      5000
+    const updateLobby = () => {
+      fetchJSON('/fn/minersweeper/getCurrentGames')
+        .then(games => this.props.dispatch({
+          games,
+          type: 'FETCH_CURRENT_GAMES'
+        }))
+    }
+    updateLobby()
+    this.updateLobbyInterval = setInterval(
+      updateLobby, FETCH_LOBBY_INTERVAL
      )
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.updateLobbyInterval)
   }
 
   public render() {

@@ -12,40 +12,6 @@ import {
 
 import {Action} from '../../minesweeper'
 
-// const initMatrix = (gameParams: GameParams): CellMatrix => {
-//   const rows: Array<List<CellStatus>> = []
-//   for (let r = 0; r < gameParams.size.y; r++) {
-//     const cells: CellStatus[] = []
-//     for (let c = 0; c < gameParams.size.x; c++) {
-//       cells.push(CellStatus.Concealed)
-//     }
-//     rows.push(List(cells))
-//   }
-//   return List(rows)
-// }
-
-const reduceGameState = (state: StoreGameState, hcAction: Action): StoreGameState => {
-  const {matrix, chats} = state!
-  switch (hcAction.actionType) {
-    case 'reveal':
-    case 'flag':
-      matrix.takeAction(hcAction);
-      return state;
-      break;
-    case 'chat': {
-      break
-      // const {agentHash, text} = hcAction
-      // return {
-      //   ...state!,
-      //   chats: chats.push({
-      //     author: agentHash,
-      //     message: text
-      //   }),
-      // }
-    }
-  }
-  return state
-}
 
 const defaultState: StoreState = {
   allGames: Map({}),
@@ -60,27 +26,33 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
   const {chats, matrix} = state!
   switch (action.type) {
     case 'QUICK_REVEAL': {
-      state.matrix.triggerReveal(action.coords)
-      return state
+      matrix.triggerReveal(action.coords)
+      break;
     }
     case 'QUICK_FLAG': {
       // TODO
-      state.matrix.flagCell(action.coords, "TODO")
-      return state
+      matrix.flagCell(action.coords, "TODO")
+      break;
     }
     case 'FETCH_ACTIONS': {
       action.actions.forEach(a => {
-        state.matrix.takeAction(a)
+        matrix.takeAction(a)
       })
-      return state
+      break;
     }
   }
-  return state
+  return {
+    matrix,
+    ...state
+  }
 }
 
-export function reducer (state: StoreState = defaultState, action: ReduxAction): StoreState {
-  state.currentGame = reduceGame(state.currentGame, action)
-  state.myActions += 1
+export function reducer (oldState: StoreState = defaultState, action: ReduxAction): StoreState {
+  const state = {
+    ...oldState,
+    currentGame: reduceGame(oldState.currentGame, action),
+    myActions: oldState.myActions + 1,
+  }
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
