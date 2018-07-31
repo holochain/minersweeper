@@ -25,23 +25,6 @@ export class CellMatrix {
     });
   }
 
-  forEachNeighbor(pos: Pos, func: any) {
-    [-1,0,1].forEach(dx => {
-      [-1,0,1].forEach(dy => {
-        if(dx!=0 || dy!=0) {
-          const x=pos.x+dx, y=pos.y+dy;
-          if(this.isInBounds(x, y)) {
-            func(x, y);
-          }
-        }
-      });
-    });
-  }
-
-  isInBounds(x: number, y: number): boolean {
-    return (x>=0 && y>=0 && x<this.size.x && y < this.size.y);
-  }
-
   flagCell(pos: Pos, agentHash: Hash) {
     this.flags = this.flags.set(this.posToIndex(pos), agentHash);
     this.setFlagged(pos);
@@ -103,6 +86,23 @@ export class CellMatrix {
 
   isMine(pos: Pos): boolean {
     return (this.getValue(pos) & 0b00010000) > 0;
+  }
+
+  private isInBounds(x: number, y: number): boolean {
+    return (x>=0 && y>=0 && x<this.size.x && y < this.size.y);
+  }
+
+  private forEachNeighbor(pos: Pos, func: any) {
+    [-1,0,1].forEach(dx => {
+      [-1,0,1].forEach(dy => {
+        if(dx!=0 || dy!=0) {
+          const x=pos.x+dx, y=pos.y+dy;
+          if(this.isInBounds(x, y)) {
+            func(x, y);
+          }
+        }
+      });
+    });
   }
 
   private posToIndex(pos: Pos) {
