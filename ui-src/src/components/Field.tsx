@@ -28,17 +28,11 @@ function overscanIndicesGetter ({
 
 type FieldProps = {
   gameHash: Hash,
-  matrix: CellMatrix
+  matrix: CellMatrix,
+  myActions: number  // NB: dumb hack to ensure updates
 }
 
 class Field extends React.Component<FieldProps, {}> {
-
-  // public shouldComponentUpdate(nextProps, _, __) {
-  //   if (this.grid !== null) {
-  //     this.grid!.forceUpdate()
-  //   }
-  //   return true
-  // }
 
   public render() {
     const columns = this.props.matrix.size.x
@@ -65,11 +59,12 @@ class Field extends React.Component<FieldProps, {}> {
     )
   }
 
-  private CellWrapped = (props) => (<Cell gameHash={this.props.gameHash} key={props.key} {...props}/>)
+  private CellWrapped = (props) => (<Cell myActions={this.props.myActions} gameHash={this.props.gameHash} key={props.key} {...props}/>)
 }
 
 const mapStateToProps = state => ({
   matrix: state.currentGame.matrix,
+  myActions: state.myActions,  // NB: dumb hack to ensure updates
 })
 
 export default connect(mapStateToProps)(Field);
