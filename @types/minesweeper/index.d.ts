@@ -1,21 +1,8 @@
-import { List } from 'immutable';
+/// <reference path="../../@types/holochain/index.d.ts"/>
 
-declare enum CellStatus {
-  Concealed,
-  Flagged,
-  Revealed,
-}
-
-type CellMatrix = List<List<CellStatus>>
-
-export type XY = {x: number, y: number}
-export type Size = XY
-export type Pos = XY
-
-type GameParams = {
-  width: number,
-  height: number,
-}
+type XY = {x: number, y: number}
+type Size = XY
+type Pos = XY
 
 
 declare enum ActionType {
@@ -24,29 +11,26 @@ declare enum ActionType {
   Chat="chat",
 }
 
-export interface Action {
-  actionType: ActionType;
-  agentHash: Hash;
-  position?: Pos;
-  text?: string;
-}
+type Action
+  = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
+  | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
+  | { actionType: ActionType.Chat, Text: string, agentHash: Hash}
 
-export interface MoveDefinition {
+
+interface MoveDefinition {
   gameHash: Hash;
   action: Action;
 }
 
-export interface GameState {
-  actions: Action[];
-}
+type GameState = GameBoard & {actions: Action[]}
 
-export interface GameDefinition {
+interface GameParams {
   description: string;
   nMines: number;
   size: Size;
 }
 
-export interface GameBoard {
+interface GameBoard {
   description: string;
   mines: Pos[];
   size: Size;

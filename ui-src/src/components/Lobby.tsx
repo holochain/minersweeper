@@ -6,7 +6,6 @@ import './Lobby.css';
 import {connect} from 'react-redux';
 
 import {fetchJSON} from '../common';
-import {GameParams} from '../types';
 
 import CreateGameForm from './CreateGameForm'
 // import Bitcoin from "./bitcoin.png"
@@ -30,7 +29,7 @@ class Lobby extends React.Component<any, {}> {
             type: 'FETCH_CURRENT_GAMES'
           }))
       },
-      1000
+      5000
      )
   }
 
@@ -59,7 +58,7 @@ class Lobby extends React.Component<any, {}> {
               <GameList allGames={allGames}/>
             </div>
           </div>
-          <p>
+          <p/>
           <img/>
            {/* {this.renderCryptoIcons()} */}
         </div>

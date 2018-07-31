@@ -1,7 +1,5 @@
-// import {List} from 'immutable'
-
 import {fetchJSON} from './common'
-import {Game, GameParams, StoreState, XY} from './types'
+import {StoreState} from './types'
 
 export type Action
   = { type: 'VIEW_GAME', hash: string }
@@ -11,9 +9,7 @@ export type Action
   | { type: 'FETCH_ACTIONS', actions: any[] }
 
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
-  | { type: 'FETCH_CURRENT_GAMES', games: GameWithHash[] }
-
-type GameWithHash = Game & {hash: string}
+  | { type: 'FETCH_CURRENT_GAMES', games: [Hash, GameParams] }
 
 export function reveal(coords:XY): Action {
   return {type: 'REVEAL', coords}

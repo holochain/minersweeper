@@ -18,6 +18,13 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false
   },
+  "files": [
+    "../@types/holochain/index.d.ts",
+    "../@types/minesweeper/index.d.ts"
+  ],
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "build",

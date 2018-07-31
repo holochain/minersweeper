@@ -7,11 +7,8 @@ import {Action} from './actions';
 import {
   CellMatrix,
   CellStatus,
-  Game,
-  GameParams,
   StoreGameState,
   StoreState,
-  XY
 } from './types';
 
 const initMatrix = (gameParams: GameParams): CellMatrix => {
@@ -70,6 +67,7 @@ const startActions: Action[] = []
 const defaultState: StoreState = {
   allGames: Map({}),
   currentGame: null,
+  myActions: 0
 };
 
 function reduceGame (state: StoreGameState, action: Action) {
@@ -94,9 +92,8 @@ function reduceGame (state: StoreGameState, action: Action) {
 }
 
 export function reducer (state: StoreState = defaultState, action: Action): StoreState {
-
   state.currentGame = reduceGame(state.currentGame, action)
-
+  state.myActions += 1
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
@@ -110,16 +107,11 @@ export function reducer (state: StoreState = defaultState, action: Action): Stor
       }
       return {...state, currentGame}
     }
-
-    //
     case 'CONFIRM_NEW_GAME': {
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
-      const gamePairs = action.games.map(
-        ({hash, ...game}) => [hash, game]
-      )
-      return {...state, allGames: Map(gamePairs) }
+      return {...state, allGames: Map(action.games) }
     }
   }
   return state
