@@ -1,6 +1,7 @@
 
 import { Map } from "immutable";
 
+import {Hash} from '../../holochain';
 import {
   Action,
   ActionType,

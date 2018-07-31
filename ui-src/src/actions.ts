@@ -1,6 +1,7 @@
 import {fetchJSON} from './common'
 import {StoreState} from './types'
 
+import {Hash} from '../../holochain'
 import {GameBoard, GameParams, XY} from '../../minesweeper'
 
 export type ReduxAction

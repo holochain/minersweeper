@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
+import {Hash} from '../../../holochain';
+
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 

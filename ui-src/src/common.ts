@@ -11,7 +11,7 @@ export const fetchJSON = (url: string, data?: any) => {
 }
 
 export const fetchCurrentGames = dispatch =>
-  fetchJSON('/fn/minesweeper/getCurrentGames')
+  fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => dispatch({
       games,
       type: 'FETCH_CURRENT_GAMES'

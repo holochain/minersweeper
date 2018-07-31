@@ -2,6 +2,7 @@
   "type" : "object",
   "properties" : {
     "creatorHash" : {"type" : "string"},
+    "description" : {"type" : "string"},
     "mines" : {"type" : "array", "items" : {
       "type" : "object",
       "properties" : {

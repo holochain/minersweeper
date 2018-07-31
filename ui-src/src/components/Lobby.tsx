@@ -20,7 +20,7 @@ class Lobby extends React.Component<any, {}> {
   public componentWillMount() {
     setInterval(
       () => {
-        fetchJSON('/fn/minesweeper/getCurrentGames')
+        fetchJSON('/fn/minersweeper/getCurrentGames')
           .then(games => this.props.dispatch({
             games,
             type: 'FETCH_CURRENT_GAMES'

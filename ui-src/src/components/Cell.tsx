@@ -5,6 +5,8 @@ import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../mines
 
 import './Cell.css';
 
+import {Hash} from '../../../holochain';
+
 import CellMatrix from '../CellMatrix';
 import {fetchJSON} from '../common'
 import store from '../store'
@@ -46,7 +48,7 @@ class Cell extends React.Component<CellProps, {}> {
         agentHash: 'TODO',
       }
     }
-    fetchJSON('/fn/minesweeper/makeMove', payload).then(ok => {
+    fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
       // TODO: show score if ok
     })
   }

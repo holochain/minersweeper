@@ -54,7 +54,7 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
         dispatchViewGame()
       }
       this.actionsInterval = setInterval(
-        () => fetchJSON('/fn/minesweeper/getState', {
+        () => fetchJSON('/fn/minersweeper/getState', {
           gameHash: hash
         }).then(actions => store.dispatch({
           type: 'FETCH_ACTIONS',
