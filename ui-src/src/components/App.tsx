@@ -14,11 +14,6 @@ import Lobby from './Lobby';
 
 class App extends React.Component {
 
-  public shouldComponentUpdate(nextProps, _, __) {
-    console.log('alskjf', nextProps)
-    return true
-  }
-
   public render() {
     return (
       <BrowserRouter>
@@ -62,8 +57,8 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
   public render() {
     const {currentGame} = store.getState()
     if (currentGame) {
-      const {matrix, params} = currentGame
-      return <Field gameParams={currentGame} matrix={matrix} actions={[]} />
+      const {matrix, gameHash} = currentGame
+      return <Field gameHash={gameHash} matrix={matrix} actions={[]} />
     } else {
       return this.state.loading ? <h1>loading...</h1> : <h1>Game not found...</h1>
     }

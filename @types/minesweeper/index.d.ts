@@ -14,7 +14,7 @@ declare enum ActionType {
 type Action
   = { actionType: ActionType.Reveal, position: Pos, agentHash: Hash }
   | { actionType: ActionType.Flag, position: Pos, agentHash: Hash }
-  | { actionType: ActionType.Chat, Text: string, agentHash: Hash}
+  | { actionType: ActionType.Chat, text: string, agentHash: Hash}
 
 
 interface MoveDefinition {

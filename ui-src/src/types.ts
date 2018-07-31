@@ -1,11 +1,6 @@
 import { List, Map } from 'immutable';
 
-
-
-// export type CellMatrix = List<List<number>>
-// export type CellMatrix = Uint8Array;
-
-// bytes in a CellMatrix correspond to [null, revealed, flagged, isMine, nAdacentMines = last 4]
+import CellMatrix from './CellMatrix';
 
 
 export type ChatLog = {
@@ -14,7 +9,7 @@ export type ChatLog = {
 }
 
 export type StoreState = {
-  allGames: Map<string, GameParams>,
+  allGames: Map<string, GameBoard>,
   currentGame: StoreGameState,
   myActions: number,
 };
@@ -22,5 +17,5 @@ export type StoreState = {
 export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
-  params: GameParams,
+  gameHash: Hash,
 } | null;

@@ -6,8 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import Cell from './Cell';
-
-import {CellMatrix} from '../types';
+import CellMatrix from '../CellMatrix';
 
 
 // from https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#overscanindicesgetter
@@ -25,8 +24,12 @@ function overscanIndicesGetter ({
   }
 }
 
+type FieldProps = {
+  gameHash: Hash,
+  matrix: CellMatrix
+}
 
-class Field extends React.Component<{matrix: CellMatrix}, {}> {
+class Field extends React.Component<FieldProps, {}> {
 
   // public shouldComponentUpdate(nextProps, _, __) {
   //   if (this.grid !== null) {
@@ -36,8 +39,8 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
   // }
 
   public render() {
-    const rows = this.props.matrix.size
-    const columns = this.props.matrix.get(0).size
+    const columns = this.props.matrix.size.x
+    const rows = this.props.matrix.size.y
     const cellSize = 26
 
     return (
@@ -60,7 +63,7 @@ class Field extends React.Component<{matrix: CellMatrix}, {}> {
     )
   }
 
-  private CellWrapped = (props) => (<Cell key={props.key} {...props}/>)
+  private CellWrapped = (props) => (<Cell gameHash={this.props.gameHash} key={props.key} {...props}/>)
 }
 
 const mapStateToProps = state => ({
