@@ -19,11 +19,11 @@
     "noUnusedLocals": false
   },
   "files": [
-    "../@types/holochain/index.d.ts",
-    "../@types/minesweeper/index.d.ts"
+    "./holochain.d.ts",
+    "./minesweeper.ts"
   ],
   "include": [
-    "src/**/*"
+    "ui-src/src/**/*"
   ],
   "exclude": [
     "node_modules",
