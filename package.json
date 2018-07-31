@@ -77,8 +77,8 @@
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.(j|t)s?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).(j|t)s?(x)"
+      "<rootDir>/ui-src/src/**/__tests__/**/*.(j|t)s?(x)",
+      "<rootDir>/ui-src/src/**/?(*.)(spec|test).(j|t)s?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
@@ -109,7 +109,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "/Users/michael/HC/minersweeper/tsconfig.test.json"
+        "tsConfigFile": "tsconfig.test.json"
       }
     }
   },
