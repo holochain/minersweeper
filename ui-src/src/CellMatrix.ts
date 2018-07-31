@@ -25,6 +25,17 @@ export class CellMatrix {
     });
   }
 
+  takeAction(action: Action) {
+    switch(action.actionType) {
+      case ActionType.Flag:
+        this.flagCell(action.position, action.agentHash);
+        break;
+      case ActionType.Reveal:
+        this.triggerReveal(action.position);
+        break;
+    }
+  }
+
   flagCell(pos: Pos, agentHash: Hash) {
     this.flags = this.flags.set(this.posToIndex(pos), agentHash);
     this.setFlagged(pos);
