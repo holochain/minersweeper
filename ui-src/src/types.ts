@@ -22,3 +22,5 @@ export type StoreGameState = {
   chats: List<ChatLog>,
   gameHash: Hash,
 } | null;
+
+
