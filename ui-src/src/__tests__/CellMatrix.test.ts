@@ -7,6 +7,13 @@ const testGameBoard = {
   creatorHash: "xxx"
 }
 
+const smallTestBoard = {
+  mines: [{x: 2, y: 2}],
+  size: {x: 5, y: 5},
+  description: "a small game board for testing",
+  creatorHash: "xxx"
+}
+
 it('Can create a cell matrix instance with mines correctly set', () => {
   let cm = new CellMatrix(testGameBoard);
   expect(cm.size).toEqual(testGameBoard.size);
@@ -33,11 +40,20 @@ it('Can flag a cell and retrieve the value', () => {
   expect(cm.getFlag({x: 2, y: 2})).toEqual(null);
 });
  
-it('Can reveal a cell and store the status', () => {
-  let cm = new CellMatrix(testGameBoard);
-  cm.revealCells({x: 1, y: 1});
+it('Can reveal cells on a small grid', () => {
+  let cm = new CellMatrix(smallTestBoard);
+  expect(cm.triggerReveal({x: 0, y: 0})).toEqual(25 - 1);
+  expect(cm.isRevealed({x: 0, y: 0})).toEqual(true)
   expect(cm.isRevealed({x: 2, y: 2})).toEqual(false)
-  expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
+  expect(cm.isRevealed({x: 4, y: 4})).toEqual(true)
+});
+
+it('Can reveal cells on a large grid', () => {
+  let cm = new CellMatrix(testGameBoard);
+  expect(cm.triggerReveal({x: 0, y: 0})).toEqual(100*100 - 2);
+  expect(cm.isRevealed({x: 0, y: 0})).toEqual(true)
+  expect(cm.isRevealed({x: 10, y: 20})).toEqual(false)
+  expect(cm.isRevealed({x: 4, y: 4})).toEqual(true)
 });
 
 

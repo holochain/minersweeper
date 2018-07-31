@@ -7,7 +7,6 @@ export enum CellStatus {
   Revealed,
 }
 
-
 export class CellMatrix {
   data: Uint8Array;
   size: Size;
@@ -20,12 +19,27 @@ export class CellMatrix {
 
     board.mines.forEach(minePos => {
       this.setMine(minePos);
-      [-1,0,1].forEach(dx => {
-        [-1,0,1].forEach(dy => {
-          this.incrementAdjacentMineCount({x: minePos.x+dx, y: minePos.y+dy})
-        });
+      this.forEachNeighbor(minePos, (x, y) => {
+        this.incrementAdjacentMineCount({x, y});
       });
     });
+  }
+
+  forEachNeighbor(pos: Pos, func: any) {
+    [-1,0,1].forEach(dx => {
+      [-1,0,1].forEach(dy => {
+        if(dx!=0 || dy!=0) {
+          const x=pos.x+dx, y=pos.y+dy;
+          if(this.isInBounds(x, y)) {
+            func(x, y);
+          }
+        }
+      });
+    });
+  }
+
+  isInBounds(x: number, y: number): boolean {
+    return (x>=0 && y>=0 && x<this.size.x && y < this.size.y);
   }
 
   flagCell(pos: Pos, agentHash: Hash) {
@@ -41,9 +55,37 @@ export class CellMatrix {
     }
   }
 
-  revealCells(pos: Pos) {
+  triggerReveal(pos: Pos): number {
     // TODO: here is where the logic for revealing all adjacent zero cells should happen
-    this.setRevealed(pos);
+    const visited = new Set<number>();
+    const toVisit = Array<Pos>(pos);
+    let nRevealed = 0;
+
+    if(this.isMine(pos) || this.isFlagged(pos) || this.isRevealed(pos)) return 0;
+
+    while(toVisit.length > 0) {
+      const c = toVisit.shift()!;
+
+      if(visited.has(this.posToIndex(c))) continue;
+
+      // console.log("visiting: ", c);
+      this.setRevealed(c);
+      visited.add(this.posToIndex(c));
+      nRevealed++;
+
+      if(this.getAdjacentMines(c) === 0) {
+        this.forEachNeighbor(c, (x, y) => {
+          const n = {x,y};
+          if(!visited.has(this.posToIndex(n))) {
+            toVisit.push(n);
+          }
+        });
+      }
+
+      // console.log("toVisit: ", toVisit);
+      // console.log();
+    }
+    return nRevealed;
   }
 
   getAdjacentMines(pos: Pos): number {
@@ -65,6 +107,10 @@ export class CellMatrix {
 
   private posToIndex(pos: Pos) {
     return this.size.x*pos.x + pos.y
+  }
+
+  private xyToIndex(x: number, y: number) {
+    return this.size.x*x + y;
   }
 
   private getValue(pos: Pos): number {
