@@ -43,7 +43,7 @@
             "Zome": "minersweeper",
             "FnName": "getState",
             "Raw" : true,
-            "Input": "getState({gameHash: '%h3%'}).length",
+            "Input": "getState({gameHash: '%h3%'}).actions.length",
             "Output": 1,
             "Exposure":"public"            
         },

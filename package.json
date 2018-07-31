@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build-hc": "rm -r build/dna && tsc -p dna-src && cpx \"dna-src/**/*.json\" build/dna-src/ && mv build/dna-src build/dna",
+    "test-hc": "cp -r ./test/ ./build/test/ && cd build && hcdev test",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
