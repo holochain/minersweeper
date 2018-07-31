@@ -10,6 +10,19 @@ import {
   StoreState,
 } from './types';
 
+import {Action} from '../../minesweeper'
+
+// const initMatrix = (gameParams: GameParams): CellMatrix => {
+//   const rows: Array<List<CellStatus>> = []
+//   for (let r = 0; r < gameParams.size.y; r++) {
+//     const cells: CellStatus[] = []
+//     for (let c = 0; c < gameParams.size.x; c++) {
+//       cells.push(CellStatus.Concealed)
+//     }
+//     rows.push(List(cells))
+//   }
+//   return List(rows)
+// }
 
 const reduceGameState = (state: StoreGameState, hcAction: Action): StoreGameState => {
   const {matrix, chats} = state!

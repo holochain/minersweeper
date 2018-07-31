@@ -1,8 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+
 import './Cell.css';
 
+import CellMatrix from '../CellMatrix';
 import {fetchJSON} from '../common'
 import store from '../store'
 

@@ -3,15 +3,17 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import './Lobby.css';
 
+import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+
 import {connect} from 'react-redux';
 
 import {fetchJSON} from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
-interface ILobbyProps {
-  games: List<GameParams>
-}
+// interface LobbyProps {
+//   games: List<GameParams>
+// }
 
 class Lobby extends React.Component<any, {}> {
 

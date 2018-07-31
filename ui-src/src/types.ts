@@ -2,6 +2,8 @@ import { List, Map } from 'immutable';
 
 import CellMatrix from './CellMatrix';
 
+import {GameBoard} from '../../minesweeper'
+
 
 export type ChatLog = {
   author: string,

@@ -19,8 +19,7 @@
     "noUnusedLocals": false
   },
   "files": [
-    "./holochain.d.ts",
-    "./minesweeper.ts"
+    "./holochain.d.ts"
   ],
   "include": [
     "ui-src/src/**/*"

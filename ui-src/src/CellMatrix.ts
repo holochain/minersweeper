@@ -1,6 +1,15 @@
 
 import { Map } from "immutable";
 
+import {
+  Action,
+  ActionType,
+  GameBoard,
+  GameParams,
+  Pos,
+  Size
+} from '../../minesweeper';
+
 export enum CellStatus {
   Concealed,
   Flagged,
