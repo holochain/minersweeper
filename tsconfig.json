@@ -1,17 +1,37 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "build/dist",
+    "module": "esnext",
     "target": "es5",
-    "rootDir": "./dna-src/",
-    "outDir": "./dna/"
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": false
   },
   "files": [
-    "@types/holochain/index.d.ts",
-    "@types/minesweeper/index.d.ts"
+    "./holochain.d.ts",
+    "./minesweeper.ts"
+  ],
+  "include": [
+    "ui-src/src/**/*"
   ],
   "exclude": [
-    "ui",
-    "ui-src",
-    "test",
-    "dna"
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
   ]
 }

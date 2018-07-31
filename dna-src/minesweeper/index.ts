@@ -1,5 +1,6 @@
-/// <reference path="../../@types/holochain/index.d.ts"/>
-/// <reference path="../../@types/minesweeper/index.d.ts"/>
+/// <reference path="../../holochain.d.ts"/>
+/// <reference path="../../holochain.ts"/>
+/// <reference path="../../minesweeper.ts"/>
 
 
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
