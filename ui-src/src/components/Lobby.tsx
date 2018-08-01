@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '../../../minesweeper'
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchJSON, FETCH_LOBBY_INTERVAL} from '../common';
+import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
@@ -21,10 +21,10 @@ class Lobby extends React.Component<any, any> {
   private updateLobbyInterval: any = null
 
   constructor(props) {
-     super(props);
-     this.state = {addClass: false}
-     this.registerGame = this.registerGame.bind(this);
-   }
+    super(props);
+    this.state = { addClass: false }
+    this.registerGame = this.registerGame.bind(this);
+  }
 
   public componentWillMount() {
     const updateLobby = () => {
@@ -37,11 +37,11 @@ class Lobby extends React.Component<any, any> {
     updateLobby()
     this.updateLobbyInterval = setInterval(
       updateLobby, FETCH_LOBBY_INTERVAL
-     )
+    )
   }
 
   public toggleModal() {
-    this.setState({addClass: !this.state.addClass});
+    this.setState({ addClass: !this.state.addClass });
   }
 
   public registerGame() {
@@ -58,8 +58,8 @@ class Lobby extends React.Component<any, any> {
   public renderCryptoIcons() {
     return this.cryptoIcons.map((icon) => {
       return (
-         // <p key={icon}><img src={require(`../public/${icon}.svg`)} /></p>
-         <p key={icon}/>
+        <p key={icon} className="coin"  />
+        // <p key={icon} />
       );
     });
   }
@@ -72,7 +72,7 @@ class Lobby extends React.Component<any, any> {
     const modalClass = ["modal-container"];
     const allGames = this.props.allGames
 
-    if(this.state.addClass) {
+    if (this.state.addClass) {
       return (
         <div className="interstitial-modal-overlay">
           <div className="interstitial-modal">
@@ -84,7 +84,7 @@ class Lobby extends React.Component<any, any> {
               </div>
             </div>
           </div>
-         </div>
+        </div>
       )
     }
 
@@ -98,10 +98,10 @@ class Lobby extends React.Component<any, any> {
             <div className="lobby-register">
               <h4>Create a Game Below</h4>
               <button onClick={this.registerGame}>Create Game</button>
-              <GameList allGames={allGames}/>
+              <GameList allGames={allGames} />
             </div>
           </div>
-           {this.renderCryptoIcons()}
+          {this.renderCryptoIcons()}
         </div>
       </div>
     );
