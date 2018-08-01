@@ -324,10 +324,6 @@ body.modal-active {
   animation: circle 3s 3.5s 1 linear both;/*forwards*/
 }
 
-@keyframes circle {
-  0% {transform:rotate(320deg) translate(0px, 5.5em);}
-  100% {transform:rotate(43deg) translate(0px, 5.5em);}
-}
 
 .screen p:nth-child(10) {animation-delay: 1.0s;}
 .screen p:nth-child(11) {animation-delay: 1.1s;}
@@ -417,4 +413,55 @@ body.modal-active {
   100% {
     transform: scale(0);
   }
+}
+
+
+/*-------- Table CSS ---------*/
+table {
+    color: #FFFFFF;
+    font-family: sans-serif;
+    width: auto;
+    font-size: 20px;
+}
+
+td {
+    border: 10px; /* No more visible border */
+    height: 30px;
+    transition: all 0.3s;  /* Simple transition for hover effect */
+    text-align: center;
+    background: -webkit-linear-gradient(#33ccff, #0066cc);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+    }
+
+/*
+tr td:hover { background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+   color: #FFF; }
+/* Hover cell effect! */
+
+
+h3{
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 90px;
+  color: #0066cc;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  font-size: 40px;
+  line-height: 40px;
+  letter-spacing: 5px;
+  text-shadow: -2px 0 0 #A8A8A8,
+    -4px 0 0 #B8B8B8,
+    2px 0 0 #C8C8C8;
+  animation: blink 1s steps(4, start) infinite;
+}
+
+ @keyframes blink{
+   to{
+     visibility: hidden
+   }
 }

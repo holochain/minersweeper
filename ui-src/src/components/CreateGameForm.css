@@ -3,7 +3,7 @@
   font-family: helvetica neue, helvetica, arial, sans-serif;
 }
 
-.Create-game-form {
+.create-game-form {
   z-index: 99999;
 }
 
@@ -14,7 +14,7 @@
     -webkit-text-fill-color: transparent;
 }
 
-.Create-game-form h6 {
+.create-game-form h6 {
   background: -webkit-linear-gradient(#eee, #333);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

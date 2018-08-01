@@ -1,4 +1,3 @@
-
 type Hash = string;
 type Signature = string;
 type HolochainError = object;
@@ -17,7 +16,6 @@ interface Header {
   Sig: Signature;
   Change: Hash;
 }
-
 
 interface GetResponse {
   Entry?: any;
@@ -50,37 +48,6 @@ interface BridgeStatus {
 /*=====  End of Holochain Data Types  ======*/
 
 
-/*========================================
-=            Native Functions            =
-========================================*/
-
-declare function property(name: string): string;
-declare function makeHash (entryType: string, entryData: any): Hash;
-declare function debug(value: any): void;
-declare function call(zomeName: string, functionName: string, arguments: string | object): any;
-declare function bridge(appDNAHash: Hash, zomeName: string, functionName: string, arguments: string | object): any;
-declare function getBridges(): BridgeStatus[];
-declare function sign(doc: string): string;
-declare function verifySignature(signature: string, data: string, pubKey: string): boolean;
-declare function commit(entryType: string, entryData: string | object): Hash;
-declare function get(hash: Hash, options?: object): GetResponse | any;
-declare function getLinks(base: Hash, tag: string, options?: object): GetLinksResponse[];
-declare function update(entryType: string, entryData: string | object, replaces: Hash) : Hash;  
-declare function updateAgent(options: object): Hash;
-declare function remove(entryHash: Hash, message: string): Hash;
-declare function query(options?: object): QueryResponse[] | any[];
-declare function send(to: Hash, message: object, options?: object): any;
-declare function bundleStart(timeout: number, userParam: any): void;
-declare function bundleClose(commit: boolean): void;
-
-/*=====  End of Native Functions  ======*/
-
-
-
-/*====================================================
-=            Globals and System Constants            =
-====================================================*/
-
 interface HolochainSystemGlobals {
   Version: string;
   HashNotFound: any;
@@ -108,33 +75,26 @@ interface HolochainAppGlobals {
   }
 }
 
+declare function property(name: string): string;
+declare function makeHash (entryType: string, entryData: any): Hash;
+declare function debug(value: any): void;
+declare function call(zomeName: string, functionName: string, arguments: string | object): any;
+declare function bridge(appDNAHash: Hash, zomeName: string, functionName: string, arguments: string | object): any;
+declare function getBridges(): BridgeStatus[];
+declare function sign(doc: string): string;
+declare function verifySignature(signature: string, data: string, pubKey: string): boolean;
+declare function commit(entryType: string, entryData: string | object): Hash;
+declare function get(hash: Hash, options?: object): GetResponse | any;
+declare function getLinks(base: Hash, tag: string, options?: object): GetLinksResponse[];
+declare function update(entryType: string, entryData: string | object, replaces: Hash) : Hash;  
+declare function updateAgent(options: object): Hash;
+declare function remove(entryHash: Hash, message: string): Hash;
+declare function query(options?: object): QueryResponse[] | any[];
+declare function send(to: Hash, message: object, options?: object): any;
+declare function bundleStart(timeout: number, userParam: any): void;
+declare function bundleClose(commit: boolean): void;
+
+
 declare var HC: HolochainSystemGlobals;
 declare var App: HolochainAppGlobals;
 
-/*=====  End of Globals and System Constants  ======*/
-
-// interface PackageReq {
-//   Chain: object;
-//   ChainOpt: ChainOpt;
-//   EntryTypes: string[];
-// }
-
-// enum ChainOpt {
-//   None
-//   Headers
-//   Entries
-//   Full
-// }
-
-// enum SysEntryType {
-//   DNA
-//   Agent
-//   Key 
-//   Headers
-//   Del
-// }
-
-// enum Bridge {
-//   From
-//   To
-// }

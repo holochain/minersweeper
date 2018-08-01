@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import './CreateGameForm.css';
 
 import * as actions from '../actions';
-import {fetchJSON} from '../common';
+import { fetchJSON } from '../common';
 import store from '../store';
-import {GameParams} from '../types';
 
 
 class CreateGameForm extends React.Component<any, {}> {
@@ -17,7 +16,7 @@ class CreateGameForm extends React.Component<any, {}> {
   private inDescription: HTMLInputElement | null = null
 
   public render() {
-    return <div className="Create-game-form">
+    return <div className="create-game-form">
       <h2 className="registration-header">Game Registration</h2>
       <h6>Register the Details of Your Game Below</h6>
       <hr className="reg-hr"/>
@@ -31,19 +30,21 @@ class CreateGameForm extends React.Component<any, {}> {
       <hr className="reg-hr"/>
       <button className="register-button" onClick={this.handleCreate}>New Game</button>
     </div>
+
   }
 
-  private handleCreate = () => {
-    const {inDescription, inWidth, inHeight, inMines} = this;
+
+  public handleCreate = () => {
+    const { inDescription, inWidth, inHeight, inMines } = this;
     if (inDescription && inWidth && inMines && inHeight) {
       const description = inDescription!.value
       const x = parseInt(inWidth!.value, 10)
       const y = parseInt(inHeight!.value, 10)
       const nMines = parseInt(inMines!.value, 10)
       // this.props.newGame({width, height, description})
-      fetchJSON('/fn/minesweeper/newGame', {description, nMines, size: {x,y}})
+      fetchJSON('/fn/minesweeper/newGame', { description, nMines, size: { x, y } })
         .then(hash =>
-          this.props.dispatch({type: 'CONFIRM_NEW_GAME', hash})
+          this.props.dispatch({ type: 'CONFIRM_NEW_GAME', hash })
         )
     }
   }

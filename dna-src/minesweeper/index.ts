@@ -1,6 +1,7 @@
-import { GameDefinition, Size, Pos, GameBoard, MoveDefinition, GameState, Action } from '../../@types/minesweeper';
-export = 0; // do not delete. Required for tsc to produce valid holochain code
-let module = {};
+/// <reference path="../../@types/holochain/index.d.ts"/>
+/// <reference path="../../@types/minesweeper/index.d.ts"/>
+
+
 const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be covered in mines
 
 /*=============================================
@@ -8,20 +9,21 @@ const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be cover
 =============================================*/
 
 
-function newGame(payload: GameDefinition): Hash {
-  debug(payload);
+function newGame(payload: GameParams): Hash {
+  //debug(payload);
   let description = payload.description;
   let size = payload.size;
   let nMines = payload.nMines;
 
   let gameBoard = genGameBoard(description, size, nMines);
-  debug(gameBoard);
+  debug("GameBoard: "+gameBoard);
   // bundleStart(1, "");
   let gameHash = commit('gameBoard', gameBoard);
   commit('gameLinks', { Links: [
     { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
   });
   // bundleClose(true);
+  debug("GameBoard Created Successfully")
   return gameHash;
 }
 
@@ -51,14 +53,12 @@ function getCurrentGames(): [Hash, GameBoard][] {
   });
 }
 
-function getState(payload: {gameHash: Hash}): GameState {
+function getState(payload: {gameHash: Hash}): Action[] {
   let gameHash = payload.gameHash;
   let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });
-  return {
-    actions: actions
-  }
+  return actions;
 }
 
 /*=====  End of Public Zome Functions  ======*/

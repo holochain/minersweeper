@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import './Cell.css';
 
 import store from '../store'
-import {CellMatrix, CellStatus, XY} from '../types'
+import {CellMatrix, CellStatus} from '../types'
 
 type CellProps = {
   columnIndex: number,
@@ -13,16 +13,24 @@ type CellProps = {
   style: any,
 }
 
-const handleReveal = (coords: XY) => e => store.dispatch({type: 'REVEAL', coords})
+class Cell extends React.Component<CellProps, {}> {
 
-const Cell = ({columnIndex, key, rowIndex, style}: CellProps) => {
-  const matrix = store.getState().currentGame!.matrix
-  const status: CellStatus = matrix.getIn([rowIndex, columnIndex])
-  const statusClass =
-    status === CellStatus.Revealed ? "revealed"
-    : status === CellStatus.Flagged ? "flagged"
-    : ""
-  return <div key={key} className={"Cell " + statusClass} style={style} onClick={ handleReveal({x: columnIndex, y: rowIndex}) } />
+  public render() {
+    const {columnIndex, rowIndex, style} = this.props
+    const matrix = store.getState().currentGame!.matrix
+    const status: CellStatus = matrix.getIn([rowIndex, columnIndex])
+    const statusClass =
+      status === CellStatus.Revealed ? "revealed"
+      : status === CellStatus.Flagged ? "flagged"
+      : ""
+    return <div className={"Cell " + statusClass} style={style} onClick={ this.handleReveal({x: columnIndex, y: rowIndex}) } />
+  }
+
+  private handleReveal = (coords: XY) => e => {
+    store.dispatch({type: 'REVEAL', coords})
+    this.forceUpdate()
+  }
+
 }
 
 export default Cell;

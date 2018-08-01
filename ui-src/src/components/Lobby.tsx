@@ -1,12 +1,11 @@
 import { List } from 'immutable';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchJSON} from '../common';
-import {GameParams} from '../types';
+import { fetchJSON } from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
@@ -33,8 +32,8 @@ class Lobby extends React.Component<any, any> {
             type: 'FETCH_CURRENT_GAMES'
           }))
       },
-      1000
-     )
+      5000
+    )
   }
 
   public toggleModal() {
@@ -101,27 +100,36 @@ class Lobby extends React.Component<any, any> {
   }
 }
 
-const GameList = ({allGames}) => {
+const GameList = ({ allGames }) => {
   if (allGames) {
-    return <ul> {
-      Object.keys(allGames.toJS()).map(hash => {
-        const game = allGames.get(hash)
-        return <li key={hash}>
-          {console.log("game", game)}
-          {game.nMines}
-          {game.size}
-          <Link to={`/game/${hash}`}>
-            {game.description}
-          </Link>
-        </li>
-      })
-    } </ul>
+    return <div>
+      <table>
+        <h3>Live_Games</h3>
+        <tr>
+          <td>Game_Name</td>
+          <td>Mines</td>
+          <td>Size</td>
+        </tr>
+        {
+          Object.keys(allGames.toJS()).map(hash => {
+            const game = allGames.get(hash)
+            return <tr key={hash}>
+              <Link to={`/game/${hash}`}>
+                <td>{game.description}</td>
+              </Link>
+              <td>{game.mines.length}</td>
+              <td>{game.size.x} x {game.size.y}</td>
+              {console.log("game in body", game)}
+            </tr>
+
+          })
+        } </table></div>
   } else {
-    return <ul/>
+    return <ul />
   }
 }
 
-const mapStateToProps = ({allGames}) => ({
+const mapStateToProps = ({ allGames }) => ({
   allGames
 })
 

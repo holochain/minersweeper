@@ -1,5 +1,4 @@
 
-
 export const fetchJSON = (url: string, data?: any) => {
   return fetch(url, {
     body: JSON.stringify(data),
@@ -12,8 +11,8 @@ export const fetchJSON = (url: string, data?: any) => {
 
 export const fetchCurrentGames = dispatch =>
   fetchJSON("/fn/minesweeper/getCurrentGames")
-    .then(games => console.log(games))
-    .then(games => dispatch ({
+    .then(games => {dispatch({
       games,
       type: "FETCH_CURRENT_GAMES"
-  }))
+    })
+  console.log("gaga+",games)})
