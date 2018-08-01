@@ -43,7 +43,7 @@ export default class CellMatrix {
         this.triggerReveal(action.position);
         this.flagCell(action.position, action.agentHash);        
         break;
-      case "reveal": // flags fall through to also trigger a reveal
+      case "reveal":
         this.triggerReveal(action.position);
         break;
       case "chat":
