@@ -29,20 +29,21 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       errorDisplay = <div className="error-message">{ this.state.errorMessage }</div>
     }
     return <div className="create-game-form">
-      <h2 className="registration-header">Game Registration</h2>
-      <h6>Register the Details of Your Game Below</h6>
+      <h1 className="registration-header">Game Registration</h1>
+      <h4>Register the Details of Your Game Below</h4>
       <hr className="reg-hr"/>
-      <input className="register-input" type="number" ref={el => this.inWidth = el} placeholder="width"/>
-      <input className="register-input" type="number" ref={el => this.inHeight = el} placeholder="height"/>
+      <input className="register-input" type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
+      <input className="register-input" type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
       <br/>
-      <input className="register-input" type="number" ref={el => this.inMines = el} placeholder="# of mines"/>
+      <input className="register-input" type="number" ref={el => this.inMines = el} placeholder="# of Mines"/>
       <br/>
-      <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="description"/>
+      <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="Title"/>
       <br/>
       <hr className="reg-hr"/>
       { errorDisplay }
       <hr className="reg-hr"/>
-      <button className="register-button" onClick={this.handleCreate}>New Game</button>
+      <button className="modal-button" onClick={this.props.onCreate}>Close</button>
+      <button className="modal-button" onClick={this.handleCreate}>New Game</button>
     </div>
 
   }

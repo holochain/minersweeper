@@ -25,7 +25,7 @@ class Lobby extends React.Component<any, any> {
      this.state = {addClass: false}
      this.toggleModal = this.toggleModal.bind(this);
    }
-  
+
   public componentWillMount() {
     const updateLobby = () => {
       fetchJSON('/fn/minersweeper/getCurrentGames')
@@ -42,9 +42,13 @@ class Lobby extends React.Component<any, any> {
 
   public toggleModalState() {
     this.setState({addClass: !this.state.addClass});
+    console.log("ToggleModalState Called...");
+    console.log("this.state.addclass", this.state.addClass);
   }
 
   public toggleModal() {
+    console.log("ToggleModal Called...");
+    console.log("this.state.addclass", this.state.addClass);
     this.toggleModalState();
     const modalClass = ["modal-container"];
     if (this.state.addClass) {
@@ -58,7 +62,7 @@ class Lobby extends React.Component<any, any> {
     return this.cryptoIcons.map((icon) => {
       return (
         <p key={icon} className="coin"  />
-        // <p key={icon} />
+        // <p key={icon} src={`/images/${icon}`} />
       );
     });
   }
@@ -68,8 +72,8 @@ class Lobby extends React.Component<any, any> {
   }
 
   public render() {
-    const modalClass = ["modal-container"];
     const allGames = this.props.allGames
+    const modalClass = ["modal-container"];
     if(this.state.addClass) {
       modalClass.push("register-modal");
       return (
@@ -111,7 +115,7 @@ const GameList = ({ allGames }) => {
   if (allGames) {
     return <div>
       <table>
-        <h3>Live_Games</h3>
+        <h3 className="justify-center"><span>Live_Games</span></h3>
         <tr>
           <td>Game_Name</td>
           <td>Mines</td>
