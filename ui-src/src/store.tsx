@@ -15,6 +15,7 @@ import {Action} from '../../minesweeper'
 
 const defaultState: StoreState = {
   allGames: Map({}),
+  identities: Map({}),
   currentGame: null,
   myActions: 0
 };
