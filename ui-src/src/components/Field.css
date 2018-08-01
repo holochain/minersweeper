@@ -1,7 +1,4 @@
 .field-container {
   flex: 1 1;
-}
-
-.ReactVirtualized__Grid__innerScrollContainer {
-  margin: 40px;
+  background: #444;
 }

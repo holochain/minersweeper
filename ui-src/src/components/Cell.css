@@ -1,9 +1,11 @@
 .Cell {
-  border: 1px solid #559;
+  border: 0.5px solid #666;
+  border-width: 1px 1px 0 0;
+  background: #3B4451;
 }
 
 .Cell.revealed {
-  background: 555;
+  background: #1A1E24;
 }
 
 .Cell img {
@@ -13,4 +15,16 @@
 
 .Cell .number {
   text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 26px;
 }
+
+.Cell .num-1 { color: #8EA96C; }
+.Cell .num-2 { color: #35A59C; }
+.Cell .num-3 { color: #E6B55C; }
+.Cell .num-4 { color: #CE4E4F; }
+.Cell .num-5 { color: #B991BD; }
+.Cell .num-6 { color: purple; }
+.Cell .num-7 { color: pink; }
+.Cell .num-8 { color: white; }
