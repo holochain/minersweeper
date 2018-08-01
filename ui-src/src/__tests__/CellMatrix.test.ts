@@ -14,6 +14,13 @@ const smallTestBoard = {
   size: {x: 5, y: 5},
 }
 
+const troublesomeTestBoard = {
+  creatorHash: "xxx",
+  description: "a small game board for testing",
+  mines: [{x: 4, y: 1}, {x: 5, y: 0}, {x: 6, y: 0}],
+  size: {x: 11, y: 11},
+}
+
 it('Can create a cell matrix instance with mines correctly set', () => {
   const cm = new CellMatrix(testGameBoard);
   expect(cm.size).toEqual(testGameBoard.size);
@@ -28,6 +35,18 @@ it('Can set the count of adjacent mines for each cell', () => {
   expect(cm.getAdjacentMines({x: 12, y: 20})).toEqual(0);
   expect(cm.getAdjacentMines({x: 11, y: 20})).toEqual(1);
   // expect(cm.getAdjacentMines({x: 10, y: 21})).toEqual(1);
+});
+
+it('correctly ', () => {
+  const cm = new CellMatrix(troublesomeTestBoard);
+  expect(cm.getAdjacentMines({x: 3, y: 0})).toEqual(1);
+  expect(cm.getAdjacentMines({x: 3, y: 1})).toEqual(1);
+  expect(cm.getAdjacentMines({x: 4, y: 0})).toEqual(2);
+  expect(cm.getAdjacentMines({x: 5, y: 1})).toEqual(3);
+  expect(cm.getAdjacentMines({x: 6, y: 1})).toEqual(2);
+  expect(cm.getAdjacentMines({x: 7, y: 0})).toEqual(1);
+  expect(cm.getAdjacentMines({x: 7, y: 1})).toEqual(1);
+  expect(cm.getAdjacentMines({x: 7, y: 2})).toEqual(0);
 });
 
 it('Can flag a cell and retrieve the value', () => {
