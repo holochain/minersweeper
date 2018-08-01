@@ -151,7 +151,7 @@ export default class CellMatrix {
   }
 
   private incrementAdjacentMineCount(pos: Pos) {
-    this.setValue(pos, this.getValue(pos)+1);
+    this.setValue(pos, this.getAdjacentMines(pos)+1);
   }
 
   private setRevealed(pos: Pos) {
