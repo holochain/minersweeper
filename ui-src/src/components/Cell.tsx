@@ -27,6 +27,9 @@ class Cell extends React.Component<CellProps, {}> {
     const {matrix, gameHash} = store.getState().currentGame!
     const {style} = this.props
     const pos = this.getPos()
+    if (!matrix.isInBounds(pos.x, pos.y)) {
+      return <div />
+    }
     const actionClass =
       matrix.isRevealed(pos) ? "revealed"
       : matrix.isFlagged(pos) ? "flagged"
