@@ -75,5 +75,11 @@ it('Can reveal cells on a large grid', () => {
   expect(cm.isRevealed({x: 4, y: 4})).toEqual(true)
 });
 
+it('Can reveal a flagged cell', () => {
+  const cm = new CellMatrix(testGameBoard);
+  cm.takeAction({position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
+  expect(cm.isFlagged({x: 1, y: 1})).toEqual(true);
+  expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)  
+});
 
 
