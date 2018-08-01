@@ -7,6 +7,8 @@ import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '.
 
 import { connect } from 'react-redux';
 
+import Jdenticon from './Jdenticon';
+
 import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
 
 import CreateGameForm from './CreateGameForm'
@@ -114,8 +116,10 @@ const GameList = ({ allGames }) => {
         <h3>Live_Games</h3>
         <tr>
           <td>Game_Name</td>
+          <td>Author</td>
           <td>Mines</td>
           <td>Size</td>
+          
         </tr>
         {
           Object.keys(allGames.toJS()).map(hash => {
@@ -124,6 +128,7 @@ const GameList = ({ allGames }) => {
               <Link to={`/game/${hash}`}>
                 <td>{game.description}</td>
               </Link>
+              <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0,11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
               <td>{game.mines.length}</td>
               <td>{game.size.x} x {game.size.y}</td>
               {console.log("game in body", game)}
