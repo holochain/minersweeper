@@ -3,16 +3,17 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { connect } from 'react-redux';
+import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
 
-import { fetchJSON } from '../common';
+import {connect} from 'react-redux';
+
+import {fetchJSON, FETCH_LOBBY_INTERVAL} from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
-
-interface ILobbyProps {
-  games: List<GameParams>
-}
+// interface LobbyProps {
+//   games: List<GameParams>
+// }
 
 class Lobby extends React.Component<any, any> {
   public cryptoIcons = ["btc", "eth", "xmr", "ltc", "doge", "drgn", "bcc", "kmd", "dbc", "elix", "mkr", "powr", "xvg", "zec", "huc", "tel", "pot", "pay", "ox", "nxs", "nmc", "lrc"];
@@ -23,17 +24,20 @@ class Lobby extends React.Component<any, any> {
      this.registerGame = this.registerGame.bind(this);
    }
 
+  private updateLobbyInterval: any = null
+
   public componentWillMount() {
-    setInterval(
-      () => {
-        fetchJSON('/fn/minesweeper/getCurrentGames')
-          .then(games => this.props.dispatch({
-            games,
-            type: 'FETCH_CURRENT_GAMES'
-          }))
-      },
-      5000
-    )
+    const updateLobby = () => {
+      fetchJSON('/fn/minersweeper/getCurrentGames')
+        .then(games => this.props.dispatch({
+          games,
+          type: 'FETCH_CURRENT_GAMES'
+        }))
+    }
+    updateLobby()
+    this.updateLobbyInterval = setInterval(
+      updateLobby, FETCH_LOBBY_INTERVAL
+     )
   }
 
   public toggleModal() {
@@ -58,6 +62,9 @@ class Lobby extends React.Component<any, any> {
 
       );
     });
+
+  public componentWillUnmount() {
+    clearInterval(this.updateLobbyInterval)
   }
 
   public render() {

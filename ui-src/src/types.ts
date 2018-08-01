@@ -1,12 +1,10 @@
 import { List, Map } from 'immutable';
 
-export enum CellStatus {
-  Concealed,
-  Flagged,
-  Revealed,
-}
+import CellMatrix from './CellMatrix';
 
-export type CellMatrix = List<List<number>>
+import {Hash} from '../../holochain';
+import {GameBoard} from '../../minesweeper'
+
 
 export type ChatLog = {
   author: string,
@@ -14,7 +12,7 @@ export type ChatLog = {
 }
 
 export type StoreState = {
-  allGames: Map<string, GameParams>,
+  allGames: Map<string, GameBoard>,
   currentGame: StoreGameState,
   myActions: number,
 };
@@ -22,5 +20,7 @@ export type StoreState = {
 export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
-  params: GameParams,
+  gameHash: Hash,
 } | null;
+
+

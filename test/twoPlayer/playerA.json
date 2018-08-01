@@ -3,7 +3,7 @@
     {
       "Time" : 1000,
       "Convey": "Can call create new game",
-      "Zome": "minesweeper",
+      "Zome": "minersweeper",
       "FnName": "newGame",
       "Input": {
           "text": "This is my awesome new game",
@@ -19,7 +19,7 @@
     {
         "Time" : 1500,
         "Convey": "Can add an action to the game",
-        "Zome": "minesweeper",
+        "Zome": "minersweeper",
         "FnName": "makeMove",
         "Input": {
           "gameHash": "%h1%",

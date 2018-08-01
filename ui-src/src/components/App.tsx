@@ -6,18 +6,17 @@ import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
-import {fetchCurrentGames} from '../common';
+import {
+  fetchCurrentGames,
+  fetchJSON,
+  FETCH_ACTIONS_INTERVAL
+} from '../common';
 import store from '../store';
 
 import Field from './Field';
 import Lobby from './Lobby';
 
 class App extends React.Component {
-
-  public shouldComponentUpdate(nextProps, _, __) {
-    console.log('alskjf', nextProps)
-    return true
-  }
 
   public render() {
     return (
@@ -32,6 +31,8 @@ class App extends React.Component {
 }
 
 class ViewGame extends React.Component<any, {loading: boolean}> {
+
+  private actionsInterval: any = null
 
   constructor(props) {
     super(props)
@@ -56,14 +57,30 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
       } else {
         dispatchViewGame()
       }
+
+      const fetchActions = () => fetchJSON('/fn/minersweeper/getState', {
+        gameHash: hash
+      }).then(actions => store.dispatch({
+        type: 'FETCH_ACTIONS',
+        actions
+      }))
+
+      fetchActions()
+      this.actionsInterval = setInterval(
+        fetchActions, FETCH_ACTIONS_INTERVAL
+      )
     }
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.actionsInterval)
   }
 
   public render() {
     const {currentGame} = store.getState()
     if (currentGame) {
-      const {matrix, params} = currentGame
-      return <Field gameParams={currentGame} matrix={matrix} actions={[]} />
+      const {matrix, gameHash} = currentGame
+      return <Field gameHash={gameHash} matrix={matrix} actions={[]} />
     } else {
       return this.state.loading ? <h1>loading...</h1> : <h1>Game not found...</h1>
     }
