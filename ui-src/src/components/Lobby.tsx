@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '../../../minesweeper'
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchJSON, FETCH_LOBBY_INTERVAL} from '../common';
+import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
@@ -25,7 +25,7 @@ class Lobby extends React.Component<any, any> {
      this.state = {addClass: false}
      this.toggleModal = this.toggleModal.bind(this);
    }
-
+  
   public componentWillMount() {
     const updateLobby = () => {
       fetchJSON('/fn/minersweeper/getCurrentGames')
@@ -37,7 +37,7 @@ class Lobby extends React.Component<any, any> {
     updateLobby()
     this.updateLobbyInterval = setInterval(
       updateLobby, FETCH_LOBBY_INTERVAL
-     )
+    )
   }
 
   public toggleModalState() {
@@ -57,8 +57,8 @@ class Lobby extends React.Component<any, any> {
   public renderCryptoIcons() {
     return this.cryptoIcons.map((icon) => {
       return (
-         // <p key={icon}><img src={require(`../public/${icon}.svg`)} /></p>
-         <p key={icon}/>
+        <p key={icon} className="coin"  />
+        // <p key={icon} />
       );
     });
   }
@@ -70,7 +70,6 @@ class Lobby extends React.Component<any, any> {
   public render() {
     const modalClass = ["modal-container"];
     const allGames = this.props.allGames
-
     if(this.state.addClass) {
       modalClass.push("register-modal");
       return (
@@ -84,7 +83,7 @@ class Lobby extends React.Component<any, any> {
               </div>
             </div>
           </div>
-         </div>
+        </div>
       )
     }
 
@@ -101,7 +100,7 @@ class Lobby extends React.Component<any, any> {
               <GameList allGames={allGames}/>
             </div>
           </div>
-           {this.renderCryptoIcons()}
+          {this.renderCryptoIcons()}
         </div>
       </div>
     );

@@ -41,9 +41,10 @@ export default class CellMatrix {
     switch(action.actionType) {
       case "flag":
         this.flagCell(action.position, action.agentHash);
-        break;
-      case "reveal":
+      case "reveal": // flags fall through to also trigger a reveal
         this.triggerReveal(action.position);
+        break;
+      default:
         break;
     }
   }
