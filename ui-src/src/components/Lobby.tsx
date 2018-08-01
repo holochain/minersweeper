@@ -1,11 +1,11 @@
 import { List } from 'immutable';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchJSON} from '../common';
+import { fetchJSON } from '../common';
 
 import CreateGameForm from './CreateGameForm'
 // import Bitcoin from "./bitcoin.png"
@@ -30,7 +30,7 @@ class Lobby extends React.Component<any, {}> {
           }))
       },
       5000
-     )
+    )
   }
 
   // public renderCryptoIcons() {
@@ -56,41 +56,50 @@ class Lobby extends React.Component<any, {}> {
             </div>
             <div className="lobby-register">
               <h4>Create a Game Below</h4>
-              <CreateGameForm/>
-              <GameList allGames={allGames}/>
+              <CreateGameForm />
+              <GameList allGames={allGames} />
             </div>
           </div>
-          <p/>
-          <p/>
-          <p/>
-           {/* {this.renderCryptoIcons()} */}
+          <p />
+          <p />
+          <p />
+          {/* {this.renderCryptoIcons()} */}
         </div>
       </div>
     );
   }
 }
 
-const GameList = ({allGames}) => {
+const GameList = ({ allGames }) => {
   if (allGames) {
-    return <ul> {
-      Object.keys(allGames.toJS()).map(hash => {
-        const game = allGames.get(hash)
-        return <li key={hash}>
-          <Link to={`/game/${hash}`}>
-            {game.description}
-            {game.nMines}
-            {game.size}
-            {console.log("game", game)}
-          </Link>
-        </li>
-      })
-    } </ul>
+    return <div>
+      <table>
+        <h3>Live_Games</h3>
+        <tr>
+          <td>Game_Name</td>
+          <td>Mines</td>
+          <td>Size</td>
+        </tr>
+        {
+          Object.keys(allGames.toJS()).map(hash => {
+            const game = allGames.get(hash)
+            return <tr key={hash}>
+              <Link to={`/game/${hash}`}>
+                <td>{game.description}</td>
+              </Link>
+              <td>{game.mines.length}</td>
+              <td>{game.size.x} x {game.size.y}</td>
+              {console.log("game in body", game)}
+            </tr>
+
+          })
+        } </table></div>
   } else {
-    return <ul/>
+    return <ul />
   }
 }
 
-const mapStateToProps = ({allGames}) => ({
+const mapStateToProps = ({ allGames }) => ({
   allGames
 })
 

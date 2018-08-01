@@ -94,6 +94,8 @@ function reduceGame (state: StoreGameState, action: Action) {
 export function reducer (state: StoreState = defaultState, action: Action): StoreState {
   state.currentGame = reduceGame(state.currentGame, action)
   state.myActions += 1
+  console.log("State: ",state);
+  console.log("Action: ",action);
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
@@ -111,6 +113,7 @@ export function reducer (state: StoreState = defaultState, action: Action): Stor
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
+      console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
     }
   }
