@@ -68,38 +68,38 @@ function getState(payload: {gameHash: Hash}): Action[] {
   return actions;
 }
 
-function updateIdentity(payload: {newID: string}): boolean {
-  try {
-    debug("updating identity to: "+ payload.newID);
-    updateAgent({Identity: payload.newID, Revocation: "x"});
-    let result = update("agentID", App.Agent.String, App.Key.Hash);
-    let updatedID = get(App.Key.Hash);
-    return true;
-  } catch (err) {
-    return false
-  }
-}
+// function updateIdentity(payload: {newID: string}): boolean {
+//   try {
+//     debug("updating identity to: "+ payload.newID);
+//     updateAgent({Identity: payload.newID, Revocation: "x"});
+//     let result = update("agentID", App.Agent.String, App.Key.Hash);
+//     let updatedID = get(App.Key.Hash);
+//     return true;
+//   } catch (err) {
+//     return false
+//   }
+// }
 
-function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
-  try {
-    let h = get(payload.agentHash);
-    return h;
-  } catch (err) {
-    return undefined;
-  }
-}
+// function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
+//   try {
+//     let h = get(payload.agentHash);
+//     return h;
+//   } catch (err) {
+//     return undefined;
+//   }
+// }
 
-// function for batch getting a bunch of identities
-function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
-  const result: [Hash, string][] = [];
-  payload.agentHashes.forEach(hash => {
-    const identity = getIdentity({agentHash: hash});
-    if (identity !== undefined) {
-      result.push([hash, identity]);
-    }
-  });
-  return result;
-}
+// // function for batch getting a bunch of identities
+// function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
+//   const result: [Hash, string][] = [];
+//   payload.agentHashes.forEach(hash => {
+//     const identity = getIdentity({agentHash: hash});
+//     if (identity !== undefined) {
+//       result.push([hash, identity]);
+//     }
+//   });
+//   return result;
+// }
 
 
 /*=====  End of Public Zome Functions  ======*/
@@ -193,8 +193,8 @@ function validateGameBoard(gameBoard) {
 
 function genesis () {
   let h = commit('anchor', 'currentGames'); // ensure this always exists
-  debug("Joining with identity: "+App.Agent.String);
-  update("agentID", App.Agent.String, App.Key.Hash);
+  // debug("Joining with identity: "+App.Agent.String);
+  // update("agentID", App.Agent.String, App.Key.Hash);
   return true;
 }
 
