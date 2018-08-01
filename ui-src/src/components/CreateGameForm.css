@@ -9,6 +9,7 @@
   width: 600px;
   height: 600px;
   background: rgba(0, 0, 0, 0.96);
+  filter: drop-shadow(8px 8px 5px gray);
 }
 
 .registration-header {
@@ -30,19 +31,19 @@
 }
 
 .register-input {
+  text-align: center;
   margin: 35px 10px 2px 10px;
-  background: white;
-  color: black;
+  background: #a1e1e7;
   border-radius: 25px;
 }
 
 /* ============= Register Button ========= */
 .modal-button {
-  background: #cfcfcf;
+  background: #011f76;
   /* margin: 0 auto; */
   margin: 30px;
   padding: 20px;
-  color: blue;
+  color: white;
   border-radius: 25px;
   display: inline-block;
   -webkit-border-radius: 10px;

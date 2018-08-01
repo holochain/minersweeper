@@ -113,28 +113,33 @@ class Lobby extends React.Component<any, any> {
 
 const GameList = ({ allGames }) => {
   if (allGames) {
-    return <div>
+    return <div className="live-games">
+      <h3>Live_Games</h3>
       <table>
-        <h3 className="justify-center"><span>Live_Games</span></h3>
-        <tr>
-          <td>Game_Name</td>
-          <td>Mines</td>
-          <td>Size</td>
-        </tr>
-        {
-          Object.keys(allGames.toJS()).map(hash => {
-            const game = allGames.get(hash)
-            return <tr key={hash}>
-              <Link to={`/game/${hash}`}>
-                <td>{game.description}</td>
-              </Link>
-              <td>{game.mines.length}</td>
-              <td>{game.size.x} x {game.size.y}</td>
-              {console.log("game in body", game)}
-            </tr>
-
-          })
-        } </table></div>
+        <thead>
+          <tr>
+            <th data-field="first">Game_Name</th>
+            <th data-field="date">Mines</th>
+            <th data-field="content">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            Object.keys(allGames.toJS()).map(hash => {
+              const game = allGames.get(hash)
+              console.log("game in body", game)
+              return <tr key={hash}>
+                <Link to={`/game/${hash}`}>
+                  <td>{game.description}</td>
+                </Link>
+                <td>{game.mines.length}</td>
+                <td>{game.size.x} x {game.size.y}</td>
+              </tr>
+            })
+          }
+        </tbody>
+      </table>
+    </div>
   } else {
     return <ul />
   }
