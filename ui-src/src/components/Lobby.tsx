@@ -18,13 +18,13 @@ import CreateGameForm from './CreateGameForm'
 class Lobby extends React.Component<any, any> {
   public cryptoIcons = ["btc", "eth", "xmr", "ltc", "doge", "drgn", "bcc", "kmd", "dbc", "elix", "mkr", "powr", "xvg", "zec", "huc", "tel", "pot", "pay", "ox", "nxs", "nmc", "lrc"];
 
+  private updateLobbyInterval: any = null
+
   constructor(props) {
      super(props);
      this.state = {addClass: false}
      this.registerGame = this.registerGame.bind(this);
    }
-
-  private updateLobbyInterval: any = null
 
   public componentWillMount() {
     const updateLobby = () => {
@@ -62,6 +62,7 @@ class Lobby extends React.Component<any, any> {
          <p key={icon}/>
       );
     });
+  }
 
   public componentWillUnmount() {
     clearInterval(this.updateLobbyInterval)

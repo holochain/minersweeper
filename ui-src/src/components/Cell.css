@@ -5,3 +5,12 @@
 .Cell.revealed {
   background: gray;
 }
+
+.Cell img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.Cell .number {
+  text-align: center;
+}
