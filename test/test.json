@@ -25,6 +25,14 @@
             "Exposure":"public"
         },
         {
+            "Convey": "Can also get it using the batch version",
+            "Zome": "minersweeper",
+            "FnName": "getIdentities",
+            "Input": {"agentHashes": ["%key%"]},
+            "Output": ["%key%", "wollum"],
+            "Exposure":"public"
+        },
+        {
             "Convey": "Can call create new game",
             "Zome": "minersweeper",
             "FnName": "newGame",
