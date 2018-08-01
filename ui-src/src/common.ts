@@ -19,3 +19,4 @@ export const fetchCurrentGames = dispatch =>
       games,
       type: 'FETCH_CURRENT_GAMES'
     }))
+

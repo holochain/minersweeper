@@ -75,6 +75,10 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
     }
+    case 'UPDATE_IDENTITIES': {
+      console.log("adding ids: ", action.identities)
+      return{...state, identities: Map([state.identities, action.identities]) }
+    }
   }
   return state
 }
