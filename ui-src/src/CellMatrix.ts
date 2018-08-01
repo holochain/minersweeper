@@ -66,8 +66,13 @@ export default class CellMatrix {
     const toVisit = Array<Pos>(pos);
     let nRevealed = 0;
 
-    if(this.isMine(pos) || this.isFlagged(pos) || this.isRevealed(pos)) {
+    if(this.isFlagged(pos) || this.isRevealed(pos)) {
       return 0;
+    }
+
+    if(this.isMine(pos)) {
+      this.setRevealed(pos)
+      return 1;
     }
 
     while(toVisit.length > 0) {

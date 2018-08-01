@@ -25,11 +25,26 @@ class Cell extends React.Component<CellProps, {}> {
     const {matrix, gameHash} = store.getState().currentGame!
     const {style} = this.props
     const pos = this.getPos()
-    const statusClass =
+    const actionClass =
       matrix.isRevealed(pos) ? "revealed"
       : matrix.isFlagged(pos) ? "flagged"
       : ""
-    return <div className={"Cell " + statusClass} style={style} onClick={ this.handleReveal } />
+
+    const numAdjacent = matrix.getAdjacentMines(pos)
+    const content = matrix.isRevealed(pos) &&
+      ( matrix.isMine(pos)
+      ? <img src="/images/dogecoin.png"/>
+      : numAdjacent > 0
+      ? <span className="number">{ numAdjacent }</span>
+      : null )
+
+    return <div
+      className={`Cell ${actionClass}`}
+      style={style}
+      onClick={ this.handleReveal }
+    >
+      { content }
+    </div>
   }
 
   private getPos = () => {

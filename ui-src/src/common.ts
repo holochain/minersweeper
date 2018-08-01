@@ -16,6 +16,5 @@ export const fetchCurrentGames = dispatch =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => dispatch({
       games,
-      type: "FETCH_CURRENT_GAMES"
-    })
-  console.log("gaga+",games)})
+      type: 'FETCH_CURRENT_GAMES'
+    }))
