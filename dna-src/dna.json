@@ -53,6 +53,16 @@
                     "Name": "gameLinks",
                     "DataFormat": "links",
                     "Sharing": "public"
+                },
+                {
+                  "Name": "agentID",
+                  "DataFormat": "string",
+                  "Sharing": "public"
+                },
+                {
+                    "Name": "agentLinks",
+                    "DataFormat": "links",
+                    "Sharing": "public"
                 }
             ],
             "Functions": [
