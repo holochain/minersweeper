@@ -115,6 +115,7 @@ const GameList = ({ allGames }) => {
         <h3>Live_Games</h3>
         <tr>
           <td>Game_Name</td>
+          <td>AuthorImg</td>
           <td>Author</td>
           <td>Mines</td>
           <td>Size</td>
@@ -127,7 +128,8 @@ const GameList = ({ allGames }) => {
               <Link to={`/game/${hash}`}>
                 <td>{game.description}</td>
               </Link>
-              <td>{game.creatorHash}</td>
+              <td><svg width="30" height="30" data-jdenticon-value={game.creatorHash}/></td>
+              <td>{game.creatorHash.substring(0,11)}</td>
               <td>{game.mines.length}</td>
               <td>{game.size.x} x {game.size.y}</td>
               {console.log("game in body", game)}
