@@ -68,6 +68,28 @@ function getState(payload: {gameHash: Hash}): Action[] {
   return actions;
 }
 
+function updateIdentity(payload: {newID: string}): boolean {
+  try {
+    debug("updating identity to: "+ payload.newID);
+    updateAgent({Identity: payload.newID, Revocation: "x"});
+    let result = update("agentID", App.Agent.String, App.Key.Hash);
+    let updatedID = get(App.Key.Hash);
+    return true;
+  } catch (err) {
+    return false
+  }
+}
+
+function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
+  try {
+    let h = get(payload.agentHash);
+    return h;
+  } catch (err) {
+    return undefined;
+  }
+}
+
+
 /*=====  End of Public Zome Functions  ======*/
 
 
@@ -147,7 +169,7 @@ function validateAddAction(gameHash, actionHash, agentHash) {
 
 // ensures a game board is valid before it can be added
 function validateGameBoard(gameBoard) {
-  return gameBoard.size.x > 10 && gameBoard.size.y > 10 && gameBoard.mines.length < MAX_MINE_FRACTION*(gameBoard.size.x*gameBoard.size.y);
+  return true;//gameBoard.size.x > 10 && gameBoard.size.y > 10 && gameBoard.mines.length < MAX_MINE_FRACTION*(gameBoard.size.x*gameBoard.size.y);
 }
 
 /*=====  End of Validation functions  ======*/
@@ -159,6 +181,8 @@ function validateGameBoard(gameBoard) {
 
 function genesis () {
   let h = commit('anchor', 'currentGames'); // ensure this always exists
+  debug("Joining with identity: "+App.Agent.String);
+  update("agentID", App.Agent.String, App.Key.Hash);
   return true;
 }
 
