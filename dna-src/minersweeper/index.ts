@@ -89,6 +89,18 @@ function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
   }
 }
 
+// function for batch getting a bunch of identities
+function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
+  const result: [Hash, string][] = [];
+  payload.agentHashes.forEach(hash => {
+    const identity = getIdentity({agentHash: hash});
+    if (identity !== undefined) {
+      result.push([hash, identity]);
+    }
+  });
+  return result;
+}
+
 
 /*=====  End of Public Zome Functions  ======*/
 
@@ -116,8 +128,8 @@ function genGameBoard(description: string, size: Size, nMines: number): GameBoar
   let y: number;
   for(let i = 0; i < nMines; i++) {
     do {
-      x = randInt(0, size.x);
-      y = randInt(0, size.y);
+      x = randInt(0, size.x-1);
+      y = randInt(0, size.y-1);
     } while (mines.some(function(elem) { // ensures no duplicates
       return (x===elem.x && y===elem.y)
     }));

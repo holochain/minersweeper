@@ -7,6 +7,8 @@ import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '.
 
 import { connect } from 'react-redux';
 
+import Jdenticon from './Jdenticon';
+
 import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
 
 import CreateGameForm from './CreateGameForm'
@@ -114,13 +116,14 @@ class Lobby extends React.Component<any, any> {
 const GameList = ({ allGames }) => {
   if (allGames) {
     return <div className="live-games">
-      <h3>Live_Games</h3>
+      <h3>Live Games</h3>
       <table>
         <thead>
           <tr>
-            <th data-field="first">Game_Name</th>
-            <th data-field="date">Mines</th>
-            <th data-field="content">Size</th>
+            <th data-field="game">Game Name</th>
+            <th data-field="author">Author</th>
+            <th data-field="mine">Mines</th>
+            <th data-field="size">Size</th>
           </tr>
         </thead>
         <tbody>
@@ -132,6 +135,7 @@ const GameList = ({ allGames }) => {
                 <Link to={`/game/${hash}`}>
                   <td>{game.description}</td>
                 </Link>
+                <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0,11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
                 <td>{game.mines.length}</td>
                 <td>{game.size.x} x {game.size.y}</td>
               </tr>
