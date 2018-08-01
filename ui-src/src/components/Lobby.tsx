@@ -26,7 +26,6 @@ class Lobby extends React.Component<any, any> {
     this.registerGame = this.registerGame.bind(this);
   }
 
-
   public componentWillMount() {
     const updateLobby = () => {
       fetchJSON('/fn/minersweeper/getCurrentGames')

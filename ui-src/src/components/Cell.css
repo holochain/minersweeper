@@ -3,5 +3,14 @@
 }
 
 .Cell.revealed {
-  background: #555;
+  background: 555;
+}
+
+.Cell img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.Cell .number {
+  text-align: center;
 }

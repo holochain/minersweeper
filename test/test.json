@@ -90,14 +90,14 @@
             "Exposure":"public"            
         },
         {
-            "Convey": "Cannot add another action after this",
+            "Convey": "can not add another action at the same position",
             "Zome": "minersweeper",
             "FnName": "makeMove",
             "Input": {
               "gameHash": "%h5%",
               "action" : {
-                "actionType" : "reveal",
-                "position" : {"x" : 0, "y" : 0}
+                "actionType" : "flag",
+                "position" : {"x" : 20, "y" : 14}
               }
             },
             "Output": false,

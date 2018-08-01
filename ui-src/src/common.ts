@@ -1,4 +1,5 @@
 
+export const CELL_SIZE = 26
 export const FETCH_ACTIONS_INTERVAL = 1000
 export const FETCH_LOBBY_INTERVAL = 3000
 
@@ -16,5 +17,5 @@ export const fetchCurrentGames = dispatch =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => dispatch({
       games,
-      type: "FETCH_CURRENT_GAMES"
+      type: 'FETCH_CURRENT_GAMES'
     }))

@@ -44,9 +44,9 @@ class ViewGame extends React.Component<any, {loading: boolean}> {
     if (hash) {
       const {allGames} = store.getState()
       const dispatchViewGame = () => store.dispatch({
-          hash,
-          type: 'VIEW_GAME',
-        })
+        hash,
+        type: 'VIEW_GAME',
+      })
       if (!allGames.has(hash)) {
         this.setState({loading: true})
         fetchCurrentGames(store.dispatch).then(() => {
