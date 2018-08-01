@@ -7,6 +7,8 @@ import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '.
 
 import { connect } from 'react-redux';
 
+import Jdenticon from './Jdenticon';
+
 import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
 
 import CreateGameForm from './CreateGameForm'
