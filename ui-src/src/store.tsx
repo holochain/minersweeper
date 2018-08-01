@@ -1,8 +1,6 @@
 import { List, Map } from 'immutable';
-
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
-
 import {Action} from './actions';
 import {
   CellMatrix,

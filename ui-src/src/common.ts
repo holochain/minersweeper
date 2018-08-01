@@ -9,3 +9,11 @@ export const fetchJSON = (url: string, data?: any) => {
     method: 'post',
   }).then(r => r.json())
 }
+
+export const fetchCurrentGames = dispatch =>
+  fetchJSON("/fn/minesweeper/getCurrentGames")
+    .then(games => console.log(games))
+    .then(games => dispatch ({
+      games,
+      type: "FETCH_CURRENT_GAMES"
+  }))
