@@ -127,7 +127,7 @@ const GameList = ({ allGames }) => {
               <Link to={`/game/${hash}`}>
                 <td>{game.description}</td>
               </Link>
-              <td><svg width="30" height="30" data-jdenticon-value={game.creatorHash}/>{game.creatorHash.substring(0,11)}<svg width="30" height="30" data-jdenticon-value={game.creatorHash}/></td>
+              <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0,11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
               <td>{game.mines.length}</td>
               <td>{game.size.x} x {game.size.y}</td>
               {console.log("game in body", game)}
