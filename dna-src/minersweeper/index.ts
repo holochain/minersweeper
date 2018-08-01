@@ -116,8 +116,8 @@ function genGameBoard(description: string, size: Size, nMines: number): GameBoar
   let y: number;
   for(let i = 0; i < nMines; i++) {
     do {
-      x = randInt(0, size.x);
-      y = randInt(0, size.y);
+      x = randInt(0, size.x-1);
+      y = randInt(0, size.y-1);
     } while (mines.some(function(elem) { // ensures no duplicates
       return (x===elem.x && y===elem.y)
     }));

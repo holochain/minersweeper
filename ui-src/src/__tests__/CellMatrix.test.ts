@@ -15,10 +15,50 @@ const smallTestBoard = {
 }
 
 const troublesomeTestBoard = {
-  creatorHash: "xxx",
-  description: "a small game board for testing",
-  mines: [{x: 4, y: 1}, {x: 5, y: 0}, {x: 6, y: 0}],
-  size: {x: 11, y: 11},
+  "creatorHash": "QmVjxtfi81pV4Ya63FUMZXY8aHbA5RBDMA5zxnXJhhvCxh",
+  "description": "d",
+  "mines": [
+    {
+      "x": 10,
+      "y": 9
+    },
+    {
+      "x": 4,
+      "y": 1
+    },
+    {
+      "x": 6,
+      "y": 10
+    },
+    {
+      "x": 6,
+      "y": 0
+    },
+    {
+      "x": 6,
+      "y": 8
+    },
+    {
+      "x": 9,
+      "y": 5
+    },
+    {
+      "x": 7,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 8
+    }
+  ],
+  "size": {
+    "x": 11,
+    "y": 11
+  }
 }
 
 it('Can create a cell matrix instance with mines correctly set', () => {
