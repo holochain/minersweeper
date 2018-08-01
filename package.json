@@ -5,8 +5,9 @@
   "proxy": "http://localhost:4141",
   "private": true,
   "scripts": {
-    "build-hc": "rm -r build/dna && tsc -p dna-src && cpx \"dna-src/**/*.json\" build/dna-src/ && mv build/dna-src build/dna",
-    "test-hc": "cp -r ./test/ ./build/test/ && cd build && hcdev test",
+    "hc:build": "rm -r build/dna; tsc -p dna-src && cpx \"dna-src/**/*.json\" build/dna-src/ && mv build/dna-src build/dna",
+    "hc:dev": "npm run hc:build && cd build && hcdev web",
+    "hc:test": "cp -r ./test/ ./build/test/ && cd build && hcdev test",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
