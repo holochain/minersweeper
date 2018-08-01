@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './GameView.css';
 
 import {
   fetchCurrentGames,
@@ -8,6 +9,7 @@ import {
 import store from '../store';
 
 import Field from './Field';
+import GameHUD from './GameHUD';
 
 class GameView extends React.Component<any, {loading: boolean}> {
 
@@ -59,7 +61,10 @@ class GameView extends React.Component<any, {loading: boolean}> {
     const {currentGame} = store.getState()
     if (currentGame) {
       const {matrix, gameHash} = currentGame
-      return <Field gameHash={gameHash} matrix={matrix} actions={[]} />
+      return <div className="game-container">
+        <Field gameHash={gameHash} matrix={matrix} actions={[]} />
+        <GameHUD />
+      </div>
     } else {
       return this.state.loading ? <h1>loading...</h1> : <h1>Game not found...</h1>
     }
