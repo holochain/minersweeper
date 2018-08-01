@@ -1,6 +1,6 @@
 import { List } from 'immutable';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Lobby.css';
 
 import {Action, ActionType, GameBoard, GameParams, MoveDefinition, XY} from '../../../minesweeper'
@@ -15,7 +15,14 @@ import CreateGameForm from './CreateGameForm'
 //   games: List<GameParams>
 // }
 
-class Lobby extends React.Component<any, {}> {
+class Lobby extends React.Component<any, any> {
+  public cryptoIcons = ["btc", "eth", "xmr", "ltc", "doge", "drgn", "bcc", "kmd", "dbc", "elix", "mkr", "powr", "xvg", "zec", "huc", "tel", "pot", "pay", "ox", "nxs", "nmc", "lrc"];
+
+  constructor(props) {
+     super(props);
+     this.state = {addClass: false}
+     this.registerGame = this.registerGame.bind(this);
+   }
 
   private updateLobbyInterval: any = null
 
@@ -33,39 +40,103 @@ class Lobby extends React.Component<any, {}> {
      )
   }
 
+  public toggleModal() {
+    this.setState({addClass: !this.state.addClass});
+  }
+
+  public registerGame() {
+    this.toggleModal();
+    const modalClass = ["modal-container"];
+    if (this.state.addClass) {
+      modalClass.push("register-modal");
+      document.body.classList.add("modal-active");
+      console.log("modal is active!");
+
+    }
+  }
+
+  public renderCryptoIcons() {
+    return this.cryptoIcons.map((icon) => {
+      return (
+         <p key={icon}><img src={require(`../public/${icon}.svg`)} /></p>
+
+      );
+    });
+
   public componentWillUnmount() {
     clearInterval(this.updateLobbyInterval)
   }
 
   public render() {
+    const modalClass = ["modal-container"];
     const allGames = this.props.allGames
+
+    if(this.state.addClass) {
+      return (
+        <div className="interstitial-modal-overlay">
+          <div className="interstitial-modal">
+            <div className={modalClass.join(" ")}>
+              <div className="modal-background">
+                <div className="modal">
+                  <CreateGameForm />
+                </div>
+              </div>
+            </div>
+          </div>
+         </div>
+      )
+    }
+
     return (
-      <div className="Lobby">
-        <CreateGameForm/>
-        <GameList allGames={allGames}/>
+      <div>
+        <div className="screen">
+          <div className="Lobby">
+            <div className="lobby-jumbotron">
+              <h1 className="lobby-header">Welcome to Minersweeper</h1>
+            </div>
+            <div className="lobby-register">
+              <h4>Create a Game Below</h4>
+              <button onClick={this.registerGame}>Create Game</button>
+              <GameList allGames={allGames}/>
+            </div>
+          </div>
+           {this.renderCryptoIcons()}
+        </div>
       </div>
     );
   }
 }
 
-const GameList = ({allGames}) => {
+const GameList = ({ allGames }) => {
   if (allGames) {
-    return <ul> {
-      Object.keys(allGames.toJS()).map(hash => {
-        const game = allGames.get(hash)
-        return <li key={hash}>
-          <Link to={`/game/${hash}`}>
-            {game.description}
-          </Link>
-        </li>
-      })
-    } </ul>
+    return <div>
+      <table>
+        <h3>Live_Games</h3>
+        <tr>
+          <td>Game_Name</td>
+          <td>Mines</td>
+          <td>Size</td>
+        </tr>
+        {
+          Object.keys(allGames.toJS()).map(hash => {
+            const game = allGames.get(hash)
+            return <tr key={hash}>
+              <Link to={`/game/${hash}`}>
+                <td>{game.description}</td>
+              </Link>
+              <td>{game.mines.length}</td>
+              <td>{game.size.x} x {game.size.y}</td>
+              {console.log("game in body", game)}
+            </tr>
+
+          })
+        } </table></div>
   } else {
-    return <ul/>
+    return <ul />
   }
 }
 
-const mapStateToProps = ({allGames}) => ({
+const mapStateToProps = ({ allGames }) => ({
   allGames
 })
 

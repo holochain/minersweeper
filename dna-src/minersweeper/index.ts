@@ -14,13 +14,13 @@ const MAX_MINE_FRACTION = 0.5 // maximum fraction of the board that may be cover
 
 
 function newGame(payload: GameParams): Hash {
-  debug(payload);
+  //debug(payload);
   let description = payload.description;
   let size = payload.size;
   let nMines = payload.nMines;
 
   let gameBoard = genGameBoard(description, size, nMines);
-  debug(gameBoard);
+  debug("GameBoard: "+gameBoard);
   // bundleStart(1, "");
   let gameHash = commit('gameBoard', gameBoard);
   debug(gameHash)
@@ -28,6 +28,7 @@ function newGame(payload: GameParams): Hash {
     { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
   });
   // bundleClose(true);
+  debug("GameBoard Created Successfully")
   return gameHash;
 }
 

@@ -1,10 +1,10 @@
 import { List, Map } from 'immutable';
-
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
+
 import {
   StoreGameState,
   StoreState,
@@ -53,6 +53,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     currentGame: reduceGame(oldState.currentGame, action),
     myActions: oldState.myActions + 1,
   }
+
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
@@ -70,6 +71,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
+      console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
     }
   }

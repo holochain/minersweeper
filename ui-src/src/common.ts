@@ -2,7 +2,6 @@
 export const FETCH_ACTIONS_INTERVAL = 1000
 export const FETCH_LOBBY_INTERVAL = 3000
 
-
 export const fetchJSON = (url: string, data?: any) => {
   return fetch(url, {
     body: JSON.stringify(data),
@@ -17,5 +16,6 @@ export const fetchCurrentGames = dispatch =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => dispatch({
       games,
-      type: 'FETCH_CURRENT_GAMES'
-    }))
+      type: "FETCH_CURRENT_GAMES"
+    })
+  console.log("gaga+",games)})
