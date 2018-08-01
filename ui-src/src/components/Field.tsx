@@ -10,6 +10,8 @@ import {Hash} from '../../../holochain';
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 
+import {CELL_SIZE} from '../common';
+
 
 // from https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#overscanindicesgetter
 function overscanIndicesGetter ({
@@ -37,7 +39,7 @@ class Field extends React.Component<FieldProps, {}> {
   public render() {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
-    const cellSize = 26
+    const cellSize = CELL_SIZE
 
     return (
       <AutoSizer>{
