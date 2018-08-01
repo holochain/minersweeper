@@ -89,6 +89,18 @@ function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
   }
 }
 
+// function for batch getting a bunch of identities
+function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
+  const result: [Hash, string][] = [];
+  payload.agentHashes.forEach(hash => {
+    const identity = getIdentity({agentHash: hash});
+    if (identity !== undefined) {
+      result.push([hash, identity]);
+    }
+  });
+  return result;
+}
+
 
 /*=====  End of Public Zome Functions  ======*/
 

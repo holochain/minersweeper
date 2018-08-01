@@ -95,7 +95,12 @@
                     "Name": "getIdentity",
                     "CallingType": "json",
                     "Exposure": "public"
-                }                                 
+                },
+                {
+                    "Name": "getIdentities",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                }                              
             ]
         }
     ]
