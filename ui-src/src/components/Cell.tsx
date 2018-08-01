@@ -7,8 +7,10 @@ import './Cell.css';
 
 import {Hash} from '../../../holochain';
 
+import Jdenticon from './Jdenticon';
+
 import CellMatrix from '../CellMatrix';
-import {fetchJSON} from '../common'
+import {fetchJSON, CELL_SIZE} from '../common'
 import store from '../store'
 
 type CellProps = {
@@ -31,17 +33,23 @@ class Cell extends React.Component<CellProps, {}> {
       : ""
 
     const numAdjacent = matrix.getAdjacentMines(pos)
-    const content = matrix.isRevealed(pos) &&
-      ( matrix.isMine(pos)
-      ? <img src="/images/dogecoin.png"/>
-      : numAdjacent > 0
-      ? <span className="number">{ numAdjacent }</span>
-      : null )
+    const flag = matrix.getFlag(pos)
+    const content =
+      ( flag
+      ? <Jdenticon size={CELL_SIZE} hash={flag} />
+      : matrix.isRevealed(pos) &&
+        ( matrix.isMine(pos)
+        ? <img src="/images/dogecoin.png"/>
+        : numAdjacent > 0
+        ? <span className="number">{ numAdjacent }</span>
+        : null )
+      )
 
     return <div
       className={`Cell ${actionClass}`}
       style={style}
       onClick={ this.handleReveal }
+      onContextMenu={ this.handleFlag }
     >
       { content }
     </div>
@@ -52,14 +60,14 @@ class Cell extends React.Component<CellProps, {}> {
     return {x: columnIndex, y: rowIndex}
   }
 
-  private handleReveal = e => {
+  private handleMove = (type, actionType) => {
     const pos = this.getPos()
-    store.dispatch({type: 'QUICK_REVEAL', coords: pos})
+    store.dispatch({type, coords: pos})
     this.forceUpdate()
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
       action: {
-        actionType: "reveal",
+        actionType,
         position: pos,
       }
     }
@@ -69,6 +77,15 @@ class Cell extends React.Component<CellProps, {}> {
     })
   }
 
+  private handleReveal = e => {
+    e.preventDefault()
+    const pos = this.handleMove('QUICK_REVEAL', 'reveal')
+  }
+
+  private handleFlag = e => {
+    e.preventDefault()
+    const pos = this.handleMove('QUICK_FLAG', 'flag')
+  }
 }
 
 // TODO: check for performance?
