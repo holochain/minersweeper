@@ -115,8 +115,10 @@ const GameList = ({ allGames }) => {
         <h3>Live_Games</h3>
         <tr>
           <td>Game_Name</td>
+          <td>Author</td>
           <td>Mines</td>
           <td>Size</td>
+          
         </tr>
         {
           Object.keys(allGames.toJS()).map(hash => {
@@ -125,6 +127,7 @@ const GameList = ({ allGames }) => {
               <Link to={`/game/${hash}`}>
                 <td>{game.description}</td>
               </Link>
+              <td>{game.creatorHash}</td>
               <td>{game.mines.length}</td>
               <td>{game.size.x} x {game.size.y}</td>
               {console.log("game in body", game)}
