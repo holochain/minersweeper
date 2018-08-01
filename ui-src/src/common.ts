@@ -17,5 +17,4 @@ export const fetchCurrentGames = dispatch =>
     .then(games => dispatch({
       games,
       type: "FETCH_CURRENT_GAMES"
-    })
-  console.log("gaga+",games)})
+    }))
