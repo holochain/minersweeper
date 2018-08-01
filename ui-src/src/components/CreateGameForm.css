@@ -5,6 +5,11 @@
 
 .create-game-form {
   z-index: 99999;
+  border: 2px solid white;
+  width: 600px;
+  height: 600px;
+  background: rgba(0, 0, 0, 0.96);
+  filter: drop-shadow(8px 8px 5px gray);
 }
 
 .registration-header {
@@ -26,19 +31,21 @@
 }
 
 .register-input {
+  text-align: center;
   margin: 35px 10px 2px 10px;
-  background: white;
-  color: black;
+  background: #a1e1e7;
   border-radius: 25px;
 }
 
 /* ============= Register Button ========= */
-.register-button {
-  background: white;
-  color: blue;
+.modal-button {
+  background: #011f76;
+  /* margin: 0 auto; */
+  margin: 30px;
+  padding: 20px;
+  color: white;
   border-radius: 25px;
   display: inline-block;
-  margin: 0 auto;
   -webkit-border-radius: 10px;
   -webkit-box-shadow:
       0px 3px rgba(128,128,128,1),
@@ -51,7 +58,7 @@
   -webkit-transition: -webkit-box-shadow .1s ease-in-out;
 }
 
-.register-button span {
+.modal-button span {
     -webkit-box-shadow:  0px -1px #fff, 0px 1px 1px #FFFFFF;
     -webkit-background-size: 100%, 100%, 100%, 4px 4px;
     -webkit-border-radius: 10px;
@@ -65,13 +72,13 @@
     text-shadow: 0px 1px #fff, 0px -1px #262F33;
 }
 
-.register-button span:hover {
+.modal-button span:hover {
     color: black;
     text-shadow: 0px -1px #97A63A;
     cursor: pointer;
 }
 
-.register-button:active {
+.modal-button:active {
     -webkit-box-shadow:
         0px 3px rgba(128,128,128,1),
         0px 4px rgba(118,118,118,1),
@@ -82,9 +89,9 @@
         0px 10px 2px 0px rgba(128,128,128,.6);
 }
 
-.register-button:active span{
+/* .modal-button:active span{
     -webkit-transform: translate(0, 5px);
-}
+} */
 
 .button span:after {
     display: block;
