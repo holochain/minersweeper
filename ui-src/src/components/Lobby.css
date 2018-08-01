@@ -1,3 +1,7 @@
+.Lobby * {
+  animation: none !important;
+}
+
 html,body {
   padding: 0;
   margin: 0;
@@ -142,6 +146,12 @@ body.modal-active {
 }
 .modal-container.register-modal.out .modal-background .modal {
   animation: zoomOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.modal-container .error-message {
+  color: magenta;
+  font-weight: bold;
+  text-shadow: 3px 3px forestgreen;
 }
 
 #modal-container .modal-background {

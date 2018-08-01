@@ -21,11 +21,11 @@ class Lobby extends React.Component<any, any> {
   private updateLobbyInterval: any = null
 
   constructor(props) {
-    super(props);
-    this.state = { addClass: false }
-    this.registerGame = this.registerGame.bind(this);
-  }
-
+     super(props);
+     this.state = {addClass: false}
+     this.toggleModal = this.toggleModal.bind(this);
+   }
+  
   public componentWillMount() {
     const updateLobby = () => {
       fetchJSON('/fn/minersweeper/getCurrentGames')
@@ -40,18 +40,17 @@ class Lobby extends React.Component<any, any> {
     )
   }
 
-  public toggleModal() {
-    this.setState({ addClass: !this.state.addClass });
+  public toggleModalState() {
+    this.setState({addClass: !this.state.addClass});
   }
 
-  public registerGame() {
-    this.toggleModal();
+  public toggleModal() {
+    this.toggleModalState();
     const modalClass = ["modal-container"];
     if (this.state.addClass) {
-      modalClass.push("register-modal");
       document.body.classList.add("modal-active");
-      console.log("modal is active!");
-
+    } else {
+      document.body.classList.remove("modal-active");
     }
   }
 
@@ -71,15 +70,15 @@ class Lobby extends React.Component<any, any> {
   public render() {
     const modalClass = ["modal-container"];
     const allGames = this.props.allGames
-
-    if (this.state.addClass) {
+    if(this.state.addClass) {
+      modalClass.push("register-modal");
       return (
         <div className="interstitial-modal-overlay">
           <div className="interstitial-modal">
             <div className={modalClass.join(" ")}>
               <div className="modal-background">
                 <div className="modal">
-                  <CreateGameForm />
+                  <CreateGameForm onCreate={this.toggleModal}/>
                 </div>
               </div>
             </div>
@@ -97,8 +96,8 @@ class Lobby extends React.Component<any, any> {
             </div>
             <div className="lobby-register">
               <h4>Create a Game Below</h4>
-              <button onClick={this.registerGame}>Create Game</button>
-              <GameList allGames={allGames} />
+              <button onClick={this.toggleModal}>Create Game</button>
+              <GameList allGames={allGames}/>
             </div>
           </div>
           {this.renderCryptoIcons()}
