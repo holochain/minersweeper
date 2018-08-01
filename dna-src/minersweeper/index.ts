@@ -70,7 +70,10 @@ function getState(payload: {gameHash: Hash}): Action[] {
 
 function updateIdentity(payload: {newID: string}): boolean {
   try {
-    update("agentID", payload.newID, App.Key.Hash);
+    debug("updating identity to: "+ payload.newID);
+    updateAgent({Identity: payload.newID, Revocation: "x"});
+    let result = update("agentID", App.Agent.String, App.Key.Hash);
+    let updatedID = get(App.Key.Hash);
     return true;
   } catch (err) {
     return false
