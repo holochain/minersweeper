@@ -27,13 +27,17 @@ class Cell extends React.Component<CellProps, {}> {
     const {matrix, gameHash} = store.getState().currentGame!
     const {style} = this.props
     const pos = this.getPos()
+    const numAdjacent = matrix.getAdjacentMines(pos)
+    const flag = matrix.getFlag(pos)
+
     const actionClass =
       matrix.isRevealed(pos) ? "revealed"
       : matrix.isFlagged(pos) ? "flagged"
       : ""
 
-    const numAdjacent = matrix.getAdjacentMines(pos)
-    const flag = matrix.getFlag(pos)
+    const numberClass =
+      numAdjacent > 0 ? `num-${numAdjacent}` : ""
+
     const content =
       ( flag
       ? <Jdenticon size={CELL_SIZE} hash={flag} />
@@ -41,12 +45,12 @@ class Cell extends React.Component<CellProps, {}> {
         ( matrix.isMine(pos)
         ? <img src="/images/dogecoin.png"/>
         : numAdjacent > 0
-        ? <span className="number">{ numAdjacent }</span>
+        ? <span className={`number ${numberClass}`}>{ numAdjacent }</span>
         : null )
       )
 
     return <div
-      className={`Cell ${actionClass}`}
+      className={`Cell ${actionClass} ${numberClass}`}
       style={style}
       onClick={ this.handleReveal }
       onContextMenu={ this.handleFlag }
@@ -62,7 +66,7 @@ class Cell extends React.Component<CellProps, {}> {
 
   private handleMove = (type, actionType) => {
     const pos = this.getPos()
-    const {matrix} = store.getState().currentGame!    
+    const {matrix} = store.getState().currentGame!
     if ((actionType === "flag" || actionType === "reveal") && (matrix.isRevealed(pos) || matrix.isFlagged(pos))) {
       // can't flag or reveal a revealed square
       return;

@@ -1,5 +1,5 @@
 
-export const CELL_SIZE = 26
+export const CELL_SIZE = 30
 export const FETCH_ACTIONS_INTERVAL = 1000
 export const FETCH_LOBBY_INTERVAL = 3000
 
