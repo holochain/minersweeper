@@ -1,6 +1,7 @@
 agent.txt
 priv.key
 
+build/
 ui/
 dna/
 node_modules/

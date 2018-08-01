@@ -3,7 +3,7 @@
       {
         "Time" : 2000,
         "Convey": "Can retrieve created game using getCurrentGames",
-        "Zome": "minesweeper",
+        "Zome": "minersweeper",
         "FnName": "getCurrentGames",
         "Raw" : true,
         "Input": "getCurrentGames().length",
@@ -12,7 +12,7 @@
       {
         "Time" : 2500,
         "Convey": "Can retrieve created game hash for use later",
-        "Zome": "minesweeper",
+        "Zome": "minersweeper",
         "FnName": "getCurrentGames",
         "Raw" : true,
         "Input": "getCurrentGames()[0][0]",
@@ -21,7 +21,7 @@
     {
         "Time" : 3000,
         "Convey": "Can add an action to the retrieved game",
-        "Zome": "minesweeper",
+        "Zome": "minersweeper",
         "FnName": "makeMove",
         "Input": {
           "gameHash": "%result1%",

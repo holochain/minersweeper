@@ -1,20 +1,15 @@
 import {fetchJSON} from './common'
 import {StoreState} from './types'
 
-export type Action
+import {Hash} from '../../holochain'
+import {Action, GameBoard, GameParams, XY} from '../../minesweeper'
+
+export type ReduxAction
   = { type: 'VIEW_GAME', hash: string }
 
-  | { type: 'REVEAL', coords: XY }
-  | { type: 'FLAG', coords: XY }
-  | { type: 'FETCH_ACTIONS', actions: any[] }
+  | { type: 'QUICK_REVEAL', coords: XY }
+  | { type: 'QUICK_FLAG', coords: XY }
+  | { type: 'FETCH_ACTIONS', actions: Action[] }
 
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
-  | { type: 'FETCH_CURRENT_GAMES', games: [Hash, GameParams] }
-
-export function reveal(coords:XY): Action {
-  return {type: 'REVEAL', coords}
-}
-
-export function flag(coords:XY): Action {
-  return {type: 'FLAG', coords}
-}
+  | { type: 'FETCH_CURRENT_GAMES', games: [Hash, GameBoard] }

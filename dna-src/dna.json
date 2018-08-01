@@ -18,7 +18,7 @@
     },
     "Zomes": [
         {
-            "Name": "minesweeper",
+            "Name": "minersweeper",
             "Description": "provide a sample zome",
             "CodeFile": "index.js",
             "RibosomeType": "js",
