@@ -23,7 +23,7 @@ class Lobby extends React.Component<any, any> {
   constructor(props) {
      super(props);
      this.state = {addClass: false}
-     this.registerGame = this.registerGame.bind(this);
+     this.toggleModal = this.toggleModal.bind(this);
    }
 
   public componentWillMount() {
@@ -40,18 +40,17 @@ class Lobby extends React.Component<any, any> {
      )
   }
 
-  public toggleModal() {
+  public toggleModalState() {
     this.setState({addClass: !this.state.addClass});
   }
 
-  public registerGame() {
-    this.toggleModal();
+  public toggleModal() {
+    this.toggleModalState();
     const modalClass = ["modal-container"];
     if (this.state.addClass) {
-      modalClass.push("register-modal");
       document.body.classList.add("modal-active");
-      console.log("modal is active!");
-
+    } else {
+      document.body.classList.remove("modal-active");
     }
   }
 
@@ -73,13 +72,14 @@ class Lobby extends React.Component<any, any> {
     const allGames = this.props.allGames
 
     if(this.state.addClass) {
+      modalClass.push("register-modal");
       return (
         <div className="interstitial-modal-overlay">
           <div className="interstitial-modal">
             <div className={modalClass.join(" ")}>
               <div className="modal-background">
                 <div className="modal">
-                  <CreateGameForm />
+                  <CreateGameForm onCreate={this.toggleModal}/>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@ class Lobby extends React.Component<any, any> {
             </div>
             <div className="lobby-register">
               <h4>Create a Game Below</h4>
-              <button onClick={this.registerGame}>Create Game</button>
+              <button onClick={this.toggleModal}>Create Game</button>
               <GameList allGames={allGames}/>
             </div>
           </div>

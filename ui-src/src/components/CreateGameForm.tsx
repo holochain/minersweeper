@@ -7,15 +7,27 @@ import * as actions from '../actions';
 import { fetchJSON } from '../common';
 import store from '../store';
 
+type CreateGameFormState = {
+  errorMessage: string | null
+}
 
-class CreateGameForm extends React.Component<any, {}> {
+class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   private inWidth: HTMLInputElement | null = null
   private inHeight: HTMLInputElement | null = null
   private inMines: HTMLInputElement | null = null
   private inDescription: HTMLInputElement | null = null
 
+  constructor(props) {
+    super(props)
+    this.state = {errorMessage: null}
+  }
+
   public render() {
+    let errorDisplay: JSX.Element | null = null
+    if (this.state.errorMessage) {
+      errorDisplay = <div className="error-message">{ this.state.errorMessage }</div>
+    }
     return <div className="create-game-form">
       <h2 className="registration-header">Game Registration</h2>
       <h6>Register the Details of Your Game Below</h6>
@@ -27,6 +39,8 @@ class CreateGameForm extends React.Component<any, {}> {
       <br/>
       <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="description"/>
       <br/>
+      <hr className="reg-hr"/>
+      { errorDisplay }
       <hr className="reg-hr"/>
       <button className="register-button" onClick={this.handleCreate}>New Game</button>
     </div>
@@ -43,9 +57,16 @@ class CreateGameForm extends React.Component<any, {}> {
       const nMines = parseInt(inMines!.value, 10)
       // this.props.newGame({width, height, description})
       fetchJSON('/fn/minersweeper/newGame', {description, nMines, size: {x,y}})
-        .then(hash =>
-          this.props.dispatch({ type: 'CONFIRM_NEW_GAME', hash })
-        )
+        .then(response => {
+          if (response.errorMessage) {
+            // TODO: better message
+            this.setState({errorMessage: "Game size must be at least 11x11, and you can't have too many mines"})
+          } else {
+            this.setState({errorMessage: null})
+            this.props.dispatch({ type: 'CONFIRM_NEW_GAME', response })
+            this.props.onCreate()
+          }
+        })
     }
   }
 }
