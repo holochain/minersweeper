@@ -42,22 +42,25 @@ class Field extends React.Component<FieldProps, {}> {
     const cellSize = CELL_SIZE
 
     return (
-      <AutoSizer>{
-        ({width, height}) => <Grid
-          cellRenderer={this.CellWrapped}
-          columnCount={columns}
-          columnWidth={cellSize}
-          height={height}
-          isScrollingOptOut={true}
-          rowCount={rows}
-          rowHeight={cellSize}
-          width={width}
-          overscanColumnCount={20}
-          overscanRowCount={20}
-          overscanIndicesGetter={overscanIndicesGetter}
-          XXXscrollingResetTimeInterval={10}
-        />
-      }</AutoSizer>
+      <div className="field-container">
+        <AutoSizer>{
+          ({width, height}) => <Grid
+            cellRenderer={this.CellWrapped}
+            columnCount={columns}
+            columnWidth={cellSize}
+            height={height}
+            isScrollingOptOut={true}
+            rowCount={rows}
+            rowHeight={cellSize}
+            tabIndex=""
+            width={width}
+            overscanColumnCount={20}
+            overscanRowCount={20}
+            overscanIndicesGetter={overscanIndicesGetter}
+            XXXscrollingResetTimeInterval={10}
+          />
+        }</AutoSizer>
+      </div>
     )
   }
 
