@@ -62,6 +62,11 @@ class Cell extends React.Component<CellProps, {}> {
 
   private handleMove = (type, actionType) => {
     const pos = this.getPos()
+    const {matrix} = store.getState().currentGame!    
+    if ((actionType === "flag" || actionType === "reveal") && (matrix.isRevealed(pos) || matrix.isFlagged(pos))) {
+      // can't flag or reveal a revealed square
+      return;
+    }
     store.dispatch({type, coords: pos})
     this.forceUpdate()
     const payload: MoveDefinition = {
