@@ -41,7 +41,7 @@ export default class CellMatrix {
     switch (action.actionType) {
       case "flag":
         this.triggerReveal(action.position);
-        this.flagCell(action.position, action.agentHash);        
+        this.flagCell(action.position, action.agentHash);
         break;
       case "reveal":
         this.triggerReveal(action.position);
@@ -120,7 +120,7 @@ export default class CellMatrix {
     return (this.getValue(pos) & 0b00010000) > 0;
   }
 
-  private isInBounds(x: number, y: number): boolean {
+  public isInBounds(x: number, y: number): boolean {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 

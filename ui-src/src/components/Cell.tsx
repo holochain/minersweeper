@@ -30,6 +30,11 @@ class Cell extends React.Component<CellProps, {}> {
     const numAdjacent = matrix.getAdjacentMines(pos)
     const flag = matrix.getFlag(pos)
 
+    if (!matrix.isInBounds(pos.x, pos.y)) {
+      // empty out-of-bound cells to create the margin
+      return <div />
+    }
+
     const actionClass =
       matrix.isRevealed(pos) ? "revealed"
       : matrix.isFlagged(pos) ? "flagged"

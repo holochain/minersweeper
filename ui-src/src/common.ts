@@ -1,5 +1,11 @@
 
+// size of a field cell in pixels
 export const CELL_SIZE = 30
+
+// number of blank "cells" to use as a margin for the game field
+export const MARGIN_CELLS = 2
+
+// millisecond intervals for various polling tasks
 export const FETCH_ACTIONS_INTERVAL = 1000
 export const FETCH_LOBBY_INTERVAL = 3000
 
