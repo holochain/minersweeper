@@ -29,7 +29,7 @@
             "Zome": "minersweeper",
             "FnName": "getIdentities",
             "Input": {"agentHashes": ["%key%"]},
-            "Output": ["%key%", "wollum"],
+            "Output": [["%key%", "wollum"]],
             "Exposure":"public"
         },
         {
