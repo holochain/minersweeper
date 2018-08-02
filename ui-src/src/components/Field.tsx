@@ -15,7 +15,8 @@ import {
   FETCH_ACTIONS_INTERVAL,
   MARGIN_CELLS,
   fetchCurrentGames,
-  fetchJSON
+  fetchJSON,
+  xor
 } from '../common';
 import store from '../store';
 
@@ -41,73 +42,58 @@ type FieldProps = {
   myActions: number  // NB: dumb hack to ensure updates
 }
 
-class Field extends React.Component<FieldProps | any, {}> {
+type FieldState = {
+  isPanning: boolean
+}
+
+const PAN_OFFSETS = {
+  37: {x: -1, y: 0},
+  38: {x: 0, y: -1},
+  39: {x: 1, y: 0},
+  40: {x: 0, y: 1},
+}
+
+class Field extends React.Component<FieldProps, FieldState> {
 
   private grid = React.createRef()
   private panKeys: any = {}
+  private panInterval: any = null
   private actionsInterval: any = null
 
   constructor(props) {
     super(props)
-    // this.state {
-    //   panKeys: false
-    // }
-  }
-
-  public shouldComponentUpdate(nextProps, nextState) {
-    return !this.panKeys
-  }
-
-  public componentWillUnmount() {
-    clearInterval(this.actionsInterval)
+    this.state = {
+      isPanning: false
+    }
   }
 
   public componentWillMount() {
-    this.startPolling()
-    const offsets = {
-      37: {x: -1, y: 0},
-      38: {x: 0, y: -1},
-      39: {x: 1, y: 0},
-      40: {x: 0, y: 1},
-    }
-    window.addEventListener('keydown', e => {
-      const code = e.keyCode
-      if (this.panKeys[code]) {
-        return
-      }
-      this.stopPolling()
-      const offset = offsets[code]
-      const speed = CELL_SIZE
-      this.panKeys[code] = setInterval(
-        () => {
-          const grid : any = this.grid.current!
-          const container = grid._scrollingContainer
-          if (offset) {
-            // container.scrollLeft += offset.x * speed
-            // container.scrollTop += offset.y * speed
-            const x = container.scrollLeft + offset.x * speed
-            const y = container.scrollTop + offset.y * speed
-            grid.scrollToPosition({scrollLeft: x, scrollTop: y})
-          }
+    this.startPollingActions()
+    this.startPollingPan()
 
-        }, 10
-      )
+    window.addEventListener('keydown', e => {
+      if (e.keyCode in PAN_OFFSETS) {
+        this.panKeys[e.keyCode] = true
+      }
     })
+
     window.addEventListener('keyup', e => {
-      const code = e.keyCode
-      clearInterval(this.panKeys[code])
-      this.panKeys[code] = null
-      if (Object.keys(this.panKeys).some(k => this.panKeys[k])) {
-        this.startPolling()
+      if (e.keyCode in PAN_OFFSETS) {
+        delete this.panKeys[e.keyCode]
       }
     })
   }
 
+  public componentWillUnmount() {
+    this.stopPollingActions()
+  }
+
   public render() {
-    console.log('render')
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = CELL_SIZE
+    const overscan = this.state.isPanning ? 0 : 30
+    console.log(overscan)
 
     return (
       <div className="field-container">
@@ -123,10 +109,10 @@ class Field extends React.Component<FieldProps | any, {}> {
             isScrollingOptOut={true}
             tabIndex={null}
             width={width}
-            overscanColumnCount={20}
-            overscanRowCount={20}
+            overscanColumnCount={overscan}
+            overscanRowCount={overscan}
             overscanIndicesGetter={overscanIndicesGetter}
-            XXXscrollingResetTimeInterval={10}
+            scrollingResetTimeInterval={0}
           />
         }</AutoSizer>
       </div>
@@ -141,10 +127,43 @@ class Field extends React.Component<FieldProps | any, {}> {
       columnIndex={columnIndex - MARGIN_CELLS}
       rowIndex={rowIndex - MARGIN_CELLS}
       {...props}/>
-   )
+  )
 
+  private startPollingPan() {
+    if (this.panInterval) {
+      return
+    }
+    const speed = CELL_SIZE
+    this.panInterval = setInterval(
+      () => {
+        const grid : any = this.grid.current!
+        const container = grid._scrollingContainer
+        const {scrollLeft, scrollTop} = container
+        const pos = {scrollLeft, scrollTop}
+        let isPanning = false
+        Object.keys(this.panKeys).forEach(code => {
+          isPanning = true
+          if(this.panKeys[code]) {
+            const offset = PAN_OFFSETS[code]
+            pos.scrollLeft += offset.x * speed
+            pos.scrollTop += offset.y * speed
+          }
+        })
+        if (isPanning) {
+          grid.scrollToPosition(pos)
+        }
+        if (xor(this.state.isPanning, isPanning)) {
+          this.setState({isPanning})
+        }
+      }, 10
+    )
+  }
 
-  private startPolling() {
+  private stopPollingPan() {
+    clearInterval(this.panInterval)
+  }
+
+  private startPollingActions() {
     const hash = this.props.gameHash
     if (hash) {
       const fetchActions = () => fetchJSON('/fn/minersweeper/getState', {
@@ -157,15 +176,23 @@ class Field extends React.Component<FieldProps | any, {}> {
       })
 
       fetchActions()
-      this.actionsInterval =  setInterval(
-        fetchActions, FETCH_ACTIONS_INTERVAL
+      this.actionsInterval = setInterval(
+        () => {
+          if (!this.state.isPanning) {
+            fetchActions()
+          }
+        }, FETCH_ACTIONS_INTERVAL
       )
     }
   }
 
-  private stopPolling() {
+  private stopPollingActions() {
     clearInterval(this.actionsInterval)
   }
+
+  // private isPanning() {
+  //   return Object.keys(this.panKeys).some(k => this.panKeys[k])
+  // }
 }
 
 const mapStateToProps = state => ({
