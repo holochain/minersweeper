@@ -1,0 +1,26 @@
+
+h1{position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 190px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  font-size: 100px;
+  line-height: 100px;
+  letter-spacing: 10px;
+  text-shadow: -5px 0 0 #fdff2a,
+    -10px 0 0 #df4a42,
+    5px 0 0 #91fcfe,
+    10px 0 0 #4405fc;
+  animation: blink 1s steps(4, start) infinite;
+}
+
+ @keyframes blink{
+   to{
+     visibility: hidden
+   }
+}
