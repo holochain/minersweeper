@@ -44,6 +44,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-virtualized": "^9.20.1",
+    "react-player":"1.6.4",
     "redux": "^4.0.0",
     "redux-immutable": "^4.0.0",
     "resolve": "1.6.0",

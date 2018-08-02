@@ -23,10 +23,10 @@ class Lobby extends React.Component<any, any> {
   private updateLobbyInterval: any = null
 
   constructor(props) {
-     super(props);
-     this.state = {addClass: false}
-     this.toggleModal = this.toggleModal.bind(this);
-   }
+    super(props);
+    this.state = { addClass: false }
+    this.toggleModal = this.toggleModal.bind(this);
+  }
 
   public componentWillMount() {
     const updateLobby = () => {
@@ -43,7 +43,7 @@ class Lobby extends React.Component<any, any> {
   }
 
   public toggleModalState() {
-    this.setState({addClass: !this.state.addClass});
+    this.setState({ addClass: !this.state.addClass });
     console.log("ToggleModalState Called...");
     console.log("this.state.addclass", this.state.addClass);
   }
@@ -63,8 +63,7 @@ class Lobby extends React.Component<any, any> {
   public renderCryptoIcons() {
     return this.cryptoIcons.map((icon) => {
       return (
-        <p key={icon} className="coin"  />
-        // <p key={icon} src={`/images/${icon}`} />
+        <p key={icon} className="coin" />
       );
     });
   }
@@ -76,7 +75,7 @@ class Lobby extends React.Component<any, any> {
   public render() {
     const allGames = this.props.allGames
     const modalClass = ["modal-container"];
-    if(this.state.addClass) {
+    if (this.state.addClass) {
       modalClass.push("register-modal");
       return (
         <div className="interstitial-modal-overlay">
@@ -84,7 +83,7 @@ class Lobby extends React.Component<any, any> {
             <div className={modalClass.join(" ")}>
               <div className="modal-background">
                 <div className="modal">
-                  <CreateGameForm onCreate={this.toggleModal}/>
+                  <CreateGameForm onCreate={this.toggleModal} />
                 </div>
               </div>
             </div>
@@ -103,7 +102,7 @@ class Lobby extends React.Component<any, any> {
             <div className="lobby-register">
               <h4>Create a Game Below</h4>
               <button onClick={this.toggleModal}>Create Game</button>
-              <GameList allGames={allGames}/>
+              <GameList allGames={allGames} />
             </div>
           </div>
           {this.renderCryptoIcons()}
@@ -135,7 +134,7 @@ const GameList = ({ allGames }) => {
                 <Link to={`/game/${hash}`}>
                   <td>{game.description}</td>
                 </Link>
-                <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0,11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
+                <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0, 11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
                 <td>{game.mines.length}</td>
                 <td>{game.size.x} x {game.size.y}</td>
               </tr>
