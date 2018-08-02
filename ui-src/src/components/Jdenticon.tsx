@@ -1,15 +1,8 @@
 import * as React from 'react';
 
-
 export default class Jdenticon extends React.Component<any, {}> {
-
   private el = null
-
   public componentDidUpdate() {
-    (window as any).jdenticon.update(this.el)
-  }
-
-  public componentDidMount() {
     (window as any).jdenticon.update(this.el)
   }
 

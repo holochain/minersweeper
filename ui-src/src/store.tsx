@@ -71,7 +71,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
-      console.log("games",action.games)
+      console.log("games", action.games)
       return {...state, allGames: Map(action.games) }
     }
   }

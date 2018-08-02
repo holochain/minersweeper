@@ -17,6 +17,34 @@ html,body {
   overflow: hidden;
 }
 
+/* ------------ Scrollbar CSS-------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(#33ccff, #0066cc);
+}
+
+
+/* ------------ Lobby Content CSS-------------- */
 align-items {
   align-items: flex-start;
 }
@@ -158,7 +186,7 @@ align-items {
   }
 }
 
-/*-------- Table CSS ---------*/
+/*-------- live Game Table CSS ---------*/
 .live-games {
   width: 830px;
   height: 550px;
@@ -172,30 +200,6 @@ align-items {
   box-sizing: border-box;
   text-align: center;
   z-index: 9999;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  background-color: #F5F5F5;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track-piece {
-  background-color: #030303;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: #030303;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
 
 .live-games table {
@@ -355,7 +359,7 @@ body.modal-active {
   height: 50%;
 }
 
-/* ///////////////////////////////// */
+/* /////////////// Mountain (and Cryptocoin) Animation CSS ////////////////// */
 
 .screen {
   left: 0;
