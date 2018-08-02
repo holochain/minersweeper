@@ -21,6 +21,6 @@ export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
   gameHash: Hash,
+  gameBoard: GameBoard,
+  scores: Map<Hash, number> | null,
 } | null;
-
-

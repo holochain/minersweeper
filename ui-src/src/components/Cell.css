@@ -8,10 +8,6 @@
   background: #1A1E24;
 }
 
-.Cell.mine {
-  border: 2px solid #900;
-}
-
 .Cell img {
   max-width: 100%;
   max-height: 100%;

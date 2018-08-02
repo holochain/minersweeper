@@ -1,7 +1,4 @@
 
-// make mines visible even when concealed
-export const DEBUG_MODE = true
-
 // size of a field cell in pixels
 export const CELL_SIZE = 30
 

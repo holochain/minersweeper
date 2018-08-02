@@ -1,6 +1,6 @@
-
 import { GameBoard, Action, Pos, Size } from "../../minesweeper";
 import { Hash } from "../../holochain";
+import {fromJS} from 'immutable';
 
 export const CLICK_MINE = -10;
 export const CLICK_NON_MINE = 1;
@@ -9,9 +9,8 @@ export const FLAG_NON_MINE = -2;
 
 // returns the scores for all players that have made moves in the game
 export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, number> => {
-  type scoreMap = Map<Hash, number>
 
-  return actions.reduce<scoreMap>((scores: scoreMap, action: Action, index: number): scoreMap => {
+  return actions.reduce((scores, action, index) => {
 
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = 0; }

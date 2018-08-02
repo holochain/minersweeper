@@ -1,9 +1,11 @@
-import { List, Map } from 'immutable';
+import { List, Map, fromJS} from 'immutable';
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
+import {getScores} from './scoring'
+import {Hash} from '../../holochain';
 
 import {
   StoreGameState,
@@ -23,7 +25,9 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
   if (state === null) {
     return state
   }
-  const {chats, matrix} = state!
+
+  const {chats, matrix, gameHash, gameBoard} = state!
+  let {scores} = state!
   switch (action.type) {
     case 'QUICK_REVEAL': {
       matrix.triggerReveal(action.coords)
@@ -38,12 +42,15 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
       action.actions.forEach(a => {
         matrix.takeAction(a)
       })
+
+      scores = fromJS(getScores(gameBoard, action.actions));
       break;
     }
   }
   return {
+    ...state,
+    scores,
     matrix,
-    ...state
   }
 }
 
@@ -60,10 +67,13 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
+      const scores = oldState.currentGame == null ? null : oldState.currentGame!.scores
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
         matrix,
+        scores,
+        gameBoard
       }
       return {...state, currentGame}
     }
