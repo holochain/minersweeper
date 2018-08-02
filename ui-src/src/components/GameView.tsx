@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {withRouter} from 'react-router';
+
 import './GameView.css';
 
 import {
@@ -38,23 +40,7 @@ class GameView extends React.Component<any, {loading: boolean}> {
       } else {
         dispatchViewGame()
       }
-
-      const fetchActions = () => fetchJSON('/fn/minersweeper/getState', {
-        gameHash: hash
-      }).then(actions => store.dispatch({
-        type: 'FETCH_ACTIONS',
-        actions
-      }))
-
-      fetchActions()
-      this.actionsInterval = setInterval(
-        fetchActions, FETCH_ACTIONS_INTERVAL
-      )
     }
-  }
-
-  public componentWillUnmount() {
-    clearInterval(this.actionsInterval)
   }
 
   public render() {
@@ -62,7 +48,7 @@ class GameView extends React.Component<any, {loading: boolean}> {
     if (currentGame) {
       const {matrix, gameHash} = currentGame
       return <div className="game-container">
-        <Field gameHash={gameHash} matrix={matrix} actions={[]} />
+        <Field gameHash={gameHash} matrix={matrix} />
         <GameHUD />
       </div>
     } else {
