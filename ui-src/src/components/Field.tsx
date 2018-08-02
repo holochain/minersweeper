@@ -20,22 +20,6 @@ import {
 } from '../common';
 import store from '../store';
 
-
-// from https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#overscanindicesgetter
-function overscanIndicesGetter ({
-  direction,          // One of "horizontal" or "vertical"
-  cellCount,          // Number of rows or columns in the current axis
-  scrollDirection,    // 1 (forwards) or -1 (backwards)
-  overscanCellsCount, // Maximum number of cells to over-render in either direction
-  startIndex,         // Begin of range of visible cells
-  stopIndex           // End of range of visible cells
-}) {
-  return {
-    overscanStartIndex: Math.max(0, startIndex - overscanCellsCount),
-    overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount)
-  }
-}
-
 type FieldProps = {
   gameHash: Hash,
   matrix: CellMatrix,
@@ -59,12 +43,10 @@ class Field extends React.Component<FieldProps, FieldState> {
   private panKeys: any = {}
   private panInterval: any = null
   private actionsInterval: any = null
+  private isPanning = false
 
   constructor(props) {
     super(props)
-    this.state = {
-      isPanning: false
-    }
   }
 
   public componentWillMount() {
@@ -92,7 +74,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = CELL_SIZE
-    const overscan = this.state.isPanning ? 0 : 30
+    const overscan = this.isPanning ? 0 : 30
     console.log(overscan)
 
     return (
@@ -111,7 +93,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             width={width}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
-            overscanIndicesGetter={overscanIndicesGetter}
+            overscanIndicesGetter={this.overscanIndicesGetter}
             scrollingResetTimeInterval={0}
           />
         }</AutoSizer>
@@ -149,11 +131,16 @@ class Field extends React.Component<FieldProps, FieldState> {
             pos.scrollTop += offset.y * speed
           }
         })
+        if (xor(this.isPanning, isPanning)) {
+          // to reset overscan immediately
+          this.isPanning = isPanning
+          this.forceUpdate()
+          if (isPanning) {
+            return
+          }
+        }
         if (isPanning) {
           grid.scrollToPosition(pos)
-        }
-        if (xor(this.state.isPanning, isPanning)) {
-          this.setState({isPanning})
         }
       }, 10
     )
@@ -178,7 +165,7 @@ class Field extends React.Component<FieldProps, FieldState> {
       fetchActions()
       this.actionsInterval = setInterval(
         () => {
-          if (!this.state.isPanning) {
+          if (!this.isPanning) {
             fetchActions()
           }
         }, FETCH_ACTIONS_INTERVAL
@@ -188,6 +175,25 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   private stopPollingActions() {
     clearInterval(this.actionsInterval)
+  }
+
+
+  // from https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#overscanindicesgetter
+  private overscanIndicesGetter = ({
+    direction,          // One of "horizontal" or "vertical"
+    cellCount,          // Number of rows or columns in the current axis
+    scrollDirection,    // 1 (forwards) or -1 (backwards)
+    overscanCellsCount, // Maximum number of cells to over-render in either direction
+    startIndex,         // Begin of range of visible cells
+    stopIndex           // End of range of visible cells
+  }) => {
+    // if (this.isPanning) {
+    //   overscanCellsCount = 0
+    // }
+    return {
+      overscanStartIndex: Math.max(0, startIndex - overscanCellsCount),
+      overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount)
+    }
   }
 
   // private isPanning() {
