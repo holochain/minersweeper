@@ -14,6 +14,14 @@ const assertNoDupes = board => {
   })
 }
 
+const allMinesBoard = {
+  creatorHash: "xxx",
+  description: "a game board with ALL MINES",
+  mines: [0,1,2,3,4].map(x =>
+    [0,1,2,3].map(y => ({x, y}))
+  ).reduce((a, b) => a.concat(b)),
+  size: {x: 5, y: 4},
+}
 
 const testGameBoard = {
   creatorHash: "xxx",
@@ -105,4 +113,50 @@ it('Can reveal a flagged cell', () => {
   expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
 });
 
+it('Assures that adjacent count <=8 even in an extreme case', () => {
+  const {mines, size} = allMinesBoard
+  expect(mines.length).toEqual(size.x * size.y)
+  const cm = new CellMatrix(allMinesBoard);
+  expect(cm.getAdjacentMines({x: 2, y: 2})).toEqual(8);
+  expect(cm.isMine({x: 2, y: 2})).toEqual(true);
+  expect(cm.isFlagged({x: 2, y: 2})).toEqual(false);
+  expect(cm.isRevealed({x: 2, y: 2})).toEqual(false);
+  for(let x=0; x < allMinesBoard.size.x; x++) {
+    for(let y=0; y < allMinesBoard.size.y; y++) {
+      expect(cm.getAdjacentMines({x, y})).toBeLessThanOrEqual(8)
+    }
+  }
+});
 
+it('Check for Game Over state', () => {
+  const cm = new CellMatrix(smallTestBoard);
+  cm.takeAction({position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"});
+  cm.takeAction({position: {x: 0, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 0, y: 2}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 0, y: 3}, actionType: "flag", agentHash: "XXX"});
+  // cm.takeAction({position: {x: 0, y: 4}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 1, y: 2}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 1, y: 3}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 1, y: 4}, actionType: "flag", agentHash: "XXX"});
+  // cm.takeAction({position: {x: 1, y: 0}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 2, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 2, y: 2}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 2, y: 3}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 2, y: 4}, actionType: "flag", agentHash: "XXX"});
+  // cm.takeAction({position: {x: 2, y: 0}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 3, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 3, y: 2}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 3, y: 3}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 3, y: 3}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 3, y: 4}, actionType: "flag", agentHash: "XXX"});
+  // cm.takeAction({position: {x: 3, y: 0}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 4, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 4, y: 2}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 4, y: 3}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({position: {x: 4, y: 4}, actionType: "flag", agentHash: "XXX"});
+  // cm.takeAction({position: {x: 4, y: 0}, actionType: "flag", agentHash: "XXX"});
+  // expect(cm.isFlagged({x: 0, y: 0})).toEqual(true);
+  // expect(cm.isRevealed({x: 0, y: 0})).toEqual(true)
+  expect(cm.isCompleted()).toEqual(true)
+});
