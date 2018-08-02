@@ -10,7 +10,7 @@ import {Hash} from '../../../holochain';
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 
-import {CELL_SIZE} from '../common';
+import {CELL_SIZE, MARGIN_CELLS} from '../common';
 
 
 // from https://github.com/bvaughn/react-virtualized/blob/master/docs/Grid.md#overscanindicesgetter
@@ -42,26 +42,37 @@ class Field extends React.Component<FieldProps, {}> {
     const cellSize = CELL_SIZE
 
     return (
-      <AutoSizer>{
-        ({width, height}) => <Grid
-          cellRenderer={this.CellWrapped}
-          columnCount={columns}
-          columnWidth={cellSize}
-          height={height}
-          isScrollingOptOut={true}
-          rowCount={rows}
-          rowHeight={cellSize}
-          width={width}
-          overscanColumnCount={20}
-          overscanRowCount={20}
-          overscanIndicesGetter={overscanIndicesGetter}
-          XXXscrollingResetTimeInterval={10}
-        />
-      }</AutoSizer>
+      <div className="field-container">
+        <AutoSizer>{
+          ({width, height}) => <Grid
+            cellRenderer={this.CellWrapped}
+            columnCount={columns + MARGIN_CELLS * 2}
+            rowCount={rows + MARGIN_CELLS * 2}
+            columnWidth={cellSize}
+            rowHeight={cellSize}
+            height={height}
+            isScrollingOptOut={true}
+            tabIndex=""
+            width={width}
+            overscanColumnCount={20}
+            overscanRowCount={20}
+            overscanIndicesGetter={overscanIndicesGetter}
+            XXXscrollingResetTimeInterval={10}
+          />
+        }</AutoSizer>
+      </div>
     )
   }
 
-  private CellWrapped = (props) => (<Cell myActions={this.props.myActions} gameHash={this.props.gameHash} key={props.key} {...props}/>)
+  private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
+    <Cell
+      myActions={this.props.myActions}
+      gameHash={this.props.gameHash}
+      key={key}
+      columnIndex={columnIndex - MARGIN_CELLS}
+      rowIndex={rowIndex - MARGIN_CELLS}
+      {...props}/>
+   )
 }
 
 const mapStateToProps = state => ({
