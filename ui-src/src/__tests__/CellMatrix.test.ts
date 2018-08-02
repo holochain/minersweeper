@@ -1,5 +1,20 @@
 import CellMatrix from "../CellMatrix";
 
+import {Pos} from '../../../minesweeper'
+
+const assertNoDupes = board => {
+  const seen = new Set();
+  board.mines.map(mine => {
+    const {x, y} = mine
+    const coords = `${x}-${y}`
+    if (seen.has(coords)) {
+      throw Error(`duplicate mine! ${x}, ${y}`)
+    }
+    seen.add(coords)
+  })
+}
+
+
 const testGameBoard = {
   creatorHash: "xxx",
   description: "a game board for testing",
@@ -49,6 +64,14 @@ it('correctly ', () => {
   expect(cm.getAdjacentMines({x: 7, y: 2})).toEqual(0);
 });
 
+it('works on a larger board', () => {
+  const board = require('./testBoard1.json');
+  const cm = new CellMatrix(board);
+  assertNoDupes(board)
+  expect(cm.getAdjacentMines({x: 0, y: 0})).toEqual(3);
+  expect(cm.getAdjacentMines({x: 2, y: 0})).toEqual(5);
+});
+
 it('Can flag a cell and retrieve the value', () => {
   const cm = new CellMatrix(testGameBoard);
   cm.flagCell({x: 1, y: 1}, "MYHASH!");
@@ -79,7 +102,7 @@ it('Can reveal a flagged cell', () => {
   const cm = new CellMatrix(testGameBoard);
   cm.takeAction({position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
   expect(cm.isFlagged({x: 1, y: 1})).toEqual(true);
-  expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)  
+  expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
 });
 
 
