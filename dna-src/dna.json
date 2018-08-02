@@ -53,6 +53,16 @@
                     "Name": "gameLinks",
                     "DataFormat": "links",
                     "Sharing": "public"
+                },
+                {
+                    "Name": "agentLinks",
+                    "DataFormat": "links",
+                    "Sharing": "public"
+                },
+                {
+                    "Name": "agentID",
+                    "DataFormat": "string",
+                    "Sharing": "public"
                 }
             ],
             "Functions": [
@@ -75,7 +85,22 @@
                     "Name": "getState",
                     "CallingType": "json",
                     "Exposure": "public"
-                }                           
+                },
+                {
+                    "Name": "updateIdentity",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "getIdentity",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                }, 
+                {
+                    "Name": "getIdentities",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                }                        
             ]
         }
     ]

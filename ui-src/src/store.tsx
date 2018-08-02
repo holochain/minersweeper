@@ -41,12 +41,13 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
       break;
     }
   }
+
     const gameOver:boolean = matrix.isCompleted();
-  
+
   return {
     ...state,
-       gameOver,
-      matrix,
+    gameOver,
+    matrix,
   }
 }
 
@@ -56,6 +57,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     currentGame: reduceGame(oldState.currentGame, action),
     myActions: oldState.myActions + 1,
   }
+
     switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
