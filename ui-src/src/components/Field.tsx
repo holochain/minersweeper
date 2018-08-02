@@ -43,7 +43,9 @@ class Field extends React.Component<FieldProps, FieldState> {
   private panKeys: any = {}
   private panInterval: any = null
   private actionsInterval: any = null
+  private scrollStopTimeout: any = null
   private isPanning = false
+  private isScrolling = false
 
   constructor(props) {
     super(props)
@@ -74,7 +76,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = CELL_SIZE
-    const overscan = this.isPanning ? 0 : 30
+    const overscan = this.isScrolling ? 30 : 0
     console.log(overscan)
 
     return (
@@ -88,16 +90,42 @@ class Field extends React.Component<FieldProps, FieldState> {
             columnWidth={cellSize}
             rowHeight={cellSize}
             height={height}
-            isScrollingOptOut={true}
             tabIndex={null}
             width={width}
+            onScroll={this.onScroll}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
             scrollingResetTimeInterval={0}
+            isScrollingOptOut={false}
           />
         }</AutoSizer>
       </div>
+    )
+  }
+
+  private onScroll = ({
+    clientHeight,
+    clientWidth,
+    scrollHeight,
+    scrollLeft,
+    scrollTop,
+    scrollWidth
+  }) => {
+    clearTimeout(this.scrollStopTimeout)
+    if (!this.isScrolling && !this.isPanning) {
+      this.isScrolling = true
+      console.log('force on')
+      this.forceUpdate()
+    }
+    this.scrollStopTimeout = setTimeout(
+      () => {
+        console.log('force off')
+        if (this.isScrolling) {
+          this.isScrolling = false
+          this.forceUpdate()
+        }
+      }, 250
     )
   }
 
@@ -132,12 +160,7 @@ class Field extends React.Component<FieldProps, FieldState> {
           }
         })
         if (xor(this.isPanning, isPanning)) {
-          // to reset overscan immediately
           this.isPanning = isPanning
-          this.forceUpdate()
-          if (isPanning) {
-            return
-          }
         }
         if (isPanning) {
           grid.scrollToPosition(pos)
