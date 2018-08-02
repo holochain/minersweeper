@@ -45,7 +45,6 @@ class Field extends React.Component<FieldProps, FieldState> {
   private actionsInterval: any = null
   private scrollStopTimeout: any = null
   private isPanning = false
-  private isScrolling = false
 
   constructor(props) {
     super(props)
@@ -76,8 +75,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = CELL_SIZE
-    const overscan = this.isScrolling ? 30 : 0
-    console.log(overscan)
+    const overscan = 0
 
     return (
       <div className="field-container">
@@ -92,7 +90,6 @@ class Field extends React.Component<FieldProps, FieldState> {
             height={height}
             tabIndex={null}
             width={width}
-            onScroll={this.onScroll}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
@@ -104,30 +101,6 @@ class Field extends React.Component<FieldProps, FieldState> {
     )
   }
 
-  private onScroll = ({
-    clientHeight,
-    clientWidth,
-    scrollHeight,
-    scrollLeft,
-    scrollTop,
-    scrollWidth
-  }) => {
-    clearTimeout(this.scrollStopTimeout)
-    if (!this.isScrolling && !this.isPanning) {
-      this.isScrolling = true
-      console.log('force on')
-      this.forceUpdate()
-    }
-    this.scrollStopTimeout = setTimeout(
-      () => {
-        console.log('force off')
-        if (this.isScrolling) {
-          this.isScrolling = false
-          this.forceUpdate()
-        }
-      }, 250
-    )
-  }
 
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
@@ -210,18 +183,11 @@ class Field extends React.Component<FieldProps, FieldState> {
     startIndex,         // Begin of range of visible cells
     stopIndex           // End of range of visible cells
   }) => {
-    // if (this.isPanning) {
-    //   overscanCellsCount = 0
-    // }
     return {
       overscanStartIndex: Math.max(0, startIndex - overscanCellsCount),
       overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount)
     }
   }
-
-  // private isPanning() {
-  //   return Object.keys(this.panKeys).some(k => this.panKeys[k])
-  // }
 }
 
 const mapStateToProps = state => ({
