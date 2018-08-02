@@ -6,7 +6,7 @@ class GameOver extends React.Component<any, {}> {
 
   public render() {
     return <div className="game-over">
-      <h1>Game Over</h1>
+      <h2>Game Over</h2>
       <div className="game-leaderboard">
         {"leaderboard here"}
       </div>
