@@ -107,7 +107,6 @@ export default class CellMatrix {
         });
       }
     }
-    // console.log("nRevealed",nRevealed)
     return nRevealed;
   }
 
@@ -128,9 +127,7 @@ export default class CellMatrix {
     for (let y = 0; y < this.size.y; y++) {
       for (let x = 0; x < this.size.x; x++) {
         const pos = {x,y}
-         // console.log("checking: ",pos,this.isRevealed(pos),this.isFlagged(pos))
         if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
-         // console.log("not revealed yet: ",pos,this.isRevealed(pos),this.isFlagged(pos))
           return false
         }
       }
