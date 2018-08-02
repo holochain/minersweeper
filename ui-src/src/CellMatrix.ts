@@ -123,6 +123,18 @@ export default class CellMatrix {
     return (this.getValue(pos) & MASK_FLAGGED) > 0;
   }
 
+  public isCompleted(): boolean {
+    for (let y = 0; y < this.size.y; y++) {
+      for (let x = 0; x < this.size.x; x++) {
+        const pos = {x,y}
+        if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   public isMine(pos: Pos): boolean {
     return (this.getValue(pos) & MASK_MINE) > 0;
   }
