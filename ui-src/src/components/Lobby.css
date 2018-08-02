@@ -1,4 +1,8 @@
-/* .Lobby * {
+/* body * {
+  animation: none !important;
+} */
+
+/* body.turn-off {
   animation: none !important;
 } */
 
@@ -13,6 +17,14 @@ html,body {
   overflow: hidden;
 }
 
+align-items {
+  align-items: flex-start;
+}
+
+.jdenticon {
+  margin: 2px;
+}
+
 .Lobby {
   list-style-type: none;
   justify-content: center;
@@ -23,18 +35,35 @@ html,body {
   margin-top: 10vh;
 }
 
-.lobby-register {
-  left: 0;
-  right: 0;
-  top: 3.2em;
-  bottom: 0;
-  margin: auto;
+.lobby-overlay {
   position: absolute;
+  top: 265px;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.96);
+  border: 5px dotted slateblue;
+  opacity: 0.85;
+  z-index: 99999;
+  animation: lobby-games 3s 6.1s 1 ease both;
+}
+
+.lobby-register {
+  position: absolute;
+  top: 75px;
+  left: 31%;
+  width: 500px;
+  margin: 0 auto;
   display: block;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 9999;
   animation: register 3s 6s 1 ease both;
 }
 
 .lobby-register h4 {
+  margin-top: 50px;
   margin-bottom: 10px;
   background: -webkit-linear-gradient(#eee, #4148b1);
     -webkit-background-clip: text;
@@ -74,7 +103,7 @@ html,body {
   font-size: 63px;
   font-weight: 500px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   line-height: 1.1;
   display: block;
   left: 0;
@@ -106,7 +135,7 @@ html,body {
 
 @keyframes register {
   0% {
-    top: 0px;
+    top: 50px;
     opacity: 0;
   }
   10% {
@@ -114,10 +143,119 @@ html,body {
     opacity: 1;
   }
   100% {
-    top: 100px;
+    top: 75px;
   }
 }
 
+
+@keyframes lobby-games {
+  0% {
+    top: 115px;
+    opacity: 0;
+  }
+  100% {
+    top: 265px;
+  }
+}
+
+/*-------- Table CSS ---------*/
+.live-games {
+  width: 830px;
+  height: 550px;
+  overflow: scroll;
+  overflow-x: hidden;
+  background: black;
+  border: 1px dashed white;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 9999;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(#33ccff, #0066cc);
+}
+
+.live-games table {
+  width: 690px;
+}
+
+table, th, td {
+    margin: 0 auto;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    width: auto;
+    font-size: 15px;
+    /* border-collapse: collapse; */
+}
+
+th {
+  border: 10px; /* No more visible border */
+  height: 30px;
+  padding: 15px;
+  font-size: 20px;
+  text-decoration: underline;
+  text-align: center;
+  background: -webkit-linear-gradient(#33ccff, #0066cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+td {
+    border: 10px; /* No more visible border */
+    height: 30px;
+    padding: 15px;
+    transition: all 0.3s;  /* Simple transition for hover effect */
+    text-align: center;
+    background: -webkit-linear-gradient(#33ccff, #0066cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+}
+
+author-hash {
+  margin: 10px;
+}
+
+h3{
+  color: #0066cc;
+  width: 100%;
+  margin: 10px;
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: 5px;
+  text-shadow: -2px 0 0 #A8A8A8;
+  animation: blink 1s steps(4, start) infinite;
+}
+
+ @keyframes blink{
+   to{
+     visibility: hidden
+   }
+}
+
+/* ---------------- Modal CSS ------------------------ */
 body.modal-active {
   overflow: hidden;
 }
@@ -402,7 +540,7 @@ body.modal-active {
     background-color:white; transform: scaleY(0.005) scaleX(1);
   }
   100% {
-    background-color:white; opacity: .75; transform: scaleY(1) scaleX(1);
+    background-color:white; opacity: .65; transform: scaleY(1) scaleX(1);
   }
 }
 
@@ -414,7 +552,7 @@ body.modal-active {
     background-color:white; transform: scaleY(0.005) scaleX(1);
   }
   100% {
-    background-color:white; opacity: .75; transform: scaleY(0.005) scaleX(0);
+    background-color:white; opacity: .65; transform: scaleY(0.005) scaleX(0);
   }
 }
 
@@ -422,6 +560,9 @@ body.modal-active {
 @keyframes zoomIn {
   0% {
     transform: scale(0);
+  }
+  98% {
+    transform: scale(1);
   }
   100% {
     transform: scale(1);
@@ -435,66 +576,4 @@ body.modal-active {
   100% {
     transform: scale(0);
   }
-}
-
-
-/*-------- Table CSS ---------*/
-.live-games {
-  width: 400px;
-  border: 1px dashed white;
-  position: absolute;
-  left: 45px;
-  top: 10%;
-  box-sizing: border-box;
-  margin-left: 10px;
-  text-align: center;
-  z-index: 9999;
-}
-
-table, th, td {
-    margin: 0 auto;
-    color: #FFFFFF;
-    font-family: sans-serif;
-    width: auto;
-    font-size: 20px;
-    /* border-collapse: collapse; */
-}
-
-th {
-  border: 10px; /* No more visible border */
-  height: 30px;
-  padding: 15px;
-  text-decoration: underline;
-  text-align: center;
-  background: -webkit-linear-gradient(#33ccff, #0066cc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-td {
-    border: 10px; /* No more visible border */
-    height: 30px;
-    padding: 15px;
-    transition: all 0.3s;  /* Simple transition for hover effect */
-    text-align: center;
-    background: -webkit-linear-gradient(#33ccff, #0066cc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-}
-
-h3{
-  color: #0066cc;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
-  line-height: 40px;
-  letter-spacing: 5px;
-  text-shadow: -2px 0 0 #A8A8A8;
-  animation: blink 1s steps(4, start) infinite;
-}
-
- @keyframes blink{
-   to{
-     visibility: hidden
-   }
 }

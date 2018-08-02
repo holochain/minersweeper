@@ -44,18 +44,16 @@ class Lobby extends React.Component<any, any> {
 
   public toggleModalState() {
     this.setState({addClass: !this.state.addClass});
-    console.log("ToggleModalState Called...");
-    console.log("this.state.addclass", this.state.addClass);
   }
 
   public toggleModal() {
-    console.log("ToggleModal Called...");
-    console.log("this.state.addclass", this.state.addClass);
     this.toggleModalState();
-    const modalClass = ["modal-container"];
-    if (this.state.addClass) {
+    // console.log("this.state.addClass", this.state.addClass);
+    if (!this.state.addClass) {
+      document.body.classList.remove("turn-off");
       document.body.classList.add("modal-active");
     } else {
+      document.body.classList.add("turn-off");
       document.body.classList.remove("modal-active");
     }
   }
@@ -99,12 +97,14 @@ class Lobby extends React.Component<any, any> {
           <div className="Lobby">
             <div className="lobby-jumbotron">
               <h1 className="lobby-header">Welcome to Minersweeper</h1>
+              <div className="lobby-register">
+                <h4>Create a Game Below</h4>
+                <button onClick={this.toggleModal}>Create Game</button>
+              </div>
             </div>
-            <div className="lobby-register">
-              <h4>Create a Game Below</h4>
-              <button onClick={this.toggleModal}>Create Game</button>
+            <div className="lobby-overlay">
               <GameList allGames={allGames}/>
-            </div>
+           </div>
           </div>
           {this.renderCryptoIcons()}
         </div>
@@ -122,6 +122,7 @@ const GameList = ({ allGames }) => {
           <tr>
             <th data-field="game">Game Name</th>
             <th data-field="author">Author</th>
+            <th data-field="author">Author Flag</th>
             <th data-field="mine">Mines</th>
             <th data-field="size">Size</th>
           </tr>
@@ -132,10 +133,15 @@ const GameList = ({ allGames }) => {
               const game = allGames.get(hash)
               console.log("game in body", game)
               return <tr key={hash}>
-                <Link to={`/game/${hash}`}>
-                  <td>{game.description}</td>
-                </Link>
-                <td><Jdenticon size={30} hash={game.creatorHash} />{game.creatorHash.substring(0,11)}<Jdenticon size={30} hash={game.creatorHash} /></td>
+                <td>
+                  <Link to={`/game/${hash}`}>
+                    {game.description}
+                  </Link>
+                </td>
+                <td>
+                  <span className="author-hash align-items">{game.creatorHash.substring(0,5)}</span>
+                </td>
+                <td><Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/></td>
                 <td>{game.mines.length}</td>
                 <td>{game.size.x} x {game.size.y}</td>
               </tr>
@@ -148,6 +154,7 @@ const GameList = ({ allGames }) => {
     return <ul />
   }
 }
+
 
 const mapStateToProps = ({ allGames }) => ({
   allGames

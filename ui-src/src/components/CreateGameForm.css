@@ -37,7 +37,7 @@
   border-radius: 25px;
 }
 
-/* ============= Register Button ========= */
+/* ============= Register Buttons ========= */
 .modal-button {
   background: #011f76;
   /* margin: 0 auto; */
@@ -89,9 +89,6 @@
         0px 10px 2px 0px rgba(128,128,128,.6);
 }
 
-/* .modal-button:active span{
-    -webkit-transform: translate(0, 5px);
-} */
 
 .button span:after {
     display: block;
