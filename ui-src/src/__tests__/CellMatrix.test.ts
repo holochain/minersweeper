@@ -14,6 +14,14 @@ const assertNoDupes = board => {
   })
 }
 
+const allMinesBoard = {
+  creatorHash: "xxx",
+  description: "a game board with ALL MINES",
+  mines: [0,1,2,3,4].map(x =>
+    [0,1,2,3].map(y => ({x, y}))
+  ).reduce((a, b) => a.concat(b)),
+  size: {x: 5, y: 4},
+}
 
 const testGameBoard = {
   creatorHash: "xxx",
@@ -103,6 +111,21 @@ it('Can reveal a flagged cell', () => {
   cm.takeAction({position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
   expect(cm.isFlagged({x: 1, y: 1})).toEqual(true);
   expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
+});
+
+it('Assures that adjacent count <=8 even in an extreme case', () => {
+  const {mines, size} = allMinesBoard
+  expect(mines.length).toEqual(size.x * size.y)
+  const cm = new CellMatrix(allMinesBoard);
+  expect(cm.getAdjacentMines({x: 2, y: 2})).toEqual(8);
+  expect(cm.isMine({x: 2, y: 2})).toEqual(true);
+  expect(cm.isFlagged({x: 2, y: 2})).toEqual(false);
+  expect(cm.isRevealed({x: 2, y: 2})).toEqual(false);
+  for(let x=0; x < allMinesBoard.size.x; x++) {
+    for(let y=0; y < allMinesBoard.size.y; y++) {
+      expect(cm.getAdjacentMines({x, y})).toBeLessThanOrEqual(8)
+    }
+  }
 });
 
 
