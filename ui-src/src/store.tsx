@@ -42,7 +42,7 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
     }
   }
     const gameOver:boolean = matrix.isCompleted();
-    // console.log("reduceGame",{...state,gameOver,matrix});
+  
   return {
     ...state,
        gameOver,
@@ -56,8 +56,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     currentGame: reduceGame(oldState.currentGame, action),
     myActions: oldState.myActions + 1,
   }
-  // console.log("state",state)
-  switch (action.type) {
+    switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
       const {hash} = action
