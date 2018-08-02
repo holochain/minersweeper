@@ -160,6 +160,13 @@ export default class CellMatrix {
   private incrementAdjacentMineCount(pos: Pos) {
     // NB: this can overflow!! use with caution
     this.data[this.posToIndex(pos)] += 1
+
+    // FYI: this is how it should be done, but it's slower
+    /*
+    const lsh = this.getAdjacentMines(pos) + 1;
+    const msh = this.getValue(pos) & 0b11110000;
+    this.setValue(pos, lsh | msh);
+     */
   }
 
   private setRevealed(pos: Pos) {
