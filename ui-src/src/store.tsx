@@ -17,6 +17,7 @@ import {Action} from '../../minesweeper'
 
 const defaultState: StoreState = {
   allGames: Map({}),
+  identities: Map({}),
   currentGame: null,
   myActions: 0
 };
@@ -83,6 +84,10 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     case 'FETCH_CURRENT_GAMES': {
       console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
+    }
+    case 'UPDATE_IDENTITIES': {
+      console.log("adding ids: ", action.identities)
+      return{...state, identities: Map([state.identities, action.identities]) }
     }
   }
   return state

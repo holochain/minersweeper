@@ -13,6 +13,7 @@ export type ChatLog = {
 
 export type StoreState = {
   allGames: Map<string, GameBoard>,
+  identities: Map<Hash, string>,
   currentGame: StoreGameState,
   myActions: number,
 };
