@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './GameView.css';
 
+import {connect} from 'react-redux';
+
 import {
   fetchCurrentGames,
   fetchJSON,
@@ -11,13 +13,18 @@ import store from '../store';
 import Field from './Field';
 import GameHUD from './GameHUD';
 
+
+type FieldProps = {
+  currentGame:any
+}
+
 class GameView extends React.Component<any, {loading: boolean}> {
 
   private actionsInterval: any = null
 
   constructor(props) {
     super(props)
-    this.state = {loading: false}
+    this.state = {loading: true}
   }
 
   public componentWillMount() {
@@ -45,7 +52,6 @@ class GameView extends React.Component<any, {loading: boolean}> {
         type: 'FETCH_ACTIONS',
         actions
       }))
-
       fetchActions()
       this.actionsInterval = setInterval(
         fetchActions, FETCH_ACTIONS_INTERVAL
@@ -59,6 +65,7 @@ class GameView extends React.Component<any, {loading: boolean}> {
 
   public render() {
     const {currentGame} = store.getState()
+    console.log("currentGame State:",{currentGame})
     if (currentGame) {
       const {matrix, gameHash} = currentGame
       return <div className="game-container">
@@ -71,4 +78,11 @@ class GameView extends React.Component<any, {loading: boolean}> {
   }
 }
 
-export default GameView;
+
+const mapStateToProps = state => ({
+  currentGame: state.currentGame
+})
+
+// export default GameView;
+
+export default connect(mapStateToProps)(GameView);

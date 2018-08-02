@@ -41,9 +41,12 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
       break;
     }
   }
+    const gameOver:boolean = matrix.isCompleted();
+    // console.log("reduceGame",{...state,gameOver,matrix});
   return {
-    matrix,
-    ...state
+    ...state,
+       gameOver,
+      matrix,
   }
 }
 
@@ -53,17 +56,19 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     currentGame: reduceGame(oldState.currentGame, action),
     myActions: oldState.myActions + 1,
   }
-
+  // console.log("state",state)
   switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
+      const gameOver=matrix.isCompleted()
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
         matrix,
+        gameOver,
       }
       return {...state, currentGame}
     }
@@ -71,7 +76,6 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return state
     }
     case 'FETCH_CURRENT_GAMES': {
-      console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
     }
   }
