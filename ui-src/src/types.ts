@@ -7,12 +7,12 @@ import {GameBoard} from '../../minesweeper'
 
 
 export type ChatLog = {
-  author: string,
+  author: Hash,
   message: string
 }
 
 export type StoreState = {
-  allGames: Map<string, GameBoard>,
+  allGames: Map<Hash, GameBoard>,
   currentGame: StoreGameState,
   myActions: number,
   whoami: {
@@ -25,5 +25,5 @@ export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
   gameHash: Hash,
-  gameOver:boolean,
+  gameOver: boolean,
 } | null;
