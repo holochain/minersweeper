@@ -17,6 +17,11 @@ export enum CellStatus {
   Revealed,
 }
 
+const MASK_ADJACENT = 0b00001111
+const MASK_REVEALED = 0b00010000
+const MASK_FLAGGED  = 0b00100000
+const MASK_MINE     = 0b01000000
+
 
 export default class CellMatrix {
   public size: Size;
@@ -27,8 +32,9 @@ export default class CellMatrix {
   constructor(board: GameBoard) {
     this.size = board.size;
     this.data = new Uint8Array(this.size.x * this.size.y);
-    this.flags = Map<number, Hash>()
+    this.flags = Map<number, Hash>();
 
+    board.mines.forEach(minePos => this.setMine(minePos));
     board.mines.forEach(minePos => {
       this.forEachNeighbor(minePos, n => {
         this.incrementAdjacentMineCount(n);
@@ -125,15 +131,15 @@ export default class CellMatrix {
 
   public getAdjacentMines(pos: Pos): number {
     // return the first 4 bits as a number
-    return this.getValue(pos) & 0b00001111;
+    return this.getValue(pos) & MASK_ADJACENT;
   }
 
   public isRevealed(pos: Pos): boolean {
-    return (this.getValue(pos) & 0b01000000) > 0;
+    return (this.getValue(pos) & MASK_REVEALED) > 0;
   }
 
   public isFlagged(pos: Pos): boolean {
-    return (this.getValue(pos) & 0b00100000) > 0;
+    return (this.getValue(pos) & MASK_FLAGGED) > 0;
   }
 
   public isCompleted(): boolean {
@@ -149,7 +155,7 @@ export default class CellMatrix {
   }
 
   public isMine(pos: Pos): boolean {
-    return (this.getValue(pos) & 0b00010000) > 0;
+    return (this.getValue(pos) & MASK_MINE) > 0;
   }
 
   public isInBounds(x: number, y: number): boolean {
@@ -170,12 +176,8 @@ export default class CellMatrix {
     });
   }
 
-  private posToIndex(pos: Pos) {
-    return this.size.x * pos.x + pos.y
-  }
-
-  private xyToIndex(x: number, y: number) {
-    return this.size.x * x + y;
+  private posToIndex(pos: Pos): number {
+    return this.size.x * pos.y + pos.x
   }
 
   private getValue(pos: Pos): number {
@@ -183,7 +185,7 @@ export default class CellMatrix {
   }
 
   private setValue(pos: Pos, value: number) {
-    this.data[this.size.x * pos.x + pos.y] = value;
+    this.data[this.posToIndex(pos)] = value;
   }
 
   private incrementAdjacentMineCount(pos: Pos) {
@@ -199,15 +201,15 @@ export default class CellMatrix {
   }
 
   private setRevealed(pos: Pos) {
-    this.setValue(pos, this.getValue(pos) | 0b01000000);
+    this.setValue(pos, this.getValue(pos) | MASK_REVEALED);
   }
 
   private setFlagged(pos: Pos) {
-    this.setValue(pos, this.getValue(pos) | 0b00100000);
+    this.setValue(pos, this.getValue(pos) | MASK_FLAGGED);
   }
 
   private setMine(pos: Pos) {
-    this.setValue(pos, this.getValue(pos) | 0b00010000);
+    this.setValue(pos, this.getValue(pos) | MASK_MINE);
   }
 
 }

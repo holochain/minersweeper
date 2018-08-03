@@ -72,6 +72,14 @@ it('correctly ', () => {
   expect(cm.getAdjacentMines({x: 7, y: 2})).toEqual(0);
 });
 
+it('works on a larger board', () => {
+  const board = require('./testBoard1.json');
+  const cm = new CellMatrix(board);
+  assertNoDupes(board)
+  expect(cm.getAdjacentMines({x: 0, y: 0})).toEqual(3);
+  expect(cm.getAdjacentMines({x: 2, y: 0})).toEqual(5);
+});
+
 it('Can flag a cell and retrieve the value', () => {
   const cm = new CellMatrix(testGameBoard);
   cm.flagCell({x: 1, y: 1}, "MYHASH!");
