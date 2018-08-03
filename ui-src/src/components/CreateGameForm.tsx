@@ -41,9 +41,9 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <input className="register-input" type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
       <br/>
       <select value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
-        <option value='easy'>Beginner</option>
-        <option value='intermediate'>Intermediate</option>
-        <option value='expert'>Expert</option>
+        <option value='easy'>I'm Too Young To Die - 10% mines</option>
+        <option value='intermediate'>Hurt me plenty - 30% mines</option>
+        <option value='expert'>Ultra-Violence - 50% mines</option>
       </select>
       <br/>
       <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="Title"/>
