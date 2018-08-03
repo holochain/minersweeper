@@ -6,18 +6,12 @@ import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
+import {Pos} from '../../../minesweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 
-import {
-  CELL_SIZE,
-  FETCH_ACTIONS_INTERVAL,
-  MARGIN_CELLS,
-  fetchCurrentGames,
-  fetchJSON,
-  xor
-} from '../common';
+import * as common from '../common';
 import store from '../store';
 
 type FieldProps = {
@@ -26,9 +20,7 @@ type FieldProps = {
   myActions: number  // NB: dumb hack to ensure updates
 }
 
-type FieldState = {
-  isPanning: boolean
-}
+type FieldState = {}
 
 const PAN_OFFSETS = {
   37: {x: -1, y: 0},  // left
@@ -51,7 +43,8 @@ class Field extends React.Component<FieldProps, FieldState> {
   private actionsInterval: any = null
 
   // used to turn off action polling and other things
-  private isPanning = false
+  private keyPanOffset: Pos = {x: 0, y: 0}
+  private mousePanOffset: Pos = {x: 0, y: 0}
 
 
   public componentWillMount() {
@@ -59,18 +52,22 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.startPollingPan()
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
+    window.addEventListener('mousemove', this.mouseMoveListener)
+    window.addEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public componentWillUnmount() {
     this.stopPollingActions()
     window.removeEventListener('keydown', this.keyDownListener)
     window.removeEventListener('keyup', this.keyUpListener)
+    window.removeEventListener('mousemove', this.mouseMoveListener)
+    window.removeEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public render() {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
-    const cellSize = CELL_SIZE
+    const cellSize = common.CELL_SIZE
     const overscan = 0
 
     return (
@@ -79,8 +76,8 @@ class Field extends React.Component<FieldProps, FieldState> {
           ({width, height}) => <Grid
             ref={ this.grid }
             cellRenderer={this.CellWrapped}
-            columnCount={columns + MARGIN_CELLS * 2}
-            rowCount={rows + MARGIN_CELLS * 2}
+            columnCount={columns + common.MARGIN_CELLS * 2}
+            rowCount={rows + common.MARGIN_CELLS * 2}
             columnWidth={cellSize}
             rowHeight={cellSize}
             height={height}
@@ -102,8 +99,8 @@ class Field extends React.Component<FieldProps, FieldState> {
       myActions={this.props.myActions}
       gameHash={this.props.gameHash}
       key={key}
-      columnIndex={columnIndex - MARGIN_CELLS}
-      rowIndex={rowIndex - MARGIN_CELLS}
+      columnIndex={columnIndex - common.MARGIN_CELLS}
+      rowIndex={rowIndex - common.MARGIN_CELLS}
       {...props}/>
   )
 
@@ -119,31 +116,84 @@ class Field extends React.Component<FieldProps, FieldState> {
     }
   }
 
+  private mouseMoveListener = e => {
+    const grid: Grid = this.grid.current
+    if (!grid) {
+      return
+    }
+    const div = grid!._scrollingContainer
+    const {offsetWidth, offsetHeight} = div
+    const {clientX, clientY} = e
+    const margin = common.MOUSE_PAN_MARGIN
+    const speed = common.MOUSE_PAN_SPEED
+    const offset = {
+      x: 0,
+      y: 0,
+    }
+    if (clientX < margin) {
+      offset.x -= speed
+    }
+    if (offsetWidth - clientX < margin && clientX <= offsetWidth) {
+      offset.x += speed
+    }
+    if (clientY < margin) {
+      offset.y -= speed
+    }
+    if (offsetHeight - clientY < margin && clientY <= offsetHeight) {
+      offset.y += speed
+    }
+    this.mousePanOffset = offset
+  }
+
+  private mouseLeaveListener() {
+    console.log('TODO: make this actually work')
+    this.mousePanOffset = {
+      x: 0,
+      y: 0
+    }
+  }
+
+  private panOffset() {
+    return {
+      x: this.keyPanOffset.x + this.mousePanOffset.x,
+      y: this.keyPanOffset.y + this.mousePanOffset.y,
+    }
+  }
+
+  private isPanning() {
+    const {x, y} = this.panOffset()
+    return x !== 0 || y !== 0
+  }
+
+  private performPan() {
+    const grid: any = this.grid.current!
+    const container = grid._scrollingContainer
+    const {scrollLeft, scrollTop} = container
+    const pos = {scrollLeft, scrollTop}
+    const {x, y} = this.panOffset()
+    pos.scrollLeft += x
+    pos.scrollTop += y
+    grid.scrollToPosition(pos)
+  }
+
   private startPollingPan() {
     if (this.panInterval) {
       return
     }
-    const speed = CELL_SIZE
+    const speed = common.CELL_SIZE
     this.panInterval = setInterval(
       () => {
-        const grid: any = this.grid.current!
-        const container = grid._scrollingContainer
-        const {scrollLeft, scrollTop} = container
-        const pos = {scrollLeft, scrollTop}
-        let isPanning = false
+        const pos = {x: 0, y: 0}
         Object.keys(this.panKeys).forEach(code => {
-          isPanning = true
           if(this.panKeys[code]) {
             const offset = PAN_OFFSETS[code]
-            pos.scrollLeft += offset.x * speed
-            pos.scrollTop += offset.y * speed
+            pos.x += offset.x * speed
+            pos.y += offset.y * speed
           }
         })
-        this.isPanning = isPanning
-        if (isPanning) {
-          grid.scrollToPosition(pos)
-        }
-      }, 10  // TODO: make constant
+        this.keyPanOffset = pos
+        this.performPan()
+      }, common.PAN_INTERVAL
     )
   }
 
@@ -154,7 +204,7 @@ class Field extends React.Component<FieldProps, FieldState> {
   private startPollingActions() {
     const hash = this.props.gameHash
     if (hash) {
-      const fetchActions = () => fetchJSON('/fn/minersweeper/getState', {
+      const fetchActions = () => common.fetchJSON('/fn/minersweeper/getState', {
         gameHash: hash
       }).then(actions => {
         store.dispatch({
@@ -166,10 +216,10 @@ class Field extends React.Component<FieldProps, FieldState> {
       fetchActions()
       this.actionsInterval = setInterval(
         () => {
-          if (!this.isPanning) {
+          if (!this.isPanning()) {
             fetchActions()
           }
-        }, FETCH_ACTIONS_INTERVAL
+        }, common.FETCH_ACTIONS_INTERVAL
       )
     }
   }

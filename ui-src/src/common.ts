@@ -8,9 +8,14 @@ export const CELL_SIZE = 30
 // number of blank "cells" to use as a margin for the game field
 export const MARGIN_CELLS = 2
 
+// when mouse moves within this many pixels of the edge, pan the field
+export const MOUSE_PAN_MARGIN = 75
+export const MOUSE_PAN_SPEED = 30
+
 // millisecond intervals for various polling tasks
 export const FETCH_ACTIONS_INTERVAL = 1500
 export const FETCH_LOBBY_INTERVAL = 3000
+export const PAN_INTERVAL = 10
 
 export const xor = (a, b) => a && !b || !a && b
 

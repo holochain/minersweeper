@@ -79,6 +79,4 @@ const mapStateToProps = state => ({
   currentGame: state.currentGame
 })
 
-// export default GameView;
-
 export default connect(mapStateToProps)(GameView);
