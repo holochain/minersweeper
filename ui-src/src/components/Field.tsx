@@ -20,13 +20,27 @@ type FieldProps = {
   myActions: number  // NB: dumb hack to ensure updates
 }
 
-type FieldState = {}
+type FieldState = {
+  panOffset: Pos
+}
+
+const LEFT = {x: -1, y: 0}
+const UP = {x: 0, y: -1}
+const RIGHT = {x: 1, y: 0}
+const DOWN = {x: 0, y: 1}
 
 const PAN_OFFSETS = {
-  37: {x: -1, y: 0},  // left
-  38: {x: 0, y: -1},  // up
-  39: {x: 1, y: 0},   // right
-  40: {x: 0, y: 1},   // down
+  37: LEFT,  // left
+  65: LEFT,  // a
+
+  38: UP,  // up
+  87: UP,  // w
+
+  39: RIGHT,   // right
+  68: RIGHT,   // right
+
+  40: DOWN,   // down
+  83: DOWN,   // down
 }
 
 class Field extends React.Component<FieldProps, FieldState> {
@@ -46,6 +60,12 @@ class Field extends React.Component<FieldProps, FieldState> {
   private keyPanOffset: Pos = {x: 0, y: 0}
   private mousePanOffset: Pos = {x: 0, y: 0}
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      panOffset: {x: 0, y: 0}
+    }
+  }
 
   public componentWillMount() {
     this.startPollingActions()
@@ -70,6 +90,21 @@ class Field extends React.Component<FieldProps, FieldState> {
     const cellSize = common.CELL_SIZE
     const overscan = 0
 
+    const mousePanIndicators = [UP, DOWN, LEFT, RIGHT].map(({x, y}, i) => {
+      const width = y === 0 ? common.MOUSE_PAN_MARGIN : '100%'
+      const height = x === 0 ? common.MOUSE_PAN_MARGIN : '100%'
+      const horizontal = x === -1 ? 'left' : 'right'
+      const vertical = y === -1 ? 'top' : 'bottom'
+      const o = this.mousePanOffset
+      const opacity = (x * o.x + y * o.y > 0) ? 1 : 0
+      const style = {
+        width, height, opacity,
+        [horizontal]: 0,
+        [vertical]: 0,
+      }
+      return <div className="mouse-pan-indicator" style={style} key={i}/>
+    })
+
     return (
       <div className="field-container">
         <AutoSizer>{
@@ -86,10 +121,11 @@ class Field extends React.Component<FieldProps, FieldState> {
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
-            scrollingResetTimeInterval={0}
+            scrollingResetTimeInterval={150}
             isScrollingOptOut={false}
           />
         }</AutoSizer>
+        { mousePanIndicators }
       </div>
     )
   }
@@ -171,6 +207,9 @@ class Field extends React.Component<FieldProps, FieldState> {
     const {scrollLeft, scrollTop} = container
     const pos = {scrollLeft, scrollTop}
     const {x, y} = this.panOffset()
+    if (x !== this.state.panOffset.x || y !== this.state.panOffset.y) {
+      this.setState({panOffset: {x, y}})
+    }
     pos.scrollLeft += x
     pos.scrollTop += y
     grid.scrollToPosition(pos)
