@@ -45,9 +45,9 @@ export default class CellMatrix {
   public takeAction(action: Action) {
     switch (action.actionType) {
       case "flag":
-        // TODO: maybe don't reveal if it's actually a mine
-        // (so the UI doesn't have to make that distinction)
-        this.triggerReveal(action.position);
+        if (!this.isMine(action.position)) {
+          this.triggerReveal(action.position);
+        }
         this.flagCell(action.position, action.agentHash);
         break;
       case "reveal":

@@ -27,41 +27,42 @@ class Cell extends React.Component<CellProps, {}> {
     const {matrix, gameHash} = store.getState().currentGame!
     const {style} = this.props
     const pos = this.getPos()
-    const numAdjacent = matrix.getAdjacentMines(pos)
-    const flag = matrix.getFlag(pos)
 
     if (!matrix.isInBounds(pos.x, pos.y)) {
       // empty out-of-bound cells to create the margin
       return <div />
     }
 
-    const actionClass =
-      matrix.isRevealed(pos) ? "revealed"
-      : matrix.isFlagged(pos) ? "flagged"
-      : ""
+    const numAdjacent = matrix.getAdjacentMines(pos)
+    const flag = matrix.getFlag(pos)
+    const isMine = matrix.isMine(pos)
+    const isRevealed = matrix.isRevealed(pos)
 
+    const isRevealedMine = isRevealed && isMine
+    const hasNumber = numAdjacent > 0
+    const isCorrectFlag = flag && isMine
+    const isFalseFlag = flag && !isMine
 
-    const mineClass =
-      (matrix.isRevealed(pos) || DEBUG_MODE) && matrix.isMine(pos)
-      ? "mine"
-      : ""
+    const revealedClass = isRevealed ? "revealed" : ""
+    const mineClass = isMine && (isRevealed || DEBUG_MODE) ? "mine" : ""
+
+    const mistakeClass = (isRevealedMine || isFalseFlag) ? "mistake" : ""
 
     const numberClass =
       numAdjacent > 0 ? `num-${numAdjacent}` : ""
 
-    const content =
-      ( flag
-      ? <Jdenticon size={CELL_SIZE} hash={flag} />
-      : matrix.isRevealed(pos) &&
-        ( matrix.isMine(pos)
-        ? <img src="/images/dogecoin.png"/>
-        : numAdjacent > 0
-        ? <span className={`number ${numberClass}`}>{ numAdjacent }</span>
-        : null )
-      )
+
+    let content: JSX.Element | null = null
+    if (isRevealedMine) {
+      content = <img src="/images/dogecoin.png"/>
+    } else if (isCorrectFlag) {
+      content = <Jdenticon size={CELL_SIZE - 2} hash={flag} />
+    } else if ((isRevealed || flag) && hasNumber) {
+      content = <span className={`number ${numberClass}`}>{ numAdjacent }</span>
+    }
 
     return <div
-      className={`Cell ${actionClass} ${numberClass} ${mineClass}`}
+      className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass}`}
       style={style}
       onClick={ this.handleReveal }
       onContextMenu={ this.handleFlag }
