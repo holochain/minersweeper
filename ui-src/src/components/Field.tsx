@@ -22,11 +22,23 @@ type FieldProps = {
 
 type FieldState = {}
 
+const LEFT = {x: -1, y: 0}
+const UP = {x: 0, y: -1}
+const RIGHT = {x: 1, y: 0}
+const DOWN = {x: 0, y: 1}
+
 const PAN_OFFSETS = {
-  37: {x: -1, y: 0},  // left
-  38: {x: 0, y: -1},  // up
-  39: {x: 1, y: 0},   // right
-  40: {x: 0, y: 1},   // down
+  37: LEFT,  // left
+  65: LEFT,  // a
+
+  38: UP,  // up
+  87: UP,  // w
+
+  39: RIGHT,   // right
+  68: RIGHT,   // right
+
+  40: DOWN,   // down
+  83: DOWN,   // down
 }
 
 class Field extends React.Component<FieldProps, FieldState> {
