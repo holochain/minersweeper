@@ -24,7 +24,7 @@ class Lobby extends React.Component<any, any> {
 
   constructor(props) {
      super(props);
-     this.state = {addClass: false}
+     this.state = {showModal: false}
      this.toggleModal = this.toggleModal.bind(this);
    }
 
@@ -43,25 +43,17 @@ class Lobby extends React.Component<any, any> {
   }
 
   public toggleModalState() {
-    this.setState({addClass: !this.state.addClass});
+    this.setState({showModal: !this.state.showModal});
   }
 
   public toggleModal() {
     this.toggleModalState();
-    // console.log("this.state.addClass", this.state.addClass);
-    if (!this.state.addClass) {
-      document.body.classList.remove("turn-off");
-      document.body.classList.add("modal-active");
-    } else {
-      document.body.classList.add("turn-off");
-      document.body.classList.remove("modal-active");
-    }
   }
 
   public renderCryptoIcons() {
     return this.cryptoIcons.map((icon) => {
       return (
-        <p key={icon} className="coin"  />
+        <p key={icon} className={`coin ${this.state.showModal ? 'hide' : ''}`}/>
         // <p key={icon} src={`/images/${icon}`} />
       );
     });
@@ -73,23 +65,19 @@ class Lobby extends React.Component<any, any> {
 
   public render() {
     const allGames = this.props.allGames
-    const modalClass = ["modal-container"];
-    if(this.state.addClass) {
-      modalClass.push("register-modal");
-      return (
-        <div className="interstitial-modal-overlay">
-          <div className="interstitial-modal">
-            <div className={modalClass.join(" ")}>
-              <div className="modal-background">
-                <div className="modal">
-                  <CreateGameForm onCreate={this.toggleModal}/>
-                </div>
+    const modalDiv = (
+      <div className="interstitial-modal-overlay">
+        <div className="interstitial-modal">
+          <div className="modal-container register-modal">
+            <div className="modal-background">
+              <div className="modal">
+                <CreateGameForm onCreate={this.toggleModal}/>
               </div>
             </div>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
 
     return (
       <div>
@@ -97,24 +85,39 @@ class Lobby extends React.Component<any, any> {
           <div className="Lobby">
             <div className="lobby-jumbotron">
               <h1 className="lobby-header">Welcome to Minersweeper</h1>
-              <div className="lobby-register">
-                <h4>Create a Game Below</h4>
-                <button onClick={this.toggleModal}>Create Game</button>
-              </div>
             </div>
-            <div className="lobby-overlay">
-              <GameList allGames={allGames}/>
-           </div>
           </div>
           {this.renderCryptoIcons()}
         </div>
+        <div className={ this.state.showModal ? "lobby-overlay hide" : "lobby-overlay" }>
+          <div className="lobby-register">
+            <button onClick={this.toggleModal}>
+              <div>
+                <div className="btn btnLn-two">
+                  <span className="btn-content">New</span>
+                </div>
+              </div>
+            </button>
+          </div>
+            <GameList allGames={allGames}/>
+        </div>
+        { this.state.showModal ? modalDiv : null }
       </div>
     );
   }
 }
 
 const GameList = ({ allGames }) => {
-  if (allGames) {
+  // console.log("allGames", allGames );
+  // console.log("allGames.size", allGames.size );
+  if(allGames && allGames.size < 1) {
+    return (
+      <div className="live-games">
+        <h4 className="no-game-warning">Create a game above to start</h4>
+      </div>
+    )
+  }
+  else if (allGames) {
     return <div className="live-games">
       <h3>Live Games</h3>
       <table>
@@ -122,7 +125,6 @@ const GameList = ({ allGames }) => {
           <tr>
             <th data-field="game">Game Name</th>
             <th data-field="author">Author</th>
-            <th data-field="author">Author Flag</th>
             <th data-field="mine">Mines</th>
             <th data-field="size">Size</th>
           </tr>
@@ -133,15 +135,15 @@ const GameList = ({ allGames }) => {
               const game = allGames.get(hash)
               console.log("game in body", game)
               return <tr key={hash}>
-                <td>
+                <td className="game-description">
                   <Link to={`/game/${hash}`}>
                     {game.description}
                   </Link>
                 </td>
                 <td>
-                  <span className="author-hash align-items">{game.creatorHash.substring(0,5)}</span>
+                  <Jdenticon className="jdenticon middle-align-item" size={30} hash={game.creatorHash}/>
+                  <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
                 </td>
-                <td><Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/></td>
                 <td>{game.mines.length}</td>
                 <td>{game.size.x} x {game.size.y}</td>
               </tr>
