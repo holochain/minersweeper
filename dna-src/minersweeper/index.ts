@@ -104,6 +104,10 @@ function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
 }
 
 
+function whoami(): [Hash, string] {
+  return [App.Key.Hash, getIdentity({agentHash: App.Key.Hash})];
+}
+
 /*=====  End of Public Zome Functions  ======*/
 
 
