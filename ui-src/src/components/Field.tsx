@@ -55,13 +55,15 @@ class Field extends React.Component<FieldProps, FieldState> {
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
     window.addEventListener('mousemove', this.mouseMoveListener)
+    window.addEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public componentWillUnmount() {
     this.stopPollingActions()
     window.removeEventListener('keydown', this.keyDownListener)
     window.removeEventListener('keyup', this.keyUpListener)
-    window.addEventListener('mousemove', this.mouseMoveListener)
+    window.removeEventListener('mousemove', this.mouseMoveListener)
+    window.removeEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public render() {
@@ -133,16 +135,24 @@ class Field extends React.Component<FieldProps, FieldState> {
     if (clientX < margin) {
       offset.x -= speed
     }
-    if (offsetWidth - clientX < margin) {
+    if (offsetWidth - clientX < margin && clientX <= offsetWidth) {
       offset.x += speed
     }
     if (clientY < margin) {
       offset.y -= speed
     }
-    if (offsetHeight - clientY < margin) {
+    if (offsetHeight - clientY < margin && clientY <= offsetHeight) {
       offset.y += speed
     }
     this.mousePanOffset = offset
+  }
+
+  private mouseLeaveListener() {
+    console.log('TODO: make this actually work')
+    this.mousePanOffset = {
+      x: 0,
+      y: 0
+    }
   }
 
   private panOffset() {
@@ -185,7 +195,7 @@ class Field extends React.Component<FieldProps, FieldState> {
         })
         this.keyPanOffset = pos
         this.performPan()
-      }, 10  // TODO: make constant
+      }, common.PAN_INTERVAL
     )
   }
 
