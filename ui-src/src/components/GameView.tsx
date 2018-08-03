@@ -65,7 +65,6 @@ class GameView extends React.Component<any, { loading: boolean }> {
 
   public render() {
     const { currentGame } = store.getState()
-    console.log("currentGame State:", { currentGame })
 
     if (currentGame) {
       if (currentGame.gameOver === true) {
