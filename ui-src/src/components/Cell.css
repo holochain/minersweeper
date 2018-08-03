@@ -11,8 +11,6 @@
   background: #1A1E24;
 }
 
-<<<<<<< HEAD
-=======
 .Cell.mistake {
   background-image: url(/images/mine-bg.png);
 }
@@ -21,7 +19,6 @@
   border: 1px solid #aE3E3F;
 }
 
->>>>>>> 84976266e04ceeb7ea962877197cf17fd8e8660f
 .Cell img {
   max-width: 100%;
   max-height: 100%;

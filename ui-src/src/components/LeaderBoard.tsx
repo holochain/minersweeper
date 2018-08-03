@@ -24,24 +24,14 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
     const displayBoard:any[] = []
 
     // Fetch the identity
-    if(scores !== null) {
+    if(scores !== null && allPlayerHandles.size !== 0) {
       scores.forEach((agentScore:number, agentHash:Hash) => {
-        if(allPlayerHandles.size === 0) {
-          console.log("!!! Nothing inside identity")
-        }
-
-        fetchText('/fn/minersweeper/getIdentity', {
-          agentHash
-        }).then(response => {
-          console.log("!!!get response")
-          console.log(response)
-        })
 
         const agentHandler:string = allPlayerHandles.get(agentHash!)
         tempUserScoreMap.push([agentHandler, agentScore])
 
         displayBoard.push(
-          <li> <Jdenticon size={20} hash={agentHash} /> : {agentScore} </li>
+          <li> <Jdenticon size={20} hash={agentHash} /> {agentHandler} : {agentScore} </li>
         )
       })
     }
@@ -51,7 +41,6 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
       if (a > b) { return 1; }
       if (a === b) { return 0; }
     });
-
 
     // Change the user hash into user name
     return (
@@ -64,9 +53,9 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
   }
 }
 
-const mapStateToProps = state => ({
-  scores: state.currentGame.scores,
-  allPlayerHandles: state.identities,
+const mapStateToProps = gameState => ({
+  scores: gameState.currentGame.scores,
+  allPlayerHandles: gameState.identities,
 })
 
 export default connect(mapStateToProps)(LeaderBoard);

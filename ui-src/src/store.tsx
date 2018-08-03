@@ -30,6 +30,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   }
   const {chats, matrix, gameHash, gameBoard} = gameState!
   let {scores} = gameState!
+
   switch (action.type) {
     case 'QUICK_REVEAL': {
       const {coords} = action
@@ -58,6 +59,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
 
   return {
     ...gameState,
+    scores,
     gameOver,
     matrix,
   }
@@ -83,7 +85,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
         gameHash: hash,
         matrix,
         scores,
-        gameBoard
+        gameBoard,
         gameOver,
       }
       return {...state, currentGame}
@@ -103,8 +105,11 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return {...state, allGames: Map(action.games) }
     }
     case 'UPDATE_IDENTITIES': {
-      console.log("adding ids: ", action.identities)
-      return{...state, identities: Map([state.identities, action.identities]) }
+      // console.log("Updating IDs: ", Map([state.identities, action.identities])
+      const newIdentities = Map(action.identities);
+      const oldIdentities = Map(state.identities);
+
+      return{...state, identities: newIdentities.merge(oldIdentities) as Map<Hash, string> }
     }
   }
   return state

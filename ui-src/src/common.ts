@@ -1,10 +1,7 @@
 
-<<<<<<< HEAD
-=======
 // make mines visible even when concealed
 export const DEBUG_MODE = false
 
->>>>>>> 84976266e04ceeb7ea962877197cf17fd8e8660f
 // size of a field cell in pixels
 export const CELL_SIZE = 30
 

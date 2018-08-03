@@ -10,7 +10,7 @@ import {Hash} from '../../../holochain';
 import Jdenticon from './Jdenticon';
 
 import CellMatrix from '../CellMatrix';
-import {fetchJSON, CELL_SIZE} from '../common'
+import {fetchJSON, CELL_SIZE, DEBUG_MODE} from '../common'
 import store from '../store'
 
 type CellProps = {
@@ -38,8 +38,6 @@ class Cell extends React.Component<CellProps, {}> {
     const isMine = matrix.isMine(pos)
     const isRevealed = matrix.isRevealed(pos)
 
-<<<<<<< HEAD
-=======
     const isRevealedMine = isRevealed && isMine
     const hasNumber = numAdjacent > 0
     const isCorrectFlag = flag && isMine
@@ -50,7 +48,6 @@ class Cell extends React.Component<CellProps, {}> {
 
     const mistakeClass = (isRevealedMine || isFalseFlag) ? "mistake" : ""
 
->>>>>>> 84976266e04ceeb7ea962877197cf17fd8e8660f
     const numberClass =
       numAdjacent > 0 ? `num-${numAdjacent}` : ""
 
@@ -65,11 +62,7 @@ class Cell extends React.Component<CellProps, {}> {
     }
 
     return <div
-<<<<<<< HEAD
-      className={`Cell ${actionClass} ${numberClass}`}
-=======
       className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass}`}
->>>>>>> 84976266e04ceeb7ea962877197cf17fd8e8660f
       style={style}
       onClick={ this.handleReveal }
       onContextMenu={ this.handleFlag }
