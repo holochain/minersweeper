@@ -8,8 +8,8 @@ import { fetchJSON } from '../common';
 import store from '../store';
 
 const EASY_DENSITY: number = 0.1;
-const INTERMEDIATE_DENSITY: number = 0.3;
-const EXPERT_DENSITY: number = 0.5;
+const INTERMEDIATE_DENSITY: number = 0.2;
+const EXPERT_DENSITY: number = 0.3;
 
 type CreateGameFormState = {
   errorMessage: string | null
@@ -42,8 +42,8 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <br/>
       <select value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
         <option value='easy'>I'm Too Young To Die - 10% mines</option>
-        <option value='intermediate'>Hurt me plenty - 30% mines</option>
-        <option value='expert'>Ultra-Violence - 50% mines</option>
+        <option value='intermediate'>Hurt me plenty - 20% mines</option>
+        <option value='expert'>Ultra-Violence - 30% mines</option>
       </select>
       <br/>
       <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="Title"/>
@@ -96,7 +96,6 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
   }
 
   private handleChange(event) {
-    console.log(event);
     this.setState({selectedDifficulty: event.target.value});
   }
 }
