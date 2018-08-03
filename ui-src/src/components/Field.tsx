@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
+import {Pos} from '../../../minesweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
@@ -20,7 +21,7 @@ type FieldProps = {
 }
 
 type FieldState = {
-  isPanning: boolean
+
 }
 
 const PAN_OFFSETS = {
@@ -44,7 +45,8 @@ class Field extends React.Component<FieldProps, FieldState> {
   private actionsInterval: any = null
 
   // used to turn off action polling and other things
-  private isPanning = false
+  private keyPanOffset: Pos = {x: 0, y: 0}
+  private mousePanOffset: Pos = {x: 0, y: 0}
 
 
   public componentWillMount() {
@@ -140,19 +142,27 @@ class Field extends React.Component<FieldProps, FieldState> {
     if (offsetHeight - clientY < margin) {
       offset.y += speed
     }
-    if (offset.x || offset.y) {
-      this.isPanning = true
-      this.panBy(offset)
-    } else {
-      this.isPanning = false
+    this.mousePanOffset = offset
+  }
+
+  private panOffset() {
+    return {
+      x: this.keyPanOffset.x + this.mousePanOffset.x,
+      y: this.keyPanOffset.y + this.mousePanOffset.y,
     }
   }
 
-  private panBy({x, y}) {
+  private isPanning() {
+    const {x, y} = this.panOffset()
+    return x !== 0 || y !== 0
+  }
+
+  private performPan() {
     const grid: any = this.grid.current!
     const container = grid._scrollingContainer
     const {scrollLeft, scrollTop} = container
     const pos = {scrollLeft, scrollTop}
+    const {x, y} = this.panOffset()
     pos.scrollLeft += x
     pos.scrollTop += y
     grid.scrollToPosition(pos)
@@ -166,19 +176,15 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.panInterval = setInterval(
       () => {
         const pos = {x: 0, y: 0}
-        let isPanning = false
         Object.keys(this.panKeys).forEach(code => {
-          isPanning = true
           if(this.panKeys[code]) {
             const offset = PAN_OFFSETS[code]
             pos.x += offset.x * speed
             pos.y += offset.y * speed
           }
         })
-        this.isPanning = isPanning
-        if (isPanning) {
-          this.panBy(pos)
-        }
+        this.keyPanOffset = pos
+        this.performPan()
       }, 10  // TODO: make constant
     )
   }
@@ -202,7 +208,7 @@ class Field extends React.Component<FieldProps, FieldState> {
       fetchActions()
       this.actionsInterval = setInterval(
         () => {
-          if (!this.isPanning) {
+          if (!this.keyPanOffset) {
             fetchActions()
           }
         }, common.FETCH_ACTIONS_INTERVAL
