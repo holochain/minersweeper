@@ -2,7 +2,6 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Hash} from "../../../holochain";
 import {Map, fromJS} from 'immutable';
-import {fetchText} from '../common'
 
 import store from '../store';
 import Jdenticon from './Jdenticon';
