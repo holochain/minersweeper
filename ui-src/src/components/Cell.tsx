@@ -38,8 +38,8 @@ class Cell extends React.Component<CellProps, {}> {
     const isMine = matrix.isMine(pos)
     const isRevealed = matrix.isRevealed(pos)
 
-    const isRevealedMine = isRevealed && isMine && !flag
-    const isNumber = numAdjacent > 0
+    const isRevealedMine = isRevealed && isMine
+    const hasNumber = numAdjacent > 0
     const isCorrectFlag = flag && isMine
     const isFalseFlag = flag && !isMine
 
@@ -57,7 +57,7 @@ class Cell extends React.Component<CellProps, {}> {
       content = <img src="/images/dogecoin.png"/>
     } else if (isCorrectFlag) {
       content = <Jdenticon size={CELL_SIZE - 2} hash={flag} />
-    } else if ((isRevealed || flag) && isNumber) {
+    } else if ((isRevealed || flag) && hasNumber) {
       content = <span className={`number ${numberClass}`}>{ numAdjacent }</span>
     }
 
