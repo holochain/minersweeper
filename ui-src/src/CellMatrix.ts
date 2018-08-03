@@ -36,8 +36,8 @@ export default class CellMatrix {
 
     board.mines.forEach(minePos => this.setMine(minePos));
     board.mines.forEach(minePos => {
-      this.forEachNeighbor(minePos, (x, y) => {
-        this.incrementAdjacentMineCount({x, y});
+      this.forEachNeighbor(minePos, n => {
+        this.incrementAdjacentMineCount(n);
       });
     });
   }
@@ -45,9 +45,9 @@ export default class CellMatrix {
   public takeAction(action: Action) {
     switch (action.actionType) {
       case "flag":
-        // TODO: maybe don't reveal if it's actually a mine
-        // (so the UI doesn't have to make that distinction)
-        this.triggerReveal(action.position);
+        if (!this.isMine(action.position)) {
+          this.triggerReveal(action.position);
+        }
         this.flagCell(action.position, action.agentHash);
         break;
       case "reveal":
@@ -99,8 +99,7 @@ export default class CellMatrix {
       nRevealed++;
 
       if (this.getAdjacentMines(c) === 0) {
-        this.forEachNeighbor(c, (x, y) => {
-          const n = { x, y };
+        this.forEachNeighbor(c, n => {
           if (!visited.has(this.posToIndex(n))) {
             toVisit.push(n);
           }
@@ -108,6 +107,26 @@ export default class CellMatrix {
       }
     }
     return nRevealed;
+  }
+
+  public autoReveal(pos: Pos): Array<Pos> {
+    const mineCount = this.getAdjacentMines(pos)
+    let perceivedMines = 0
+    const newReveals: Array<Pos> = []
+    this.forEachNeighbor(pos, n => {
+      perceivedMines += (
+        this.isMine(n) && (this.isRevealed(n) || this.isFlagged(n))
+      ) ? 1 : 0
+    })
+    if (perceivedMines === mineCount) {
+      this.forEachNeighbor(pos, n => {
+        if (!(this.isRevealed(n) || this.isFlagged(n))) {
+          newReveals.push(n)
+        }
+      })
+    }
+    newReveals.forEach(p => this.triggerReveal(p))
+    return newReveals
   }
 
   public getAdjacentMines(pos: Pos): number {
@@ -123,6 +142,18 @@ export default class CellMatrix {
     return (this.getValue(pos) & MASK_FLAGGED) > 0;
   }
 
+  public isCompleted(): boolean {
+    for (let y = 0; y < this.size.y; y++) {
+      for (let x = 0; x < this.size.x; x++) {
+        const pos = {x,y}
+        if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   public isMine(pos: Pos): boolean {
     return (this.getValue(pos) & MASK_MINE) > 0;
   }
@@ -131,14 +162,14 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
-  private forEachNeighbor(pos: Pos, func: any) {
+  private forEachNeighbor(pos: Pos, func: (Pos) => void) {
     [-1, 0, 1].forEach(dx => {
       [-1, 0, 1].forEach(dy => {
         if (dx !== 0 || dy !== 0) {
           const x = pos.x + dx;
           const y = pos.y + dy;
           if (this.isInBounds(x, y)) {
-            func(x, y);
+            func({x, y});
           }
         }
       });
@@ -160,6 +191,13 @@ export default class CellMatrix {
   private incrementAdjacentMineCount(pos: Pos) {
     // NB: this can overflow!! use with caution
     this.data[this.posToIndex(pos)] += 1
+
+    // FYI: this is how it should be done, but it's slower
+    /*
+    const lsh = this.getAdjacentMines(pos) + 1;
+    const msh = this.getValue(pos) & 0b11110000;
+    this.setValue(pos, lsh | msh);
+     */
   }
 
   private setRevealed(pos: Pos) {

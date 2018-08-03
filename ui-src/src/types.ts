@@ -15,12 +15,15 @@ export type StoreState = {
   allGames: Map<string, GameBoard>,
   currentGame: StoreGameState,
   myActions: number,
+  whoami: {
+    agentHash: Hash,
+    identity: string
+  } | null
 };
 
 export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
   gameHash: Hash,
+  gameOver:boolean,
 } | null;
-
-
