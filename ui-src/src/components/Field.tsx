@@ -59,12 +59,14 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.startPollingPan()
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
+    window.addEventListener('mousemove', this.mouseMoveListener)
   }
 
   public componentWillUnmount() {
     this.stopPollingActions()
     window.removeEventListener('keydown', this.keyDownListener)
     window.removeEventListener('keyup', this.keyUpListener)
+    window.addEventListener('mousemove', this.mouseMoveListener)
   }
 
   public render() {
@@ -117,6 +119,10 @@ class Field extends React.Component<FieldProps, FieldState> {
     if (e.keyCode in PAN_OFFSETS) {
       delete this.panKeys[e.keyCode]
     }
+  }
+
+  private mouseMoveListener = e => {
+    console.log("TODO")
   }
 
   private startPollingPan() {
