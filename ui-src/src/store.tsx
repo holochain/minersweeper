@@ -16,22 +16,23 @@ import {Action} from '../../minesweeper'
 const defaultState: StoreState = {
   allGames: Map({}),
   currentGame: null,
-  myActions: 0
+  myActions: 0,
+  whoami: null
 };
 
-function reduceGame (state: StoreGameState, action: ReduxAction) {
-  if (state === null) {
-    return state
+function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
+  const gameState = state.currentGame
+  if (gameState === null) {
+    return gameState
   }
-  const {chats, matrix} = state!
+  const {chats, matrix} = gameState!
   switch (action.type) {
     case 'QUICK_REVEAL': {
       matrix.triggerReveal(action.coords)
       break;
     }
     case 'QUICK_FLAG': {
-      // TODO
-      matrix.flagCell(action.coords, "TODO")
+      matrix.flagCell(action.coords, state.whoami!.agentHash)
       break;
     }
     case 'FETCH_ACTIONS': {
@@ -43,7 +44,7 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
   }
   const gameOver:boolean = matrix.isCompleted();
   return {
-    ...state,
+    ...gameState,
     gameOver,
     matrix,
   }
@@ -52,7 +53,7 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
 export function reducer (oldState: StoreState = defaultState, action: ReduxAction): StoreState {
   const state = {
     ...oldState,
-    currentGame: reduceGame(oldState.currentGame, action),
+    currentGame: reduceGame(oldState, action),
     myActions: oldState.myActions + 1,
   }
   switch (action.type) {
@@ -72,6 +73,14 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     }
     case 'CONFIRM_NEW_GAME': {
       return state
+    }
+    case 'FETCH_WHOAMI': {
+      const {agentHash, identity} = action
+      console.log('whoami:', agentHash, identity)
+      return {
+        ...state,
+        whoami: {agentHash, identity}
+      }
     }
     case 'FETCH_CURRENT_GAMES': {
       return {...state, allGames: Map(action.games) }

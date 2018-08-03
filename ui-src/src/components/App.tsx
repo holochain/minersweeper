@@ -6,10 +6,23 @@ import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
+import {fetchJSON} from '../common'
+import store from '../store'
+
 import Lobby from './Lobby';
 import GameView from './GameView';
 
 class App extends React.Component {
+
+  public componentWillMount() {
+    fetchJSON('/fn/minersweeper/whoami').then(([agentHash, identity]) =>
+      store.dispatch({
+        type: 'FETCH_WHOAMI',
+        agentHash,
+        identity
+      })
+    )
+  }
 
   public render() {
     return (

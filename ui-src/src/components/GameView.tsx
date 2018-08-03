@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {withRouter} from 'react-router';
+
 import './GameView.css';
 
 import { connect } from 'react-redux';

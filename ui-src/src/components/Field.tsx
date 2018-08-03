@@ -20,9 +20,7 @@ type FieldProps = {
   myActions: number  // NB: dumb hack to ensure updates
 }
 
-type FieldState = {
-
-}
+type FieldState = {}
 
 const PAN_OFFSETS = {
   37: {x: -1, y: 0},  // left
@@ -218,7 +216,7 @@ class Field extends React.Component<FieldProps, FieldState> {
       fetchActions()
       this.actionsInterval = setInterval(
         () => {
-          if (!this.keyPanOffset) {
+          if (!this.isPanning()) {
             fetchActions()
           }
         }, common.FETCH_ACTIONS_INTERVAL
