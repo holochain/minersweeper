@@ -12,7 +12,6 @@ class GameHUD extends React.Component<any, {}> {
         {"leaderboard here"}
       </div>
       <div className="game-chat">
-        {"chat here"}
         <Chatbox/>
       </div>
     </div>

@@ -1,3 +1,4 @@
+
 .chat-box {
   padding: 0;
   margin: 0;
@@ -27,166 +28,148 @@
 
 /* /////////////////////////////// */
 
-#chatApp {
-  font-family: "Times", sans-serif;
-  margin: 7em auto;
+
+.chat-box {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
   font-size: 25px;
-  width: 10em;
-  height: 15em;
-  background-color: rgba(52, 152, 219, 0.5);
-}
-#chatApp .chatBox {
-  box-shadow: 0.1em 0.1em 0.5em black;
+  width: 100%;
   height: 100%;
+  background: #1A1E24;
+  box-shadow: 0.1em 0.1em 0.5em black;
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
 }
-#chatApp .chatBox .inputField {
+
+.inputField {
   height: 30%;
   display: flex;
   flex-flow: column nowrap;
 }
-#chatApp .chatBox .inputField .inputName {
+
+.inputField .input-name {
   height: 1.5em;
   border: none;
   font-size: 0.6em;
   padding-left: 0.3em;
   background: rgba(255, 255, 255, 0.3);
 }
-#chatApp .chatBox .inputField .inputName::-webkit-input-placeholder {
+
+.inputField .input-name::-webkit-input-placeholder {
   padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
+  font-family: Arial, sans-serif;
   color: #1a4c6d;
 }
-#chatApp .chatBox .inputField .inputName:-moz-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputName::-moz-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputName:-ms-input-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputName:focus {
+
+.inputField .input-name:focus {
   outline: none;
 }
-#chatApp .chatBox .inputField .inputName:focus::-webkit-input-placeholder {
+
+.inputField .input-name:focus::-webkit-input-placeholder {
   opacity: 0;
 }
-#chatApp .chatBox .inputField .inputName:focus:-moz-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputName:focus::-moz-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputName:focus:-ms-input-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputText {
+
+.inputField .input-text {
+  background: #1A1E24;
+  width: 100%;
   border: none;
-  flex: 1;
-  font-size: 0.6em;
-  padding-left: 0.3em;
-  background: rgba(255, 255, 255, 0.5);
+  padding: 10px 20px;
+  color: #eee;
+  font: Arial, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  resize: none;
 }
-#chatApp .chatBox .inputField .inputText::-webkit-input-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputText:-moz-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputText::-moz-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputText:-ms-input-placeholder {
-  padding-left: 0.1em;
-  font-family: "Jura", sans-serif;
-  color: #1a4c6d;
-}
-#chatApp .chatBox .inputField .inputText:focus {
+
+.inputField .input-text:focus {
   outline: none;
 }
-#chatApp .chatBox .inputField .inputText:focus::-webkit-input-placeholder {
+
+.inputField .input-text::-webkit-input-placeholder {
+  padding-left: 0.1em;
+  font-family: Arial, sans-serif;
+  color: #eee;
+}
+
+.inputField .input-text:focus::-webkit-input-placeholder {
   opacity: 0;
 }
-#chatApp .chatBox .inputField .inputText:focus:-moz-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputText:focus::-moz-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputText:focus:-ms-input-placeholder {
-  opacity: 0;
-}
-#chatApp .chatBox .inputField .inputButtons {
+
+/* ///// Input Buttons //// */
+.inputField .inputButtons {
   display: flex;
 }
-#chatApp .chatBox .inputField .inputButtons .inputButtonSend {
-  font-family: "Jura", sans-serif;
+
+.inputField .inputButtons .inputButtonSend {
+  font-family: Arial, sans-serif;
   color: #212f3d;
   flex: 1;
   font-size: 1em;
   border: none;
   background: #2980b9;
-}
-#chatApp .chatBox .inputField .inputButtons .inputButtonSend:hover {
-  color: #151f29;
+  text-transform: uppercase;
+  border: none;
   cursor: pointer;
-  background: #2e8ece;
+  font-weight: bold;
+  /* background: #F2F5F8; */
 }
-#chatApp .chatBox .inputField .inputButtons .inputButtonClear {
-  font-family: "Jura", sans-serif;
+
+.inputField .inputButtons .inputButtonSend:hover {
+  color: #eee;
+  cursor: pointer;
+  background: #2c6665;
+}
+
+.inputField .inputButtons .inputButtonClear {
+  font-family: Arial, sans-serif;
   color: #212f3d;
   flex: 1;
   font-size: 1em;
   border: none;
-  background: #c0392b;
+  background: #eee;
 }
-#chatApp .chatBox .inputField .inputButtons .inputButtonClear:hover {
+
+.inputField .inputButtons .inputButtonClear:hover {
   color: #151f29;
-  background: #d14233;
+  background: #e9b74c;
   cursor: pointer;
 }
-#chatApp .chatBox .messages-field {
+
+/* ///// Messages Field //// */
+.chat-box .messages-field {
   height: 70%;
   box-sizing: border-box;
   padding: 0.1em;
   overflow-y: auto;
 }
-#chatApp .chatBox .messages-field .message-enter {
+
+.chat-box .messages-field .message-enter {
   opacity: 0.01;
 }
-#chatApp .chatBox .messages-field .message-enter.message-enter-active {
+
+.chat-box .messages-field .message-enter.message-enter-active {
   opacity: 1;
   transition: 0.5s ease-out;
 }
-#chatApp .chatBox .messages-field .message-appear {
+
+.chat-box .messages-field .message-appear {
   opacity: 0.01;
 }
-#chatApp .chatBox .messages-field .message-appear.message-appear-active {
+
+.chat-box .messages-field .message-appear.message-appear-active {
   opacity: 1;
   transition: opacity 0.5s ease-in;
 }
-#chatApp .chatBox .messages-field .single-message-field {
+
+.chat-box .messages-field .single-message-field {
   position: relative;
   margin: 0.2em 0.2em 0.2em 0.5em;
   background: #2076b3;
   border-radius: 0.2em;
 }
-#chatApp .chatBox .messages-field .single-message-field:before {
+
+.chat-box .messages-field .single-message-field:before {
   content: "";
   position: absolute;
   left: -0.4em;
@@ -195,7 +178,8 @@
   border-top: 1.2em solid #212f3d;
   border-left: 0.4em solid transparent;
 }
-#chatApp .chatBox .messages-field .single-message-field .messageAuthorName {
+
+.chat-box .messages-field .single-message-field .message-author-name {
   margin: 0;
   font-size: 1em;
   font-weight: 100;
@@ -203,7 +187,8 @@
   background-color: #212f3d;
   color: #d0e7f6;
 }
-#chatApp .chatBox .messages-field .single-message-field .messageText {
+
+.chat-box .messages-field .single-message-field .message-text {
   margin: 0;
   padding: 0.1em;
   word-wrap: break-word;

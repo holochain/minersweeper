@@ -22,17 +22,29 @@ type ChatProps = {
   chat: any,
 }
 
-class Chatbox extends React.Component<ChatProps, any> {
+// NB: Per Types.ts; Type ChatLog = {author: string, message: string}
+
+class Chatbox extends React.Component<any, any> {
     constructor(props){
       super(props);
       this.state = {
         id: 2,
         messages: [
-          {id: 0, authorName: 'Will', text: 'Hi!'},
-          {id: 1, authorName: 'Joel', text: 'Hello!'}
+          {id: 0, authorName: 'Bot', text: 'Hello there. Type your messages here!'},
+          {id: 1, authorName: 'Minersweeper', text: 'Hello!'}
         ]
       };
     }
+
+    // public componentWillMount() {
+    //   const updateChat = () => {
+    //     fetchJSON('/fn/minersweeper/viewgame')
+    //       .then(games => this.props.dispatch({
+    //         chats,
+    //         type: 'VIEW_GAME'
+    //       }))
+    //   }
+    // }
 
     public handleMessage = (authorName, text) => {
       this.setState({
@@ -43,6 +55,7 @@ class Chatbox extends React.Component<ChatProps, any> {
     };
 
     public render() {
+      console.log("currentGame.......", this.props.currentGame)
       return(
         <div className='chat-box'>
           <MessagesList messages={this.state.messages} />
@@ -88,8 +101,17 @@ class Message extends React.Component<any, any> {
    public render() {
       return(
         <div ref={this.messageField} className='single-message-field'>
-          <h5 className='messageAuthorName'>{this.props.authorName}</h5>
-          <span className='messageText'>{this.props.text}</span>
+          {/* {
+            Object.keys(allGames.toJS()).map(hash => {
+              const game = allGames.get(hash)
+              console.log("jdenticon is here! ...based on hash:", hash)
+                return <div key={hash}>
+                    <Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/>
+                </div>
+            })
+          } */}
+          <h5 className='message-author-name'>{this.props.authorName}</h5>
+          <span className='message-text'>{this.props.text}</span>
         </div>
       )
     }
@@ -119,8 +141,8 @@ class Message extends React.Component<any, any> {
     public render() {
       return(
         <div className='inputField'>
-          <input className='inputName' type='text' placeholder='Username' defaultValue='' ref={this.authorName}/>
-          <textarea className='inputText' placeholder='Message' defaultValue='' ref={this.text}/>
+          <input className='input-name' type='text' placeholder='Username' defaultValue='' ref={this.authorName}/>
+          <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
           <div className='inputButtons'>
             <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
             <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
@@ -130,4 +152,11 @@ class Message extends React.Component<any, any> {
     }
   }
 
-export default connect(state => ({myActions: state.myActions}))(Chatbox);
+// state.currentGame.chats ===> should supply a list of chats.
+const mapStateToProps = ({ myActions, currentGame,  }) => ({
+  myActions, currentGame
+})
+
+export default connect(mapStateToProps)(Chatbox)
+
+// export default connect(state => ({myActions: state.myActions}))(Chatbox);
