@@ -14,6 +14,8 @@ const EXPERT_DENSITY: number = 0.3;
 type CreateGameFormState = {
   errorMessage: string | null
   selectedDifficulty: string
+  boardWidth: number
+  boardHeight: number
 }
 
 class CreateGameForm extends React.Component<any, CreateGameFormState> {
@@ -24,7 +26,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   constructor(props) {
     super(props)
-    this.state = {errorMessage: null, selectedDifficulty: 'easy'}
+    this.state = {errorMessage: null, selectedDifficulty: 'easy', boardWidth: 100, boardHeight: 100}
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -37,13 +39,13 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <h1 className="registration-header">Game Registration</h1>
       <h4>Register the Details of Your Game Below</h4>
       <hr className="reg-hr"/>
-      <input className="register-input" type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
-      <input className="register-input" type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
+      <input id="widthInput" className="register-input" value={this.state.boardWidth} onInput={this.handleChange} type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
+      <input id="heightInput" className="register-input" value={this.state.boardHeight} onInput={this.handleChange} type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
       <br/>
-      <select value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
-        <option value='easy'>I'm Too Young To Die - 10% mines</option>
-        <option value='intermediate'>Hurt me plenty - 20% mines</option>
-        <option value='expert'>Ultra-Violence - 30% mines</option>
+      <select id="difficultySelect" value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
+        <option value='easy'>I'm Too Young To Die - {EASY_DENSITY*100}% mines</option>
+        <option value='intermediate'>Hurt me plenty - {INTERMEDIATE_DENSITY*100}% mines</option>
+        <option value='expert'>Ultra-Violence - {EXPERT_DENSITY*100}% mines</option>
       </select>
       <br/>
       <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="Title"/>
@@ -95,8 +97,22 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
     }
   }
 
+  private dimInRange(x: number) {
+    return (x>=10 && x<=1000);
+  }
+
   private handleChange(event) {
-    this.setState({selectedDifficulty: event.target.value});
+    switch(event.target.id) {
+      case "difficultySelect":
+        this.setState({selectedDifficulty: event.target.value});
+        break;
+      case "widthInput":
+        if(this.dimInRange(event.target.value)) { this.setState({boardWidth: event.target.value}) }
+        break;
+      case "heightInput":
+        if(this.dimInRange(event.target.value)) { this.setState({boardHeight: event.target.value}) }
+        break;
+    }
   }
 }
 
