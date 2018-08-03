@@ -7,20 +7,25 @@ import * as actions from '../actions';
 import { fetchJSON } from '../common';
 import store from '../store';
 
+const EASY_DENSITY: number = 0.1;
+const INTERMEDIATE_DENSITY: number = 0.3;
+const EXPERT_DENSITY: number = 0.5;
+
 type CreateGameFormState = {
   errorMessage: string | null
+  selectedDifficulty: string
 }
 
 class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   private inWidth: HTMLInputElement | null = null
   private inHeight: HTMLInputElement | null = null
-  private inMines: HTMLInputElement | null = null
   private inDescription: HTMLInputElement | null = null
 
   constructor(props) {
     super(props)
-    this.state = {errorMessage: null}
+    this.state = {errorMessage: null, selectedDifficulty: 'easy'}
+    this.handleChange = this.handleChange.bind(this);
   }
 
   public render() {
@@ -35,7 +40,11 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <input className="register-input" type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
       <input className="register-input" type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
       <br/>
-      <input className="register-input" type="number" ref={el => this.inMines = el} placeholder="# of Mines"/>
+      <select value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
+        <option value='easy'>Beginner</option>
+        <option value='intermediate'>Intermediate</option>
+        <option value='expert'>Expert</option>
+      </select>
       <br/>
       <input className="register-input" type="text" ref={el => this.inDescription = el} placeholder="Title"/>
       <br/>
@@ -48,14 +57,29 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   }
 
-
   public handleCreate = () => {
-    const { inDescription, inWidth, inHeight, inMines } = this;
-    if (inDescription && inWidth && inMines && inHeight) {
+    const { inDescription, inWidth, inHeight } = this;
+    if (inDescription && inWidth && inHeight) {
       const description = inDescription!.value
       const x = parseInt(inWidth!.value, 10)
       const y = parseInt(inHeight!.value, 10)
-      const nMines = parseInt(inMines!.value, 10)
+      const nCells = x*y;
+      let mineFraction: number = 0;
+
+      switch(this.state.selectedDifficulty) {
+        case 'easy':
+          mineFraction = EASY_DENSITY;
+          break;
+        case 'intermediate':
+          mineFraction = INTERMEDIATE_DENSITY;
+          break;
+        case 'expert':
+          mineFraction = EXPERT_DENSITY;
+          break;          
+      }
+
+      const nMines = Math.round(nCells*mineFraction);
+
       // this.props.newGame({width, height, description})
       fetchJSON('/fn/minersweeper/newGame', {description, nMines, size: {x,y}})
         .then(response => {
@@ -69,6 +93,11 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
           }
         })
     }
+  }
+
+  private handleChange(event) {
+    console.log(event);
+    this.setState({selectedDifficulty: event.target.value});
   }
 }
 
