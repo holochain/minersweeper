@@ -80,7 +80,7 @@ class Lobby extends React.Component<any, any> {
     )
 
     return (
-      <div className="slash-screen-page">
+      <div className="splash-screen-page">
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
