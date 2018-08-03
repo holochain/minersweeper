@@ -60,6 +60,9 @@ class Field extends React.Component<FieldProps, FieldState> {
   private keyPanOffset: Pos = {x: 0, y: 0}
   private mousePanOffset: Pos = {x: 0, y: 0}
 
+  // used to redraw all cells without scrolling
+  private upperLeft = {columnIndex: 0, rowIndex: 0}
+
   constructor(props) {
     super(props)
     this.state = {
@@ -118,6 +121,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             height={height}
             tabIndex={null}
             width={width}
+            onSectionRendered={this.onSectionRendered}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
@@ -130,12 +134,19 @@ class Field extends React.Component<FieldProps, FieldState> {
     )
   }
 
+  public redraw = () => {
+    const grid: Grid = this.grid.current!
+    console.log(this.upperLeft)
+    grid.recomputeGridSize(this.upperLeft)
+  }
+
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
       {...props}
       myActions={this.props.myActions}
       gameHash={this.props.gameHash}
       key={key}
+      redrawField={this.redraw}
       columnIndex={columnIndex - common.MARGIN_CELLS}
       rowIndex={rowIndex - common.MARGIN_CELLS}
       />
@@ -281,6 +292,15 @@ class Field extends React.Component<FieldProps, FieldState> {
     return {
       overscanStartIndex: Math.max(0, startIndex - overscanCellsCount),
       overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount)
+    }
+  }
+
+  private onSectionRendered = ({
+    columnStartIndex, rowStartIndex
+  }) => {
+    this.upperLeft = {
+      columnIndex: columnStartIndex,
+      rowIndex: rowStartIndex,
     }
   }
 }

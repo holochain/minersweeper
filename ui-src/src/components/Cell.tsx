@@ -21,6 +21,7 @@ type CellProps = {
   style: any,
   parent: Grid,
   myActions: number,
+  redrawField: () => void,
 }
 
 class Cell extends React.Component<CellProps, {}> {
@@ -94,7 +95,7 @@ class Cell extends React.Component<CellProps, {}> {
     // XXX: modifying state outside of a reducer!!!
     const reveals = matrix.autoReveal(pos)
 
-    this.redrawNeighborhood()
+    this.props.redrawField()
 
     reveals.forEach(revealPos => {
       this.makeMove('reveal', revealPos)
@@ -135,16 +136,6 @@ class Cell extends React.Component<CellProps, {}> {
       // TODO: show score if ok
     })
   }
-
-  private redrawNeighborhood = () => {
-    // inefficient but effective way to force redraw neighbors
-    // (and most of the rest of the screen as well...)
-    this.props.parent.recomputeGridSize({
-      columnIndex: Math.max(0, this.props.columnIndex - 4),
-      rowIndex: Math.max(0, this.props.rowIndex - 4),
-    })
-  }
-
 }
 
 // TODO: check for performance?
