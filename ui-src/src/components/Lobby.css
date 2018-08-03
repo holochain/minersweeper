@@ -1,4 +1,4 @@
-/* .Lobby * {
+/* Lobby * {
   animation: none !important;
 } */
 
@@ -10,7 +10,44 @@ html,body {
   font-size: 16px;
   color: #fff;
   text-align: center;
-  overflow: hidden;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+/* ------------ Scrollbar CSS-------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(#33ccff, #0066cc);
+}
+
+
+/* ------------ Lobby Content CSS-------------- */
+.jdenticon {
+  margin: 2px;
+}
+
+.middle-align-item {
+  vertical-align: middle;
 }
 
 .Lobby {
@@ -23,44 +60,117 @@ html,body {
   margin-top: 10vh;
 }
 
-.lobby-register {
-  left: 0;
-  right: 0;
-  top: 3.2em;
-  bottom: 0;
-  margin: auto;
+.lobby-overlay {
   position: absolute;
-  display: block;
+  top: 150px;
+  left: 2.5%;
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 1.16);
+  border: 5px dotted slateblue;
+  opacity: 0.88;
+  z-index: 99999;
+  animation: lobby-games 3s 6.1s 1 ease both;
+}
+
+.live-games {
+  overflow: scroll;
+  overflow-x: hidden;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 9999;
+}
+
+.lobby-register {
+  margin-top: 25px;
   animation: register 3s 6s 1 ease both;
 }
 
-.lobby-register h4 {
-  margin-bottom: 10px;
-  background: -webkit-linear-gradient(#eee, #4148b1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.lobby-register h4:active {
-  -webkit-box-shadow:
-      0px 3px rgba(128,128,128,1),
-      0px 4px rgba(118,118,118,1),
-      0px 5px rgba(108,108,108,1),
-      0px 6px rgba(98,98,98,1),
-      0px 7px rgba(88,88,88,1),
-      0px 8px rgba(78,78,78,1),
-      0px 10px 2px 0px rgba(128,128,128,.6);
-}
-
 .lobby-register button {
-  padding: 10px;
-  background: white;
-  color: blue;
-  border-radius: 25px;
+  font-weight: 400;
+  font-size: 30px;
+  color: #0d1375;
+  padding: 15px;
+  border: transparent;
+  background: transparent;
   display: inline-block;
   margin: 0 auto;
-  -webkit-border-radius: 10px;
 }
+
+/* ///////// Lobby New Game Button  //////// */
+.btn {
+  position: relative;
+  color: #eee;
+  width: 256px;
+  height: 64px;
+  line-height: 64px;
+  transition: all 0.3s;
+  span {
+    transition: all 0.3s;
+    tranform: scale(1, 1);
+  }
+}
+
+.btn::before, .btn::after {
+  content: "";
+  transition: all 0.3s;
+  width: 96%;
+  height: 100%;
+  z-index: 1;
+}
+
+.btn::before, .btn::after {
+  content: "";
+  transition: all 0.3s;
+  width: 96%;
+  height: 100%;
+  z-index: 1;
+}
+
+.btnLn-two::before, .btnLn-two::after {
+  content: "";
+  position: absolute;
+  width: 96%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  transition: all 0.3s;
+  border: 4px solid rgba(63,70,167,255);
+  border-radius: 10px;
+}
+
+.btnLn-two:hover::after {
+  animation-name: rotateclockwise;
+  animation-duration: 2s;
+}
+.btnLn-two:hover::before {
+  animation-name: rotatecounterclockwise;
+  animation-duration: 3s;
+}
+.btnLn-two:hover::after, .btnLn-two:hover::before {
+  left: 90px;
+  width: 72px;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotateclockwise {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@keyframes rotatecounterclockwise {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(-360deg);}
+}
+
+
+/* ////////////////////// */
 
 .lobby-jumbotron {
   padding-left: 60px;
@@ -74,7 +184,7 @@ html,body {
   font-size: 63px;
   font-weight: 500px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   line-height: 1.1;
   display: block;
   left: 0;
@@ -83,7 +193,7 @@ html,body {
   bottom: 0;
   margin: auto;
   position: absolute;
-  background: -webkit-linear-gradient(#6600ff, #3d65d6);
+  background: -webkit-linear-gradient(#6600ff, #150a4e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   animation: title 2s 4s 1 ease both;
@@ -104,23 +214,113 @@ html,body {
   }
 }
 
-@keyframes register {
+@keyframes register-button {
   0% {
-    top: 0px;
     opacity: 0;
   }
-  10% {
-    top: 75px;
-    opacity: 1;
+  80% {
+    opacity: 0;
   }
   100% {
-    top: 100px;
+    opacity: 1;
   }
 }
 
-body.modal-active {
-  overflow: hidden;
+
+@keyframes lobby-games {
+  0% {
+    top: 250px;
+    opacity: 0;
+  }
+  100% {
+    top: 150px;
+  }
 }
+
+/*-------- live Game Table CSS ---------*/
+.live-games table {
+  width: 95%;
+  position: absolute;
+  top: 210px;
+  left: 2.5%;
+}
+
+table, th, td {
+    margin: 0 auto;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    width: auto;
+    font-size: 15px;
+}
+
+th {
+  border: 10px; /* No more visible border */
+  height: 30px;
+  padding: 15px;
+  font-size: 30px;
+  text-decoration: underline;
+  text-align: center;
+  background: -webkit-linear-gradient(#eee, #4148b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+td {
+  font-size: 18px;
+  border: 10px;
+  height: 30px;
+  padding: 15px;
+  transition: all 0.3s;  /* Simple transition for hover effect */
+  text-align: center;
+  background: -webkit-linear-gradient(#eee, #4148b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.game-description {
+  text-transform: uppercase;
+}
+
+h3{
+  position: absolute;
+  top: 130px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  width: 100%;
+  margin: 10px;
+  font-size: 3rem;
+  line-height: 40px;
+  letter-spacing: 5px;
+  background: -webkit-linear-gradient(#eee, #4148b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  /* animation: blink 1s steps(4, start) infinite; */
+}
+
+.lobby-register h3:active {
+  -webkit-box-shadow:
+      0px 3px rgba(128,128,128,1),
+      0px 4px rgba(118,118,118,1),
+      0px 5px rgba(108,108,108,1),
+      0px 6px rgba(98,98,98,1),
+      0px 7px rgba(88,88,88,1),
+      0px 8px rgba(78,78,78,1),
+      0px 10px 2px 0px rgba(128,128,128,.6);
+}
+
+.no-game-warning {
+  color: #979ac5;
+  font-size: 35px;
+  margin-top: -5px;
+}
+
+ /* @keyframes blink{
+   to{
+     visibility: hidden
+   }
+} */
+
+/* ---------------- Modal CSS ------------------------ */
 
 #modal-container {
   height: 100%;
@@ -199,7 +399,7 @@ body.modal-active {
 }
 
 .interstitial-modal-overlay {
-  background: linear-gradient(rgba(0, 0, 0, 0), hsla(185, 30%, 50%, 0.6), hsla(170, 50%, 10%, 0));
+  background: linear-gradient(rgba(0, 0, 0, 1), hsla(185, 30%, 50%, 1.6), hsla(170, 50%, 10%, 0));
   width: 100%;
   height: 100%;
   position: fixed;
@@ -217,22 +417,21 @@ body.modal-active {
   height: 50%;
 }
 
-/* ///////////////////////////////// */
+/* /////////////// Mountain (and Cryptocoin) Animation CSS ////////////////// */
 
 .screen {
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   margin: auto;
-  position: absolute;
   transform-style: preserve-3d;
   perspective: 500px;
   font-size: 3vw;
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(to bottom (102, 51, 255, 0.9) 60%, rgba(153, 0, 255, 0.9) 90%);
-  overflow: hidden;
   /* animation: gray 1s 6.5s 1 ease-out both; */
 }
 
@@ -402,7 +601,7 @@ body.modal-active {
     background-color:white; transform: scaleY(0.005) scaleX(1);
   }
   100% {
-    background-color:white; opacity: .75; transform: scaleY(1) scaleX(1);
+    background-color:white; opacity: .65; transform: scaleY(1) scaleX(1);
   }
 }
 
@@ -414,7 +613,7 @@ body.modal-active {
     background-color:white; transform: scaleY(0.005) scaleX(1);
   }
   100% {
-    background-color:white; opacity: .75; transform: scaleY(0.005) scaleX(0);
+    background-color:white; opacity: .65; transform: scaleY(0.005) scaleX(0);
   }
 }
 
@@ -422,6 +621,9 @@ body.modal-active {
 @keyframes zoomIn {
   0% {
     transform: scale(0);
+  }
+  98% {
+    transform: scale(1);
   }
   100% {
     transform: scale(1);
@@ -437,64 +639,10 @@ body.modal-active {
   }
 }
 
-
-/*-------- Table CSS ---------*/
-.live-games {
-  width: 400px;
-  border: 1px dashed white;
-  position: absolute;
-  left: 45px;
-  top: 10%;
-  box-sizing: border-box;
-  margin-left: 10px;
-  text-align: center;
-  z-index: 9999;
+.coin.hide {
+  visibility: hidden;
 }
 
-table, th, td {
-    margin: 0 auto;
-    color: #FFFFFF;
-    font-family: sans-serif;
-    width: auto;
-    font-size: 20px;
-    /* border-collapse: collapse; */
-}
-
-th {
-  border: 10px; /* No more visible border */
-  height: 30px;
-  padding: 15px;
-  text-decoration: underline;
-  text-align: center;
-  background: -webkit-linear-gradient(#33ccff, #0066cc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-td {
-    border: 10px; /* No more visible border */
-    height: 30px;
-    padding: 15px;
-    transition: all 0.3s;  /* Simple transition for hover effect */
-    text-align: center;
-    background: -webkit-linear-gradient(#33ccff, #0066cc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-}
-
-h3{
-  color: #0066cc;
-  width: 100%;
-  margin: 10px;
-  font-size: 30px;
-  line-height: 40px;
-  letter-spacing: 5px;
-  text-shadow: -2px 0 0 #A8A8A8;
-  animation: blink 1s steps(4, start) infinite;
-}
-
- @keyframes blink{
-   to{
-     visibility: hidden
-   }
+.lobby-overlay.hide {
+  visibility: hidden;
 }
