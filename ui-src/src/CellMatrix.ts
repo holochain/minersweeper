@@ -40,7 +40,13 @@ export default class CellMatrix {
   public takeAction(action: Action) {
     switch (action.actionType) {
       case "flag":
+<<<<<<< HEAD
         this.triggerReveal(action.position);
+=======
+        if (!this.isMine(action.position)) {
+          this.triggerReveal(action.position);
+        }
+>>>>>>> 84976266e04ceeb7ea962877197cf17fd8e8660f
         this.flagCell(action.position, action.agentHash);
         break;
       case "reveal":

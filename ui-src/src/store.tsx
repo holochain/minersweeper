@@ -32,11 +32,16 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   let {scores} = gameState!
   switch (action.type) {
     case 'QUICK_REVEAL': {
-      matrix.triggerReveal(action.coords)
+      const {coords} = action
+      matrix.triggerReveal(coords)
       break;
     }
     case 'QUICK_FLAG': {
-      matrix.flagCell(action.coords, state.whoami!.agentHash)
+      const {coords} = action
+      if (!matrix.isMine(coords)) {
+        matrix.triggerReveal(coords)
+      }
+      matrix.flagCell(coords, state.whoami!.agentHash)
       break;
     }
     case 'FETCH_ACTIONS': {
@@ -49,7 +54,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
   }
 
-    const gameOver:boolean = matrix.isCompleted();
+  const gameOver:boolean = matrix.isCompleted();
 
   return {
     ...gameState,
@@ -65,7 +70,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     myActions: oldState.myActions + 1,
   }
 
-    switch (action.type) {
+  switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
       const {hash} = action
