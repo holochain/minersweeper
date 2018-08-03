@@ -80,9 +80,12 @@ function updateIdentity(payload: {newID: string}): boolean {
   }
 }
 
-function getIdentity(payload: {agentHash: Hash}): Hash | undefined {
+function getIdentity(payload: {agentHash: Hash}): string | undefined {
   try {
+    debug("Get agentHash:" + payload.agentHash);
+    debug("Get Payload: " + payload)
     let h = get(payload.agentHash);
+    debug("get h:" + h)
     return h;
   } catch (err) {
     return undefined;

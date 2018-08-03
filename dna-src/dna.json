@@ -75,7 +75,22 @@
                     "Name": "getState",
                     "CallingType": "json",
                     "Exposure": "public"
-                }                           
+                },
+                {
+                    "Name": "getIdentities",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "updateIdentity",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "getIdentity",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                }
             ]
         }
     ]

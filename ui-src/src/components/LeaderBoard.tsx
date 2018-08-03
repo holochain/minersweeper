@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Hash} from "../../../holochain";
 import {Map, fromJS} from 'immutable';
-import {fetchIdentities} from '../common'
+import {fetchText} from '../common'
 
 import store from '../store';
 import Jdenticon from './Jdenticon';
@@ -13,6 +13,7 @@ type LeaderBoardProps = {
 }
 
 class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
+
 
 
   public render () {
@@ -28,6 +29,14 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
         if(allPlayerHandles.size === 0) {
           console.log("!!! Nothing inside identity")
         }
+
+        fetchText('/fn/minersweeper/getIdentity', {
+          agentHash
+        }).then(response => {
+          console.log("!!!get response")
+          console.log(response)
+        })
+
         const agentHandler:string = allPlayerHandles.get(agentHash!)
         tempUserScoreMap.push([agentHandler, agentScore])
 
