@@ -130,13 +130,17 @@ class Cell extends React.Component<CellProps, CellState> {
     }
 
     // XXX: modifying state outside of a reducer!!!
-    matrix.takeAction({
+    const numRevealed = matrix.takeAction({
       actionType,
       position: pos,
       agentHash: whoami!.agentHash
     })
 
-    this.forceUpdate()
+    if (numRevealed > 1) {
+      this.redrawNeighborhood()
+    } else {
+      this.forceUpdate()
+    }
     this.makeMove(actionType, pos)
   }
 
