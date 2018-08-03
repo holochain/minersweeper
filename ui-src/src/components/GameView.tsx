@@ -42,7 +42,9 @@ class GameView extends React.Component<FieldProps, FieldState> {
         hash,
         type: 'VIEW_GAME',
       })
-      if (!allGames.has(hash)) {
+      if (allGames.has(hash)) {
+        dispatchViewGame()
+      } else {
         this.setState({ loading: true })
         fetchCurrentGames(store.dispatch).then(() => {
           this.setState({ loading: false })
@@ -53,8 +55,6 @@ class GameView extends React.Component<FieldProps, FieldState> {
             this.setState({invalid: true})
           }
         })
-      } else {
-        dispatchViewGame()
       }
     }
   }
