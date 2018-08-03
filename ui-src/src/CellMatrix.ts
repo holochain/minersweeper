@@ -25,7 +25,8 @@ const MASK_MINE     = 0b01000000
 
 export default class CellMatrix {
   public size: Size;
-
+  private nMines: number;
+  private nRevealedMines: number;
   private data: Uint8Array;
   private flags: Map<number, Hash>;
 
@@ -33,6 +34,8 @@ export default class CellMatrix {
     this.size = board.size;
     this.data = new Uint8Array(this.size.x * this.size.y);
     this.flags = Map<number, Hash>();
+    this.nMines = board.mines.length;
+    this.nRevealedMines = 0;
 
     board.mines.forEach(minePos => this.setMine(minePos));
     board.mines.forEach(minePos => {
@@ -75,6 +78,10 @@ export default class CellMatrix {
     }
   }
 
+  public getRemainingMines(): number {
+    return this.nMines - this.nRevealedMines;
+  }
+
   public triggerReveal(pos: Pos): number {
     const visited = new Set<number>();
     const toVisit = Array<Pos>(pos);
@@ -85,6 +92,7 @@ export default class CellMatrix {
     }
 
     if (this.isMine(pos)) {
+      this.nRevealedMines += 1;
       this.setRevealed(pos)
       return 1;
     }
