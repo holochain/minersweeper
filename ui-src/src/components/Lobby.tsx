@@ -140,7 +140,7 @@ const GameList = ({ allGames }) => {
                   {game.description}
                 </td>
                 <td>
-                  <Jdenticon size={30} hash={game.creatorHash}/>
+                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={game.creatorHash}/>
                   <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
                 </td>
                 <td>{game.mines.length}</td>
