@@ -41,6 +41,12 @@ export const fetchCurrentGames = dispatch =>
       type: 'FETCH_CURRENT_GAMES'
     }))
 
+export const fetchIdentities = (dispatch, agentHashes) =>
+  fetchJSON('/fn/minersweeper/getIdentities', {agentHashes})
+    .then(identities => dispatch({
+      identities,
+      type: 'UPDATE_IDENTITIES'
+    }))
 
 export const mineIcons = [
   "/images/btc.svg",

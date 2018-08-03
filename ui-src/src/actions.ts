@@ -14,3 +14,5 @@ export type ReduxAction
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
   | { type: 'FETCH_WHOAMI', agentHash: Hash, identity: string }
   | { type: 'FETCH_CURRENT_GAMES', games: [Hash, GameBoard] }
+
+  | { type: 'UPDATE_IDENTITIES', identities: [Hash, string] }
