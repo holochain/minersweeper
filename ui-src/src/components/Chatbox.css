@@ -12,10 +12,6 @@
   background: #fff;
 }
 
-.chat-container {
-  background: ;
-}
-
 .chatbox-input {
   border-radius: 3px;
   border: none;
@@ -27,8 +23,6 @@
 }
 
 /* /////////////////////////////// */
-
-
 .chat-box {
   font-family: Arial, sans-serif;
   margin: 0 auto;
@@ -341,18 +335,3 @@ padding: 30px;
   color: gray;
   cursor: pointer;
 }
-
-button {
-  float: right;
-  color: $blue;
-  font-size: 16px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  background: #F2F5F8;
-}
-
-button:hover {
-  color: darken($blue, 7%);
-} */

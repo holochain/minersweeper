@@ -46,6 +46,10 @@ html,body {
   margin: 2px;
 }
 
+.middle-align-item {
+  vertical-align: middle;
+}
+
 .Lobby {
   list-style-type: none;
   justify-content: center;
@@ -247,7 +251,6 @@ table, th, td {
     font-family: sans-serif;
     width: auto;
     font-size: 15px;
-    /* border-collapse: collapse; */
 }
 
 th {
@@ -429,7 +432,6 @@ h3{
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(to bottom (102, 51, 255, 0.9) 60%, rgba(153, 0, 255, 0.9) 90%);
-  /* overflow: auto; */
   /* animation: gray 1s 6.5s 1 ease-out both; */
 }
 

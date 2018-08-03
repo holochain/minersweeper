@@ -24,7 +24,7 @@ class Lobby extends React.Component<any, any> {
 
   constructor(props) {
      super(props);
-     this.state = {addClass: false}
+     this.state = {showModal: false}
      this.toggleModal = this.toggleModal.bind(this);
    }
 
@@ -43,7 +43,7 @@ class Lobby extends React.Component<any, any> {
   }
 
   public toggleModalState() {
-    this.setState({addClass: !this.state.addClass});
+    this.setState({showModal: !this.state.showModal});
   }
 
   public toggleModal() {
@@ -52,17 +52,10 @@ class Lobby extends React.Component<any, any> {
 
   public renderCryptoIcons() {
     return this.cryptoIcons.map((icon) => {
-      if(this.state.addClass) {
-        return (
-          <p key={icon} className="coin hide"/>
-        )
-      }
-      else {
-        return (
-          <p key={icon} className="coin"/>
-          // <p key={icon} src={`/images/${icon}`} />
-        );
-      }
+      return (
+        <p key={icon} className={`coin ${this.state.showModal ? 'hide' : ''}`}/>
+        // <p key={icon} src={`/images/${icon}`} />
+      );
     });
   }
 
@@ -96,7 +89,7 @@ class Lobby extends React.Component<any, any> {
           </div>
           {this.renderCryptoIcons()}
         </div>
-        <div className={ this.state.addClass ? "lobby-overlay hide" : "lobby-overlay" }>
+        <div className={ this.state.showModal ? "lobby-overlay hide" : "lobby-overlay" }>
           <div className="lobby-register">
             <button onClick={this.toggleModal}>
               <div>
@@ -108,7 +101,7 @@ class Lobby extends React.Component<any, any> {
           </div>
             <GameList allGames={allGames}/>
         </div>
-        { this.state.addClass ? modalDiv : null }
+        { this.state.showModal ? modalDiv : null }
       </div>
     );
   }
@@ -132,7 +125,6 @@ const GameList = ({ allGames }) => {
           <tr>
             <th data-field="game">Game Name</th>
             <th data-field="author">Author</th>
-            <th data-field="author">Author Flag</th>
             <th data-field="mine">Mines</th>
             <th data-field="size">Size</th>
           </tr>
@@ -142,19 +134,21 @@ const GameList = ({ allGames }) => {
             Object.keys(allGames.toJS()).map(hash => {
               const game = allGames.get(hash)
               console.log("game in body", game)
-                return <tr key={hash}>
-                  <td className="game-description">
-                    <Link to={`/game/${hash}`}>
-                      {game.description}
-                    </Link>
-                  </td>
-                  <td>
-                    <span className="align-items">{game.creatorHash.substring(0,5)}</span>
-                  </td>
-                  <td><Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/></td>
-                  <td>{game.mines.length}</td>
-                  <td>{game.size.x} x {game.size.y}</td>
-                </tr>
+                return (
+                  <tr key={hash}>
+                    <td className="game-description">
+                      <Link to={`/game/${hash}`}>
+                        {game.description}
+                      </Link>
+                    </td>
+                    <td>
+                      <Jdenticon className="jdenticon middle-align-item" size={30} hash={game.creatorHash}/>
+                      <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
+                    </td>
+                    <td>{game.mines.length}</td>
+                    <td>{game.size.x} x {game.size.y}</td>
+                  </tr>
+                ) 
             })
           }
         </tbody>
