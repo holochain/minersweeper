@@ -11,7 +11,7 @@ import {Hash} from '../../../holochain';
 import Jdenticon from './Jdenticon';
 
 import CellMatrix from '../CellMatrix';
-import {fetchJSON, CELL_SIZE, DEBUG_MODE} from '../common'
+import * as common from '../common'
 import store from '../store'
 
 type CellProps = {
@@ -23,7 +23,18 @@ type CellProps = {
   myActions: number,
 }
 
-class Cell extends React.Component<CellProps, {}> {
+type CellState = {
+  animating: boolean
+}
+
+class Cell extends React.Component<CellProps, CellState> {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      animating: false
+    }
+  }
 
   public render() {
     const {matrix, gameHash} = store.getState().currentGame!
@@ -46,19 +57,22 @@ class Cell extends React.Component<CellProps, {}> {
     const isFalseFlag = flag && !isMine
 
     const revealedClass = isRevealed ? "revealed" : ""
-    const mineClass = isMine && (isRevealed || DEBUG_MODE) ? "mine" : ""
+    const mineClass = isMine && (isRevealed || common.DEBUG_MODE) ? "mine" : ""
 
     const mistakeClass = (isRevealedMine || isFalseFlag) ? "mistake" : ""
 
     const numberClass =
       numAdjacent > 0 ? `num-${numAdjacent}` : ""
 
+    const animatingClass =
+      this.state.animating ? 'animating' : ''
 
     let content: JSX.Element | null = null
     if (isRevealedMine) {
-      content = <img src="/images/dogecoin.png"/>
+      const mineIcon = common.getIconFromPos(pos)
+      content = <img src={mineIcon} className="mine-icon"/>
     } else if (isCorrectFlag) {
-      content = <Jdenticon size={CELL_SIZE - 2} hash={flag} />
+      content = <Jdenticon size={common.CELL_SIZE - 2} hash={flag} />
     } else if (isNumber) {
       content = <span className={`number ${numberClass}`}>{ numAdjacent }</span>
     }
@@ -67,7 +81,7 @@ class Cell extends React.Component<CellProps, {}> {
     const handleRightClick = isNumber ? this.handleAutoReveal : this.handleFlag
 
     return <div
-      className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass}`}
+      className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass} ${animatingClass}`}
       style={style}
       onClick={ handleLeftClick }
       onContextMenu={ handleRightClick }
@@ -126,12 +140,17 @@ class Cell extends React.Component<CellProps, {}> {
     this.makeMove(actionType, pos)
   }
 
-  private makeMove(actionType, position) {
+  private makeMove = (actionType, position) => {
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
       action: {actionType, position}
     }
-    fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
+
+    // give it 2 seconds to animate
+    this.setState({animating: true})
+    setTimeout(() => this.setState({animating: false}), 2000)
+
+    common.fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
       // TODO: show score if ok
     })
   }
@@ -144,7 +163,6 @@ class Cell extends React.Component<CellProps, {}> {
       rowIndex: Math.max(0, this.props.rowIndex - 4),
     })
   }
-
 }
 
 // TODO: check for performance?

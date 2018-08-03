@@ -71,7 +71,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
-      const gameOver=matrix.isCompleted()
+      const gameOver = matrix.isCompleted()
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
