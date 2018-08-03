@@ -79,12 +79,8 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
-<<<<<<< HEAD
       const scores = oldState.currentGame == null ? null : oldState.currentGame!.scores
-      const gameOver=matrix.isCompleted()
-=======
       const gameOver = matrix.isCompleted()
->>>>>>> origin/master
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
@@ -115,7 +111,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const newIdentities = Map(action.identities);
       const oldIdentities = Map(state.identities);
 
-      return{...state, identities: newIdentities.merge(oldIdentities) as Map<Hash, string> }
+      return{...state, identities: oldIdentities.merge(newIdentities) as Map<Hash, string> }
     }
   }
   return state
