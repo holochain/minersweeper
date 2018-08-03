@@ -16,7 +16,8 @@ import {Action} from '../../minesweeper'
 const defaultState: StoreState = {
   allGames: Map({}),
   currentGame: null,
-  myActions: 0
+  myActions: 0,
+  whoami: null
 };
 
 function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
@@ -31,8 +32,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       break;
     }
     case 'QUICK_FLAG': {
-      // TODO
-      matrix.flagCell(action.coords, "TODO")
+      matrix.flagCell(action.coords, state.whoami!.agentHash)
       break;
     }
     case 'FETCH_ACTIONS': {
@@ -73,6 +73,14 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     }
     case 'CONFIRM_NEW_GAME': {
       return state
+    }
+    case 'FETCH_WHOAMI': {
+      const {agentHash, identity} = action
+      console.log('whoami:', agentHash, identity)
+      return {
+        ...state,
+        whoami: {agentHash, identity}
+      }
     }
     case 'FETCH_CURRENT_GAMES': {
       return {...state, allGames: Map(action.games) }
