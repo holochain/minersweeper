@@ -1,6 +1,6 @@
 import CellMatrix from "../CellMatrix";
 
-import {Pos} from '../../../minesweeper'
+import {Pos} from '../../../minersweeper'
 
 const assertNoDupes = board => {
   const seen = new Set();

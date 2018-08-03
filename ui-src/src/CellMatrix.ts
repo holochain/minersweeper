@@ -9,7 +9,7 @@ import {
   GameParams,
   Pos,
   Size
-} from '../../minesweeper';
+} from '../../minersweeper';
 
 export enum CellStatus {
   Concealed,

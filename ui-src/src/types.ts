@@ -3,7 +3,7 @@ import { List, Map } from 'immutable';
 import CellMatrix from './CellMatrix';
 
 import {Hash} from '../../holochain';
-import {GameBoard} from '../../minesweeper'
+import {GameBoard} from '../../minersweeper'
 
 
 export type ChatLog = {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import { Grid } from 'react-virtualized';
 
-import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../minesweeper'
+import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../minersweeper'
 
 import './Cell.css';
 

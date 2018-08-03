@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { Hash } from "../../holochain"
-import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minesweeper"
+import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minersweeper"
 
 export = 0;
 let module = {}
