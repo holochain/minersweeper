@@ -16,6 +16,10 @@ export type StoreState = {
   identities: Map<Hash, string>,
   currentGame: StoreGameState,
   myActions: number,
+  whoami: {
+    agentHash: Hash,
+    identity: string
+  } | null
 };
 
 export type StoreGameState = {
@@ -24,4 +28,5 @@ export type StoreGameState = {
   gameHash: Hash,
   gameBoard: GameBoard,
   scores: Map<Hash, number> | null,
+  gameOver:boolean,
 } | null;

@@ -116,6 +116,18 @@ export default class CellMatrix {
     return (this.getValue(pos) & 0b00100000) > 0;
   }
 
+  public isCompleted(): boolean {
+    for (let y = 0; y < this.size.y; y++) {
+      for (let x = 0; x < this.size.x; x++) {
+        const pos = {x,y}
+        if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
   public isMine(pos: Pos): boolean {
     return (this.getValue(pos) & 0b00010000) > 0;
   }
@@ -155,7 +167,15 @@ export default class CellMatrix {
   }
 
   private incrementAdjacentMineCount(pos: Pos) {
-    this.setValue(pos, this.getAdjacentMines(pos)+1);
+    // NB: this can overflow!! use with caution
+    this.data[this.posToIndex(pos)] += 1
+
+    // FYI: this is how it should be done, but it's slower
+    /*
+    const lsh = this.getAdjacentMines(pos) + 1;
+    const msh = this.getValue(pos) & 0b11110000;
+    this.setValue(pos, lsh | msh);
+     */
   }
 
   private setRevealed(pos: Pos) {

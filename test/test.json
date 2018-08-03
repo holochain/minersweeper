@@ -9,6 +9,14 @@
             "Exposure":"public"
         },
         {
+            "Convey": "Same result from calling whoami with no parameters",
+            "Zome": "minersweeper",
+            "FnName": "whoami",
+            "Input": {},
+            "Output": ["%key%", "%agentstr%"],
+            "Exposure":"public"
+        },
+        {
             "Convey": "Can update the indentity to a new string",
             "Zome": "minersweeper",
             "FnName": "updateIdentity",
@@ -29,7 +37,7 @@
             "Zome": "minersweeper",
             "FnName": "getIdentities",
             "Input": {"agentHashes": ["%key%"]},
-            "Output": ["%key%", "wollum"],
+            "Output": [["%key%", "wollum"]],
             "Exposure":"public"
         },
         {

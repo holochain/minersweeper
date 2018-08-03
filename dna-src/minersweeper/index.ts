@@ -71,23 +71,22 @@ function getState(payload: {gameHash: Hash}): Action[] {
 function updateIdentity(payload: {newID: string}): boolean {
   try {
     debug("updating identity to: "+ payload.newID);
-    updateAgent({Identity: payload.newID, Revocation: "x"});
-    let result = update("agentID", App.Agent.String, App.Key.Hash);
-    let updatedID = get(App.Key.Hash);
+    let agentIdHash = getLinks(App.Key.Hash, "")[0].Hash;
+    debug(agentIdHash);
+    let result = update("agentID", payload.newID, agentIdHash);
     return true;
   } catch (err) {
+    debug(err);
     return false
   }
 }
 
 function getIdentity(payload: {agentHash: Hash}): string | undefined {
   try {
-    debug("Get agentHash:" + payload.agentHash);
-    debug("Get Payload: " + payload)
-    let h = get(payload.agentHash);
-    debug("get h:" + h)
-    return h;
+    let h = getLinks(payload.agentHash, "", {Load: true});
+    return h[0].Entry;
   } catch (err) {
+    debug(err);
     return undefined;
   }
 }
@@ -104,6 +103,10 @@ function getIdentities(payload: {agentHashes: Hash[]}): [Hash, string][] {
   return result;
 }
 
+
+function whoami(): [Hash, string] {
+  return [App.Key.Hash, getIdentity({agentHash: App.Key.Hash})];
+}
 
 /*=====  End of Public Zome Functions  ======*/
 
@@ -196,8 +199,12 @@ function validateGameBoard(gameBoard) {
 
 function genesis () {
   let h = commit('anchor', 'currentGames'); // ensure this always exists
-  // debug("Joining with identity: "+App.Agent.String);
-  // update("agentID", App.Agent.String, App.Key.Hash);
+  debug("Joining with identity: "+App.Agent.String);
+
+  let idHash = commit("agentID", App.Agent.String);
+  commit('agentLinks', { Links: [
+    { Base: App.Key.Hash, Link: idHash, Tag: "" } ]
+  });
   return true;
 }
 

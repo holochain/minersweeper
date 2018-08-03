@@ -19,24 +19,24 @@ const defaultState: StoreState = {
   allGames: Map({}),
   identities: Map({}),
   currentGame: null,
-  myActions: 0
+  myActions: 0,
+  whoami: null
 };
 
-function reduceGame (state: StoreGameState, action: ReduxAction) {
-  if (state === null) {
-    return state
+function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
+  const gameState = state.currentGame
+  if (gameState === null) {
+    return gameState
   }
-
-  const {chats, matrix, gameHash, gameBoard} = state!
-  let {scores} = state!
+  const {chats, matrix, gameHash, gameBoard} = gameState!
+  let {scores} = gameState!
   switch (action.type) {
     case 'QUICK_REVEAL': {
       matrix.triggerReveal(action.coords)
       break;
     }
     case 'QUICK_FLAG': {
-      // TODO
-      matrix.flagCell(action.coords, "TODO")
+      matrix.flagCell(action.coords, state.whoami!.agentHash)
       break;
     }
     case 'FETCH_ACTIONS': {
@@ -48,9 +48,12 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
       break;
     }
   }
+
+    const gameOver:boolean = matrix.isCompleted();
+
   return {
-    ...state,
-    scores,
+    ...gameState,
+    gameOver,
     matrix,
   }
 }
@@ -58,31 +61,40 @@ function reduceGame (state: StoreGameState, action: ReduxAction) {
 export function reducer (oldState: StoreState = defaultState, action: ReduxAction): StoreState {
   const state = {
     ...oldState,
-    currentGame: reduceGame(oldState.currentGame, action),
+    currentGame: reduceGame(oldState, action),
     myActions: oldState.myActions + 1,
   }
 
-  switch (action.type) {
+    switch (action.type) {
     // Game reducer
     case 'VIEW_GAME': {
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
       const scores = oldState.currentGame == null ? null : oldState.currentGame!.scores
+      const gameOver=matrix.isCompleted()
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
         matrix,
         scores,
         gameBoard
+        gameOver,
       }
       return {...state, currentGame}
     }
     case 'CONFIRM_NEW_GAME': {
       return state
     }
+    case 'FETCH_WHOAMI': {
+      const {agentHash, identity} = action
+      console.log('whoami:', agentHash, identity)
+      return {
+        ...state,
+        whoami: {agentHash, identity}
+      }
+    }
     case 'FETCH_CURRENT_GAMES': {
-      console.log("games",action.games)
       return {...state, allGames: Map(action.games) }
     }
     case 'UPDATE_IDENTITIES': {
