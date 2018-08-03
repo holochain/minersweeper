@@ -16,35 +16,32 @@ html,body {
 
 /* ------------ Scrollbar CSS-------------- */
 
-.Lobby ::-webkit-scrollbar {
+.splash-screen-page::-webkit-scrollbar {
   width: 10px;
   background-color: #F5F5F5;
 }
 
-.Lobby ::-webkit-scrollbar-track {
+.splash-screen-page::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   background-color: #F5F5F5;
   border-radius: 10px;
 }
 
-.Lobby ::-webkit-scrollbar-track-piece {
+.splash-screen-page::-webkit-scrollbar-track-piece {
   background-color: #030303;
 }
 
-.Lobby ::-webkit-scrollbar-corner {
+.splash-screen-page::-webkit-scrollbar-corner {
   background-color: #030303;
 }
 
-.Lobby ::-webkit-scrollbar-thumb {
+.splash-screen-page::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
 
 
 /* ------------ Lobby Content CSS-------------- */
-.jdenticon {
-  margin: 2px;
-}
 
 .middle-align-item {
   vertical-align: middle;
@@ -67,9 +64,8 @@ html,body {
   width: 95%;
   height: 100%;
   margin: 0 auto;
-  background: rgba(0, 0, 0, 1.16);
-  border: 5px dotted slateblue;
-  opacity: 0.88;
+  background: rgba(0, 0, 0, .92);
+  border: 5px dotted slateblue;;
   z-index: 99999;
   animation: lobby-games 3s 6.1s 1 ease both;
 }
@@ -99,6 +95,22 @@ html,body {
   background: transparent;
   display: inline-block;
   margin: 0 auto;
+}
+
+.play-button {
+  width: 80px;
+  height: 50px;
+  padding: 2px;
+  background: black;
+  border-radius: 25px;
+  display: inline-block;
+  margin: 0 auto;
+  -webkit-border-radius: 10px;
+  background: -webkit-linear-gradient(#eee, #4148b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  font-size: 22px;
+  font-weight: 300;
 }
 
 /* ///////// Lobby New Game Button  //////// */

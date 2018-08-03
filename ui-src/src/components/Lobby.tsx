@@ -80,7 +80,7 @@ class Lobby extends React.Component<any, any> {
     )
 
     return (
-      <div>
+      <div className="splash-screen-page">
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
@@ -127,6 +127,7 @@ const GameList = ({ allGames }) => {
             <th data-field="author">Author</th>
             <th data-field="mine">Mines</th>
             <th data-field="size">Size</th>
+            <th data-field="size"/>
           </tr>
         </thead>
         <tbody>
@@ -136,16 +137,19 @@ const GameList = ({ allGames }) => {
               console.log("game in body", game)
               return <tr key={hash}>
                 <td className="game-description">
-                  <Link to={`/game/${hash}`}>
-                    {game.description}
-                  </Link>
+                  {game.description}
                 </td>
                 <td>
-                  <Jdenticon className="jdenticon middle-align-item" size={30} hash={game.creatorHash}/>
+                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={game.creatorHash}/>
                   <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
                 </td>
                 <td>{game.mines.length}</td>
                 <td>{game.size.x} x {game.size.y}</td>
+                <td>
+                  <Link to={`/game/${hash}`}>
+                    <button className="play-button">Play</button>
+                  </Link>
+                </td>
               </tr>
             })
           }
