@@ -10,14 +10,7 @@ import {Hash} from '../../../holochain';
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 
-import {
-  CELL_SIZE,
-  FETCH_ACTIONS_INTERVAL,
-  MARGIN_CELLS,
-  fetchCurrentGames,
-  fetchJSON,
-  xor
-} from '../common';
+import * as common from '../common';
 import store from '../store';
 
 type FieldProps = {
@@ -72,7 +65,7 @@ class Field extends React.Component<FieldProps, FieldState> {
   public render() {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
-    const cellSize = CELL_SIZE
+    const cellSize = common.CELL_SIZE
     const overscan = 0
 
     return (
@@ -81,8 +74,8 @@ class Field extends React.Component<FieldProps, FieldState> {
           ({width, height}) => <Grid
             ref={ this.grid }
             cellRenderer={this.CellWrapped}
-            columnCount={columns + MARGIN_CELLS * 2}
-            rowCount={rows + MARGIN_CELLS * 2}
+            columnCount={columns + common.MARGIN_CELLS * 2}
+            rowCount={rows + common.MARGIN_CELLS * 2}
             columnWidth={cellSize}
             rowHeight={cellSize}
             height={height}
@@ -104,8 +97,8 @@ class Field extends React.Component<FieldProps, FieldState> {
       myActions={this.props.myActions}
       gameHash={this.props.gameHash}
       key={key}
-      columnIndex={columnIndex - MARGIN_CELLS}
-      rowIndex={rowIndex - MARGIN_CELLS}
+      columnIndex={columnIndex - common.MARGIN_CELLS}
+      rowIndex={rowIndex - common.MARGIN_CELLS}
       {...props}/>
   )
 
@@ -122,14 +115,54 @@ class Field extends React.Component<FieldProps, FieldState> {
   }
 
   private mouseMoveListener = e => {
-    console.log("TODO")
+    const grid: Grid = this.grid.current
+    if (!grid) {
+      return
+    }
+    const div = grid!._scrollingContainer
+    const {offsetWidth, offsetHeight} = div
+    const {clientX, clientY} = e
+    const margin = common.MOUSE_PAN_MARGIN
+    const speed = common.MOUSE_PAN_SPEED
+    const offset = {
+      x: 0,
+      y: 0,
+    }
+    if (clientX < margin) {
+      offset.x -= speed
+    }
+    if (offsetWidth - clientX < margin) {
+      offset.x += speed
+    }
+    if (clientY < margin) {
+      offset.y -= speed
+    }
+    if (offsetHeight - clientY < margin) {
+      offset.y += speed
+    }
+    if (offset.x || offset.y) {
+      this.isPanning = true
+      this.panBy(offset)
+    } else {
+      this.isPanning = false
+    }
+  }
+
+  private panBy({x, y}) {
+    const grid: any = this.grid.current!
+    const container = grid._scrollingContainer
+    const {scrollLeft, scrollTop} = container
+    const pos = {scrollLeft, scrollTop}
+    pos.scrollLeft += x
+    pos.scrollTop += y
+    grid.scrollToPosition(pos)
   }
 
   private startPollingPan() {
     if (this.panInterval) {
       return
     }
-    const speed = CELL_SIZE
+    const speed = common.CELL_SIZE
     this.panInterval = setInterval(
       () => {
         const grid: any = this.grid.current!
@@ -146,6 +179,7 @@ class Field extends React.Component<FieldProps, FieldState> {
           }
         })
         this.isPanning = isPanning
+        // TODO: replace with panBy
         if (isPanning) {
           grid.scrollToPosition(pos)
         }
@@ -160,7 +194,7 @@ class Field extends React.Component<FieldProps, FieldState> {
   private startPollingActions() {
     const hash = this.props.gameHash
     if (hash) {
-      const fetchActions = () => fetchJSON('/fn/minersweeper/getState', {
+      const fetchActions = () => common.fetchJSON('/fn/minersweeper/getState', {
         gameHash: hash
       }).then(actions => {
         store.dispatch({
@@ -175,7 +209,7 @@ class Field extends React.Component<FieldProps, FieldState> {
           if (!this.isPanning) {
             fetchActions()
           }
-        }, FETCH_ACTIONS_INTERVAL
+        }, common.FETCH_ACTIONS_INTERVAL
       )
     }
   }
