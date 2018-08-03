@@ -113,7 +113,7 @@ it('Can reveal a flagged cell', () => {
   expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
 });
 
-it('Assures that adjacent count <=8 even in an extreme case', () => {
+it('Assures that adjacent count <= 8 even in an extreme case', () => {
   const {mines, size} = allMinesBoard
   expect(mines.length).toEqual(size.x * size.y)
   const cm = new CellMatrix(allMinesBoard);
@@ -127,6 +127,10 @@ it('Assures that adjacent count <=8 even in an extreme case', () => {
     }
   }
 });
+
+it('Can auto-reveal when sufficient flags/mines are present', () => {
+
+})
 
 it('Check for Game Over state', () => {
   const cm = new CellMatrix(smallTestBoard);
