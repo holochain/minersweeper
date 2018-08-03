@@ -39,8 +39,8 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <h1 className="registration-header">Game Registration</h1>
       <h4>Register the Details of Your Game Below</h4>
       <hr className="reg-hr"/>
-      <input id="widthInput" className="register-input" value={this.state.boardWidth} onInput={this.handleChange} type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
-      <input id="heightInput" className="register-input" value={this.state.boardHeight} onInput={this.handleChange} type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
+      <input id="widthInput" className="register-input" value={this.state.boardWidth} onBlur={this.handleChange} type="number" ref={el => this.inWidth = el} placeholder="Gameboard Width"/>
+      <input id="heightInput" className="register-input" value={this.state.boardHeight} onBlur={this.handleChange} type="number" ref={el => this.inHeight = el} placeholder="Gameboard Height"/>
       <br/>
       <select id="difficultySelect" value={this.state.selectedDifficulty} onChange={this.handleChange} className="register-input">
         <option value='easy'>I'm Too Young To Die - {EASY_DENSITY*100}% mines</option>
@@ -97,8 +97,8 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
     }
   }
 
-  private dimInRange(x: number) {
-    return (x>=10 && x<=1000);
+  private clipToRange(x: number): number {
+    return Math.max(Math.min(x,1000),10);
   }
 
   private handleChange(event) {
@@ -107,10 +107,10 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
         this.setState({selectedDifficulty: event.target.value});
         break;
       case "widthInput":
-        if(this.dimInRange(event.target.value)) { this.setState({boardWidth: event.target.value}) }
+        this.setState({boardWidth: this.clipToRange(event.target.value)})
         break;
       case "heightInput":
-        if(this.dimInRange(event.target.value)) { this.setState({boardHeight: event.target.value}) }
+        this.setState({boardHeight: this.clipToRange(event.target.value)})
         break;
     }
   }
