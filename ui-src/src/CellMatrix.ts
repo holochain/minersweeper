@@ -36,8 +36,8 @@ export default class CellMatrix {
 
     board.mines.forEach(minePos => this.setMine(minePos));
     board.mines.forEach(minePos => {
-      this.forEachNeighbor(minePos, (x, y) => {
-        this.incrementAdjacentMineCount({x, y});
+      this.forEachNeighbor(minePos, n => {
+        this.incrementAdjacentMineCount(n);
       });
     });
   }
@@ -99,8 +99,7 @@ export default class CellMatrix {
       nRevealed++;
 
       if (this.getAdjacentMines(c) === 0) {
-        this.forEachNeighbor(c, (x, y) => {
-          const n = { x, y };
+        this.forEachNeighbor(c, n => {
           if (!visited.has(this.posToIndex(n))) {
             toVisit.push(n);
           }
@@ -108,6 +107,26 @@ export default class CellMatrix {
       }
     }
     return nRevealed;
+  }
+
+  public autoReveal(pos: Pos): Array<Pos> {
+    const mineCount = this.getAdjacentMines(pos)
+    let perceivedMines = 0
+    const newReveals: Array<Pos> = []
+    this.forEachNeighbor(pos, n => {
+      perceivedMines += (
+        this.isMine(n) && (this.isRevealed(n) || this.isFlagged(n))
+      ) ? 1 : 0
+    })
+    if (perceivedMines === mineCount) {
+      this.forEachNeighbor(pos, n => {
+        if (!(this.isRevealed(n) || this.isFlagged(n))) {
+          newReveals.push(n)
+        }
+      })
+    }
+    newReveals.forEach(p => this.triggerReveal(p))
+    return newReveals
   }
 
   public getAdjacentMines(pos: Pos): number {
@@ -143,14 +162,14 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
-  private forEachNeighbor(pos: Pos, func: any) {
+  private forEachNeighbor(pos: Pos, func: (Pos) => void) {
     [-1, 0, 1].forEach(dx => {
       [-1, 0, 1].forEach(dy => {
         if (dx !== 0 || dy !== 0) {
           const x = pos.x + dx;
           const y = pos.y + dy;
           if (this.isInBounds(x, y)) {
-            func(x, y);
+            func({x, y});
           }
         }
       });
