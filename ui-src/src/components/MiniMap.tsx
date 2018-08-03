@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {Action, ActionType, GameBoard, MoveDefinition, XY} from '../../../minesweeper'
+import {Action, ActionType, GameBoard, MoveDefinition, XY} from '../../../minersweeper'
 
 import './Cell.css';
 

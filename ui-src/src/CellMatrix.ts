@@ -9,7 +9,7 @@ import {
   GameParams,
   Pos,
   Size
-} from '../../minesweeper';
+} from '../../minersweeper';
 
 export enum CellStatus {
   Concealed,
@@ -42,22 +42,24 @@ export default class CellMatrix {
     });
   }
 
-  public takeAction(action: Action) {
+  public takeAction(action: Action): number {
+    let numRevealed = 0
     switch (action.actionType) {
       case "flag":
         if (!this.isMine(action.position)) {
-          this.triggerReveal(action.position);
+          numRevealed = this.triggerReveal(action.position);
         }
         this.flagCell(action.position, action.agentHash);
         break;
       case "reveal":
-        this.triggerReveal(action.position);
+        numRevealed = this.triggerReveal(action.position);
         break;
       case "chat":
         break;
       default:
         break;
     }
+    return numRevealed
   }
 
   public flagCell(pos: Pos, agentHash: Hash) {

@@ -12,7 +12,7 @@ import {
   StoreState,
 } from './types';
 
-import {Action} from '../../minesweeper'
+import {Action} from '../../minersweeper'
 
 
 const defaultState: StoreState = {
@@ -79,8 +79,12 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
+<<<<<<< HEAD
       const scores = oldState.currentGame == null ? null : oldState.currentGame!.scores
       const gameOver=matrix.isCompleted()
+=======
+      const gameOver = matrix.isCompleted()
+>>>>>>> origin/master
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
@@ -103,6 +107,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       }
     }
     case 'FETCH_CURRENT_GAMES': {
+      console.log("games", action.games)
       return {...state, allGames: Map(action.games) }
     }
     case 'UPDATE_IDENTITIES': {

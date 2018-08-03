@@ -1,6 +1,7 @@
-import { GameBoard, Action, Pos, Size } from "../../minesweeper";
-import { Hash } from "../../holochain";
 import {fromJS} from 'immutable';
+
+import { Hash } from "../../holochain";
+import { GameBoard, Action, Pos, Size } from "../../minersweeper";
 
 export const CLICK_MINE = -10;
 export const CLICK_NON_MINE = 1;

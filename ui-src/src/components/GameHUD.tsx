@@ -2,6 +2,8 @@ import * as React from 'react';
 import './GameHUD.css';
 import LeaderBoard from './LeaderBoard';
 
+import Chatbox from './Chatbox';
+
 
 class GameHUD extends React.Component<any, {}> {
 
@@ -11,7 +13,7 @@ class GameHUD extends React.Component<any, {}> {
         <LeaderBoard />
       </div>
       <div className="game-chat">
-        {"chat here"}
+        <Chatbox/>
       </div>
     </div>
   }

@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import { Hash } from "../../holochain"
-import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minesweeper"
+import {Action, GameBoard, GameParams, MoveDefinition, Size} from "../../minersweeper"
 
 export = 0;
 let module = {}
@@ -122,24 +122,22 @@ function random(): number {
     return x - Math.floor(x);
 }
 
-// Returns a random integer between min (inclusive) and max (inclusive)
-function randInt(min: number, max: number): number {
-    return Math.floor(random() * (max - min + 1)) + min;
-}
-
+// // Returns a random integer between min (inclusive) and max (inclusive)
+// function randInt(min: number, max: number): number {
+//     return Math.floor(random() * (max - min + 1)) + min;
+// }
 
 function genGameBoard(description: string, size: Size, nMines: number): GameBoard {
-  let mines = [];
-  let x: number;
-  let y: number;
-  for(let i = 0; i < nMines; i++) {
-    do {
-      x = randInt(0, size.x-1);
-      y = randInt(0, size.y-1);
-    } while (mines.some(function(elem) { // ensures no duplicates
-      return (x===elem.x && y===elem.y)
-    }));
-    mines.push({x:x, y:y});
+  const mines = [];
+  const nSquares = size.x*size.y;
+  for(let i=0; i < nSquares; i++) {
+    let remainingMines = nMines - mines.length;
+    let remainingSquares = nSquares - i;
+    if(remainingMines / remainingSquares >= random()) {
+      let x = i % size.x;
+      let y = Math.floor(i / size.x);
+      mines.push({x:x, y:y});
+    }
   }
 
   return {
@@ -149,6 +147,29 @@ function genGameBoard(description: string, size: Size, nMines: number): GameBoar
     size: size,
   };
 }
+
+
+// function genGameBoard(description: string, size: Size, nMines: number): GameBoard {
+//   let mines = [];
+//   let x: number;
+//   let y: number;
+//   for(let i = 0; i < nMines; i++) {
+//     do {
+//       x = randInt(0, size.x-1);
+//       y = randInt(0, size.y-1);
+//     } while (mines.some(function(elem) { // ensures no duplicates. TODO: make this more efficient
+//       return (x===elem.x && y===elem.y)
+//     }));
+//     mines.push({x:x, y:y});
+//   }
+
+//   return {
+//     creatorHash: App.Key.Hash,
+//     description: description,
+//     mines: mines,
+//     size: size,
+//   };
+// }
 
 // player is dead if one of their reveals is a mine position
 function isDead(gameBoard: GameBoard, actions: Action[]): boolean {

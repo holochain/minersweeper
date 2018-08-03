@@ -206,17 +206,19 @@ class Field extends React.Component<FieldProps, FieldState> {
   }
 
   private performPan() {
-    const grid: any = this.grid.current!
-    const container = grid._scrollingContainer
-    const {scrollLeft, scrollTop} = container
-    const pos = {scrollLeft, scrollTop}
-    const {x, y} = this.panOffset()
-    if (x !== this.state.panOffset.x || y !== this.state.panOffset.y) {
-      this.setState({panOffset: {x, y}})
+    const grid: Grid | null = this.grid.current
+    if (grid) {
+      const container = grid._scrollingContainer
+      const {scrollLeft, scrollTop} = container
+      const pos = {scrollLeft, scrollTop}
+      const {x, y} = this.panOffset()
+      if (x !== this.state.panOffset.x || y !== this.state.panOffset.y) {
+        this.setState({panOffset: {x, y}})
+      }
+      pos.scrollLeft += x
+      pos.scrollTop += y
+      grid.scrollToPosition(pos)
     }
-    pos.scrollLeft += x
-    pos.scrollTop += y
-    grid.scrollToPosition(pos)
   }
 
   private startPollingPan() {

@@ -1,5 +1,5 @@
 import {getScores, isMine } from "../scoring";
-import { Action } from "../../../minesweeper";
+import { Action } from "../../../minersweeper";
 
 const testGameBoard = {
   mines: [{x: 10, y: 20}, {x: 20, y: 10}],

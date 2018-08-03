@@ -1,3 +1,4 @@
+import {Pos} from '../../minersweeper'
 
 // make mines visible even when concealed
 export const DEBUG_MODE = false
@@ -56,3 +57,37 @@ export const fetchIdentities = (dispatch, agentHashes) =>
       identities,
       type: 'UPDATE_IDENTITIES'
     }))
+
+export const mineIcons = [
+  "/images/btc.svg",
+  "/images/dbc.svg",
+  "/images/doge.svg",
+  "/images/elix.svg",
+  "/images/eth.svg",
+  "/images/huc.svg",
+  "/images/kmd.svg",
+  "/images/lrc.svg",
+  "/images/ltc.svg",
+  "/images/mkr.svg",
+  "/images/nmc.svg",
+  "/images/nxs.svg",
+  "/images/ox.svg",
+  "/images/pay.svg",
+  "/images/pot.svg",
+  "/images/powr.svg",
+  "/images/tel.svg",
+  "/images/xmr.svg",
+  "/images/zec.svg",
+  "/images/xvg.svg",
+  "/images/drgn.svg",
+]
+
+export function getIconFromPos ({x, y}: Pos): string {
+  const index = cantor(x, y) % mineIcons.length
+  return mineIcons[index]
+}
+
+function cantor(a: number, b: number): number {
+  // from https://math.stackexchange.com/questions/23503/create-unique-number-from-2-numbers
+  return ((a + b) * (a + b + 1)) / 2 + b
+}

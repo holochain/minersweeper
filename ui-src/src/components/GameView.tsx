@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {withRouter} from 'react-router';
+import {withRouter, Redirect} from 'react-router';
 
 import './GameView.css';
 
@@ -16,17 +16,22 @@ import Field from './Field';
 import GameHUD from './GameHUD';
 import GameOver from './GameOver';
 
-type FieldProps = {
-  currentGame: any
+type FieldProps = any
+type FieldState = {
+  loading: boolean,
+  invalid: boolean
 }
 
-class GameView extends React.Component<any, { loading: boolean }> {
+class GameView extends React.Component<FieldProps, FieldState> {
 
   private actionsInterval: any = null
 
   constructor(props) {
     super(props)
-    this.state = { loading: true }
+    this.state = {
+      loading: true,
+      invalid: false,
+    }
   }
 
   public componentWillMount() {
@@ -37,15 +42,19 @@ class GameView extends React.Component<any, { loading: boolean }> {
         hash,
         type: 'VIEW_GAME',
       })
-      if (!allGames.has(hash)) {
+      if (allGames.has(hash)) {
+        dispatchViewGame()
+      } else {
         this.setState({ loading: true })
         fetchCurrentGames(store.dispatch).then(() => {
-          dispatchViewGame()
-          this.forceUpdate()
           this.setState({ loading: false })
+          if (allGames.has(hash)) {
+            dispatchViewGame()
+            this.forceUpdate()
+          } else {
+            this.setState({invalid: true})
+          }
         })
-      } else {
-        dispatchViewGame()
       }
     }
   }
@@ -69,7 +78,13 @@ class GameView extends React.Component<any, { loading: boolean }> {
         </div>
       }
     } else {
-      return this.state.loading ? <h1>loading...</h1> : <h1>Game not found...</h1>
+      return (
+        this.state.invalid
+        ? <Redirect to="/" />
+        : this.state.loading
+        ? <h1>loading...</h1>
+        : <h1>Game not found...</h1>
+      )
     }
   }
 }

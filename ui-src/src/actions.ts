@@ -2,7 +2,7 @@ import {fetchJSON} from './common'
 import {StoreState} from './types'
 
 import {Hash} from '../../holochain'
-import {Action, GameBoard, GameParams, XY} from '../../minesweeper'
+import {Action, GameBoard, GameParams, XY} from '../../minersweeper'
 
 export type ReduxAction
   = { type: 'VIEW_GAME', hash: string }

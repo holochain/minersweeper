@@ -3,16 +3,16 @@ import { List, Map } from 'immutable';
 import CellMatrix from './CellMatrix';
 
 import {Hash} from '../../holochain';
-import {GameBoard} from '../../minesweeper'
+import {GameBoard} from '../../minersweeper'
 
 
 export type ChatLog = {
-  author: string,
+  author: Hash,
   message: string
 }
 
 export type StoreState = {
-  allGames: Map<string, GameBoard>,
+  allGames: Map<Hash, GameBoard>,
   identities: Map<Hash, string>,
   currentGame: StoreGameState,
   myActions: number,
