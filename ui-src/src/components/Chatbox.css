@@ -1,0 +1,373 @@
+.chat-box {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+}
+
+.chat-container {
+  background: #fff;
+}
+
+.chat-container {
+  background: ;
+}
+
+.chatbox-input {
+  border-radius: 3px;
+  border: none;
+  padding: 14px;
+  color: white;
+  background: #6A6C75;
+  width: 90%;
+  font-size: 14px;
+}
+
+/* /////////////////////////////// */
+
+#chatApp {
+  font-family: "Times", sans-serif;
+  margin: 7em auto;
+  font-size: 25px;
+  width: 10em;
+  height: 15em;
+  background-color: rgba(52, 152, 219, 0.5);
+}
+#chatApp .chatBox {
+  box-shadow: 0.1em 0.1em 0.5em black;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+}
+#chatApp .chatBox .inputField {
+  height: 30%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+#chatApp .chatBox .inputField .inputName {
+  height: 1.5em;
+  border: none;
+  font-size: 0.6em;
+  padding-left: 0.3em;
+  background: rgba(255, 255, 255, 0.3);
+}
+#chatApp .chatBox .inputField .inputName::-webkit-input-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputName:-moz-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputName::-moz-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputName:-ms-input-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputName:focus {
+  outline: none;
+}
+#chatApp .chatBox .inputField .inputName:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputName:focus:-moz-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputName:focus::-moz-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputName:focus:-ms-input-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputText {
+  border: none;
+  flex: 1;
+  font-size: 0.6em;
+  padding-left: 0.3em;
+  background: rgba(255, 255, 255, 0.5);
+}
+#chatApp .chatBox .inputField .inputText::-webkit-input-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputText:-moz-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputText::-moz-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputText:-ms-input-placeholder {
+  padding-left: 0.1em;
+  font-family: "Jura", sans-serif;
+  color: #1a4c6d;
+}
+#chatApp .chatBox .inputField .inputText:focus {
+  outline: none;
+}
+#chatApp .chatBox .inputField .inputText:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputText:focus:-moz-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputText:focus::-moz-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputText:focus:-ms-input-placeholder {
+  opacity: 0;
+}
+#chatApp .chatBox .inputField .inputButtons {
+  display: flex;
+}
+#chatApp .chatBox .inputField .inputButtons .inputButtonSend {
+  font-family: "Jura", sans-serif;
+  color: #212f3d;
+  flex: 1;
+  font-size: 1em;
+  border: none;
+  background: #2980b9;
+}
+#chatApp .chatBox .inputField .inputButtons .inputButtonSend:hover {
+  color: #151f29;
+  cursor: pointer;
+  background: #2e8ece;
+}
+#chatApp .chatBox .inputField .inputButtons .inputButtonClear {
+  font-family: "Jura", sans-serif;
+  color: #212f3d;
+  flex: 1;
+  font-size: 1em;
+  border: none;
+  background: #c0392b;
+}
+#chatApp .chatBox .inputField .inputButtons .inputButtonClear:hover {
+  color: #151f29;
+  background: #d14233;
+  cursor: pointer;
+}
+#chatApp .chatBox .messages-field {
+  height: 70%;
+  box-sizing: border-box;
+  padding: 0.1em;
+  overflow-y: auto;
+}
+#chatApp .chatBox .messages-field .message-enter {
+  opacity: 0.01;
+}
+#chatApp .chatBox .messages-field .message-enter.message-enter-active {
+  opacity: 1;
+  transition: 0.5s ease-out;
+}
+#chatApp .chatBox .messages-field .message-appear {
+  opacity: 0.01;
+}
+#chatApp .chatBox .messages-field .message-appear.message-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+#chatApp .chatBox .messages-field .single-message-field {
+  position: relative;
+  margin: 0.2em 0.2em 0.2em 0.5em;
+  background: #2076b3;
+  border-radius: 0.2em;
+}
+#chatApp .chatBox .messages-field .single-message-field:before {
+  content: "";
+  position: absolute;
+  left: -0.4em;
+  width: 0;
+  height: 0;
+  border-top: 1.2em solid #212f3d;
+  border-left: 0.4em solid transparent;
+}
+#chatApp .chatBox .messages-field .single-message-field .messageAuthorName {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 100;
+  padding: 0.1em;
+  background-color: #212f3d;
+  color: #d0e7f6;
+}
+#chatApp .chatBox .messages-field .single-message-field .messageText {
+  margin: 0;
+  padding: 0.1em;
+  word-wrap: break-word;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #212f3d;
+}
+
+/* //////////////////////////// */
+
+/* ul {
+    padding: 20px;
+    height: 770px;
+  }
+
+li {
+  padding-bottom: 20px;
+}
+
+img {
+  float: left;
+}
+
+.about {
+  float: left;
+  margin-top: 8px;
+}
+
+.about {
+  padding-left: 8px;
+}
+
+.status {
+  color: $gray;
+}
+
+
+.chat {
+  width: 490px;
+  float:left;
+  background: #F2F5F8;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  color: #434651;
+}
+
+.chat.chat-header {
+    padding: 20px;
+    border-bottom: 2px solid white;
+}
+
+.chat-header img {
+  float: left;
+}
+
+.chat-about {
+  float: left;
+  padding-left: 10px;
+  margin-top: 6px;
+}
+
+.chat-with {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.chat-num-messages {
+  color: $gray;
+}
+
+.fa-star {
+  float: right;
+  color: #D8DADF;
+  font-size: 20px;
+  margin-top: 12px;
+}
+
+.chat-history {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid white;
+  overflow-y: scroll;
+  height: 575px;
+}
+
+.chat-history .message-data {
+  margin-bottom: 15px;
+}
+
+.message-data-time {
+  color: lighten($gray, 8%);
+  padding-left: 6px;
+}
+
+.message {
+  color: white;
+  padding: 18px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  width: 90%;
+  position: relative;
+}
+
+.message:after {
+  bottom: 100%;
+  left: 7%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: $green;
+  border-width: 10px;
+  margin-left: -10px;
+}
+
+.my-message {
+  background: green;
+}
+
+.other-message {
+  background: $blue;
+}
+
+.other-message:after {
+border-bottom-color: $blue;
+left: 93%;
+}
+
+.chat-message {
+padding: 30px;
+}
+
+.chat-message textarea {
+  width: 100%;
+  border: none;
+  padding: 10px 20px;
+  font: 14px/22px "Lato", Arial, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  resize: none;
+
+}
+
+.fa-file-o, .fa-file-image-o {
+  font-size: 16px;
+  color: gray;
+  cursor: pointer;
+}
+
+button {
+  float: right;
+  color: $blue;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #F2F5F8;
+}
+
+button:hover {
+  color: darken($blue, 7%);
+} */

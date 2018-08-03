@@ -74,22 +74,19 @@ class Lobby extends React.Component<any, any> {
   public render() {
     const allGames = this.props.allGames
     const modalClass = ["modal-container"];
-    if(this.state.addClass) {
-      modalClass.push("register-modal");
-      return (
-        <div className="interstitial-modal-overlay">
-          <div className="interstitial-modal">
-            <div className={modalClass.join(" ")}>
-              <div className="modal-background">
-                <div className="modal">
-                  <CreateGameForm onCreate={this.toggleModal}/>
-                </div>
+    const modalDiv = (
+      <div className="interstitial-modal-overlay">
+        <div className="interstitial-modal">
+          <div className="modal-container register-modal">
+            <div className="modal-background">
+              <div className="modal">
+                <CreateGameForm onCreate={this.toggleModal}/>
               </div>
             </div>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
 
     return (
       <div>
@@ -108,6 +105,7 @@ class Lobby extends React.Component<any, any> {
           </div>
           {this.renderCryptoIcons()}
         </div>
+        { this.state.addClass ? modalDiv : null }
       </div>
     );
   }

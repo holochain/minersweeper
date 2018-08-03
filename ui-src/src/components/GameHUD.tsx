@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './GameHUD.css';
 
+import Chatbox from './Chatbox';
+
 
 class GameHUD extends React.Component<any, {}> {
 
@@ -11,6 +13,7 @@ class GameHUD extends React.Component<any, {}> {
       </div>
       <div className="game-chat">
         {"chat here"}
+        <Chatbox/>
       </div>
     </div>
   }
