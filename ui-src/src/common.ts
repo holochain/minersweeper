@@ -9,8 +9,10 @@ export const CELL_SIZE = 30
 export const MARGIN_CELLS = 2
 
 // millisecond intervals for various polling tasks
-export const FETCH_ACTIONS_INTERVAL = 1000
+export const FETCH_ACTIONS_INTERVAL = 1500
 export const FETCH_LOBBY_INTERVAL = 3000
+
+export const xor = (a, b) => a && !b || !a && b
 
 export const fetchJSON = (url: string, data?: any) => {
   return fetch(url, {
