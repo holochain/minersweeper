@@ -108,10 +108,10 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     }
     case 'UPDATE_IDENTITIES': {
       // console.log("Updating IDs: ", Map([state.identities, action.identities])
-      const newIdentities = Map(action.identities);
-      const oldIdentities = Map(state.identities);
+      const newIdentities: Map<Hash, string> = Map(action.identities);
+      const oldIdentities: Map<Hash, string> = Map(state.identities);
 
-      return{...state, identities: oldIdentities.merge(newIdentities) as Map<Hash, string> }
+      return {...state, identities: oldIdentities.merge(newIdentities) }
     }
   }
   return state
