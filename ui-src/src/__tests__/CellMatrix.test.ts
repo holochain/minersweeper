@@ -128,10 +128,6 @@ it('Assures that adjacent count <= 8 even in an extreme case', () => {
   }
 });
 
-it('Can auto-reveal when sufficient flags/mines are present', () => {
-
-})
-
 it('Check for Game Over state', () => {
   const cm = new CellMatrix(smallTestBoard);
   cm.takeAction({position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"});

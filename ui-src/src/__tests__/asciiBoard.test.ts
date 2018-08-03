@@ -32,7 +32,7 @@ it('Can ignore any cell', () => {
 })
 
 it('Marks cells revealed', () => {
-  const [board, matrix] = asciiBoard(`
+  const [_, matrix] = asciiBoard(`
     .1.
     .*.
     1.1
@@ -42,7 +42,7 @@ it('Marks cells revealed', () => {
 })
 
 it('Flags cells', () => {
-  const [board, matrix] = asciiBoard(`
+  const [_, matrix] = asciiBoard(`
     .11
     .#x
     1.1
@@ -52,7 +52,7 @@ it('Flags cells', () => {
 })
 
 it('Triggers mass reveal', () => {
-  const [board, matrix] = asciiBoard(`
+  const [_, matrix] = asciiBoard(`
     ...
     0.*
     ...

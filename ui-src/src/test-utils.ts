@@ -1,6 +1,6 @@
 import CellMatrix from "./CellMatrix";
 
-import {Pos} from '../../minesweeper'
+import {GameBoard, Pos} from '../../minesweeper'
 
 /**
  * Creates a game board and builds a CellMatrix state from ASCII art
@@ -12,7 +12,7 @@ import {Pos} from '../../minesweeper'
  *   x = incorrect flag (no mine)
  *   any number = revealed square, and asserts that this number is correct
  */
-export const asciiBoard = (text) => {
+export function asciiBoard(text): [GameBoard, CellMatrix] {
   const mines: Pos[] = []
   const nums: Array<[Pos, number]> = []
   const flags: Array<Pos> = []

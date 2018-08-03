@@ -39,7 +39,7 @@ class Cell extends React.Component<CellProps, {}> {
     const isRevealed = matrix.isRevealed(pos)
 
     const isRevealedMine = isRevealed && isMine
-    const hasNumber = numAdjacent > 0
+    const isNumber = (isRevealed || flag) && numAdjacent > 0
     const isCorrectFlag = flag && isMine
     const isFalseFlag = flag && !isMine
 
@@ -57,14 +57,16 @@ class Cell extends React.Component<CellProps, {}> {
       content = <img src="/images/dogecoin.png"/>
     } else if (isCorrectFlag) {
       content = <Jdenticon size={CELL_SIZE - 2} hash={flag} />
-    } else if ((isRevealed || flag) && hasNumber) {
+    } else if (isNumber) {
       content = <span className={`number ${numberClass}`}>{ numAdjacent }</span>
     }
+
+    const handleClick = isNumber ? this.handleAutoReveal : this.handleReveal
 
     return <div
       className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass}`}
       style={style}
-      onClick={ this.handleReveal }
+      onClick={ handleClick }
       onContextMenu={ this.handleFlag }
     >
       { content }
@@ -85,28 +87,45 @@ class Cell extends React.Component<CellProps, {}> {
     }
     store.dispatch({type, coords: pos})
     this.forceUpdate()
+    this.makeMove(actionType, pos)
+  }
+
+  private makeMove(actionType, position) {
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
-      action: {
-        actionType,
-        position: pos,
-      }
+      action: {actionType, position}
     }
     fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
-      console.log('makeMove: ', pos, ok)
+      console.log('makeMove: ', position, ok)
       // TODO: show score if ok
     })
   }
 
   private handleReveal = e => {
     e.preventDefault()
-    const pos = this.handleMove('QUICK_REVEAL', 'reveal')
+    this.handleMove('QUICK_REVEAL', 'reveal')
   }
 
   private handleFlag = e => {
     e.preventDefault()
-    const pos = this.handleMove('QUICK_FLAG', 'flag')
+    this.handleMove('QUICK_FLAG', 'flag')
   }
+
+  private handleAutoReveal = e => {
+    e.preventDefault()
+    const pos = this.getPos()
+    const {matrix} = store.getState().currentGame!
+
+    // XXX: modifying state outside of a reducer!!!
+    const reveals = matrix.autoReveal(pos)
+
+    // TODO: forceUpdate all revealed neighbors
+
+    reveals.forEach(revealPos => {
+      this.makeMove('reveal', revealPos)
+    })
+  }
+
 }
 
 // TODO: check for performance?

@@ -112,11 +112,11 @@ export default class CellMatrix {
   public autoReveal(pos: Pos): Array<Pos> {
     const mineCount = this.getAdjacentMines(pos)
     let perceivedMines = 0
-    let newReveals: Array<Pos> = []
+    const newReveals: Array<Pos> = []
     this.forEachNeighbor(pos, n => {
       perceivedMines += (
         this.isMine(n) && (this.isRevealed(n) || this.isFlagged(n))
-      ) as number
+      ) ? 1 : 0
     })
     if (perceivedMines === mineCount) {
       this.forEachNeighbor(pos, n => {
@@ -162,7 +162,7 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
-  private forEachNeighbor(pos: Pos, func: Pos => void) {
+  private forEachNeighbor(pos: Pos, func: (Pos) => void) {
     [-1, 0, 1].forEach(dx => {
       [-1, 0, 1].forEach(dy => {
         if (dx !== 0 || dy !== 0) {
