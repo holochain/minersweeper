@@ -3,6 +3,10 @@
   background: #444;
 }
 
+.ReactVirtualized__Grid {
+  overflow: hidden;  /* disable scrollbars altogether */
+}
+
 .ReactVirtualized__Grid__innerScrollContainer {
   margin: auto;
 }

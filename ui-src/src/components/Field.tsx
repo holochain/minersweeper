@@ -86,7 +86,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
-            scrollingResetTimeInterval={0}
+            scrollingResetTimeInterval={150}
             isScrollingOptOut={false}
           />
         }</AutoSizer>

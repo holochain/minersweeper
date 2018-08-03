@@ -9,9 +9,11 @@ export const CELL_SIZE = 30
 export const MARGIN_CELLS = 2
 
 // when mouse moves within this many pixels of the edge, pan the field
-export const MOUSE_PAN_MARGIN = 75
-export const MOUSE_PAN_SPEED = CELL_SIZE
-export const KEY_PAN_SPEED = CELL_SIZE
+export const MOUSE_PAN_MARGIN = 50
+
+// pixels to move per panning update
+export const MOUSE_PAN_SPEED = CELL_SIZE * 1.0
+export const KEY_PAN_SPEED = CELL_SIZE * 1.0
 
 // millisecond intervals for various polling tasks
 export const FETCH_ACTIONS_INTERVAL = 1500
