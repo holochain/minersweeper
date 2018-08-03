@@ -34,16 +34,6 @@ export const fetchJSON = (url: string, data?: any) => {
   }).then(r => r.json())
 }
 
-export const fetchText = (url: string, data?: any) => {
-  return fetch(url, {
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    method: 'post',
-  }).then(r => r.text())
-}
-
 export const fetchCurrentGames = dispatch =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => dispatch({
