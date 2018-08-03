@@ -1,6 +1,6 @@
 
 // make mines visible even when concealed
-export const DEBUG_MODE = true
+export const DEBUG_MODE = false
 
 // size of a field cell in pixels
 export const CELL_SIZE = 30
@@ -10,7 +10,8 @@ export const MARGIN_CELLS = 2
 
 // when mouse moves within this many pixels of the edge, pan the field
 export const MOUSE_PAN_MARGIN = 75
-export const MOUSE_PAN_SPEED = 30
+export const MOUSE_PAN_SPEED = CELL_SIZE
+export const KEY_PAN_SPEED = CELL_SIZE
 
 // millisecond intervals for various polling tasks
 export const FETCH_ACTIONS_INTERVAL = 1500
