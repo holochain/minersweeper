@@ -31,44 +31,40 @@ type FieldState = {
 }
 
 const PAN_OFFSETS = {
-  37: {x: -1, y: 0},
-  38: {x: 0, y: -1},
-  39: {x: 1, y: 0},
-  40: {x: 0, y: 1},
+  37: {x: -1, y: 0},  // left
+  38: {x: 0, y: -1},  // up
+  39: {x: 1, y: 0},   // right
+  40: {x: 0, y: 1},   // down
 }
 
 class Field extends React.Component<FieldProps, FieldState> {
 
   private grid = React.createRef()
+
+  // tracks key down/up state for each arrow key
   private panKeys: any = {}
+
+  // for pan polling
   private panInterval: any = null
+
+  // for action polling
   private actionsInterval: any = null
-  private scrollStopTimeout: any = null
+
+  // used to turn off action polling and other things
   private isPanning = false
 
-  constructor(props) {
-    super(props)
-  }
 
   public componentWillMount() {
     this.startPollingActions()
     this.startPollingPan()
-
-    window.addEventListener('keydown', e => {
-      if (e.keyCode in PAN_OFFSETS) {
-        this.panKeys[e.keyCode] = true
-      }
-    })
-
-    window.addEventListener('keyup', e => {
-      if (e.keyCode in PAN_OFFSETS) {
-        delete this.panKeys[e.keyCode]
-      }
-    })
+    window.addEventListener('keydown', this.keyDownListener)
+    window.addEventListener('keyup', this.keyUpListener)
   }
 
   public componentWillUnmount() {
     this.stopPollingActions()
+    window.removeEventListener('keydown', this.keyDownListener)
+    window.removeEventListener('keyup', this.keyUpListener)
   }
 
   public render() {
@@ -101,7 +97,6 @@ class Field extends React.Component<FieldProps, FieldState> {
     )
   }
 
-
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
       myActions={this.props.myActions}
@@ -112,6 +107,18 @@ class Field extends React.Component<FieldProps, FieldState> {
       {...props}/>
   )
 
+  private keyDownListener = e => {
+    if (e.keyCode in PAN_OFFSETS) {
+      this.panKeys[e.keyCode] = true
+    }
+  }
+
+  private keyUpListener = e => {
+    if (e.keyCode in PAN_OFFSETS) {
+      delete this.panKeys[e.keyCode]
+    }
+  }
+
   private startPollingPan() {
     if (this.panInterval) {
       return
@@ -119,7 +126,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const speed = CELL_SIZE
     this.panInterval = setInterval(
       () => {
-        const grid : any = this.grid.current!
+        const grid: any = this.grid.current!
         const container = grid._scrollingContainer
         const {scrollLeft, scrollTop} = container
         const pos = {scrollLeft, scrollTop}
@@ -132,13 +139,11 @@ class Field extends React.Component<FieldProps, FieldState> {
             pos.scrollTop += offset.y * speed
           }
         })
-        if (xor(this.isPanning, isPanning)) {
-          this.isPanning = isPanning
-        }
+        this.isPanning = isPanning
         if (isPanning) {
           grid.scrollToPosition(pos)
         }
-      }, 10
+      }, 10  // TODO: make constant
     )
   }
 
@@ -181,7 +186,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     scrollDirection,    // 1 (forwards) or -1 (backwards)
     overscanCellsCount, // Maximum number of cells to over-render in either direction
     startIndex,         // Begin of range of visible cells
-    stopIndex           // End of range of visible cells
+    stopIndex,          // End of range of visible cells
   }) => {
     return {
       overscanStartIndex: Math.max(0, startIndex - overscanCellsCount),
