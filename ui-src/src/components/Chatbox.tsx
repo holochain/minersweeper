@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import { Action, ActionType } from '../../../minesweeper';
+import { Action, ActionType } from '../../../minersweeper';
 
 import './Chatbox.css';
 
