@@ -60,6 +60,9 @@ class Field extends React.Component<FieldProps, FieldState> {
   private keyPanOffset: Pos = {x: 0, y: 0}
   private mousePanOffset: Pos = {x: 0, y: 0}
 
+  // used to redraw all cells without scrolling
+  private upperLeft = {columnIndex: 0, rowIndex: 0}
+
   constructor(props) {
     super(props)
     this.state = {
@@ -132,12 +135,13 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
+      {...props}
       myActions={this.props.myActions}
       gameHash={this.props.gameHash}
       key={key}
       columnIndex={columnIndex - common.MARGIN_CELLS}
       rowIndex={rowIndex - common.MARGIN_CELLS}
-      {...props}/>
+      />
   )
 
   private keyDownListener = e => {

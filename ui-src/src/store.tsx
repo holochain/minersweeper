@@ -32,6 +32,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   let {scores} = gameState!
 
   switch (action.type) {
+    // TODO: use matrix.takeAction
     case 'QUICK_REVEAL': {
       const {coords} = action
       matrix.triggerReveal(coords)

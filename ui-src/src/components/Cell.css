@@ -2,6 +2,7 @@
   border: 0.5px solid #666;
   border-width: 1px 1px 0 0;
   background: #3B4451;
+  user-select: none;
   box-sizing: border-box;
   line-height: 26px;
   text-align: center;
