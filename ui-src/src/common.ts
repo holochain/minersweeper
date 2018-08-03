@@ -1,4 +1,4 @@
-import {Pos} from '../../minesweeper'
+import {Pos} from '../../minersweeper'
 
 // make mines visible even when concealed
 export const DEBUG_MODE = false

@@ -10,7 +10,7 @@ import {
   StoreState,
 } from './types';
 
-import {Action} from '../../minesweeper'
+import {Action} from '../../minersweeper'
 
 
 const defaultState: StoreState = {

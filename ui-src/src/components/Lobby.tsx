@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '../../../minesweeper'
+import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '../../../minersweeper'
 
 import { connect } from 'react-redux';
 

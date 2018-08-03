@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
-import {Pos} from '../../../minesweeper';
+import {Pos} from '../../../minersweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';

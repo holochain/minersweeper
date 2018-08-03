@@ -1,6 +1,6 @@
 import CellMatrix from "./CellMatrix";
 
-import {GameBoard, Pos} from '../../minesweeper'
+import {GameBoard, Pos} from '../../minersweeper'
 
 /**
  * Creates a game board and builds a CellMatrix state from ASCII art
