@@ -28,11 +28,16 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   const {chats, matrix} = gameState!
   switch (action.type) {
     case 'QUICK_REVEAL': {
-      matrix.triggerReveal(action.coords)
+      const {coords} = action
+      matrix.triggerReveal(coords)
       break;
     }
     case 'QUICK_FLAG': {
-      matrix.flagCell(action.coords, state.whoami!.agentHash)
+      const {coords} = action
+      if (!matrix.isMine(coords)) {
+        matrix.triggerReveal(coords)
+      }
+      matrix.flagCell(coords, state.whoami!.agentHash)
       break;
     }
     case 'FETCH_ACTIONS': {

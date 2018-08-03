@@ -180,7 +180,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     if (this.panInterval) {
       return
     }
-    const speed = common.CELL_SIZE
+    const speed = common.KEY_PAN_SPEED
     this.panInterval = setInterval(
       () => {
         const pos = {x: 0, y: 0}
