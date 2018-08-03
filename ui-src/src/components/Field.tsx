@@ -165,23 +165,19 @@ class Field extends React.Component<FieldProps, FieldState> {
     const speed = common.CELL_SIZE
     this.panInterval = setInterval(
       () => {
-        const grid: any = this.grid.current!
-        const container = grid._scrollingContainer
-        const {scrollLeft, scrollTop} = container
-        const pos = {scrollLeft, scrollTop}
+        const pos = {x: 0, y: 0}
         let isPanning = false
         Object.keys(this.panKeys).forEach(code => {
           isPanning = true
           if(this.panKeys[code]) {
             const offset = PAN_OFFSETS[code]
-            pos.scrollLeft += offset.x * speed
-            pos.scrollTop += offset.y * speed
+            pos.x += offset.x * speed
+            pos.y += offset.y * speed
           }
         })
         this.isPanning = isPanning
-        // TODO: replace with panBy
         if (isPanning) {
-          grid.scrollToPosition(pos)
+          this.panBy(pos)
         }
       }, 10  // TODO: make constant
     )
