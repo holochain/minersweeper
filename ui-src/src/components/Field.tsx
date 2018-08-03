@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
-import {Pos} from '../../../minersweeper';
+import {Pos, Action} from '../../../minersweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
@@ -256,6 +256,10 @@ class Field extends React.Component<FieldProps, FieldState> {
           type: 'FETCH_ACTIONS',
           actions
         })
+        const playerHashes = actions.map((action: Action): Hash => {
+          return action.agentHash;
+        });
+        common.fetchIdentities(store.dispatch, playerHashes)
       })
 
       fetchActions()
