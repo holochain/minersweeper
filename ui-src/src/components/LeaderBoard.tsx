@@ -20,11 +20,20 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
     const {scores, allPlayerHandles} = this.props
 
     const tempUserScoreMap:any[] = []
+    const displayBoard:any[] = []
+
     // Fetch the identity
     if(scores !== null) {
       scores.forEach((agentScore:number, agentHash:Hash) => {
+        if(allPlayerHandles.size === 0) {
+          console.log("!!! Nothing inside identity")
+        }
         const agentHandler:string = allPlayerHandles.get(agentHash!)
         tempUserScoreMap.push([agentHandler, agentScore])
+
+        displayBoard.push(
+          <li> <Jdenticon size={20} hash={agentHash} /> : {agentScore} </li>
+        )
       })
     }
 
@@ -34,10 +43,13 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
       if (a === b) { return 0; }
     });
 
+
     // Change the user hash into user name
     return (
     <div>
-      {sortedUserScoreMap}
+      <ul>
+        {displayBoard}
+      </ul>
     </div>
     )
   }
