@@ -132,12 +132,13 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
+      {...props}
       myActions={this.props.myActions}
       gameHash={this.props.gameHash}
       key={key}
       columnIndex={columnIndex - common.MARGIN_CELLS}
       rowIndex={rowIndex - common.MARGIN_CELLS}
-      {...props}/>
+      />
   )
 
   private keyDownListener = e => {

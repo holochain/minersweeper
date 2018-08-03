@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import { Grid } from 'react-virtualized';
 
 import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../minesweeper'
 
@@ -18,6 +19,7 @@ type CellProps = {
   gameHash: Hash,
   rowIndex: number,
   style: any,
+  parent: Grid,
   myActions: number,
 }
 
@@ -61,54 +63,27 @@ class Cell extends React.Component<CellProps, {}> {
       content = <span className={`number ${numberClass}`}>{ numAdjacent }</span>
     }
 
-    const handleClick = isNumber ? this.handleAutoReveal : this.handleReveal
+    const handleLeftClick = isNumber ? this.handleAutoReveal : this.handleReveal
+    const handleRightClick = isNumber ? this.handleAutoReveal : this.handleFlag
 
     return <div
       className={`Cell ${revealedClass} ${mineClass} ${numberClass} ${mistakeClass}`}
       style={style}
-      onClick={ handleClick }
-      onContextMenu={ this.handleFlag }
+      onClick={ handleLeftClick }
+      onContextMenu={ handleRightClick }
     >
       { content }
     </div>
   }
 
-  private getPos = () => {
-    const {columnIndex, rowIndex} = this.props
-    return {x: columnIndex, y: rowIndex}
-  }
-
-  private handleMove = (type, actionType) => {
-    const pos = this.getPos()
-    const {matrix} = store.getState().currentGame!
-    if ((actionType === "flag" || actionType === "reveal") && (matrix.isRevealed(pos) || matrix.isFlagged(pos))) {
-      // can't flag or reveal a revealed square
-      return;
-    }
-    store.dispatch({type, coords: pos})
-    this.forceUpdate()
-    this.makeMove(actionType, pos)
-  }
-
-  private makeMove(actionType, position) {
-    const payload: MoveDefinition = {
-      gameHash: this.props.gameHash,
-      action: {actionType, position}
-    }
-    fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
-      console.log('makeMove: ', position, ok)
-      // TODO: show score if ok
-    })
-  }
-
   private handleReveal = e => {
     e.preventDefault()
-    this.handleMove('QUICK_REVEAL', 'reveal')
+    this.handleMove('reveal')
   }
 
   private handleFlag = e => {
     e.preventDefault()
-    this.handleMove('QUICK_FLAG', 'flag')
+    this.handleMove('flag')
   }
 
   private handleAutoReveal = e => {
@@ -119,10 +94,54 @@ class Cell extends React.Component<CellProps, {}> {
     // XXX: modifying state outside of a reducer!!!
     const reveals = matrix.autoReveal(pos)
 
-    // TODO: forceUpdate all revealed neighbors
+    this.redrawNeighborhood()
 
     reveals.forEach(revealPos => {
       this.makeMove('reveal', revealPos)
+    })
+  }
+
+  private getPos = () => {
+    const {columnIndex, rowIndex} = this.props
+    return {x: columnIndex, y: rowIndex}
+  }
+
+  private handleMove = (actionType) => {
+    const pos = this.getPos()
+    const {currentGame, whoami} = store.getState()
+    const {matrix} = currentGame!
+    if ((actionType === "flag" || actionType === "reveal") && (matrix.isRevealed(pos) || matrix.isFlagged(pos))) {
+      // can't flag or reveal a revealed square
+      return;
+    }
+
+    // XXX: modifying state outside of a reducer!!!
+    matrix.takeAction({
+      actionType,
+      position: pos,
+      agentHash: whoami!.agentHash
+    })
+
+    this.forceUpdate()
+    this.makeMove(actionType, pos)
+  }
+
+  private makeMove(actionType, position) {
+    const payload: MoveDefinition = {
+      gameHash: this.props.gameHash,
+      action: {actionType, position}
+    }
+    fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
+      // TODO: show score if ok
+    })
+  }
+
+  private redrawNeighborhood = () => {
+    // inefficient but effective way to force redraw neighbors
+    // (and most of the rest of the screen as well...)
+    this.props.parent.recomputeGridSize({
+      columnIndex: Math.max(0, this.props.columnIndex - 4),
+      rowIndex: Math.max(0, this.props.rowIndex - 4),
     })
   }
 

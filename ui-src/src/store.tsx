@@ -27,6 +27,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   }
   const {chats, matrix} = gameState!
   switch (action.type) {
+    // TODO: use matrix.takeAction
     case 'QUICK_REVEAL': {
       const {coords} = action
       matrix.triggerReveal(coords)
