@@ -1,4 +1,19 @@
 .field-container {
   flex: 1 1;
   background: #444;
+  position: relative;
+}
+
+.ReactVirtualized__Grid {
+  overflow: hidden;  /* disable scrollbars altogether */
+}
+
+.ReactVirtualized__Grid__innerScrollContainer {
+  margin: auto;
+}
+
+.mouse-pan-indicator {
+  transition: opacity 250ms;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
 }

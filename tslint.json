@@ -7,6 +7,7 @@
     ]
   },
   "rules": {
+    "array-type": false,
     "interface-name": [true, "never-prefix"],
     "max-classes-per-file": false,
     "no-bitwise": false,

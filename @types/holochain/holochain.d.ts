@@ -23,7 +23,7 @@ interface Header {
 interface GetResponse {
   Entry?: any;
   EntryType?: string;
-  Sources?: Hash[]; 
+  Sources?: Hash[];
 }
 
 interface GetLinksResponse {
