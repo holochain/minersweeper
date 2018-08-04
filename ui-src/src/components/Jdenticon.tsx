@@ -12,7 +12,13 @@ export default class Jdenticon extends React.Component<any, {}> {
 
   public render () {
     const {hash, size} = this.props
-    return <svg ref={el => this.handleRef(el)} width={size} height={size} data-jdenticon-value={hash}/>
+    return <svg
+      {...this.props}
+      ref={el => this.handleRef(el)}
+      width={size}
+      height={size}
+      data-jdenticon-value={hash}
+      />
   }
 
   private handleRef (el) {
