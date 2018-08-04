@@ -170,17 +170,20 @@ class Field extends React.Component<FieldProps, FieldState> {
       x: 0,
       y: 0,
     }
-    if (clientX < margin) {
-      offset.x -= speed
-    }
-    if (offsetWidth - clientX < margin && clientX <= offsetWidth) {
-      offset.x += speed
-    }
-    if (clientY < margin) {
-      offset.y -= speed
-    }
-    if (offsetHeight - clientY < margin && clientY <= offsetHeight) {
-      offset.y += speed
+    const inBounds = clientX >= 0 && clientY >= 0 && clientX <= offsetWidth && clientY <= offsetHeight
+    if (inBounds) {
+      if (clientX < margin) {
+        offset.x -= speed
+      }
+      if (offsetWidth - clientX < margin) {
+        offset.x += speed
+      }
+      if (clientY < margin) {
+        offset.y -= speed
+      }
+      if (offsetHeight - clientY < margin) {
+        offset.y += speed
+      }
     }
     this.mousePanOffset = offset
   }
