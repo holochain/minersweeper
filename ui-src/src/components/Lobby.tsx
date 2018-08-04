@@ -134,7 +134,6 @@ const GameList = ({ allGames }) => {
           {
             Object.keys(allGames.toJS()).map(hash => {
               const game = allGames.get(hash)
-              console.log("game in body", game)
               return <tr key={hash}>
                 <td className="game-description">
                   {game.description}
