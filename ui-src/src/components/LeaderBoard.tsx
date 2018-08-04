@@ -13,8 +13,6 @@ type LeaderBoardProps = {
 
 class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
-
-
   public render () {
     // Fetch the score
     const {scores, allPlayerHandles} = this.props
@@ -44,7 +42,7 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
     // Change the user hash into user name
     return (
     <div>
-      <ul>
+      <ul className="leader-board-list">
         {displayBoard}
       </ul>
     </div>

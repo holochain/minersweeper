@@ -2,4 +2,16 @@
   display: flex;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;  /* for the benefit of the collapsed GameHUD */
+}
+
+.banner-img {
+  width: auto;
+  height: 100%;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  height: auto;
 }

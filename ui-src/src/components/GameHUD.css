@@ -1,5 +1,46 @@
 .game-hud {
-  flex: 0 0 300px;
+  flex: 0 0;
+  width: 325px;
   background: #222;
-  border-left: 2px solid #555;
+  box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  transition: width 300ms;
+}
+
+.game-hud.collapsed {
+  width: 20px;
+}
+
+.banner {
+  display: flex;
+  height: 50px;
+  background-color: #000000;
+}
+
+.banner-img {
+  padding: 10px;
+  width: auto;
+}
+
+.collapser {
+  display: inline-block;
+  cursor: pointer;
+  background: #666;
+  margin-left: -20px;
+  border-top-left-radius: 50%;
+  /*border-top-right-radius: 50%;*/
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.collapser img {
+  width: 30px;
+  height: 30px;
+  margin: 10px 5px;
+  transition: transform 300ms;
+}
+
+.collapsed .collapser img {
+  transform: rotate(180deg);
 }

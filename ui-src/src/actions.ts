@@ -5,7 +5,7 @@ import {Hash} from '../../holochain'
 import {Action, GameBoard, GameParams, XY} from '../../minersweeper'
 
 export type ReduxAction
-  = { type: 'VIEW_GAME', hash: string }
+  = { type: 'VIEW_GAME', hash: Hash }
 
   | { type: 'QUICK_REVEAL', coords: XY }
   | { type: 'QUICK_FLAG', coords: XY }
