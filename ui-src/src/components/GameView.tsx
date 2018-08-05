@@ -68,18 +68,13 @@ class GameView extends React.Component<FieldProps, FieldState> {
 
     if (currentGame) {
       const { matrix, gameHash } = currentGame
-      if (currentGame.gameOver === true) {
-        return <div className="game-container">
-          <Field gameHash={gameHash} matrix={matrix} />
-          <GameOver />
-        </div>
-      }
-      else {
-        return <div className="game-container">
-          <Field gameHash={gameHash} matrix={matrix} />
-          <GameHUD />
-        </div>
-      }
+      return <div className="game-container">
+        <Field gameHash={gameHash} matrix={matrix} />
+        <GameHUD />
+        { currentGame.gameOver === true
+          ? <GameOver />
+          : null }
+      </div>
     } else {
       return (
         this.state.invalid
