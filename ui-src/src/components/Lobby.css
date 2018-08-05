@@ -71,17 +71,6 @@ html,body {
   animation: lobby-games 3s 6.1s 1 ease both;
 }
 
-.live-games {
-  overflow: scroll;
-  overflow-x: hidden;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  box-sizing: border-box;
-  text-align: center;
-  z-index: 9999;
-}
-
 .lobby-register {
   margin-top: 25px;
   animation: register 3s 6s 1 ease both;
@@ -251,6 +240,15 @@ html,body {
 }
 
 /*-------- live Game Table CSS ---------*/
+.live-games {
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 9999;
+}
+
 .live-games table {
   width: 95%;
   position: absolute;

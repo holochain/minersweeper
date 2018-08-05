@@ -41,7 +41,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
     if (this.state.errorMessage) {
       errorDisplay = <div className="error-message">{ this.state.errorMessage }</div>
     }
-    return <div className="create-game-form">
+    return <div className="create-game-form" onKeyUp={this.handleEnter}>
       <h1 className="registration-header">Game Registration</h1>
       <h4>Register the Details of Your Game Below</h4>
       <hr className="reg-hr"/>
@@ -71,7 +71,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
   }
 
   public handleCreate = () => {
-    const { inDescription} = this;
+    const { inDescription } = this;
     if (inDescription) {
       const description = inDescription!.value
       const x = this.state.selectedGameSize
@@ -85,7 +85,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
         .then(response => {
           if (response.errorMessage) {
             // TODO: better message
-            this.setState({errorMessage: "Game size must be at least 11x11, and you can't have too many mines"})
+            this.setState({errorMessage: "We can't start without your peferences. Please enter a game size, difficutly level and title."})
           } else {
             this.setState({errorMessage: null})
             this.props.dispatch({ type: 'CONFIRM_NEW_GAME', response })
@@ -105,6 +105,17 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
         break;
     }
     console.log("state: ", this.state);
+  }
+
+  private handleEnter = (event) => {
+    const { inDescription } = this;
+    // console.log("inDescription ", inDescription!.value);
+    if (event.keyCode === 13 && inDescription!.value) {
+      this.handleCreate();
+    }
+    else if (event.keyCode === 13) {
+      this.setState({errorMessage: "Please be sure to give your game a name!"})
+    }
   }
 }
 
