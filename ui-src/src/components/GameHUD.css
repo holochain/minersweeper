@@ -11,21 +11,21 @@
   width: 20px;
 }
 
-.banner {
+.game-hud .banner {
   display: flex;
   height: 50px;
   background-color: #000000;
 }
 
-.banner-img {
+.game-hud .banner-img {
   padding: 10px;
   width: auto;
 }
 
-.collapser {
+.game-hud .collapser {
   display: inline-block;
   cursor: pointer;
-  background: #666;
+  background: #ddd;
   margin-left: -20px;
   border-top-left-radius: 50%;
   /*border-top-right-radius: 50%;*/
@@ -34,13 +34,25 @@
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
 }
 
-.collapser img {
+.game-hud .game-hud-nav {
+  text-align: right;
+  margin: 10px auto;
+}
+
+.game-hud .game-hud-nav a {
+  color: #eee;
+  font-size: 1.1em;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.game-hud .collapser img {
   width: 30px;
   height: 30px;
   margin: 10px 5px;
   transition: transform 300ms;
 }
 
-.collapsed .collapser img {
+.game-hud .collapsed .collapser img {
   transform: rotate(180deg);
 }
