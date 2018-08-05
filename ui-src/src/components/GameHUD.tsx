@@ -1,7 +1,10 @@
 import * as React from 'react';
-import './GameHUD.css';
-import LeaderBoard from './LeaderBoard';
 
+import {Link} from 'react-router-dom';
+
+import './GameHUD.css';
+
+import LeaderBoard from './LeaderBoard';
 import Chatbox from './Chatbox';
 
 type GameHUDState = {
@@ -44,6 +47,9 @@ class GameHUD extends React.Component<any, GameHUDState> {
           <img src='/images/holochain_banner.png' className="banner-img" />
         </div>
       </div>
+      <nav className="game-hud-nav">
+        <Link to="/">&larr; Back to lobby</Link>
+      </nav>
       <div className="game-leaderboard">
         <LeaderBoard />
       </div>
