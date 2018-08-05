@@ -23,8 +23,8 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
     if(scores !== null && allPlayerHandles.size !== 0) {
       const descending = (a:number, b:number) => {
-        if (a < b) { return -1; }
-        if (a > b) { return 1; }
+        if (a < b) { return 1; }
+        if (a > b) { return -1; }
         if (a === b) { return 0; }
         return 0;
       }
