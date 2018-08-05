@@ -119,7 +119,7 @@ const GameList = ({ allGames }) => {
   }
   else if (allGames) {
     return <div className="live-games">
-      <h3>Live Games</h3>
+      <h3 className="live-games-header">Live Games</h3>
       <table>
         <thead>
           <tr>
@@ -135,7 +135,7 @@ const GameList = ({ allGames }) => {
             Object.keys(allGames.toJS()).map(hash => {
               const game = allGames.get(hash)
               return <tr key={hash}>
-                <td className="game-description">
+                <td className="game-title">
                   {game.description}
                 </td>
                 <td>

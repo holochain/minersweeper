@@ -16,26 +16,26 @@ html,body {
 
 /* ------------ Scrollbar CSS-------------- */
 
-.slash-screen-page ::-webkit-scrollbar {
+.lobby-overlay::-webkit-scrollbar {
   width: 10px;
   background-color: #F5F5F5;
 }
 
-.slash-screen-page ::-webkit-scrollbar-track {
+.lobby-overlay::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   background-color: #F5F5F5;
   border-radius: 10px;
 }
 
-.slash-screen-page ::-webkit-scrollbar-track-piece {
+.lobby-overlay::-webkit-scrollbar-track-piece {
   background-color: #030303;
 }
 
-.slash-screen-page ::-webkit-scrollbar-corner {
+.lobby-overlay::-webkit-scrollbar-corner {
   background-color: #030303;
 }
 
-.slash-screen-page ::-webkit-scrollbar-thumb {
+.lobby-overlay::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
@@ -58,6 +58,7 @@ html,body {
 }
 
 .lobby-overlay {
+  overflow: scroll;
   position: absolute;
   top: 150px;
   left: 2.5%;
@@ -253,23 +254,21 @@ html,body {
 .live-games table {
   width: 95%;
   position: absolute;
-  top: 210px;
+  top: 226px;
   left: 2.5%;
 }
 
-.Lobby table, .Lobby th, .Lobby td {
+.live-games table, .live-games th, .live-games td {
     margin: 0 auto;
     color: #FFFFFF;
     font-family: sans-serif;
-    width: auto;
     font-size: 15px;
 }
 
-.Lobby th {
-  border: 10px; /* No more visible border */
+.live-games th {
+  border: 10px white; /* No more visible border */
   height: 30px;
-  padding: 15px;
-  font-size: 30px;
+  font-size: 25px;
   text-decoration: underline;
   text-align: center;
   background: -webkit-linear-gradient(#eee, #4148b1);
@@ -277,7 +276,7 @@ html,body {
     -webkit-text-fill-color: transparent;
 }
 
-.Lobby td {
+.live-games td {
   font-size: 18px;
   border: 10px;
   height: 30px;
@@ -289,13 +288,13 @@ html,body {
     -webkit-text-fill-color: transparent;
 }
 
-.game-description {
+/* .game-title {
   text-transform: uppercase;
-}
+} */
 
-.Lobby h3{
+.live-games-header {
   position: absolute;
-  top: 130px;
+  top: 150px;
   margin-top: 50px;
   margin-bottom: 10px;
   width: 100%;
@@ -309,7 +308,7 @@ html,body {
   /* animation: blink 1s steps(4, start) infinite; */
 }
 
-.lobby-register h3:active {
+h3:active {
   -webkit-box-shadow:
       0px 3px rgba(128,128,128,1),
       0px 4px rgba(118,118,118,1),
