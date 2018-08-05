@@ -257,7 +257,7 @@ html,body {
   left: 2.5%;
 }
 
-table, th, td {
+.Lobby table, .Lobby th, .Lobby td {
     margin: 0 auto;
     color: #FFFFFF;
     font-family: sans-serif;
@@ -265,7 +265,7 @@ table, th, td {
     font-size: 15px;
 }
 
-th {
+.Lobby th {
   border: 10px; /* No more visible border */
   height: 30px;
   padding: 15px;
@@ -277,7 +277,7 @@ th {
     -webkit-text-fill-color: transparent;
 }
 
-td {
+.Lobby td {
   font-size: 18px;
   border: 10px;
   height: 30px;
@@ -293,7 +293,7 @@ td {
   text-transform: uppercase;
 }
 
-h3{
+.Lobby h3{
   position: absolute;
   top: 130px;
   margin-top: 50px;

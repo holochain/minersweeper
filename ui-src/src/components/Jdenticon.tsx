@@ -14,6 +14,7 @@ export default class Jdenticon extends React.Component<any, {}> {
     const {hash, size} = this.props
     return <svg
       {...this.props}
+      style={{verticalAlign: 'middle'}}
       ref={el => this.handleRef(el)}
       width={size}
       height={size}
