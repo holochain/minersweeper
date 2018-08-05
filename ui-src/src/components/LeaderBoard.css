@@ -1,5 +1,38 @@
-.leader-board-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.leader-board {
+  padding: 30px 10px;
+}
+
+.leader-board .title {
+  text-align: right;
+  padding: 5px;
+  padding-top: 0;
+  margin: 5px 0;
+  border-bottom: 1px solid #bbb;
+  color: #ddd;
+}
+
+.leader-board-table {
+  margin: auto;
+  color: #bbb;
+}
+
+.leader-board-table td {
+  padding: 0px 5px;
+}
+
+.leader-board-table .player {
+  text-align: right;
+  vertical-align: middle;
+}
+
+.leader-board-table .handle {
+  margin: 0 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.leader-board-table .score {
+  text-align: right;
+  vertical-align: middle;
+  color: #eee;
 }
