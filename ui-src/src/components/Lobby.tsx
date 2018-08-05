@@ -80,7 +80,7 @@ class Lobby extends React.Component<any, any> {
     )
 
     return (
-      <div className="slash-screen-page">
+      <div className="splash-screen-page">
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
@@ -134,13 +134,12 @@ const GameList = ({ allGames }) => {
           {
             Object.keys(allGames.toJS()).map(hash => {
               const game = allGames.get(hash)
-              console.log("game in body", game)
               return <tr key={hash}>
                 <td className="game-description">
                   {game.description}
                 </td>
                 <td>
-                  <Jdenticon size={30} hash={game.creatorHash}/>
+                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={game.creatorHash}/>
                   <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
                 </td>
                 <td>{game.mines.length}</td>

@@ -1,5 +1,58 @@
 .game-hud {
-  flex: 0 0 300px;
+  flex: 0 0;
+  width: 325px;
   background: #222;
-  border-left: 2px solid #555;
+  box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  transition: width 300ms;
+}
+
+.game-hud.collapsed {
+  width: 20px;
+}
+
+.game-hud .banner {
+  display: flex;
+  height: 50px;
+  background-color: #000000;
+}
+
+.game-hud .banner-img {
+  padding: 10px;
+  width: auto;
+}
+
+.game-hud .collapser {
+  display: inline-block;
+  cursor: pointer;
+  background: #ddd;
+  margin-left: -20px;
+  border-top-left-radius: 50%;
+  /*border-top-right-radius: 50%;*/
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.game-hud .game-hud-nav {
+  text-align: right;
+  margin: 10px auto;
+}
+
+.game-hud .game-hud-nav a {
+  color: #eee;
+  font-size: 1.1em;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.game-hud .collapser img {
+  width: 30px;
+  height: 30px;
+  margin: 10px 5px;
+  transition: transform 300ms;
+}
+
+.game-hud .collapsed .collapser img {
+  transform: rotate(180deg);
 }
