@@ -19,27 +19,23 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
     // Fetch the score
     const {scores, allPlayerHandles} = this.props
 
-    const tempUserScoreMap:any[] = []
     const displayBoard:any[] = []
 
-    // Fetch the identity
     if(scores !== null && allPlayerHandles.size !== 0) {
-      scores.forEach((agentScore:number, agentHash:Hash) => {
+      const descending = (a:number, b:number) => {
+        if (a < b) { return 1; }
+        if (a > b) { return -1; }
+        if (a === b) { return 0; }
+        return 0;
+      }
 
+      scores.sort(descending).forEach((agentScore:number, agentHash:Hash) => {
         const agentHandler:string = allPlayerHandles.get(agentHash!)
-        tempUserScoreMap.push([agentHandler, agentScore])
-
         displayBoard.push(
           <LeaderItem hash={agentHash} handle={agentHandler} score={agentScore} />
         )
       })
     }
-
-    const sortedUserScoreMap = fromJS(tempUserScoreMap).sort((a, b) => {
-      if (a < b) { return -1; }
-      if (a > b) { return 1; }
-      if (a === b) { return 0; }
-    });
 
     // Change the user hash into user name
     return (

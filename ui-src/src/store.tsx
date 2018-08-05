@@ -1,4 +1,4 @@
-import { List, Map, fromJS} from 'immutable';
+import { List, Map } from 'immutable';
 import * as redux from 'redux';
 import {combineReducers} from 'redux';
 
@@ -51,7 +51,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
         matrix.takeAction(a)
       })
 
-      scores = fromJS(getScores(gameBoard, action.actions));
+      scores = Map(getScores(gameBoard, action.actions));
       break;
     }
   }
