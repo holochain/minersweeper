@@ -114,7 +114,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       this.handleCreate();
     }
     else if (event.keyCode === 13) {
-      this.setState({errorMessage: "Please be sure to give your game a name!"})
+      this.setState({errorMessage: "Please be sure to name your game!"})
     }
   }
 }
