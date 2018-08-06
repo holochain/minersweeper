@@ -59,7 +59,7 @@ const LeaderItem = ({hash, handle, score}) => {
   return <tr>
     <td className="player">
       <span className="handle">{ handle }</span>
-      <Jdenticon class="jdenticon" size={25} hash={ hash } />
+      <Jdenticon className="jdenticon" size={25} hash={ hash } />
     </td>
     <td className="score">{ score }</td>
   </tr>

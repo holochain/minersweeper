@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 import { Action, ActionType } from '../../../minersweeper';
 
 import './Chatbox.css';
@@ -17,74 +15,58 @@ import store from '../store';
 type ChatProps = {
   gameHash: Hash,
   agentHash: Hash,
-  rowIndex: number,
-  style: any,
   chat: any,
+  allPlayerHandles: Map<Hash, string>
+  authorName: string,
 }
 
-// NB: Per Types.ts; Type ChatLog = {author: string, message: string}
+/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 class Chatbox extends React.Component<any, any> {
     constructor(props){
       super(props);
       this.state = {
-        id: 2,
+        id: 0,
         messages: [
-          {id: 0, authorName: 'Bot', text: 'Hello there. Type your messages here!'},
-          {id: 1, authorName: 'Minersweeper', text: 'Hello!'}
+          {id: 0, authorName: 'Bot', text: 'Hello there. Type your messages here!'}
         ]
       };
     }
 
-    // public componentWillMount() {
-    //   const updateChat = () => {
-    //     fetchJSON('/fn/minersweeper/viewgame')
-    //       .then(games => this.props.dispatch({
-    //         chats,
-    //         type: 'VIEW_GAME'
-    //       }))
-    //   }
-    // }
-
-    public handleMessage = (authorName, text) => {
-      this.setState({
-        messages: this.state.messages.concat(
-          {id: +1, authorName, text}
-        )
-      });
-    };
-
     public render() {
-      console.log("currentGame.......", this.props.currentGame)
+      console.log("IDENTITIES: ", this.props.identities)
       return(
         <div className='chat-box'>
-          <MessagesList messages={this.state.messages} />
-          <InputForm handleMessage={this.handleMessage} />
+          <MessagesList messages={this.props.chats} />
+          <InputForm />
         </div>
       )
     }
   }
 
+  ///////////////////////////////////////////////////////////////
+
 class MessagesList extends React.Component<any, any> {
   public render() {
       return(
-        <ReactCSSTransitionGroup
-          className='messages-field'
-          transitionName = 'message'
-          transitionEnterTimeout = {500}
-          transitionAppear={true}
-          transitionAppearTimeout={500}>
-        {this.props.messages.map(msg => {
-          return (
-            <div key={msg.id}>
-              <Message id={msg.id} authorName={msg.authorName} text={msg.text} />
-            </div>
-          )
-        })}
-        </ReactCSSTransitionGroup>
+        <div>
+          {this.props.currentGame.chats.map(msg => {
+            // sort the messages my timestamp...
+            return (
+              <div key={msg.id}>
+                {/* The key should ulitamtely be the hash of the chat msg. */}
+                <Message id={msg.id} authorName={msg.authorName} text={msg.chat} />
+                <hr className="chatbox-line-divide"/>
+              </div>
+            )
+          })}
+        </div>
       )
     }
   }
+
+  ///////////////////////////////////////////////////////////////
 
 class Message extends React.Component<any, any> {
   private messageField: React.RefObject<any>  = React.createRef()
@@ -101,21 +83,17 @@ class Message extends React.Component<any, any> {
    public render() {
       return(
         <div ref={this.messageField} className='single-message-field'>
-          {/* {
-            Object.keys(allGames.toJS()).map(hash => {
-              const game = allGames.get(hash)
-              console.log("jdenticon is here! ...based on hash:", hash)
-                return <div key={hash}>
-                    <Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/>
-                </div>
-            })
-          } */}
-          <h5 className='message-author-name'>{this.props.authorName}</h5>
-          <span className='message-text'>{this.props.text}</span>
+          <div className="message-authorname-container">
+            <Jdenticon className="jdenticon" size={75} hash={ this.props.id } />
+            <span><h4 className="message-author-name">{ this.props.authorName }</h4></span>
+          </div>
+          <div className="message-text">{ this.props.text }</div>
         </div>
       )
     }
   }
+
+///////////////////////////////////////////////////////////////
 
   class InputForm extends React.Component<any, any> {
     private authorName: React.RefObject<any> = React.createRef()
@@ -128,11 +106,18 @@ class Message extends React.Component<any, any> {
     }
 
     public onClickBtnSend = () => {
-      const authorName = this.authorName.current.value;
-      const text = this.text.current.value;
-      if (authorName.length < 15 && authorName.length && text.length){
-        this.props.handleMessage(authorName, text);
+      let text = this.text.current.value;
+      if (text.length) {
+        // send message to the actions here:
+        const dispatchViewGame = () => store.dispatch({
+          chats: text,  // Should chat include the following? >> chat: {chat: text, author: this.props.whoami.agentHash},
+          type: 'VIEW_GAME',
+        })
+
+         // this.props.handleMessage(text);
       }
+      // Clear out the chatbox:
+      text = '';
     };
     public onClickBtnClear = () => {
       this.text.current.value = '';
@@ -141,7 +126,6 @@ class Message extends React.Component<any, any> {
     public render() {
       return(
         <div className='inputField'>
-          <input className='input-name' type='text' placeholder='Username' defaultValue='' ref={this.authorName}/>
           <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
           <div className='inputButtons'>
             <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
@@ -152,11 +136,40 @@ class Message extends React.Component<any, any> {
     }
   }
 
-// state.currentGame.chats ===> should supply a list of chats.
-const mapStateToProps = ({ myActions, currentGame,  }) => ({
-  myActions, currentGame
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+const mapStateToProps = ({ identities, currentGame, whoami }) => ({
+  identities, currentGame, whoami,
 })
 
 export default connect(mapStateToProps)(Chatbox)
 
-// export default connect(state => ({myActions: state.myActions}))(Chatbox);
+// console.log("currentGame.......", this.props.currentGame)
+// // Chats are available as: this.props.currentGame.chats
+// console.log("identities.......", this.props.identities)
+// // Agent Hashs are available as: this.props.identities
+// console.log("whoami.......", this.props.whoami)
+// // Whoami (current user's Hash) available as: this.props.whoami.agentHash
+// // Whoami (current user's Username) available as: this.props.whoami.identity
+
+///////////////////////////////////////////////////////////////////////////////
+
+// public componentWillMount() {
+//   const authorHash = this.props.identities.hash;
+//   const text = this.props.currentGame.chats;
+//   const nameCheck = this.props.identities.ownerID;
+//   let authorName = ""
+//
+//   if (nameCheck.length > 15 ) {
+//     authorName = nameCheck.substring(0,15);
+//     console.log("authorName", authorName);
+//   } else {
+//     authorName = nameCheck;
+//     console.log("authorName", authorName);
+//   }
+//
+//   this.setState({
+//     messages: { id: authorHash, authorName, text: this.props.currentGame.chats }
+//   });
+// };

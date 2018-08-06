@@ -85,7 +85,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
         .then(response => {
           if (response.errorMessage) {
             // TODO: better message
-            this.setState({errorMessage: "We can't start without your peferences. Please enter a game size, difficutly level and title."})
+            this.setState({errorMessage: "We can't start without your preferences. Please enter a game size, difficutly level and title."})
           } else {
             this.setState({errorMessage: null})
             this.props.dispatch({ type: 'CONFIRM_NEW_GAME', response })

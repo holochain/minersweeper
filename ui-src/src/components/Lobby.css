@@ -58,7 +58,7 @@ html,body {
 }
 
 .lobby-overlay {
-  overflow: scroll;
+  overflow-y: scroll;
   position: absolute;
   top: 150px;
   left: 2.5%;
@@ -266,7 +266,8 @@ html,body {
 .live-games th {
   height: 30px;
   font-size: 25px;
-  text-decoration: underline;
+  border-bottom: 1px solid #bbb;
+  border-width: 4px 1.25em;
   text-align: center;
   background: -webkit-linear-gradient(#eee, #4148b1);
     -webkit-background-clip: text;
