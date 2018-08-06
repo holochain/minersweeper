@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Set } from 'immutable';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
 
-import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
+import * as common from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
@@ -27,16 +27,19 @@ class Lobby extends React.Component<any, any> {
 
   public componentWillMount() {
     const updateLobby = () => {
-      fetchJSON('/fn/minersweeper/getCurrentGames')
-        .then(games => this.props.dispatch({
-          games,
-          type: 'FETCH_CURRENT_GAMES'
-        }))
+      common.fetchCurrentGames().then(games => {
+        const creators = games.map(([_, game]) => game.creatorHash)
+        common.fetchIdentities(Set(creators))
+      })
     }
     updateLobby()
     this.updateLobbyInterval = setInterval(
-      updateLobby, FETCH_LOBBY_INTERVAL
+      updateLobby, common.FETCH_LOBBY_INTERVAL
     )
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.updateLobbyInterval)
   }
 
   public toggleModalState() {
@@ -54,10 +57,6 @@ class Lobby extends React.Component<any, any> {
         // <p key={icon} src={`/images/${icon}`} />
       );
     });
-  }
-
-  public componentWillUnmount() {
-    clearInterval(this.updateLobbyInterval)
   }
 
   public render() {
@@ -105,8 +104,6 @@ class Lobby extends React.Component<any, any> {
 }
 
 const GameList = ({ allGames, identities }) => {
-  // console.log("allGames", allGames );
-  // console.log("allGames.size", allGames.size );
   if(allGames && allGames.size < 1) {
     return (
       <div className="live-games">

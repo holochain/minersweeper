@@ -1,6 +1,7 @@
 import {Set} from 'immutable';
 import store from './store'
 
+import {Hash} from '../../holochain'
 import {Pos} from '../../minersweeper'
 
 // make mines visible even when concealed
@@ -37,16 +38,39 @@ export const fetchJSON = (url: string, data?: any) => {
   }).then(r => r.json())
 }
 
-export const fetchCurrentGames = dispatch =>
+export const fetchCurrentGames = () =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
-    .then(games => dispatch({
-      games,
-      type: 'FETCH_CURRENT_GAMES'
-    }))
+    .then(games => {
+      store.dispatch({
+        games,
+        type: 'FETCH_CURRENT_GAMES'
+      })
+      return games
+    })
 
-export const fetchIdentities = (dispatch, agentHashes) =>
+/**
+ * Fetch only previously unfetched identities, and update the store
+ * @type {[type]}
+ */
+export const fetchIdentities = (allHashes: Set<Hash>): number => {
+  const knownHashes = Set.fromKeys(store.getState().identities);
+  const unknownHashes = allHashes.subtract(knownHashes);
+  if (!unknownHashes.isEmpty()) {
+    const hashList = unknownHashes.toList().toJS();
+    fetchIdentitiesForce(hashList);
+    return hashList.length;
+  } else {
+    return 0
+  }
+}
+
+/**
+ * Fetch specified identities even if they have already been fetched,
+ * and update the store
+ */
+export const fetchIdentitiesForce = (agentHashes) =>
   fetchJSON('/fn/minersweeper/getIdentities', {agentHashes})
-    .then(identities => dispatch({
+    .then(identities => store.dispatch({
       identities,
       type: 'UPDATE_IDENTITIES'
     }))
@@ -59,15 +83,8 @@ export const fetchActions = (gameHash) =>
       type: 'FETCH_ACTIONS',
       actions
     })
-    const playerHashList = actions.map(action => {
-      return action.agentHash;
-    });
-    const playerHashes = Set(playerHashList);
-    const knownHashes = Set.fromKeys(store.getState().identities);
-    const unknownHashes = playerHashes.subtract(knownHashes);
-    if (!unknownHashes.isEmpty()) {
-      fetchIdentities(store.dispatch, unknownHashes.toList().toJS())
-    }
+    const playerHashes = actions.map(action => action.agentHash);
+    fetchIdentities(Set(playerHashes));
     return actions;
   })
 
