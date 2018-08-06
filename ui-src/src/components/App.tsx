@@ -6,13 +6,20 @@ import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
-import {fetchJSON} from '../common'
+import {fetchJSON, LOBBY_INTRO_TIMEOUT} from '../common'
 import store from '../store'
 
 import Lobby from './Lobby';
 import GameView from './GameView';
 
-class App extends React.Component {
+class App extends React.Component<{}, {doAnimation: boolean}> {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+       doAnimation: true,
+    }
+  }
 
   public componentWillMount() {
     fetchJSON('/fn/minersweeper/whoami').then(([agentHash, identity]) =>
@@ -24,10 +31,16 @@ class App extends React.Component {
     )
   }
 
+  public componentDidMount() {
+    // ~8 seconds after page load, turn off some animations
+    setTimeout(() => this.setState({doAnimation: false}), LOBBY_INTRO_TIMEOUT)
+  }
+
   public render() {
+    const animationClass = this.state.doAnimation ? '' : 'no-animation'
     return (
       <BrowserRouter>
-        <div className="App">
+        <div className={`App ${animationClass}`}>
           <Route exact={true} path="/" component={Lobby}/>
           <Route path="/game/:hash" component={GameView}/>
         </div>

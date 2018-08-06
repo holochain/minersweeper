@@ -26,6 +26,10 @@ export const FETCH_ACTIONS_INTERVAL = 1500
 export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
 
+// anount of time it takes for lobby intro to finish
+// used to disable animation after the first time
+export const LOBBY_INTRO_TIMEOUT = 8000
+
 export const xor = (a, b) => a && !b || !a && b
 
 

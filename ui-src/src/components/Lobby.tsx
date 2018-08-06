@@ -13,15 +13,20 @@ import * as common from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
+type LobbyState = {
+  showModal: boolean,
+}
 
-class Lobby extends React.Component<any, any> {
+class Lobby extends React.Component<any, LobbyState> {
   public cryptoIcons = ["btc", "eth", "xmr", "ltc", "doge", "drgn", "bcc", "kmd", "dbc", "elix", "mkr", "powr", "xvg", "zec", "huc", "tel", "pot", "pay", "ox", "nxs", "nmc", "lrc"];
 
   private updateLobbyInterval: any = null
 
   constructor(props) {
      super(props);
-     this.state = {showModal: false}
+     this.state = {
+       showModal: false,
+     }
      this.toggleModal = this.toggleModal.bind(this);
    }
 
