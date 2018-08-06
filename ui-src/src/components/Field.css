@@ -1,6 +1,6 @@
 .field-container {
   flex: 1 1;
-  background: #444;
+  background: #111 url('/images/stripe-bg.png');
   position: relative;
 }
 
