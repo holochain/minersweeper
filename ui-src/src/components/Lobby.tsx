@@ -134,13 +134,8 @@ const GameList = ({ allGames, identities }) => {
                 || creatorHash.substring(0,5) + '...'
               )
               return <tr key={hash}>
-<<<<<<< HEAD
                 <td className="game-title">
                   {game.description}
-=======
-                <td className="game-description">
-                  {description}
->>>>>>> master
                 </td>
                 <td>
                   <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={creatorHash}/>

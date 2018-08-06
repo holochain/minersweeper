@@ -264,7 +264,6 @@ html,body {
 }
 
 .live-games th {
-  border: 10px white; /* No more visible border */
   height: 30px;
   font-size: 25px;
   text-decoration: underline;
