@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './Field.css';
+import {Set} from 'immutable';
 
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom'
@@ -252,24 +253,11 @@ class Field extends React.Component<FieldProps, FieldState> {
   private startPollingActions() {
     const hash = this.props.gameHash
     if (hash) {
-      const fetchActions = () => common.fetchJSON('/fn/minersweeper/getState', {
-        gameHash: hash
-      }).then(actions => {
-        store.dispatch({
-          type: 'FETCH_ACTIONS',
-          actions
-        })
-        const playerHashes = actions.map((action: Action): Hash => {
-          return action.agentHash;
-        });
-        common.fetchIdentities(store.dispatch, playerHashes)
-      })
-
-      fetchActions()
+      common.fetchActions(hash)
       this.actionsInterval = setInterval(
         () => {
           if (!this.isPanning()) {
-            fetchActions()
+            common.fetchActions(hash)
           }
         }, common.FETCH_ACTIONS_INTERVAL
       )
