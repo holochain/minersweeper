@@ -25,7 +25,7 @@ function newGame(payload: GameParams): Hash {
   let gameHash = commit('gameBoard', gameBoard);
   debug(gameHash)
   commit('gameLinks', { Links: [
-    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "" } ]
+    { Base: makeHash('anchor', 'currentGames'), Link: gameHash, Tag: "games" } ]
   });
   // bundleClose(true);
   debug("GameBoard Created Successfully")
@@ -44,7 +44,7 @@ function makeMove(payload: MoveDefinition): boolean {
   try {
     const actionHash = commit('action', action);
     commit('actionLinks', { Links: [
-      { Base: gameHash, Link: actionHash, Tag: "" } ]
+      { Base: gameHash, Link: actionHash, Tag: "actions" } ]
     });
     return true;
   } catch (err) {
@@ -54,7 +54,7 @@ function makeMove(payload: MoveDefinition): boolean {
 }
 
 function getCurrentGames(): [Hash, GameBoard][] {
-  return getLinks(makeHash('anchor', 'currentGames'), "", {Load: true}).map(function(elem) : [Hash, GameBoard] {
+  return getLinks(makeHash('anchor', 'currentGames'), "games", {Load: true}).map(function(elem) : [Hash, GameBoard] {
     return [elem.Hash, elem.Entry];
   });
 }
@@ -62,7 +62,7 @@ function getCurrentGames(): [Hash, GameBoard][] {
 function getState(payload: {gameHash: Hash}): Action[] {
   let gameHash = payload.gameHash;
   debug("getting state from:" + gameHash);
-  let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) : Action {
+  let actions = getLinks(gameHash, "actions", {Load: true}).map(function(elem) : Action {
     return elem.Entry;
   });
   return actions;
@@ -71,7 +71,7 @@ function getState(payload: {gameHash: Hash}): Action[] {
 function updateIdentity(payload: {newID: string}): boolean {
   try {
     debug("updating identity to: "+ payload.newID);
-    let agentIdHash = getLinks(App.Key.Hash, "")[0].Hash;
+    let agentIdHash = getLinks(App.Key.Hash, "id")[0].Hash;
     debug(agentIdHash);
     let result = update("agentID", payload.newID, agentIdHash);
     return true;
@@ -83,7 +83,7 @@ function updateIdentity(payload: {newID: string}): boolean {
 
 function getIdentity(payload: {agentHash: Hash}): string | undefined {
   try {
-    let h = getLinks(payload.agentHash, "", {Load: true});
+    let h = getLinks(payload.agentHash, "id", {Load: true});
     return h[0].Entry;
   } catch (err) {
     debug(err);
@@ -224,7 +224,7 @@ function genesis () {
 
   let idHash = commit("agentID", App.Agent.String);
   commit('agentLinks', { Links: [
-    { Base: App.Key.Hash, Link: idHash, Tag: "" } ]
+    { Base: App.Key.Hash, Link: idHash, Tag: "id" } ]
   });
   return true;
 }
