@@ -83,7 +83,9 @@ class Lobby extends React.Component<any, any> {
               <h1 className="lobby-header">Welcome to Minersweeper</h1>
             </div>
           </div>
-          {this.renderCryptoIcons()}
+          <div className="coins">
+            {this.renderCryptoIcons()}
+          </div>
         </div>
         <div className={ this.state.showModal ? "lobby-overlay hide" : "lobby-overlay" }>
           <div className="lobby-register">
