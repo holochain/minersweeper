@@ -86,14 +86,12 @@ class Lobby extends React.Component<any, any> {
           {this.renderCryptoIcons()}
         </div>
         <div className={ this.state.showModal ? "lobby-overlay hide" : "lobby-overlay" }>
-          <div className="lobby-register">
-            <button onClick={this.toggleModal}>
-              <div>
-                <div className="btn btnLn-two">
-                  <span className="btn-content">New</span>
-                </div>
+          <div className="lobby-register" onClick={this.toggleModal}>
+            <div>
+              <div className="btn btnLn-two">
+                <span className="btn-content">New</span>
               </div>
-            </button>
+            </div>
           </div>
           <GameList allGames={allGames} identities={identities}/>
         </div>
@@ -117,11 +115,11 @@ const GameList = ({ allGames, identities }) => {
       <table>
         <thead>
           <tr>
-            <th data-field="game">Game Name</th>
-            <th data-field="author">Author</th>
-            <th data-field="mine">Mines</th>
-            <th data-field="size">Size</th>
-            <th data-field="size"/>
+            <th className="author">Author</th>
+            <th className="mine">Mines</th>
+            <th className="size">Size</th>
+            <th className="game-title">Game Name</th>
+            <th className="play"/>
           </tr>
         </thead>
         <tbody>
@@ -129,21 +127,25 @@ const GameList = ({ allGames, identities }) => {
             allGames.keySeq().map(hash => {
               const game = allGames.get(hash)
               const {creatorHash, description, mines, size} = game
-              const author = (
+              let author = (
                 identities.get(creatorHash)
-                || creatorHash.substring(0,5) + '...'
+                || creatorHash
               )
+              const truncatedAuthor = author.substring(0,15)
+              if (author !== truncatedAuthor) {
+                author = truncatedAuthor + '...'
+              }
               return <tr key={hash}>
+                <td className="author">
+                  <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={creatorHash}/>
+                  <span className="middle-align-item">{author}</span>
+                </td>
+                <td className="mine">{mines.length}</td>
+                <td className="size">{size.x} x {size.y}</td>
                 <td className="game-title">
                   {game.description}
                 </td>
-                <td>
-                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={creatorHash}/>
-                  <span className="middle-align-item">{author}</span>
-                </td>
-                <td>{mines.length}</td>
-                <td>{size.x} x {size.y}</td>
-                <td>
+                <td className="play">
                   <Link to={`/game/${hash}`}>
                     <button className="play-button">Play</button>
                   </Link>
