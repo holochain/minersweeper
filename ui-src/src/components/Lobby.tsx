@@ -113,7 +113,7 @@ const GameList = ({ allGames, identities }) => {
   }
   else if (allGames) {
     return <div className="live-games">
-      <h3>Live Games</h3>
+      <h3 className="live-games-header">Live Games</h3>
       <table>
         <thead>
           <tr>
@@ -134,8 +134,8 @@ const GameList = ({ allGames, identities }) => {
                 || creatorHash.substring(0,5) + '...'
               )
               return <tr key={hash}>
-                <td className="game-description">
-                  {description}
+                <td className="game-title">
+                  {game.description}
                 </td>
                 <td>
                   <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={creatorHash}/>
