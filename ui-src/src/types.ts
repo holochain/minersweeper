@@ -13,6 +13,7 @@ export type ChatLog = {
 
 export type StoreState = {
   allGames: Map<Hash, GameBoard>,
+  identities: Map<Hash, string>,
   currentGame: StoreGameState,
   myActions: number,
   whoami: {
@@ -25,5 +26,7 @@ export type StoreGameState = {
   matrix: CellMatrix,
   chats: List<ChatLog>,
   gameHash: Hash,
-  gameOver: boolean,
+  gameBoard: GameBoard,
+  scores: Map<Hash, number> | null,
+  gameOver:boolean,
 } | null;

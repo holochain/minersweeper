@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './Field.css';
+import {Set} from 'immutable';
 
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
-import {Pos} from '../../../minersweeper';
+import {Pos, Action} from '../../../minersweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
@@ -91,7 +92,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = common.CELL_SIZE
-    const overscan = 0
+    const overscan = 2
 
     const mousePanIndicators = [UP, DOWN, LEFT, RIGHT].map(({x, y}, i) => {
       const width = y === 0 ? common.MOUSE_PAN_MARGIN : '100%'
@@ -170,17 +171,20 @@ class Field extends React.Component<FieldProps, FieldState> {
       x: 0,
       y: 0,
     }
-    if (clientX < margin) {
-      offset.x -= speed
-    }
-    if (offsetWidth - clientX < margin && clientX <= offsetWidth) {
-      offset.x += speed
-    }
-    if (clientY < margin) {
-      offset.y -= speed
-    }
-    if (offsetHeight - clientY < margin && clientY <= offsetHeight) {
-      offset.y += speed
+    const inBounds = clientX >= 0 && clientY >= 0 && clientX <= offsetWidth && clientY <= offsetHeight
+    if (inBounds) {
+      if (clientX < margin) {
+        offset.x -= speed
+      }
+      if (offsetWidth - clientX < margin) {
+        offset.x += speed
+      }
+      if (clientY < margin) {
+        offset.y -= speed
+      }
+      if (offsetHeight - clientY < margin) {
+        offset.y += speed
+      }
     }
     this.mousePanOffset = offset
   }
@@ -249,20 +253,11 @@ class Field extends React.Component<FieldProps, FieldState> {
   private startPollingActions() {
     const hash = this.props.gameHash
     if (hash) {
-      const fetchActions = () => common.fetchJSON('/fn/minersweeper/getState', {
-        gameHash: hash
-      }).then(actions => {
-        store.dispatch({
-          type: 'FETCH_ACTIONS',
-          actions
-        })
-      })
-
-      fetchActions()
+      common.fetchActions(hash)
       this.actionsInterval = setInterval(
         () => {
           if (!this.isPanning()) {
-            fetchActions()
+            common.fetchActions(hash)
           }
         }, common.FETCH_ACTIONS_INTERVAL
       )

@@ -11,6 +11,10 @@
   align-content: center;
 }
 
+.buffer-cell {
+  background: #444;
+}
+
 .Cell.revealed {
   background: #1A1E24;
 }

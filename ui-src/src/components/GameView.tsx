@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {withRouter, Redirect} from 'react-router';
+import {withRouter} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import './GameView.css';
 
@@ -37,18 +38,17 @@ class GameView extends React.Component<FieldProps, FieldState> {
   public componentWillMount() {
     const hash = this.props.match.params.hash
     if (hash) {
-      const { allGames } = store.getState()
       const dispatchViewGame = () => store.dispatch({
         hash,
         type: 'VIEW_GAME',
       })
-      if (allGames.has(hash)) {
+      if (store.getState().allGames.has(hash)) {
         dispatchViewGame()
       } else {
         this.setState({ loading: true })
-        fetchCurrentGames(store.dispatch).then(() => {
+        fetchCurrentGames().then(() => {
           this.setState({ loading: false })
-          if (allGames.has(hash)) {
+          if (store.getState().allGames.has(hash)) {
             dispatchViewGame()
             this.forceUpdate()
           } else {
@@ -61,26 +61,24 @@ class GameView extends React.Component<FieldProps, FieldState> {
 
   public render() {
     const { currentGame } = store.getState()
+    const invalidGame = <div>
+      <h2>This game no longer exists...</h2>
+      <Link to="/"> back to lobby</Link>
+    </div>
 
     if (currentGame) {
-      if (currentGame.gameOver === true) {
-        const { matrix, gameHash } = currentGame
-        return <div className="game-container">
-          <Field gameHash={gameHash} matrix={matrix} />
-          <GameHUD />
-        </div>
-      }
-      else {
-        const { matrix, gameHash } = currentGame
-        return <div className="game-container">
-          <Field gameHash={gameHash} matrix={matrix} actions={[]} />
-          <GameHUD />
-        </div>
-      }
+      const { matrix, gameHash } = currentGame
+      return <div className="game-container">
+        <Field gameHash={gameHash} matrix={matrix} />
+        <GameHUD />
+        { currentGame.gameOver === true
+          ? <GameOver />
+          : null }
+      </div>
     } else {
       return (
         this.state.invalid
-        ? <Redirect to="/" />
+        ? invalidGame
         : this.state.loading
         ? <h1>loading...</h1>
         : <h1>Game not found...</h1>

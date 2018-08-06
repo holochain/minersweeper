@@ -43,7 +43,7 @@ class Cell extends React.Component<CellProps, CellState> {
 
     if (!matrix.isInBounds(pos.x, pos.y)) {
       // empty out-of-bound cells to create the margin
-      return <div />
+      return <div style={style} className="buffer-cell"/>
     }
 
     const numAdjacent = matrix.getAdjacentMines(pos)

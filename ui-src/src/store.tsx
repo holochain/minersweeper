@@ -4,6 +4,8 @@ import {combineReducers} from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
+import {getScores} from './scoring'
+import {Hash} from '../../holochain';
 
 import {
   StoreGameState,
@@ -15,6 +17,7 @@ import {Action} from '../../minersweeper'
 
 const defaultState: StoreState = {
   allGames: Map({}),
+  identities: Map({}),
   currentGame: null,
   myActions: 0,
   whoami: null
@@ -25,7 +28,9 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   if (gameState === null) {
     return gameState
   }
-  const {chats, matrix} = gameState!
+  const {chats, matrix, gameHash, gameBoard} = gameState!
+  let {scores} = gameState!
+
   switch (action.type) {
     // TODO: use matrix.takeAction
     case 'QUICK_REVEAL': {
@@ -45,6 +50,8 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       action.actions.forEach(a => {
         matrix.takeAction(a)
       })
+
+      scores = Map(getScores(gameBoard, action.actions));
       break;
     }
   }
@@ -53,6 +60,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
 
   return {
     ...gameState,
+    scores,
     gameOver,
     matrix,
   }
@@ -71,11 +79,14 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const {hash} = action
       const gameBoard = state.allGames.get(hash)
       const matrix = new CellMatrix(gameBoard)
+      const scores = oldState.currentGame == null ? null : oldState.currentGame!.scores
       const gameOver = matrix.isCompleted()
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
         matrix,
+        scores,
+        gameBoard,
         gameOver,
       }
       return {...state, currentGame}
@@ -94,6 +105,13 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     case 'FETCH_CURRENT_GAMES': {
       console.log("games", action.games)
       return {...state, allGames: Map(action.games) }
+    }
+    case 'UPDATE_IDENTITIES': {
+      // console.log("Updating IDs: ", Map([state.identities, action.identities])
+      const newIdentities: Map<Hash, string> = Map(action.identities);
+      const oldIdentities: Map<Hash, string> = Map(state.identities);
+
+      return {...state, identities: oldIdentities.merge(newIdentities) }
     }
   }
   return state
