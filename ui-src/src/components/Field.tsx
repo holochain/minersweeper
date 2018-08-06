@@ -92,7 +92,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     const columns = this.props.matrix.size.x
     const rows = this.props.matrix.size.y
     const cellSize = common.CELL_SIZE
-    const overscan = 0
+    const overscan = 2
 
     const mousePanIndicators = [UP, DOWN, LEFT, RIGHT].map(({x, y}, i) => {
       const width = y === 0 ? common.MOUSE_PAN_MARGIN : '100%'
