@@ -1,3 +1,6 @@
+import {Set} from 'immutable';
+import store from './store'
+
 import {Pos} from '../../minersweeper'
 
 // make mines visible even when concealed
@@ -47,6 +50,26 @@ export const fetchIdentities = (dispatch, agentHashes) =>
       identities,
       type: 'UPDATE_IDENTITIES'
     }))
+
+export const fetchActions = (gameHash) =>
+  fetchJSON('/fn/minersweeper/getState', {
+    gameHash
+  }).then(actions => {
+    store.dispatch({
+      type: 'FETCH_ACTIONS',
+      actions
+    })
+    const playerHashList = actions.map(action => {
+      return action.agentHash;
+    });
+    const playerHashes = Set(playerHashList);
+    const knownHashes = Set.fromKeys(store.getState().identities);
+    const unknownHashes = playerHashes.subtract(knownHashes);
+    if (!unknownHashes.isEmpty()) {
+      fetchIdentities(store.dispatch, unknownHashes.toList().toJS())
+    }
+    return actions;
+  })
 
 export const mineIcons = [
   "/images/btc.svg",
