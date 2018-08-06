@@ -46,7 +46,7 @@ class GameView extends React.Component<FieldProps, FieldState> {
         dispatchViewGame()
       } else {
         this.setState({ loading: true })
-        fetchCurrentGames(store.dispatch).then(() => {
+        fetchCurrentGames().then(() => {
           this.setState({ loading: false })
           if (store.getState().allGames.has(hash)) {
             dispatchViewGame()

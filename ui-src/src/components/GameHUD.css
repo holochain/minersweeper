@@ -1,5 +1,4 @@
 .game-hud {
-  flex: 0 0;
   width: 325px;
   background: #222;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
@@ -27,10 +26,7 @@
   cursor: pointer;
   background: #ddd;
   margin-left: -20px;
-  border-top-left-radius: 50%;
-  /*border-top-right-radius: 50%;*/
   border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
 }
 

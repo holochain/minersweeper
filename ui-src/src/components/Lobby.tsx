@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Set } from 'immutable';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
@@ -9,13 +9,10 @@ import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
 
-import { fetchJSON, FETCH_LOBBY_INTERVAL } from '../common';
+import * as common from '../common';
 
 import CreateGameForm from './CreateGameForm'
 
-// interface LobbyProps {
-//   games: List<GameParams>
-// }
 
 class Lobby extends React.Component<any, any> {
   public cryptoIcons = ["btc", "eth", "xmr", "ltc", "doge", "drgn", "bcc", "kmd", "dbc", "elix", "mkr", "powr", "xvg", "zec", "huc", "tel", "pot", "pay", "ox", "nxs", "nmc", "lrc"];
@@ -30,16 +27,19 @@ class Lobby extends React.Component<any, any> {
 
   public componentWillMount() {
     const updateLobby = () => {
-      fetchJSON('/fn/minersweeper/getCurrentGames')
-        .then(games => this.props.dispatch({
-          games,
-          type: 'FETCH_CURRENT_GAMES'
-        }))
+      common.fetchCurrentGames().then(games => {
+        const creators = games.map(([_, game]) => game.creatorHash)
+        common.fetchIdentities(Set(creators))
+      })
     }
     updateLobby()
     this.updateLobbyInterval = setInterval(
-      updateLobby, FETCH_LOBBY_INTERVAL
+      updateLobby, common.FETCH_LOBBY_INTERVAL
     )
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.updateLobbyInterval)
   }
 
   public toggleModalState() {
@@ -59,12 +59,8 @@ class Lobby extends React.Component<any, any> {
     });
   }
 
-  public componentWillUnmount() {
-    clearInterval(this.updateLobbyInterval)
-  }
-
   public render() {
-    const allGames = this.props.allGames
+    const {allGames, identities} = this.props
     const modalDiv = (
       <div className="interstitial-modal-overlay">
         <div className="interstitial-modal">
@@ -99,7 +95,7 @@ class Lobby extends React.Component<any, any> {
               </div>
             </button>
           </div>
-            <GameList allGames={allGames}/>
+          <GameList allGames={allGames} identities={identities}/>
         </div>
         { this.state.showModal ? modalDiv : null }
       </div>
@@ -107,9 +103,7 @@ class Lobby extends React.Component<any, any> {
   }
 }
 
-const GameList = ({ allGames }) => {
-  // console.log("allGames", allGames );
-  // console.log("allGames.size", allGames.size );
+const GameList = ({ allGames, identities }) => {
   if(allGames && allGames.size < 1) {
     return (
       <div className="live-games">
@@ -132,25 +126,35 @@ const GameList = ({ allGames }) => {
         </thead>
         <tbody>
           {
-            Object.keys(allGames.toJS()).map(hash => {
+            allGames.keySeq().map(hash => {
               const game = allGames.get(hash)
+              const {creatorHash, description, mines, size} = game
+              const author = (
+                identities.get(creatorHash)
+                || creatorHash.substring(0,5) + '...'
+              )
               return <tr key={hash}>
+<<<<<<< HEAD
                 <td className="game-title">
                   {game.description}
+=======
+                <td className="game-description">
+                  {description}
+>>>>>>> master
                 </td>
                 <td>
-                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={game.creatorHash}/>
-                  <span className="middle-align-item">{game.creatorHash.substring(0,5)}</span>
+                  <Jdenticon style={{marginRight: 2}} className="middle-align-item" size={30} hash={creatorHash}/>
+                  <span className="middle-align-item">{author}</span>
                 </td>
-                <td>{game.mines.length}</td>
-                <td>{game.size.x} x {game.size.y}</td>
+                <td>{mines.length}</td>
+                <td>{size.x} x {size.y}</td>
                 <td>
                   <Link to={`/game/${hash}`}>
                     <button className="play-button">Play</button>
                   </Link>
                 </td>
               </tr>
-            })
+            }).toJS()
           }
         </tbody>
       </table>
@@ -161,8 +165,8 @@ const GameList = ({ allGames }) => {
 }
 
 
-const mapStateToProps = ({ allGames }) => ({
-  allGames
+const mapStateToProps = ({ allGames, identities }) => ({
+  allGames, identities
 })
 
 export default connect(mapStateToProps)(Lobby);
