@@ -9,8 +9,9 @@
         "x" : {"type" : "integer"},
         "y" : {"type" : "integer"}
       },
-    "text" : {"type" : "string"}
+    "text" : {"type" : "string"},
+    "timestamp" : {"type" : "number"}
     }
   },
-  "required" : ["actionType"]
+  "required" : ["actionType", "timestamp"]
 }
