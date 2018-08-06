@@ -6,6 +6,7 @@ import './GameHUD.css';
 
 import LeaderBoard from './LeaderBoard';
 import Chatbox from './Chatbox';
+import store from '../store'
 
 type GameHUDState = {
   collapsed: boolean
@@ -50,6 +51,9 @@ class GameHUD extends React.Component<any, GameHUDState> {
       <nav className="game-hud-nav">
         <Link to="/">&larr; Back to lobby</Link>
       </nav>
+      <div>
+        <span>Remaining Mines: {store.getState().currentGame!.matrix.getRemainingMines()}</span>
+      </div>
       <div className="game-leaderboard">
         <LeaderBoard />
       </div>
