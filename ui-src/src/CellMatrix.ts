@@ -79,7 +79,7 @@ export default class CellMatrix {
   }
 
   public getRemainingMines(): number {
-    return this.nMines - this.nRevealedMines;
+    return Math.max(this.nMines - this.nRevealedMines, 0);
   }
 
   public triggerReveal(pos: Pos): number {
