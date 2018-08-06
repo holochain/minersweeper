@@ -2,7 +2,7 @@ import {Set} from 'immutable';
 import store from './store'
 
 import {Hash} from '../../holochain'
-import {Pos} from '../../minersweeper'
+import {Action, GameBoard, Pos} from '../../minersweeper'
 
 // make mines visible even when concealed
 export const DEBUG_MODE = false
@@ -28,7 +28,16 @@ export const PAN_INTERVAL = 50
 
 export const xor = (a, b) => a && !b || !a && b
 
-export const fetchJSON = (url: string, data?: any) => {
+
+/*************************
+**    zome functions    **
+**************************/
+
+/**
+ * POST to `url` with JSON `data` and parse response as JSON
+ */
+export const fetchJSON =
+(url: string, data?: any): Promise<any> => {
   return fetch(url, {
     body: JSON.stringify(data),
     headers: {
@@ -38,7 +47,8 @@ export const fetchJSON = (url: string, data?: any) => {
   }).then(r => r.json())
 }
 
-export const fetchCurrentGames = () =>
+export const fetchCurrentGames =
+(): Promise<Array<[Hash, GameBoard]>> =>
   fetchJSON('/fn/minersweeper/getCurrentGames')
     .then(games => {
       store.dispatch({
@@ -52,7 +62,8 @@ export const fetchCurrentGames = () =>
  * Fetch only previously unfetched identities, and update the store
  * @type {[type]}
  */
-export const fetchIdentities = (allHashes: Set<Hash>): number => {
+export const fetchIdentities =
+(allHashes: Set<Hash>): number => {
   const knownHashes = Set.fromKeys(store.getState().identities);
   const unknownHashes = allHashes.subtract(knownHashes);
   if (!unknownHashes.isEmpty()) {
@@ -68,14 +79,19 @@ export const fetchIdentities = (allHashes: Set<Hash>): number => {
  * Fetch specified identities even if they have already been fetched,
  * and update the store
  */
-export const fetchIdentitiesForce = (agentHashes) =>
+export const fetchIdentitiesForce =
+(agentHashes: Array<Hash>): Promise<void> =>
   fetchJSON('/fn/minersweeper/getIdentities', {agentHashes})
-    .then(identities => store.dispatch({
-      identities,
-      type: 'UPDATE_IDENTITIES'
-    }))
+    .then(identities => {
+      store.dispatch({
+        identities,
+        type: 'UPDATE_IDENTITIES'
+      })
+      return undefined
+    })
 
-export const fetchActions = (gameHash) =>
+export const fetchActions =
+(gameHash: Hash): Promise<Array<Action>> =>
   fetchJSON('/fn/minersweeper/getState', {
     gameHash
   }).then(actions => {
@@ -87,6 +103,11 @@ export const fetchActions = (gameHash) =>
     fetchIdentities(Set(playerHashes));
     return actions;
   })
+
+
+/*************************
+**  utility functions   **
+**************************/
 
 export const mineIcons = [
   "/images/btc.svg",
