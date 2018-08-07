@@ -10,9 +10,9 @@ import {Hash} from '../../../holochain';
 
 import Jdenticon from './Jdenticon';
 
-import CellMatrix from '../CellMatrix';
 import * as common from '../common'
 import store from '../store'
+import {StoreState} from '../types'
 
 type CellProps = {
   columnIndex: number,
@@ -170,4 +170,4 @@ class Cell extends React.Component<CellProps, CellState> {
 }
 
 // TODO: check for performance?
-export default connect(state => ({myActions: state.myActions}))(Cell);
+export default connect((state: StoreState) => ({myActions: state.myActions}))(Cell);

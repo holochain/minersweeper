@@ -37,6 +37,7 @@ function makeMove(payload: MoveDefinition): boolean {
   const gameHash = payload.gameHash;
   const action: Action = {
     agentHash: App.Key.Hash,
+    timestamp: Date.now(),
     ...payload.action
   };
 
