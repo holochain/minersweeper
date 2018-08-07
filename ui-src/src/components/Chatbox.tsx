@@ -44,7 +44,7 @@ class Chatbox extends React.Component<any, any> {
 
   ///////////////////////////////////////////////////////////////
 
-class MessagesList extends React.Component<any, any> {
+export class MessagesList extends React.Component<any, any> {
   public render() {
     if (this.props.mode === "single") {
       const list = this.props.chats
@@ -56,7 +56,7 @@ class MessagesList extends React.Component<any, any> {
     } else {
       const blocks = this.getChatBlocks()
       return(
-        <div className="messages-pane">
+        <div className="chat-box messages-pane">
           {blocks.map(({author, messages}, i) => {
             // assuming the messages are sorted by timestamp...
             const key = `chat-${i}`
@@ -135,7 +135,7 @@ class AuthorBlock extends React.Component<any, any> {
 
 ///////////////////////////////////////////////////////////////
 
-class InputForm extends React.Component<any, any> {
+export class InputForm extends React.Component<any, any> {
   private authorName: React.RefObject<any> = React.createRef()
   private text: React.RefObject<any> = React.createRef()
 

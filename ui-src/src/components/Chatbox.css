@@ -14,9 +14,10 @@
   flex-flow: column nowrap;
 }
 
-.chat-box .messages-pane {
-  flex: 2 2;
+.messages-pane {
+  flex: 2 1 50%;
   overflow: auto;
+  background: #1A1E24;
 }
 
 .input-area {
@@ -167,7 +168,6 @@
   text-align: left;
   margin: 4px;
   padding-left: 33px;
-  background: #1A1E24;
   border-radius: 0.2em;
   position: relative;
 }

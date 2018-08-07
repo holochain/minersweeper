@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import './GameHUD.css';
 
 import LeaderBoard from './LeaderBoard';
-import Chatbox from './Chatbox';
+import {MessagesList, InputForm} from './Chatbox';
 import store from '../store'
 
 type GameHUDState = {
@@ -42,6 +42,8 @@ class GameHUD extends React.Component<any, GameHUDState> {
   }
 
   public render() {
+    const currentGame = store.getState().currentGame!
+    const {gameHash, chats} = currentGame
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
     return <div className={"game-hud " + collapsedClass}>
       <div className='banner'>
@@ -53,7 +55,7 @@ class GameHUD extends React.Component<any, GameHUDState> {
       <nav className="game-hud-nav">
         <Link to="/">&larr; Back to lobby</Link>
         <div className="remaining-mines">
-          <span>Remaining Mines:</span> {store.getState().currentGame!.matrix.getRemainingMines()}
+          <span>Remaining Mines:</span> {currentGame.matrix.getRemainingMines()}
         </div>
       </nav>
       <div className="leader-board-title">
@@ -62,9 +64,8 @@ class GameHUD extends React.Component<any, GameHUDState> {
       <div className="game-leaderboard">
         <LeaderBoard />
       </div>
-      <div className="game-chat">
-        <Chatbox/>
-      </div>
+      <MessagesList chats={chats} mode="blocks"/>
+      <InputForm gameHash={gameHash}/>
     </div>
   }
 
