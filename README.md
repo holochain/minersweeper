@@ -1,11 +1,11 @@
-![GitHub last commit](https://img.shields.io/github/last-commit/HC-Interns/minersweeper.svg)
-![GitHub](https://img.shields.io/github/license/HC-Interns/minersweeper.svg)
-
 # Holochain Minersweeper
 
 A massively multiplayer version of the classic game Minesweeper. Instead of sweeping mines the goal is to sweep away those pesky altcoins!
 
 This project was created during the mid 2018 Holo intern program to demonstrate the capabilities of Holochain-proto.
+
+![GitHub last commit](https://img.shields.io/github/last-commit/HC-Interns/minersweeper.svg)
+![GitHub](https://img.shields.io/github/license/HC-Interns/minersweeper.svg)
 
 ## Getting Started
 
