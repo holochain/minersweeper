@@ -56,6 +56,9 @@ class GameHUD extends React.Component<any, GameHUDState> {
           <span>Remaining Mines:</span> {store.getState().currentGame!.matrix.getRemainingMines()}
         </div>
       </nav>
+      <div className="leader-board-title">
+        SCORES
+      </div>
       <div className="game-leaderboard">
         <LeaderBoard />
       </div>

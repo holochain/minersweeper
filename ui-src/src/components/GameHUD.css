@@ -1,4 +1,6 @@
 .game-hud {
+  display: flex;
+  flex-direction: column;
   width: 325px; /* change back to 325 after done with chatbox. */
   background: #222;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
@@ -36,18 +38,20 @@
 
 .game-hud .game-hud-nav {
   display: flex;
-  justify-content: space-between;
   font-size: 1.1em;
 }
 
 .game-hud .game-hud-nav a {
   color: #eee;
   padding: 10px;
+  padding-right: 20px;
   text-decoration: none;
   background: #336;
 }
 .game-hud .game-hud-nav .remaining-mines {
-  padding: 10px 10px 10px 0;
+  padding: 10px;
+  flex: 1 1;
+  background: #5D0B0D;
 }
 .game-hud .game-hud-nav .remaining-mines span {
   font-weight: 100;
@@ -62,4 +66,21 @@
 
 .game-hud .collapsed .collapser img {
   transform: rotate(180deg);
+}
+
+
+.game-hud .leader-board-title /* sic */ {
+  text-align: center;
+  padding-top: 0;
+  margin-top: 15px;
+  color: #ddd;
+  letter-spacing: 0.3em;
+}
+
+.game-hud .game-leaderboard {
+  flex: 1 2 282px;
+}
+
+.game-hud .game-chat {
+  flex: 2 1 100%;
 }
