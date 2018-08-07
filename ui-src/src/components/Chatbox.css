@@ -1,5 +1,26 @@
-.chat-container {
-  background: #fff;
+.chat-box {
+  border: 3px #212f3d solid;
+  text-align: left;
+  justify-content: left;
+  padding: 0;
+  height: 100%;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 10 auto;
+  width: 100%;
+  height: 100%;
+  background: #1A1E24;
+  box-shadow: 0.1em 0.1em 0.5em black;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: scroll;
+}
+
+.inputField {
+  height: 30%;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .chatbox-input {
@@ -12,173 +33,189 @@
   font-size: 14px;
 }
 
-.chat-box {
-  padding: 0;
-  height: 100%;
-  color: #fff;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 0 auto;
-  font-size: 25px;
+.input-text {
+  background: #212f3d;
   width: 100%;
-  height: 100%;
-  background: #1A1E24;
-  box-shadow: 0.1em 0.1em 0.5em black;
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.inputField {
-  height: 30%;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.inputField .input-name {
-  height: 1.5em;
+  height: auto;
   border: none;
-  font-size: 0.6em;
-  padding-left: 0.3em;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.inputField .input-name::-webkit-input-placeholder {
-  padding-left: 0.1em;
-  font-family: Arial, sans-serif;
-  color: #1a4c6d;
-}
-
-.inputField .input-name:focus {
-  outline: none;
-}
-
-.inputField .input-name:focus::-webkit-input-placeholder {
-  opacity: 0;
-}
-
-.inputField .input-text {
-  background: #1A1E24;
-  width: 100%;
-  border: none;
-  padding: 10px 20px;
-  color: #eee;
+  padding: 8px 20px;
+  color: #d0e7f6;
   font: Arial, sans-serif;
   margin-bottom: 10px;
   border-radius: 5px;
   resize: none;
 }
 
-.inputField .input-text:focus {
+.input-text:focus {
   outline: none;
 }
 
-.inputField .input-text::-webkit-input-placeholder {
+.input-text::-webkit-input-placeholder {
   padding-left: 0.1em;
   font-family: Arial, sans-serif;
   color: #eee;
 }
 
-.inputField .input-text:focus::-webkit-input-placeholder {
+.input-text:focus::-webkit-input-placeholder {
   opacity: 0;
 }
 
 /* ///// Input Buttons //// */
-.inputField .inputButtons {
+.inputButtons {
   display: flex;
+  margin: 0 auto;
+  width: 350px;
+  padding-bottom: 10px;
 }
 
-.inputField .inputButtons .inputButtonSend {
+.inputButtonSend {
+  text-transform: uppercase;
   font-family: Arial, sans-serif;
   color: #212f3d;
   flex: 1;
   font-size: 1em;
   border: none;
+  border-radius: 10px;
   background: #2980b9;
-  text-transform: uppercase;
   border: none;
   cursor: pointer;
   font-weight: bold;
+  padding: 12px;
+  margin-right: 5px;
 }
 
-.inputField .inputButtons .inputButtonSend:hover {
+.inputButtonSend:hover {
   color: #eee;
   cursor: pointer;
   background: #2c6665;
 }
 
-.inputField .inputButtons .inputButtonClear {
+.inputButtonClear {
+  text-transform: uppercase;
   font-family: Arial, sans-serif;
   color: #212f3d;
   flex: 1;
   font-size: 1em;
   border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 10px;
   background: #eee;
+  padding: 12px;
+  margin-left: 5px;
 }
 
-.inputField .inputButtons .inputButtonClear:hover {
+.inputButtonClear:hover {
   color: #151f29;
   background: #e9b74c;
   cursor: pointer;
 }
 
 /* ///// Messages Field //// */
-.chat-box .messages-field {
+.messages-field {
   height: 70%;
   box-sizing: border-box;
   padding: 0.1em;
   overflow-y: auto;
 }
 
-.chat-box .messages-field .message-enter {
+.message-enter {
   opacity: 0.01;
 }
 
-.chat-box .messages-field .message-enter.message-enter-active {
+.message-enter.message-enter-active {
   opacity: 1;
   transition: 0.5s ease-out;
 }
 
-.chat-box .messages-field .message-appear {
+.message-appear {
   opacity: 0.01;
 }
 
-.chat-box .messages-field .message-appear.message-appear-active {
+.message-appear.message-appear-active {
   opacity: 1;
   transition: opacity 0.5s ease-in;
 }
 
-.chat-box .messages-field .single-message-field {
-  position: relative;
+/* Type A */
+.single-message {
+  text-align: left;
   margin: 0.2em 0.2em 0.2em 0.5em;
-  background: #2076b3;
+}
+
+.single-message .jdenticon,
+.single-message .author,
+.single-message .separator,
+.single-message .message {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.single-message .author {
+  color: #d0e7f6;
+  font-weight: 200;
+}
+
+.single-message .separator {
+  margin: 0 5px;
+}
+
+/* Type B */
+.author-block {
+  text-align: left;
+  margin: 4px;
+  padding-left: 33px;
+  background: #1A1E24;
   border-radius: 0.2em;
+  position: relative;
 }
 
-.chat-box .messages-field .single-message-field:before {
-  content: "";
+.author-block .jdenticon {
   position: absolute;
-  left: -0.4em;
-  width: 0;
-  height: 0;
-  border-top: 1.2em solid #212f3d;
-  border-left: 0.4em solid transparent;
+  top: 2px;
+  left: 0;
 }
 
-.chat-box .messages-field .single-message-field .message-author-name {
+.author-block .content {
+  position: relative;
+  line-height: 1.1;
+}
+
+.author-block .author-name {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 200;
   margin: 0;
-  font-size: 1em;
-  font-weight: 100;
-  padding: 0.1em;
-  background-color: #212f3d;
   color: #d0e7f6;
 }
 
-.chat-box .messages-field .single-message-field .message-text {
-  margin: 0;
-  padding: 0.1em;
-  word-wrap: break-word;
-  font-size: 0.8em;
-  font-weight: 600;
-  color: #212f3d;
+.author-block .message-block {
+  font-size: 16px;
+}
+
+
+/* ------------ Scrollbar CSS-------------- */
+
+.chat-box::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+.chat-box::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-track-piece {
+  background-color: #030303;
+}
+
+.chat-box::-webkit-scrollbar-corner {
+  background-color: #030303;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }

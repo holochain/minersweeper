@@ -11,10 +11,10 @@ export default class Jdenticon extends React.Component<any, {}> {
   }
 
   public render () {
-    const {hash, size} = this.props
+    const {hash, size, style} = this.props
     return <svg
       {...this.props}
-      style={{verticalAlign: 'middle'}}
+      style={{verticalAlign: 'middle', ...style}}
       ref={el => this.handleRef(el)}
       width={size}
       height={size}

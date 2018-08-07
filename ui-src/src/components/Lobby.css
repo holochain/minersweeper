@@ -55,7 +55,7 @@ html,body {
 }
 
 .lobby-overlay {
-  overflow: scroll;
+  overflow-y: scroll;
   position: absolute;
   top: 150px;
   left: 2.5%;
@@ -446,16 +446,6 @@ h3:active {
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(to bottom (102, 51, 255, 0.9) 60%, rgba(153, 0, 255, 0.9) 90%);
-  /* animation: gray 1s 6.5s 1 ease-out both; */
-}
-
-@keyframes gray {
-  0% {
-    filter: grayscale(1);
-  }
-  100% {
-    filter: grayscale(0);
-  }
 }
 
 /* tall mountain */

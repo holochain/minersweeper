@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { List } from 'immutable';
 
 import { Action, ActionType } from '../../../minersweeper';
 
@@ -17,146 +16,203 @@ import store from '../store';
 type ChatProps = {
   gameHash: Hash,
   agentHash: Hash,
-  rowIndex: number,
-  style: any,
   chat: any,
+  allPlayerHandles: Map<Hash, string>
+  authorName: string,
 }
 
-// NB: Per Types.ts; Type ChatLog = {author: string, message: string}
+/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 class Chatbox extends React.Component<any, any> {
-    constructor(props){
-      super(props);
-      this.state = {
-        id: 2,
-        messages: [
-          {id: 0, authorName: 'Bot', text: 'Hello there. Type your messages here!'},
-          {id: 1, authorName: 'Minersweeper', text: 'Hello!'}
-        ]
-      };
-    }
 
-    // public componentWillMount() {
-    //   const updateChat = () => {
-    //     fetchJSON('/fn/minersweeper/viewgame')
-    //       .then(games => this.props.dispatch({
-    //         chats,
-    //         type: 'VIEW_GAME'
-    //       }))
-    //   }
-    // }
-
-    public handleMessage = (authorName, text) => {
-      this.setState({
-        messages: this.state.messages.concat(
-          {id: +1, authorName, text}
-        )
-      });
-    };
-
-    public render() {
-      console.log("currentGame.......", this.props.currentGame)
+  public render() {
+    const {currentGame} = this.props
+    if (currentGame === null) {
+      return <div/>
+    } else {
+      const {gameHash, chats} = currentGame
       return(
         <div className='chat-box'>
-          <MessagesList messages={this.state.messages} />
-          <InputForm handleMessage={this.handleMessage} />
+          <MessagesList chats={chats} mode="blocks" />
+          <InputForm gameHash={gameHash} />
+        </div>
+      )
+    }
+  }
+}
+
+  ///////////////////////////////////////////////////////////////
+
+class MessagesList extends React.Component<any, any> {
+  public render() {
+    if (this.props.mode === "single") {
+      const list = this.props.chats
+        .sortBy(a => a.timestamp)
+        .map(({author, message}, i) =>
+          <SingleMessage key={i} author={author} message={message} />
+        )
+      return <div>{ list }</div>
+    } else {
+      const blocks = this.getChatBlocks()
+      return(
+        <div>
+          {blocks.map(({author, messages}, i) => {
+            // assuming the messages are sorted by timestamp...
+            const key = `chat-${i}`
+            return <AuthorBlock key={key} author={author} messages={messages} />
+          })}
         </div>
       )
     }
   }
 
-class MessagesList extends React.Component<any, any> {
-  public render() {
-      return(
-        <ReactCSSTransitionGroup
-          className='messages-field'
-          transitionName = 'message'
-          transitionEnterTimeout = {500}
-          transitionAppear={true}
-          transitionAppearTimeout={500}>
-        {this.props.messages.map(msg => {
-          return (
-            <div key={msg.id}>
-              <Message id={msg.id} authorName={msg.authorName} text={msg.text} />
-            </div>
-          )
-        })}
-        </ReactCSSTransitionGroup>
-      )
-    }
+  private getChatBlocks(): Array<{author: Hash, messages: Array<string>}> {
+    const {chats} = this.props
+    const blocks: Array<{author: Hash, messages: Array<string>}> = []
+    let prevAuthor: Hash | null = null
+    chats.sortBy(a => a.timestamp).forEach(({author, message}) => {
+      if(author === prevAuthor) {
+        const block = blocks[blocks.length - 1]
+        block.messages.push(message)
+      } else {
+        blocks.push({
+          author,
+          messages: [message]
+        })
+      }
+      prevAuthor = author
+    })
+    return blocks
   }
+}
 
-class Message extends React.Component<any, any> {
+///////////////////////////////////////////////////////////////
+
+const SingleMessage = ({author, message}) => {
+  const authorName = store.getState().identities.get(author)
+  return(
+    <div className='single-message'>
+      <Jdenticon className="jdenticon" size={24} hash={ author } />
+      <div className="author">{ authorName }</div>
+      <div className="separator">:</div>
+      <div className="message">{ message }</div>
+    </div>
+    )
+}
+
+//////////////////////////////////////////////////////////////////
+
+class AuthorBlock extends React.Component<any, any> {
   private messageField: React.RefObject<any>  = React.createRef()
 
   constructor(props){
     super(props);
   }
 
-   public componentDidMount() {
-     if(this.messageField.current){
+  public componentDidMount() {
+    if(this.messageField.current){
        this.messageField.current!.scrollIntoView();
-     }
-    }
-   public render() {
-      return(
-        <div ref={this.messageField} className='single-message-field'>
-          {/* {
-            Object.keys(allGames.toJS()).map(hash => {
-              const game = allGames.get(hash)
-              console.log("jdenticon is here! ...based on hash:", hash)
-                return <div key={hash}>
-                    <Jdenticon className="jdenticon" size={30} hash={game.creatorHash}/>
-                </div>
-            })
-          } */}
-          <h5 className='message-author-name'>{this.props.authorName}</h5>
-          <span className='message-text'>{this.props.text}</span>
-        </div>
-      )
     }
   }
 
-  class InputForm extends React.Component<any, any> {
-    private authorName: React.RefObject<any> = React.createRef()
-    private text: React.RefObject<any> = React.createRef()
-
-    constructor(props){
-      super(props);
-      this.onClickBtnClear = this.onClickBtnClear.bind(this);
-      this.onClickBtnSend = this.onClickBtnSend.bind(this);
-    }
-
-    public onClickBtnSend = () => {
-      const authorName = this.authorName.current.value;
-      const text = this.text.current.value;
-      if (authorName.length < 15 && authorName.length && text.length){
-        this.props.handleMessage(authorName, text);
-      }
-    };
-    public onClickBtnClear = () => {
-      this.text.current.value = '';
-    };
-
-    public render() {
-      return(
-        <div className='inputField'>
-          <input className='input-name' type='text' placeholder='Username' defaultValue='' ref={this.authorName}/>
-          <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
-          <div className='inputButtons'>
-            <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
-            <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
+  public render() {
+    const {author, messages} = this.props
+    const authorName = store.getState().identities.get(author)
+    return(
+      <div ref={this.messageField} className='author-block'>
+        <Jdenticon className="jdenticon" size={32} hash={ author } />
+        <div className="content">
+          <h4 className="author-name">{ authorName }</h4>
+          <div className="message-block">
+            { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
+}
+
+///////////////////////////////////////////////////////////////
+
+class InputForm extends React.Component<any, any> {
+  private authorName: React.RefObject<any> = React.createRef()
+  private text: React.RefObject<any> = React.createRef()
+
+  constructor(props) {
+    super(props);
+    this.onClickBtnClear = this.onClickBtnClear.bind(this);
+    this.onClickBtnSend = this.onClickBtnSend.bind(this);
   }
 
-// state.currentGame.chats ===> should supply a list of chats.
-const mapStateToProps = ({ myActions, currentGame,  }) => ({
-  myActions, currentGame
+  public onClickBtnSend = () => {
+    const text = this.text.current.value;
+    if (text.length) {
+      // send chats to redux here:
+      const payload = {
+        gameHash: this.props.gameHash,
+        action: {
+          actionType: "chat",
+          text,
+        }
+      }
+      fetchJSON('/fn/minersweeper/makeMove', payload);
+      // also immediately update chat here
+    }
+    // Clear out the chatbox:
+    this.text.current.value = '';
+  };
+  public onClickBtnClear = () => {
+    this.text.current.value = '';
+  };
+
+  public render() {
+    return(
+      <div className='inputField'>
+        <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
+        <div className='inputButtons'>
+          <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
+          <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
+        </div>
+      </div>
+    )
+  }
+}
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+const mapStateToProps = ({ identities, currentGame, whoami }) => ({
+  identities, currentGame, whoami,
 })
 
 export default connect(mapStateToProps)(Chatbox)
 
-// export default connect(state => ({myActions: state.myActions}))(Chatbox);
+// console.log("currentGame.......", this.props.currentGame)
+// // Chats are available as: this.props.currentGame.chats
+// console.log("identities.......", this.props.identities)
+// // Agent Hashs are available as: this.props.identities
+// console.log("whoami.......", this.props.whoami)
+// // Whoami (current user's Hash) available as: this.props.whoami.agentHash
+// // Whoami (current user's Username) available as: this.props.whoami.identity
+
+///////////////////////////////////////////////////////////////////////////////
+
+// public componentWillMount() {
+//   const authorHash = this.props.identities.hash;
+//   const text = this.props.currentGame.chats;
+//   const nameCheck = this.props.identities.ownerID;
+//   let authorName = ""
+//
+//   if (nameCheck.length > 15 ) {
+//     authorName = nameCheck.substring(0,15);
+//     console.log("authorName", authorName);
+//   } else {
+//     authorName = nameCheck;
+//     console.log("authorName", authorName);
+//   }
+//
+//   this.setState({
+//     messages: { id: authorHash, authorName, text: this.props.currentGame.chats }
+//   });
+// };
