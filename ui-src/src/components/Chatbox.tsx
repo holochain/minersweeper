@@ -67,7 +67,7 @@ class MessagesList extends React.Component<any, any> {
     const {chats} = this.props
     const blocks: Array<{author: Hash, messages: Array<string>}> = []
     let prevAuthor: Hash | null = null
-    chats.forEach(({author, message}) => {
+    chats.sortBy(a => a.timestamp).forEach(({author, message}) => {
       if(author === prevAuthor) {
         const block = blocks[blocks.length - 1]
         block.messages.push(message)
@@ -83,7 +83,7 @@ class MessagesList extends React.Component<any, any> {
   }
 }
 
-  ///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 class AuthorBlock extends React.Component<any, any> {
   private messageField: React.RefObject<any>  = React.createRef()

@@ -59,7 +59,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
             chats = chats.push({
               author: a.agentHash,
               message: a.text,
-              // timestamp: number
+              timestamp: a.timestamp!,
             })
             break;
           default:
