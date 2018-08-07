@@ -24,36 +24,38 @@ class GameHUD extends React.Component<any, GameHUDState> {
   }
 
   public componentDidMount() {
-    this.collapser.current!.addEventListener(
-      'mousemove',
-      this.mouseMoveListener
-    )
+    if (this.collapser.current) {
+      this.collapser.current!.addEventListener(
+        'mousemove',
+        this.mouseMoveListener
+      )
+    }
   }
 
   public componentWillUnmount() {
-    this.collapser.current!.removeEventListener(
-      'mousemove',
-      this.mouseMoveListener
-    )
+    if (this.collapser.current) {
+      this.collapser.current!.removeEventListener(
+        'mousemove',
+        this.mouseMoveListener
+      )
+    }
   }
 
   public render() {
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
     return <div className={"game-hud " + collapsedClass}>
       <div className='banner'>
-        <div className="collapser" onClick={this.onCollapse} ref={this.collapser}>
+       {/* <div className="collapser" onClick={this.onCollapse} ref={this.collapser}>
           <img src="/images/chevron-right.svg"/>
-        </div>
-        <div>
-          <img src='/images/holochain_banner.png' className="banner-img" />
-        </div>
+        </div>*/}
+        <img src='/images/holochain_banner.png' className="banner-img" />
       </div>
       <nav className="game-hud-nav">
         <Link to="/">&larr; Back to lobby</Link>
+        <div className="remaining-mines">
+          <span>Remaining Mines:</span> {store.getState().currentGame!.matrix.getRemainingMines()}
+        </div>
       </nav>
-      <div>
-        <span>Remaining Mines: {store.getState().currentGame!.matrix.getRemainingMines()}</span>
-      </div>
       <div className="game-leaderboard">
         <LeaderBoard />
       </div>

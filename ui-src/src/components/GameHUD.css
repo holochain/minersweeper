@@ -4,6 +4,7 @@
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
   z-index: 1;
   transition: width 300ms;
+  font-size: 14px;
 }
 
 .game-hud.collapsed {
@@ -18,7 +19,9 @@
 
 .game-hud .banner-img {
   padding: 10px;
+  height: 50px;
   width: auto;
+  margin: auto;
 }
 
 .game-hud .collapser {
@@ -30,16 +33,24 @@
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
 }
 
+
 .game-hud .game-hud-nav {
-  text-align: right;
-  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1em;
 }
 
 .game-hud .game-hud-nav a {
   color: #eee;
-  font-size: 1.1em;
   padding: 10px;
   text-decoration: none;
+  background: #336;
+}
+.game-hud .game-hud-nav .remaining-mines {
+  padding: 10px 10px 10px 0;
+}
+.game-hud .game-hud-nav .remaining-mines span {
+  font-weight: 100;
 }
 
 .game-hud .collapser img {

@@ -40,7 +40,7 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
     // Change the user hash into user name
     return (
       <div className="leader-board">
-        <h3 className="title">scores</h3>
+        <h3 className="title">scoreboard</h3>
         <table className="leader-board-table">
           <tbody>
             {displayBoard}
@@ -53,11 +53,11 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
 const LeaderItem = ({hash, handle, score}) => {
   return <tr>
-    <td className="player">
-      <span className="handle">{ handle }</span>
-      <Jdenticon className="jdenticon" size={25} hash={ hash } />
-    </td>
     <td className="score">{ score }</td>
+    <td className="player">
+      <Jdenticon className="jdenticon" size={25} hash={ hash } />
+      <span className="handle">{ handle }</span>
+    </td>
   </tr>
 }
 
