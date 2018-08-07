@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import './GameHUD.css';
 
 import LeaderBoard from './LeaderBoard';
-import {MessagesList, InputForm} from './Chatbox';
+import {ChatboxComponents} from './Chatbox';
 import store from '../store'
 
 type GameHUDState = {
@@ -43,7 +43,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
 
   public render() {
     const currentGame = store.getState().currentGame!
-    const {gameHash, chats} = currentGame
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
     return <div className={"game-hud " + collapsedClass}>
       <div className='banner'>
@@ -61,11 +60,8 @@ class GameHUD extends React.Component<any, GameHUDState> {
       <div className="leader-board-title">
         SCORES
       </div>
-      <div className="game-leaderboard">
-        <LeaderBoard />
-      </div>
-      <MessagesList chats={chats} mode="blocks"/>
-      <InputForm gameHash={gameHash}/>
+      <LeaderBoard />
+      { ChatboxComponents() }
     </div>
   }
 

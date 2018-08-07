@@ -24,27 +24,25 @@ type ChatProps = {
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
-class Chatbox extends React.Component<any, any> {
-
-  public render() {
-    const {currentGame} = this.props
-    if (currentGame === null) {
-      return <div/>
-    } else {
-      const {gameHash, chats} = currentGame
-      return(
-        <div className='chat-box'>
-          <MessagesList chats={chats} mode="blocks" />
-          <InputForm gameHash={gameHash} />
-        </div>
-      )
-    }
+export const ChatboxComponents = () => {
+  const currentGame = store.getState().currentGame!
+  if (currentGame === null) {
+    return <div/>
+  } else {
+    const {gameHash, chats} = currentGame
+    return(
+      [
+        <MessagesList key="messages" chats={chats} mode="blocks" />,
+        <InputForm key="inputs" gameHash={gameHash} />
+      ]
+    )
   }
 }
 
+
   ///////////////////////////////////////////////////////////////
 
-export class MessagesList extends React.Component<any, any> {
+class MessagesList extends React.Component<any, any> {
   public render() {
     if (this.props.mode === "single") {
       const list = this.props.chats
@@ -135,7 +133,7 @@ class AuthorBlock extends React.Component<any, any> {
 
 ///////////////////////////////////////////////////////////////
 
-export class InputForm extends React.Component<any, any> {
+class InputForm extends React.Component<any, any> {
   private authorName: React.RefObject<any> = React.createRef()
   private text: React.RefObject<any> = React.createRef()
 
@@ -186,7 +184,6 @@ const mapStateToProps = ({ identities, currentGame, whoami }) => ({
   identities, currentGame, whoami,
 })
 
-export default connect(mapStateToProps)(Chatbox)
 
 // console.log("currentGame.......", this.props.currentGame)
 // // Chats are available as: this.props.currentGame.chats

@@ -39,7 +39,7 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
     // Change the user hash into user name
     return (
-      <div className="leader-board">
+      <div className="game-leaderboard leader-board">
         <table className="leader-board-table">
           <tbody>
             {displayBoard}
