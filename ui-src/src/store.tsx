@@ -47,6 +47,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       break;
     }
     case 'FETCH_ACTIONS': {
+      action.actions.sort((a, b) => a.timestamp - b.timestamp)
       action.actions.forEach(a => {
         matrix.takeAction(a)
       })
