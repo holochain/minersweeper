@@ -68,7 +68,7 @@ export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreM
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = 0; }
-    if (isFirst(action, index, actions) && action.actionType !== "chat" && isMine(gameBoard, action.position)) {
+    if (isFirst(action, index, actions) && action.actionType === "reveal" && isMine(gameBoard, action.position)) {
       newScore += 1;
     }
     return scores.set(action.agentHash, newScore);
@@ -114,8 +114,15 @@ export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): Score
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = [0,0]; }
     if (isFirst(action, index, actions) && action.actionType !== "chat") {
+      newScore[0] += 1; // increment the streak count
       if(isMine(gameBoard, action.position)) {
-        newScore[0] = 0; // this is the current streak counter
+        if(action.actionType === "reveal") {
+          newScore[0] = 0; // revealing a mine resets
+        }
+      } else {
+        if(action.actionType === "flag") {
+          newScore[0] = 0; // flagging a non-mine resets          
+        }
       }
       newScore[1] = Math.max(newScore[0], newScore[1]); // increment the best streak if exceeded
     }

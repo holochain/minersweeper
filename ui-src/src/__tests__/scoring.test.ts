@@ -1,4 +1,4 @@
-import {getScores, isMine } from "../scoring";
+import {getScores, isMine, getMinesClicked, getFlaggingAccuracy, getLongestStreak, getNumberOfActions } from "../scoring";
 import { Action } from "../../../minersweeper";
 
 const testGameBoard = {
@@ -39,3 +39,10 @@ it('Can ignore subsequent actions in the same tile irrespective of hash', () => 
   newTestActions = newTestActions.concat({position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(1);
 })
+
+it('Can correctly calculate some stats', () => {
+  expect(getNumberOfActions(testGameBoard, testActions).get("XXX")).toEqual(4);
+  expect(getMinesClicked(testGameBoard, testActions).get("XXX")).toEqual(1);
+  expect(getFlaggingAccuracy(testGameBoard, testActions).get("XXX")).toEqual(0.5);
+  expect(getLongestStreak(testGameBoard, testActions).get("XXX")).toEqual(1);
+});
