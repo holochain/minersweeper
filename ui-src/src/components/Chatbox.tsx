@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
 
 import { Action, ActionType } from '../../../minersweeper';
 
@@ -45,26 +46,46 @@ class Chatbox extends React.Component<any, any> {
 
 class MessagesList extends React.Component<any, any> {
   public render() {
+    const blocks = this.getChatBlocks()
     return(
       <div>
-        {this.props.chats.map(({author, message}, i) => {
+        {blocks.map(({author, messages}, i) => {
           // assuming the messages are sorted by timestamp...
           const key = `chat-${i}`
           return (
             <div key={key}>
-              {/* The i should ulitamtely be the hash of the chat chat. */}
-              <Message id={key} author={author} text={message} />
+              {/* The i should uli tamtely be the hash of the chat chat. */}
+              <AuthorBlock id={key} author={author} messages={messages} />
             </div>
           )
         })}
       </div>
     )
   }
+
+  private getChatBlocks(): Array<{author: Hash, messages: Array<string>}> {
+    const {chats} = this.props
+    const blocks: Array<{author: Hash, messages: Array<string>}> = []
+    let prevAuthor: Hash | null = null
+    chats.forEach(({author, message}) => {
+      if(author === prevAuthor) {
+        const block = blocks[blocks.length - 1]
+        block.messages.push(message)
+      } else {
+        blocks.push({
+          author,
+          messages: [message]
+        })
+      }
+      prevAuthor = author
+    })
+    return blocks
+  }
 }
 
   ///////////////////////////////////////////////////////////////
 
-class Message extends React.Component<any, any> {
+class AuthorBlock extends React.Component<any, any> {
   private messageField: React.RefObject<any>  = React.createRef()
 
   constructor(props){
@@ -78,7 +99,7 @@ class Message extends React.Component<any, any> {
   }
 
   public render() {
-    const {author, text} = this.props
+    const {author, messages} = this.props
     const authorName = store.getState().identities.get(author)
     return(
       <div ref={this.messageField} className='single-message-field-b'>
@@ -86,7 +107,7 @@ class Message extends React.Component<any, any> {
           <Jdenticon className="jdenticon" size={33} hash={ author } />
           <span><h4 className="message-author-name">{ authorName }</h4></span>
         </div>
-        <div className="message-text">{ text }</div>
+        { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
       </div>
     )
   }
