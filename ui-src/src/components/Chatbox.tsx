@@ -34,7 +34,7 @@ class Chatbox extends React.Component<any, any> {
       const {gameHash, chats} = currentGame
       return(
         <div className='chat-box'>
-          <MessagesList chats={chats} />
+          <MessagesList chats={chats} mode="blocks" />
           <InputForm gameHash={gameHash} />
         </div>
       )
@@ -46,21 +46,25 @@ class Chatbox extends React.Component<any, any> {
 
 class MessagesList extends React.Component<any, any> {
   public render() {
-    const blocks = this.getChatBlocks()
-    return(
-      <div>
-        {blocks.map(({author, messages}, i) => {
-          // assuming the messages are sorted by timestamp...
-          const key = `chat-${i}`
-          return (
-            <div key={key}>
-              {/* The i should uli tamtely be the hash of the chat chat. */}
-              <AuthorBlock id={key} author={author} messages={messages} />
-            </div>
-          )
-        })}
-      </div>
-    )
+    if (this.props.mode === "single") {
+      const list = this.props.chats
+        .sortBy(a => a.timestamp)
+        .map(({author, message}, i) =>
+          <SingleMessage key={i} author={author} message={message} />
+        )
+      return <div>{ list }</div>
+    } else {
+      const blocks = this.getChatBlocks()
+      return(
+        <div>
+          {blocks.map(({author, messages}, i) => {
+            // assuming the messages are sorted by timestamp...
+            const key = `chat-${i}`
+            return <AuthorBlock key={key} author={author} messages={messages} />
+          })}
+        </div>
+      )
+    }
   }
 
   private getChatBlocks(): Array<{author: Hash, messages: Array<string>}> {
@@ -85,6 +89,20 @@ class MessagesList extends React.Component<any, any> {
 
 ///////////////////////////////////////////////////////////////
 
+const SingleMessage = ({author, message}) => {
+  const authorName = store.getState().identities.get(author)
+  return(
+    <div className='single-message'>
+      <Jdenticon className="jdenticon" size={24} hash={ author } />
+      <div className="author">{ authorName }</div>
+      <div className="separator">:</div>
+      <div className="message">{ message }</div>
+    </div>
+    )
+}
+
+//////////////////////////////////////////////////////////////////
+
 class AuthorBlock extends React.Component<any, any> {
   private messageField: React.RefObject<any>  = React.createRef()
 
@@ -102,12 +120,14 @@ class AuthorBlock extends React.Component<any, any> {
     const {author, messages} = this.props
     const authorName = store.getState().identities.get(author)
     return(
-      <div ref={this.messageField} className='single-message-field-b'>
-        <div className="message-authorname-container">
-          <Jdenticon className="jdenticon" size={33} hash={ author } />
-          <span><h4 className="message-author-name">{ authorName }</h4></span>
+      <div ref={this.messageField} className='author-block'>
+        <Jdenticon className="jdenticon" size={32} hash={ author } />
+        <div className="content">
+          <h4 className="author-name">{ authorName }</h4>
+          <div className="message-block">
+            { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
+          </div>
         </div>
-        { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
       </div>
     )
   }

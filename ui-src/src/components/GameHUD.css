@@ -1,5 +1,5 @@
 .game-hud {
-  width: 425px; /* change back to 325 after done with chatbox. */
+  width: 325px; /* change back to 325 after done with chatbox. */
   background: #222;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
   z-index: 1;

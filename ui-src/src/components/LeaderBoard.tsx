@@ -46,10 +46,6 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
             {displayBoard}
           </tbody>
         </table>
-        <div
-          className="temporary-big-space-TODO-remove-me"
-          style={{marginBottom: 50}}
-        />
       </div>
     )
   }
