@@ -9,7 +9,7 @@ import {GameBoard} from '../../minersweeper'
 export type ChatLog = {
   author: Hash,
   message: string,
-  timestamp: number
+  // timestamp: number
 }
 
 export type StoreState = {

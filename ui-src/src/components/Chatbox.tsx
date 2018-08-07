@@ -24,47 +24,44 @@ type ChatProps = {
 ///////////////////////////////////////////////////////////////
 
 class Chatbox extends React.Component<any, any> {
-    constructor(props){
-      super(props);
-      this.state = {
-        id: 0,
-        messages: [
-          {id: 0, authorName: 'Bot', text: 'Hello there. Type your messages here!'}
-        ]
-      };
-    }
 
-    public render() {
-      console.log("IDENTITIES: ", this.props.identities)
+  public render() {
+    const {currentGame} = this.props
+    if (currentGame === null) {
+      return <div/>
+    } else {
+      const {gameHash, chats} = currentGame
       return(
         <div className='chat-box'>
-          <MessagesList messages={this.props.chats} />
-          <InputForm />
+          <MessagesList chats={chats} />
+          <InputForm gameHash={gameHash} />
         </div>
       )
     }
   }
+}
 
   ///////////////////////////////////////////////////////////////
 
 class MessagesList extends React.Component<any, any> {
   public render() {
-      return(
-        <div>
-          {this.props.currentGame.chats.map(msg => {
-            // sort the messages my timestamp...
-            return (
-              <div key={msg.id}>
-                {/* The key should ulitamtely be the hash of the chat msg. */}
-                <Message id={msg.id} authorName={msg.authorName} text={msg.chat} />
-                <hr className="chatbox-line-divide"/>
-              </div>
-            )
-          })}
-        </div>
-      )
-    }
+    return(
+      <div>
+        {this.props.chats.map(({author, message}, i) => {
+          // assuming the messages are sorted by timestamp...
+          const key = `chat-${i}`
+          return (
+            <div key={key}>
+              {/* The i should ulitamtely be the hash of the chat chat. */}
+              <Message id={key} author={author} text={message} />
+              <hr className="chatbox-line-divide"/>
+            </div>
+          )
+        })}
+      </div>
+    )
   }
+}
 
   ///////////////////////////////////////////////////////////////
 
@@ -75,67 +72,72 @@ class Message extends React.Component<any, any> {
     super(props);
   }
 
-   public componentDidMount() {
-     if(this.messageField.current){
+  public componentDidMount() {
+    if(this.messageField.current){
        this.messageField.current!.scrollIntoView();
-     }
-    }
-   public render() {
-      return(
-        <div ref={this.messageField} className='single-message-field'>
-          <div className="message-authorname-container">
-            <Jdenticon className="jdenticon" size={75} hash={ this.props.id } />
-            <span><h4 className="message-author-name">{ this.props.authorName }</h4></span>
-          </div>
-          <div className="message-text">{ this.props.text }</div>
-        </div>
-      )
     }
   }
+
+  public render() {
+    const {author, text} = this.props
+    const authorName = store.getState().identities.get(author)
+    return(
+      <div ref={this.messageField} className='single-message-field'>
+        <div className="message-authorname-container">
+          <Jdenticon className="jdenticon" size={75} hash={ author } />
+          <span><h4 className="message-author-name">{ authorName }</h4></span>
+        </div>
+        <div className="message-text">{ text }</div>
+      </div>
+    )
+  }
+}
 
 ///////////////////////////////////////////////////////////////
 
-  class InputForm extends React.Component<any, any> {
-    private authorName: React.RefObject<any> = React.createRef()
-    private text: React.RefObject<any> = React.createRef()
+class InputForm extends React.Component<any, any> {
+  private authorName: React.RefObject<any> = React.createRef()
+  private text: React.RefObject<any> = React.createRef()
 
-    constructor(props){
-      super(props);
-      this.onClickBtnClear = this.onClickBtnClear.bind(this);
-      this.onClickBtnSend = this.onClickBtnSend.bind(this);
-    }
-
-    public onClickBtnSend = () => {
-      let text = this.text.current.value;
-      if (text.length) {
-        // send chats to redux here:
-        fetchJSON('/fn/minersweeper/getState').then(([chats]) =>
-          store.dispatch({
-            type: 'VIEW_GAME',
-            chats,
-          })
-        )
-         // this.props.handleMessage(text);
-      }
-      // Clear out the chatbox:
-      text = '';
-    };
-    public onClickBtnClear = () => {
-      this.text.current.value = '';
-    };
-
-    public render() {
-      return(
-        <div className='inputField'>
-          <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
-          <div className='inputButtons'>
-            <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
-            <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
-          </div>
-        </div>
-      )
-    }
+  constructor(props) {
+    super(props);
+    this.onClickBtnClear = this.onClickBtnClear.bind(this);
+    this.onClickBtnSend = this.onClickBtnSend.bind(this);
   }
+
+  public onClickBtnSend = () => {
+    const text = this.text.current.value;
+    if (text.length) {
+      // send chats to redux here:
+      const payload = {
+        gameHash: this.props.gameHash,
+        action: {
+          actionType: "chat",
+          text,
+        }
+      }
+      fetchJSON('/fn/minersweeper/makeMove', payload);
+      // also immediately update chat here
+    }
+    // Clear out the chatbox:
+    this.text.current.value = '';
+  };
+  public onClickBtnClear = () => {
+    this.text.current.value = '';
+  };
+
+  public render() {
+    return(
+      <div className='inputField'>
+        <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
+        <div className='inputButtons'>
+          <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
+          <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
+        </div>
+      </div>
+    )
+  }
+}
 
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////

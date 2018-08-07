@@ -28,8 +28,8 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   if (gameState === null) {
     return gameState
   }
-  const {chats, matrix, gameHash, gameBoard} = gameState!
-  let {scores} = gameState!
+  const {matrix, gameHash, gameBoard} = gameState!
+  let {chats, scores} = gameState!
 
   switch (action.type) {
     // TODO: use matrix.takeAction
@@ -47,10 +47,27 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       break;
     }
     case 'FETCH_ACTIONS': {
+      chats = chats.clear()
       action.actions.forEach(a => {
-        matrix.takeAction(a)
+        switch (a.actionType) {
+          case "flag":
+          case "reveal":
+            // update game board
+              matrix.takeAction(a)
+            break;
+          case "chat":
+            chats = chats.push({
+              author: a.agentHash,
+              message: a.text,
+              // timestamp: number
+            })
+            break;
+          default:
+            break;
+        }
       })
 
+      // update scores
       scores = Map(getScores(gameBoard, action.actions));
       break;
     }
@@ -63,6 +80,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     scores,
     gameOver,
     matrix,
+    chats,
   }
 }
 
