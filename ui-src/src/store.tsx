@@ -23,6 +23,27 @@ const defaultState: StoreState = {
   whoami: null
 };
 
+
+// from here https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+const hashCode = (str: string) => {
+  let hash: number = 0;
+  if (str.length === 0) { return hash };
+  for (let i: number = 0; i < str.length; i++) {
+    const char: number = str.charCodeAt(i);
+    hash = ((hash<<5)-hash)+char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+const compareActions = (a: Action, b: Action) => {
+  if(a.timestamp === b.timestamp) {
+    return hashCode(JSON.stringify(a)) - hashCode(JSON.stringify(b));
+  } else {
+    return a.timestamp - b.timestamp;
+  }
+}
+
 function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   const gameState = state.currentGame
   if (gameState === null) {
@@ -48,7 +69,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
-      action.actions.sort((a, b) => a.timestamp - b.timestamp)
+      action.actions.sort(compareActions)
       action.actions.forEach(a => {
         switch (a.actionType) {
           case "flag":

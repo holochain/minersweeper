@@ -51,6 +51,8 @@ export default class CellMatrix {
       case "flag":
         if (!this.isMine(action.position)) {
           numRevealed = this.triggerReveal(action.position);
+        } else if (!this.isFlagged(action.position) && !this.isRevealed(action.position)) {
+          this.nRevealedMines += 1;         
         }
         this.flagCell(action.position, action.agentHash);
         break;
@@ -79,7 +81,7 @@ export default class CellMatrix {
   }
 
   public getRemainingMines(): number {
-    return Math.max(this.nMines - this.nRevealedMines, 0);
+    return this.nMines - this.nRevealedMines;
   }
 
   public triggerReveal(pos: Pos): number {
