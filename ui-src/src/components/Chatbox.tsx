@@ -109,7 +109,7 @@ class Message extends React.Component<any, any> {
       let text = this.text.current.value;
       if (text.length) {
         // send chats to redux here:
-        fetchJSON('/fn/minersweeper/getState').then(([agentHash, identity, chats]) =>
+        fetchJSON('/fn/minersweeper/getState').then(([chats]) =>
           store.dispatch({
             type: 'VIEW_GAME',
             chats,
