@@ -87,7 +87,7 @@ export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): Sco
 }
 
 export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
-  let scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
+  const scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = [0,0]; }
     if (isFirst(action, index, actions) && action.actionType === "flag") {
@@ -101,7 +101,7 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
 
   const result = new Map<Hash, number>();
 
-  for(let hash of Array.from( scoreTuples.keys()) ) {
+  for(const hash of Array.from( scoreTuples.keys()) ) {
     const counts = scoreTuples.get(hash)!;
     if(counts[0] === 0) { // catch for divide by zero
       result.set(hash, 0)
@@ -114,7 +114,7 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
 
 
 export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
-  let scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
+  const scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = [0,0]; }
     if (isFirst(action, index, actions) && action.actionType !== "chat") {
@@ -135,7 +135,7 @@ export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): Score
 
   const result = new Map<Hash, number>();
 
-  for(let hash of Array.from( scoreTuples.keys()) ) {
+  for(const hash of Array.from( scoreTuples.keys()) ) {
     const counts = scoreTuples.get(hash)!;
     result.set(hash, counts[1]);
   }
