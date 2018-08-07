@@ -2,8 +2,6 @@
   border: 3px #212f3d solid;
   text-align: left;
   justify-content: left;
-  padding: 0;
-  height: 100%;
   color: #fff;
   font-family: Arial, sans-serif;
   margin: 10 auto;
@@ -14,11 +12,15 @@
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
-  overflow: scroll;
 }
 
-.inputField {
-  height: 30%;
+.chat-box .messages-pane {
+  flex: 2 2;
+  overflow: auto;
+}
+
+.input-area {
+  flex: 0 1;
   display: flex;
   flex-flow: column nowrap;
 }

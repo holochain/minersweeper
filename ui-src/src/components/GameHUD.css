@@ -78,9 +78,9 @@
 }
 
 .game-hud .game-leaderboard {
-  flex: 1 2 282px;
+  flex: 1 10 282px;
 }
 
 .game-hud .game-chat {
-  flex: 2 1 100%;
+  flex: 10 1;
 }

@@ -52,11 +52,11 @@ class MessagesList extends React.Component<any, any> {
         .map(({author, message}, i) =>
           <SingleMessage key={i} author={author} message={message} />
         )
-      return <div>{ list }</div>
+      return <div className="messages-pane">{ list }</div>
     } else {
       const blocks = this.getChatBlocks()
       return(
-        <div>
+        <div className="messages-pane">
           {blocks.map(({author, messages}, i) => {
             // assuming the messages are sorted by timestamp...
             const key = `chat-${i}`
@@ -168,7 +168,7 @@ class InputForm extends React.Component<any, any> {
 
   public render() {
     return(
-      <div className='inputField'>
+      <div className='input-area'>
         <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
         <div className='inputButtons'>
           <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
