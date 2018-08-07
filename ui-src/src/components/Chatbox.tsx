@@ -101,34 +101,37 @@ const SingleMessage = ({author, message}) => {
 
 //////////////////////////////////////////////////////////////////
 
-class AuthorBlock extends React.Component<any, any> {
-  private messageField: React.RefObject<any>  = React.createRef()
+const AuthorBlock = ({author, messages}) => {
+  const authorName = store.getState().identities.get(author)
+  return(
+    <div className='author-block'>
+      <Jdenticon className="jdenticon" size={32} hash={ author } />
+      <div className="content">
+        <h4 className="author-name">{ authorName }</h4>
+        <div className="message-block">
+          { messages.map((text, i) =>
+              <AuthorBlockMessage key={i}>
+                { text }
+              </AuthorBlockMessage>)
+          }
+        </div>
+      </div>
+    </div>
+  )
+}
 
-  constructor(props){
-    super(props);
-  }
-
+class AuthorBlockMessage extends React.Component<any, any> {
+  private div: React.RefObject<any> = React.createRef()
   public componentDidMount() {
-    if(this.messageField.current){
-       this.messageField.current!.scrollIntoView();
+    if(this.div.current) {
+       this.div.current!.scrollIntoView();
     }
   }
 
   public render() {
-    const {author, messages} = this.props
-    const authorName = store.getState().identities.get(author)
-    return(
-      <div ref={this.messageField} className='author-block'>
-        <Jdenticon className="jdenticon" size={32} hash={ author } />
-        <div className="content">
-          <h4 className="author-name">{ authorName }</h4>
-          <div className="message-block">
-            { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
-          </div>
-        </div>
-      </div>
-    )
+    return <div ref={this.div} className="message-text">{ this.props.children }</div>
   }
+
 }
 
 ///////////////////////////////////////////////////////////////
