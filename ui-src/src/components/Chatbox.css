@@ -36,9 +36,9 @@
 .input-text {
   background: #212f3d;
   width: 100%;
-  height: 150px;
+  height: auto;
   border: none;
-  padding: 15px 20px;
+  padding: 8px 20px;
   color: #d0e7f6;
   font: Arial, sans-serif;
   margin-bottom: 10px;
@@ -137,34 +137,33 @@
   transition: opacity 0.5s ease-in;
 }
 
-.single-message-field {
+/* Type A */
+.single-message-field-a {
   text-align: left;
   margin: 0.2em 0.2em 0.2em 0.5em;
   background: #1A1E24;
-  border-radius: 0.2em;
+  border-bottom: 1px solid #ccc;
 }
 
-.message-authorname-container {
+.single-message-field-a .message-authorname-container {
   margin: 0;
   padding: 0.1em;
   /* background-color: #212f3d; */
 }
 
-.message-author-name {
+.single-message-field-a .message-author-name {
   display: inline-block;
   font-size: 20px;
-  margin-left: 15px;
+  margin: 0 15px;
   font-weight: 100;
   color: #d0e7f6;
 }
 
-.jdenticon {
+.single-message-field-a .jdenticon {
   align-items: left !important;
-  width: 75px !important;
-  height: 75px !important;
 }
 
-.message-text {
+.single-message-field-a .message-text {
   text-align: left;
   margin: 0px 10px 10px 0px;
   padding: 20px;
@@ -174,7 +173,51 @@
   color: #d0e7f6;
 }
 
-.chatbox-line-divide {
+.single-message-field-a .chatbox-line-divide {
+  background: #212f3d !important;
+  color: #212f3d !important;
+  width: 95%;
+  height: 20%;
+}
+
+/* Type B */
+.single-message-field-b {
+  text-align: left;
+  margin: 0.2em 0.2em 0.2em 0.5em;
+  background: #1A1E24;
+  border-radius: 0.2em;
+}
+
+.single-message-field-b .message-authorname-container {
+  margin: 0;
+  padding: 0.1em;
+  display: inline-block;
+  /* background-color: #212f3d; */
+}
+
+.single-message-field-b .message-author-name {
+  display: inline-block;
+  font-size: 18px;
+  margin: 0 11px 0 5px;
+  font-weight: 100;
+  color: #d0e7f6;
+}
+
+.single-message-field-b .jdenticon {
+  align-items: left !important;
+}
+
+.single-message-field-b .message-text {
+  text-align: left;
+  margin: 0px 10px 10px 0px;
+  word-wrap: break-word;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d0e7f6;
+  display: inline-block;
+}
+
+.single-message-field-b .chatbox-line-divide {
   background: #212f3d !important;
   color: #212f3d !important;
   width: 95%;

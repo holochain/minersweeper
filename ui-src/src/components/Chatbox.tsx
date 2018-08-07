@@ -54,7 +54,6 @@ class MessagesList extends React.Component<any, any> {
             <div key={key}>
               {/* The i should ulitamtely be the hash of the chat chat. */}
               <Message id={key} author={author} text={message} />
-              <hr className="chatbox-line-divide"/>
             </div>
           )
         })}
@@ -82,9 +81,9 @@ class Message extends React.Component<any, any> {
     const {author, text} = this.props
     const authorName = store.getState().identities.get(author)
     return(
-      <div ref={this.messageField} className='single-message-field'>
+      <div ref={this.messageField} className='single-message-field-b'>
         <div className="message-authorname-container">
-          <Jdenticon className="jdenticon" size={75} hash={ author } />
+          <Jdenticon className="jdenticon" size={33} hash={ author } />
           <span><h4 className="message-author-name">{ authorName }</h4></span>
         </div>
         <div className="message-text">{ text }</div>
