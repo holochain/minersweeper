@@ -21,6 +21,8 @@ enum BoardSize {
   Mega = 500,
 }
 
+const bestNPlayers = ['2-3', '4-5', '6-8', '8+']
+
 type CreateGameFormState = {
   errorMessage: string | null
   selectedDifficulty: number
@@ -47,8 +49,8 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       <hr className="reg-hr"/>
       <select id="sizeSelect" value={this.state.selectedGameSize} onChange={this.handleChange} className="register-input">
         {
-          Object.keys(BoardSize).filter(k => !Number(k)).map(k => {
-            return <option key={k} value={BoardSize[k]}>{k + ": (" + BoardSize[k] + "x" + BoardSize[k] + " tiles)"}</option>;
+          Object.keys(BoardSize).filter(k => !Number(k)).map((k, i) => {
+            return <option key={k} value={BoardSize[k]}>{k + ": (" + BoardSize[k] + "x" + BoardSize[k] + " tiles) ("+bestNPlayers[i]+" players)"}</option>;
           })
         }
       </select>
