@@ -16,7 +16,7 @@ export type ActionDefinition
   | { actionType: "flag", position: Pos }
   | { actionType: "chat", text: string }
 
-export type Action = ActionDefinition & { agentHash: Hash, timestamp?: number }
+export type Action = ActionDefinition & { agentHash: Hash, timestamp: number }
 
 export interface MoveDefinition {
   gameHash: Hash;

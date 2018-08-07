@@ -48,6 +48,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
+      action.actions.sort((a, b) => a.timestamp - b.timestamp)
       action.actions.forEach(a => {
         switch (a.actionType) {
           case "flag":
@@ -121,7 +122,6 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       }
     }
     case 'FETCH_CURRENT_GAMES': {
-      console.log("games", action.games)
       return {...state, allGames: Map(action.games) }
     }
     case 'UPDATE_IDENTITIES': {
