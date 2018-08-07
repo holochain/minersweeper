@@ -16,17 +16,17 @@ const testActions: Action[] = [
 ];
 
 const statsTestActions: Action[] = [
-  {position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 1, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 0, y: 1}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 1, y: 1}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"},
-  {position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"}, // incorrect flag esets the streak
-  {position: {x: 10, y: 20}, actionType: "flag", agentHash: "XXX"}, // correct flat
+  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 1, y: 0}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 0, y: 1}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 1, y: 1}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"}, // incorrect flag esets the streak
+  {timestamp: 0, position: {x: 10, y: 20}, actionType: "flag", agentHash: "XXX"}, // correct flat
 
-  {position: {x: 0, y: 0}, actionType: "reveal", agentHash: "YYY"}, // should not trigger as it is repeat
-  {position: {x: 3, y: 2}, actionType: "reveal", agentHash: "YYY"}, // new action
-  {position: {x: 2, y: 3}, actionType: "reveal", agentHash: "YYY"}, // new action
+  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "YYY"}, // should not trigger as it is repeat
+  {timestamp: 0, position: {x: 3, y: 2}, actionType: "reveal", agentHash: "YYY"}, // new action
+  {timestamp: 0, position: {x: 2, y: 3}, actionType: "reveal", agentHash: "YYY"}, // new action
 
 ];
 
