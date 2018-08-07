@@ -8,15 +8,14 @@ export const CLICK_NON_MINE = 1;
 export const FLAG_MINE = 5;
 export const FLAG_NON_MINE = -2;
 
+type ScoreMap = Map<Hash, number>
+
+
 // returns the scores for all players that have made moves in the game
 export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, number> => {
-  type scoreMap = Map<Hash, number>
-
-  return actions.reduce<scoreMap>((scores: scoreMap, action: Action, index: number): scoreMap => {
-
+  return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
     let newScore = scores.get(action.agentHash);
     if (newScore === undefined) { newScore = 0; }
-
     if (isFirst(action, index, actions)) {
       switch(action.actionType) {
         case "flag":
@@ -37,10 +36,8 @@ export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, nu
           break;
       }
     }
-
     return scores.set(action.agentHash, newScore);
   }, new Map<Hash, number>());
-
 }
 
 // only the first action on each square is allowed to generate a score.
@@ -59,3 +56,41 @@ export const isMine = (gameBoard: GameBoard, pos: Pos): boolean => {
     return mine.x === pos.x && mine.y === pos.y;
   })
 };
+
+
+// ideas for end of game stats per player:
+// mines clicked
+// number of actions
+// flagging accuracy (nCorrectFlags / nFlags)
+// longest streak (consecutive actions without hitting a mine)
+// 
+
+export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
+  return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
+    let newScore = scores.get(action.agentHash);
+    if (newScore === undefined) { newScore = 0; }
+    if (isFirst(action, index, actions) && action.actionType !== "chat" && isMine(gameBoard, action.position)) {
+      newScore += 1;
+    }
+    return scores.set(action.agentHash, newScore);
+  }, new Map<Hash, number>());  
+}
+
+export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
+  return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
+    let newScore = scores.get(action.agentHash);
+    if (newScore === undefined) { newScore = 0; }
+    if (isFirst(action, index, actions) && action.actionType !== "chat") {
+      newScore += 1;
+    }
+    return scores.set(action.agentHash, newScore);
+  }, new Map<Hash, number>());  
+}
+
+export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
+  
+}
+
+export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
+  
+}

@@ -9,9 +9,9 @@ import store from '../store';
 
 
 enum Difficulty {
-  Easy = 0.2,
-  Intermediate = 0.3,
-  Expert = 0.4,
+  Easy = 0.12,
+  Intermediate = 0.15,
+  Expert = 0.17,
 }
 
 enum BoardSize {
