@@ -103,7 +103,11 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
 
   for(let hash of Array.from( scoreTuples.keys()) ) {
     const counts = scoreTuples.get(hash)!;
-    result.set(hash, counts[1] / counts[0]);
+    if(counts[0] === 0) { // catch for divide by zero
+      result.set(hash, 0)
+    } else {
+      result.set(hash, counts[1] / counts[0]);
+    }
   }
   return result
 }

@@ -15,6 +15,21 @@ const testActions: Action[] = [
   {position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"}
 ];
 
+const statsTestActions: Action[] = [
+  {position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
+  {position: {x: 1, y: 0}, actionType: "reveal", agentHash: "XXX"},
+  {position: {x: 0, y: 1}, actionType: "reveal", agentHash: "XXX"},
+  {position: {x: 1, y: 1}, actionType: "reveal", agentHash: "XXX"},
+  {position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"},
+  {position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"}, // incorrect flag esets the streak
+  {position: {x: 10, y: 20}, actionType: "flag", agentHash: "XXX"}, // correct flat
+
+  {position: {x: 0, y: 0}, actionType: "reveal", agentHash: "YYY"}, // should not trigger as it is repeat
+  {position: {x: 3, y: 2}, actionType: "reveal", agentHash: "YYY"}, // new action
+  {position: {x: 2, y: 3}, actionType: "reveal", agentHash: "YYY"}, // new action
+
+];
+
 it('Can identify a mine in the game board using isMine', () => {
   expect(isMine(testGameBoard, {x:0,y:0})).toEqual(false);
   expect(isMine(testGameBoard, {x:10,y:20})).toEqual(true);
@@ -45,4 +60,16 @@ it('Can correctly calculate some stats', () => {
   expect(getMinesClicked(testGameBoard, testActions).get("XXX")).toEqual(1);
   expect(getFlaggingAccuracy(testGameBoard, testActions).get("XXX")).toEqual(0.5);
   expect(getLongestStreak(testGameBoard, testActions).get("XXX")).toEqual(1);
+});
+
+it('Can correctly calculate some more interesting stats', () => {
+  expect(getNumberOfActions(testGameBoard, statsTestActions).get("XXX")).toEqual(7);
+  expect(getMinesClicked(testGameBoard, statsTestActions).get("XXX")).toEqual(0);
+  expect(getFlaggingAccuracy(testGameBoard, statsTestActions).get("XXX")).toEqual(2/3);
+  expect(getLongestStreak(testGameBoard, statsTestActions).get("XXX")).toEqual(5);
+
+  expect(getNumberOfActions(testGameBoard, statsTestActions).get("YYY")).toEqual(2);
+  expect(getMinesClicked(testGameBoard, statsTestActions).get("YYY")).toEqual(0);
+  expect(getFlaggingAccuracy(testGameBoard, statsTestActions).get("YYY")).toEqual(0);
+  expect(getLongestStreak(testGameBoard, statsTestActions).get("YYY")).toEqual(2);
 });
