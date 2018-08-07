@@ -35,12 +35,12 @@ function newGame(payload: GameParams): Hash {
 
 function makeMove(payload: MoveDefinition): boolean {
   const gameHash = payload.gameHash;
+  const actionStamp: number = getLinks(gameHash, "actions").length;
   const action: Action = {
     agentHash: App.Key.Hash,
-    timestamp: Date.now(),
+    timestamp: actionStamp,
     ...payload.action
   };
-
   // bundleStart(1, "");
   try {
     const actionHash = commit('action', action);
