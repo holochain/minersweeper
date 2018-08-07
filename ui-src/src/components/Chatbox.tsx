@@ -108,14 +108,13 @@ class Message extends React.Component<any, any> {
     public onClickBtnSend = () => {
       let text = this.text.current.value;
       if (text.length) {
-        // send message to the actions here:
-        fetchJSON('/fn/minersweeper/getState').then(([agentHash, identity]) =>
+        // send chats to redux here:
+        fetchJSON('/fn/minersweeper/getState').then(([agentHash, identity, chats]) =>
           store.dispatch({
             type: 'VIEW_GAME',
             chats,
           })
         )
-
          // this.props.handleMessage(text);
       }
       // Clear out the chatbox:
