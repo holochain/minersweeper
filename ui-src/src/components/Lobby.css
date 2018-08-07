@@ -277,11 +277,6 @@ html,body {
 .live-games th {
   height: 30px;
   font-size: 25px;
-<<<<<<< HEAD
-  border-bottom: 1px solid #bbb;
-  border-width: 4px 1.25em;
-=======
->>>>>>> master
   text-align: center;
   /*color: #787DB8;*/
   color: #548E8A;
@@ -451,16 +446,6 @@ h3:active {
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(to bottom (102, 51, 255, 0.9) 60%, rgba(153, 0, 255, 0.9) 90%);
-  /* animation: gray 1s 6.5s 1 ease-out both; */
-}
-
-@keyframes gray {
-  0% {
-    filter: grayscale(1);
-  }
-  100% {
-    filter: grayscale(0);
-  }
 }
 
 /* tall mountain */

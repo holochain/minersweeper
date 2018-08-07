@@ -109,10 +109,12 @@ class Message extends React.Component<any, any> {
       let text = this.text.current.value;
       if (text.length) {
         // send message to the actions here:
-        const dispatchViewGame = () => store.dispatch({
-          chats: text,  // Should chat include the following? >> chat: {chat: text, author: this.props.whoami.agentHash},
-          type: 'VIEW_GAME',
-        })
+        fetchJSON('/fn/minersweeper/getState').then(([agentHash, identity]) =>
+          store.dispatch({
+            type: 'VIEW_GAME',
+            chats,
+          })
+        )
 
          // this.props.handleMessage(text);
       }
