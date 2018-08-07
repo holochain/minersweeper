@@ -9,10 +9,10 @@ const testGameBoard = {
 }
 
 const testActions: Action[] = [
-  {position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"},
-  {position: {x: 10, y: 20}, actionType: "reveal", agentHash: "XXX"},
-  {position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"}
+  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 20}, actionType: "reveal", agentHash: "XXX"},
+  {timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"}
 ];
 
 it('Can identify a mine in the game board using isMine', () => {
@@ -27,15 +27,15 @@ it('Can reduce a sequence of actions to a score', () => {
 });
 
 it('Can calculate the score of multiple agents', () => {
-  const newTestActions = testActions.concat({position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
+  const newTestActions = testActions.concat({timestamp: 0, position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(1);
   expect(getScores(testGameBoard, newTestActions).get("XXX")).toEqual(-6);
 })
 
 it('Can ignore subsequent actions in the same tile irrespective of hash', () => {
-  let newTestActions = testActions.concat({position: {x: 20, y: 10}, actionType: "flag", agentHash: "YYY"})
+  let newTestActions = testActions.concat({timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("XXX")).toEqual(-6);
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(0);
-  newTestActions = newTestActions.concat({position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
+  newTestActions = newTestActions.concat({timestamp: 0, position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(1);
 })

@@ -133,7 +133,8 @@ class Cell extends React.Component<CellProps, CellState> {
     const numRevealed = matrix.takeAction({
       actionType,
       position: pos,
-      agentHash: whoami!.agentHash
+      agentHash: whoami!.agentHash,
+      timestamp: -1,  // kinda doesn't matter...
     })
 
     if (numRevealed > 1) {
