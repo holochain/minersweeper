@@ -1,4 +1,3 @@
-import {fromJS} from 'immutable';
 
 import { Hash } from "../../holochain";
 import { GameBoard, Action, Pos, Size } from "../../minersweeper";
@@ -9,7 +8,7 @@ export const FLAG_MINE = 5;
 export const FLAG_NON_MINE = -2;
 
 type ScoreMap = Map<Hash, number>
-
+type ScoreTupleMap = Map<Hash, [number,number]>
 
 // returns the scores for all players that have made moves in the game
 export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, number> => {
@@ -88,9 +87,46 @@ export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): Sco
 }
 
 export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
-  
+  let scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
+    let newScore = scores.get(action.agentHash);
+    if (newScore === undefined) { newScore = [0,0]; }
+    if (isFirst(action, index, actions) && action.actionType === "flag") {
+      newScore[0] += 1;
+      if(isMine(gameBoard, action.position)) {
+        newScore[1] += 1;
+      }
+    }
+    return scores.set(action.agentHash, newScore);
+  }, new Map<Hash, [number, number]>());  
+
+  const result = new Map<Hash, number>();
+
+  for(let hash of Array.from( scoreTuples.keys()) ) {
+    const counts = scoreTuples.get(hash)!;
+    result.set(hash, counts[1] / counts[0]);
+  }
+  return result
 }
 
+
 export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
-  
+  let scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
+    let newScore = scores.get(action.agentHash);
+    if (newScore === undefined) { newScore = [0,0]; }
+    if (isFirst(action, index, actions) && action.actionType !== "chat") {
+      if(isMine(gameBoard, action.position)) {
+        newScore[0] = 0; // this is the current streak counter
+      }
+      newScore[1] = Math.max(newScore[0], newScore[1]); // increment the best streak if exceeded
+    }
+    return scores.set(action.agentHash, newScore);
+  }, new Map<Hash, [number, number]>());  
+
+  const result = new Map<Hash, number>();
+
+  for(let hash of Array.from( scoreTuples.keys()) ) {
+    const counts = scoreTuples.get(hash)!;
+    result.set(hash, counts[1]);
+  }
+  return result  
 }
