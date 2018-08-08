@@ -14,8 +14,6 @@ type GameHUDState = {
 
 class GameHUD extends React.Component<any, GameHUDState> {
 
-  private collapser: React.RefObject<HTMLDivElement> = React.createRef()
-
   constructor(props: any) {
     super(props)
     this.state = {
@@ -23,32 +21,11 @@ class GameHUD extends React.Component<any, GameHUDState> {
     }
   }
 
-  // public componentDidMount() {
-  //   if (this.collapser.current) {
-  //     this.collapser.current!.addEventListener(
-  //       'mousemove',
-  //       this.mouseMoveListener
-  //     )
-  //   }
-  // }
-
-  // public componentWillUnmount() {
-  //   if (this.collapser.current) {
-  //     this.collapser.current!.removeEventListener(
-  //       'mousemove',
-  //       this.mouseMoveListener
-  //     )
-  //   }
-  // }
-
   public render() {
     const currentGame = store.getState().currentGame!
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
     return <div className={"game-hud " + collapsedClass}>
       <div className='banner'>
-       {/* <div className="collapser" onClick={this.onCollapse} ref={this.collapser}>
-          <img src="/images/chevron-right.svg"/>
-        </div>*/}
         <img src='/images/holochain_banner.png' className="banner-img" />
       </div>
       <nav className="game-hud-nav">

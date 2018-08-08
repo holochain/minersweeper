@@ -22,7 +22,7 @@ export default class Jdenticon extends React.Component<any, {}> {
       />
   }
 
-  private handleRef (el) {
+  private handleRef (el: any) {
     this.el = el
   }
 }

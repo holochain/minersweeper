@@ -5,11 +5,7 @@ import './GameView.css';
 
 import { connect } from 'react-redux';
 
-import {
-  fetchCurrentGames,
-  fetchJSON,
-  FETCH_ACTIONS_INTERVAL
-} from '../common';
+import { fetchCurrentGames } from '../common';
 import store from '../store';
 import {StoreState} from '../types';
 
