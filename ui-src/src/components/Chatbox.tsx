@@ -145,12 +145,11 @@ class InputForm extends React.Component<any, any> {
   }
 
   public onClickBtnSend = () => {
-    let text = "";
-    if (this.text.current!) {
-      text = this.text.current!.value;
-      console.log("text value inside onClickBtnSend : ", text);
+    if (!this.text.current) {
+      return
     }
 
+    const text = this.text.current!.value;
     if (text.length) {
       // send chats to redux here:
       const payload = {
@@ -173,7 +172,6 @@ class InputForm extends React.Component<any, any> {
 
   public handleEnter = (event) => {
     const text = this.text.current!.value;
-    console.log("text value inside handleEnter : ", text);
     if (event.keyCode === 13 && text) {
        this.onClickBtnSend();
     }
