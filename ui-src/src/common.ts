@@ -25,7 +25,7 @@ export const KEY_PAN_SPEED = CELL_SIZE * 1.0
 export const FETCH_ACTIONS_INTERVAL = 1500
 export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
-export const ACTION_QUEUE_INTERVAL = 250
+export const ACTION_QUEUE_INTERVAL = 350
 
 // anount of time it takes for lobby intro to finish
 // used to disable animation after the first time
