@@ -79,6 +79,7 @@
 
 .game-hud .game-leaderboard {
   flex: 1 10 50%;
+  overflow: auto;
 }
 
 .game-hud .game-chat {

@@ -66,8 +66,7 @@
 /* ///// Input Buttons //// */
 .inputButtons {
   display: flex;
-  margin: 0 auto;
-  width: 350px;
+  margin: 0 10px;
   padding-bottom: 10px;
 }
 

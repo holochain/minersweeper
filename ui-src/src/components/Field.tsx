@@ -22,7 +22,8 @@ type FieldProps = {
 }
 
 type FieldState = {
-  panOffset: Pos
+  panOffset: Pos,
+  hasMouseFocus: boolean,
 }
 
 const LEFT = {x: -1, y: 0}
@@ -46,7 +47,7 @@ const PAN_OFFSETS = {
 
 class Field extends React.Component<FieldProps, FieldState> {
 
-  private grid = React.createRef()
+  private grid = React.createRef<Grid>()
 
   // tracks key down/up state for each arrow key
   private panKeys: any = {}
@@ -67,25 +68,32 @@ class Field extends React.Component<FieldProps, FieldState> {
   constructor(props) {
     super(props)
     this.state = {
-      panOffset: {x: 0, y: 0}
+      panOffset: {x: 0, y: 0},
+      hasMouseFocus: true,
     }
   }
 
   public componentWillMount() {
     this.startPollingActions()
     this.startPollingPan()
+  }
+
+  public componentDidMount() {
+    const el = this.fieldContainer()
+    console.log('el', el)
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
-    window.addEventListener('mousemove', this.mouseMoveListener)
-    window.addEventListener('mouseleave', this.mouseLeaveListener)
+    el.addEventListener('mousemove', this.mouseMoveListener)
+    el.addEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public componentWillUnmount() {
     this.stopPollingActions()
+    const el = this.fieldContainer()
     window.removeEventListener('keydown', this.keyDownListener)
     window.removeEventListener('keyup', this.keyUpListener)
-    window.removeEventListener('mousemove', this.mouseMoveListener)
-    window.removeEventListener('mouseleave', this.mouseLeaveListener)
+    el.removeEventListener('mousemove', this.mouseMoveListener)
+    el.removeEventListener('mouseleave', this.mouseLeaveListener)
   }
 
   public render() {
@@ -134,6 +142,14 @@ class Field extends React.Component<FieldProps, FieldState> {
     )
   }
 
+  private fieldContainer = () => {
+    if (this.grid.current) {
+      return this.grid.current!._scrollingContainer.parentElement.parentElement
+    } else {
+      return null
+    }
+  }
+
   private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
     <Cell
       {...props}
@@ -146,14 +162,18 @@ class Field extends React.Component<FieldProps, FieldState> {
   )
 
   private keyDownListener = e => {
-    if (e.keyCode in PAN_OFFSETS) {
-      this.panKeys[e.keyCode] = true
+    if (this.state.hasMouseFocus) {
+      if (e.keyCode in PAN_OFFSETS) {
+        this.panKeys[e.keyCode] = true
+      }
     }
   }
 
   private keyUpListener = e => {
-    if (e.keyCode in PAN_OFFSETS) {
-      delete this.panKeys[e.keyCode]
+    if (this.state.hasMouseFocus) {
+      if (e.keyCode in PAN_OFFSETS) {
+        delete this.panKeys[e.keyCode]
+      }
     }
   }
 
@@ -162,6 +182,9 @@ class Field extends React.Component<FieldProps, FieldState> {
     if (!grid) {
       return
     }
+    this.fieldContainer()!.focus()
+    e.preventDefault()
+    this.setState({hasMouseFocus: true})
     const div = grid!._scrollingContainer
     const {offsetWidth, offsetHeight} = div
     const {clientX, clientY} = e
@@ -189,8 +212,8 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.mousePanOffset = offset
   }
 
-  private mouseLeaveListener() {
-    console.log('TODO: make this actually work')
+  private mouseLeaveListener = () => {
+    this.setState({hasMouseFocus: false})
     this.mousePanOffset = {
       x: 0,
       y: 0

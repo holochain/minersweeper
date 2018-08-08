@@ -112,7 +112,8 @@ const AuthorBlock = ({author, messages}) => {
           { messages.map((text, i) =>
               <AuthorBlockMessage key={i}>
                 { text }
-              </AuthorBlockMessage>)
+              </AuthorBlockMessage>
+            )
           }
         </div>
       </div>
@@ -170,7 +171,7 @@ class InputForm extends React.Component<any, any> {
   public render() {
     return(
       <div className='input-area'>
-        <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
+        <textarea className='input-text' placeholder='Type to chat...' defaultValue='' ref={this.text}/>
         <div className='inputButtons'>
           <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
           <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
