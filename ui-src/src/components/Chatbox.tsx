@@ -1,8 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { List } from 'immutable';
-
-import { Action, ActionType } from '../../../minersweeper';
 
 import './Chatbox.css';
 
@@ -13,13 +9,13 @@ import Jdenticon from './Jdenticon';
 import { fetchJSON } from '../common';
 import store from '../store';
 
-type ChatProps = {
-  gameHash: Hash,
-  agentHash: Hash,
-  chat: any,
-  allPlayerHandles: Map<Hash, string>
-  authorName: string,
-}
+// type ChatProps = {
+//   gameHash: Hash,
+//   agentHash: Hash,
+//   chat: any,
+//   allPlayerHandles: Map<Hash, string>
+//   authorName: string,
+// }
 
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
@@ -138,6 +134,7 @@ class AuthorBlockMessage extends React.Component<any, any> {
 ///////////////////////////////////////////////////////////////
 
 class InputForm extends React.Component<any, any> {
+
   private text: React.RefObject<HTMLTextAreaElement> = React.createRef()
 
   constructor(props) {
@@ -189,10 +186,3 @@ class InputForm extends React.Component<any, any> {
     )
   }
 }
-
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
-const mapStateToProps = ({ identities, currentGame, whoami }) => ({
-  identities, currentGame, whoami,
-})

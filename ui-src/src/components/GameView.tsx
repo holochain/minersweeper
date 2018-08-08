@@ -1,17 +1,13 @@
 import * as React from 'react';
-import {withRouter} from 'react-router';
 import {Link} from 'react-router-dom';
 
 import './GameView.css';
 
 import { connect } from 'react-redux';
 
-import {
-  fetchCurrentGames,
-  fetchJSON,
-  FETCH_ACTIONS_INTERVAL
-} from '../common';
+import { fetchCurrentGames } from '../common';
 import store from '../store';
+import {StoreState} from '../types';
 
 import Field from './Field';
 import GameHUD from './GameHUD';
@@ -25,9 +21,8 @@ type FieldState = {
 
 class GameView extends React.Component<FieldProps, FieldState> {
 
-  private actionsInterval: any = null
 
-  constructor(props) {
+  constructor(props: FieldProps) {
     super(props)
     this.state = {
       loading: true,
@@ -88,7 +83,7 @@ class GameView extends React.Component<FieldProps, FieldState> {
 }
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StoreState) => ({
   currentGame: state.currentGame
 })
 

@@ -14,9 +14,7 @@ type GameHUDState = {
 
 class GameHUD extends React.Component<any, GameHUDState> {
 
-  private collapser: React.RefObject<HTMLDivElement> = React.createRef()
-
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       collapsed: false
@@ -28,9 +26,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
     return <div className={"game-hud " + collapsedClass}>
       <div className='banner'>
-       {/* <div className="collapser" onClick={this.onCollapse} ref={this.collapser}>
-          <img src="/images/chevron-right.svg"/>
-        </div>*/}
         <img src='/images/holochain_banner.png' className="banner-img" />
       </div>
       <nav className="game-hud-nav">
@@ -46,13 +41,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
       { ChatboxComponents() }
     </div>
   }
-
-  private onCollapse = (e) => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
-  }
-
 }
 
 export default GameHUD;

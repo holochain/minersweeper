@@ -1,6 +1,6 @@
 
 import { Hash } from "../../holochain";
-import { GameBoard, Action, Pos, Size } from "../../minersweeper";
+import { GameBoard, Action, Pos } from "../../minersweeper";
 
 export const CLICK_MINE = -10;
 export const CLICK_NON_MINE = 1;
