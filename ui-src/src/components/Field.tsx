@@ -294,7 +294,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.actionQueueInterval = setInterval(
       () => {
         if (!this.isPanning()) {
-          common.popAction()
+          common.dequeueAndPerformAction()
         }
       }, common.ACTION_QUEUE_INTERVAL
     )

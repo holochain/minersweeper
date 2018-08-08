@@ -93,12 +93,12 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       scores = Map(getScores(gameBoard, action.actions));
       break;
     }
-    case 'PUSH_ACTION': {
+    case 'ENQUEUE_ACTION': {
       const {moveDef} = action
       actionQueue = actionQueue.push(moveDef)
       break;
     }
-    case 'POP_ACTION': {
+    case 'DEQUEUE_ACTION': {
       actionQueue = actionQueue.shift()
       break;
     }
