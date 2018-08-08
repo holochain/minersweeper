@@ -120,7 +120,7 @@ class Cell extends React.Component<CellProps, CellState> {
     return {x: columnIndex, y: rowIndex}
   }
 
-  private handleMove = (actionType) => {
+  private handleMove = (actionType: ActionType) => {
     const pos = this.getPos()
     const {currentGame, whoami} = store.getState()
     const {matrix} = currentGame!
