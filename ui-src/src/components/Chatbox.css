@@ -2,8 +2,6 @@
   border: 3px #212f3d solid;
   text-align: left;
   justify-content: left;
-  padding: 0;
-  height: 100%;
   color: #fff;
   font-family: Arial, sans-serif;
   margin: 10 auto;
@@ -14,11 +12,16 @@
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
-  overflow: scroll;
 }
 
-.inputField {
-  height: 30%;
+.messages-pane {
+  flex: 2 1 50%;
+  overflow: auto;
+  background: #1A1E24;
+}
+
+.input-area {
+  flex: 0 1;
   display: flex;
   flex-flow: column nowrap;
 }
@@ -63,8 +66,7 @@
 /* ///// Input Buttons //// */
 .inputButtons {
   display: flex;
-  margin: 0 auto;
-  width: 350px;
+  margin: 0 10px;
   padding-bottom: 10px;
 }
 
@@ -165,7 +167,6 @@
   text-align: left;
   margin: 4px;
   padding-left: 33px;
-  background: #1A1E24;
   border-radius: 0.2em;
   position: relative;
 }

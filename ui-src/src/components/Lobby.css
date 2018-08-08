@@ -310,7 +310,7 @@ html,body {
     -webkit-text-fill-color: transparent;
   /* animation: blink 1s steps(4, start) infinite; */
 }
-
+/*
 h3:active {
   -webkit-box-shadow:
       0px 3px rgba(128,128,128,1),
@@ -321,7 +321,7 @@ h3:active {
       0px 8px rgba(78,78,78,1),
       0px 10px 2px 0px rgba(128,128,128,.6);
 }
-
+*/
 .no-game-warning {
   color: #979ac5;
   font-size: 35px;

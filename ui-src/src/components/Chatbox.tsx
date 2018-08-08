@@ -24,23 +24,21 @@ type ChatProps = {
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
-class Chatbox extends React.Component<any, any> {
-
-  public render() {
-    const {currentGame} = this.props
-    if (currentGame === null) {
-      return <div/>
-    } else {
-      const {gameHash, chats} = currentGame
-      return(
-        <div className='chat-box'>
-          <MessagesList chats={chats} mode="blocks" />
-          <InputForm gameHash={gameHash} />
-        </div>
-      )
-    }
+export const ChatboxComponents = () => {
+  const currentGame = store.getState().currentGame!
+  if (currentGame === null) {
+    return <div/>
+  } else {
+    const {gameHash, chats} = currentGame
+    return(
+      [
+        <MessagesList key="messages" chats={chats} mode="blocks" />,
+        <InputForm key="inputs" gameHash={gameHash} />
+      ]
+    )
   }
 }
+
 
   ///////////////////////////////////////////////////////////////
 
@@ -52,11 +50,11 @@ class MessagesList extends React.Component<any, any> {
         .map(({author, message}, i) =>
           <SingleMessage key={i} author={author} message={message} />
         )
-      return <div>{ list }</div>
+      return <div className="messages-pane">{ list }</div>
     } else {
       const blocks = this.getChatBlocks()
       return(
-        <div>
+        <div className="chat-box messages-pane">
           {blocks.map(({author, messages}, i) => {
             // assuming the messages are sorted by timestamp...
             const key = `chat-${i}`
@@ -103,34 +101,38 @@ const SingleMessage = ({author, message}) => {
 
 //////////////////////////////////////////////////////////////////
 
-class AuthorBlock extends React.Component<any, any> {
-  private messageField: React.RefObject<any>  = React.createRef()
+const AuthorBlock = ({author, messages}) => {
+  const authorName = store.getState().identities.get(author)
+  return(
+    <div className='author-block'>
+      <Jdenticon className="jdenticon" size={32} hash={ author } />
+      <div className="content">
+        <h4 className="author-name">{ authorName }</h4>
+        <div className="message-block">
+          { messages.map((text, i) =>
+              <AuthorBlockMessage key={i}>
+                { text }
+              </AuthorBlockMessage>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  )
+}
 
-  constructor(props){
-    super(props);
-  }
-
+class AuthorBlockMessage extends React.Component<any, any> {
+  private div: React.RefObject<any> = React.createRef()
   public componentDidMount() {
-    if(this.messageField.current){
-       this.messageField.current!.scrollIntoView();
+    if(this.div.current) {
+       this.div.current!.scrollIntoView();
     }
   }
 
   public render() {
-    const {author, messages} = this.props
-    const authorName = store.getState().identities.get(author)
-    return(
-      <div ref={this.messageField} className='author-block'>
-        <Jdenticon className="jdenticon" size={32} hash={ author } />
-        <div className="content">
-          <h4 className="author-name">{ authorName }</h4>
-          <div className="message-block">
-            { messages.map((text, i) => <div key={i} className="message-text">{ text }</div>) }
-          </div>
-        </div>
-      </div>
-    )
+    return <div ref={this.div} className="message-text">{ this.props.children }</div>
   }
+
 }
 
 ///////////////////////////////////////////////////////////////
@@ -168,8 +170,8 @@ class InputForm extends React.Component<any, any> {
 
   public render() {
     return(
-      <div className='inputField'>
-        <textarea className='input-text' placeholder='Message' defaultValue='' ref={this.text}/>
+      <div className='input-area'>
+        <textarea className='input-text' placeholder='Type to chat...' defaultValue='' ref={this.text}/>
         <div className='inputButtons'>
           <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
           <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
@@ -186,7 +188,6 @@ const mapStateToProps = ({ identities, currentGame, whoami }) => ({
   identities, currentGame, whoami,
 })
 
-export default connect(mapStateToProps)(Chatbox)
 
 // console.log("currentGame.......", this.props.currentGame)
 // // Chats are available as: this.props.currentGame.chats
