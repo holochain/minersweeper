@@ -138,17 +138,22 @@ class AuthorBlockMessage extends React.Component<any, any> {
 ///////////////////////////////////////////////////////////////
 
 class InputForm extends React.Component<any, any> {
-  private authorName: React.RefObject<any> = React.createRef()
-  private text: React.RefObject<any> = React.createRef()
+  private text: React.RefObject<HTMLTextAreaElement> = React.createRef()
 
   constructor(props) {
     super(props);
-    this.onClickBtnClear = this.onClickBtnClear.bind(this);
-    this.onClickBtnSend = this.onClickBtnSend.bind(this);
+    // this.onClickBtnClear = this.onClickBtnClear.bind(this);
+    // this.onClickBtnSend = this.onClickBtnSend.bind(this);
+    // this.handleEnter = this.handleEnter.bind(this);
   }
 
   public onClickBtnSend = () => {
-    const text = this.text.current.value;
+    let text = "";
+    if (this.text.current!) {
+      text = this.text.current!.value;
+      console.log("text value inside onClickBtnSend : ", text);
+    }
+
     if (text.length) {
       // send chats to redux here:
       const payload = {
@@ -158,23 +163,32 @@ class InputForm extends React.Component<any, any> {
           text,
         }
       }
-      fetchJSON('/fn/minersweeper/makeMove', payload);
-      // also immediately update chat here
+      fetchJSON("/fn/minersweeper/makeMove", payload);
+      // can also immediately update chat here:
+      ///////////////////
     }
     // Clear out the chatbox:
-    this.text.current.value = '';
+    this.text.current!.value = '';
   };
   public onClickBtnClear = () => {
-    this.text.current.value = '';
+    this.text.current!.value = '';
   };
+
+  public handleEnter = (event) => {
+    const text = this.text.current!.value;
+    console.log("text value inside handleEnter : ", text);
+    if (event.keyCode === 13 && text) {
+       this.onClickBtnSend();
+    }
+  }
 
   public render() {
     return(
-      <div className='input-area'>
-        <textarea className='input-text' placeholder='Type to chat...' defaultValue='' ref={this.text}/>
-        <div className='inputButtons'>
-          <button className='inputButtonSend' onClick={this.onClickBtnSend}>Send</button>
-          <button className='inputButtonClear' onClick={this.onClickBtnClear}>Clear</button>
+      <div className='input-area' onKeyUp={this.handleEnter} >
+        <textarea className='input-text' placeholder="Type to chat..." defaultValue="" ref={ this.text } />
+        <div className="inputButtons">
+          <button className="inputButtonSend" onClick={this.onClickBtnSend}>Send</button>
+          <button className="inputButtonClear" onClick={this.onClickBtnClear}>Clear</button>
         </div>
       </div>
     )
@@ -187,33 +201,3 @@ class InputForm extends React.Component<any, any> {
 const mapStateToProps = ({ identities, currentGame, whoami }) => ({
   identities, currentGame, whoami,
 })
-
-
-// console.log("currentGame.......", this.props.currentGame)
-// // Chats are available as: this.props.currentGame.chats
-// console.log("identities.......", this.props.identities)
-// // Agent Hashs are available as: this.props.identities
-// console.log("whoami.......", this.props.whoami)
-// // Whoami (current user's Hash) available as: this.props.whoami.agentHash
-// // Whoami (current user's Username) available as: this.props.whoami.identity
-
-///////////////////////////////////////////////////////////////////////////////
-
-// public componentWillMount() {
-//   const authorHash = this.props.identities.hash;
-//   const text = this.props.currentGame.chats;
-//   const nameCheck = this.props.identities.ownerID;
-//   let authorName = ""
-//
-//   if (nameCheck.length > 15 ) {
-//     authorName = nameCheck.substring(0,15);
-//     console.log("authorName", authorName);
-//   } else {
-//     authorName = nameCheck;
-//     console.log("authorName", authorName);
-//   }
-//
-//   this.setState({
-//     messages: { id: authorHash, authorName, text: this.props.currentGame.chats }
-//   });
-// };
