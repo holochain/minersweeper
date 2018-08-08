@@ -89,10 +89,18 @@ class MessagesList extends React.Component<any, any> {
 
 const SingleMessage = ({author, message}) => {
   const authorName = store.getState().identities.get(author)
+  let username = "";
+  if (authorName.length > 15 ) {
+    username = authorName.substring(0,15);
+  }
+  else {
+    username = authorName;
+  }
+
   return(
     <div className='single-message'>
       <Jdenticon className="jdenticon" size={24} hash={ author } />
-      <div className="author">{ authorName }</div>
+      <div className="author">{ username }</div>
       <div className="separator">:</div>
       <div className="message">{ message }</div>
     </div>
@@ -103,11 +111,19 @@ const SingleMessage = ({author, message}) => {
 
 const AuthorBlock = ({author, messages}) => {
   const authorName = store.getState().identities.get(author)
+  let username = "";
+  if (authorName.length > 15 ) {
+    username = authorName.substring(0,15);
+  }
+  else {
+    username = authorName;
+  }
+
   return(
     <div className='author-block'>
       <Jdenticon className="jdenticon" size={32} hash={ author } />
       <div className="content">
-        <h4 className="author-name">{ authorName }</h4>
+        <h4 className="author-name">{ username }</h4>
         <div className="message-block">
           { messages.map((text, i) =>
               <AuthorBlockMessage key={i}>
