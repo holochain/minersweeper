@@ -2,7 +2,7 @@ import {fetchJSON} from './common'
 import {StoreState} from './types'
 
 import {Hash} from '../../holochain'
-import {Action, GameBoard, GameParams, XY} from '../../minersweeper'
+import {Action, GameBoard, GameParams, MoveDefinition, XY} from '../../minersweeper'
 
 export type ReduxAction
   = { type: 'VIEW_GAME', hash: Hash }
@@ -10,6 +10,9 @@ export type ReduxAction
   | { type: 'QUICK_REVEAL', coords: XY }
   | { type: 'QUICK_FLAG', coords: XY }
   | { type: 'FETCH_ACTIONS', actions: Action[] }
+
+  | { type: 'ENQUEUE_ACTION', moveDef: MoveDefinition }
+  | { type: 'DEQUEUE_ACTION' }
 
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
   | { type: 'FETCH_WHOAMI', agentHash: Hash, identity: string }
