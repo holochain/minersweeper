@@ -57,6 +57,7 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   // for action polling
   private actionsInterval: any = null
+  private actionQueueInterval: any = null
 
   // used to turn off action polling and other things
   private keyPanOffset: Pos = {x: 0, y: 0}
@@ -75,6 +76,7 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   public componentWillMount() {
     this.startPollingActions()
+    this.startPollingActionQueue()
     this.startPollingPan()
   }
 
@@ -89,6 +91,7 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   public componentWillUnmount() {
     this.stopPollingActions()
+    this.stopPollingActionQueue()
     const el = this.fieldContainer()
     window.removeEventListener('keydown', this.keyDownListener)
     window.removeEventListener('keyup', this.keyUpListener)
@@ -287,8 +290,22 @@ class Field extends React.Component<FieldProps, FieldState> {
     }
   }
 
+  private startPollingActionQueue() {
+    this.actionQueueInterval = setInterval(
+      () => {
+        if (!this.isPanning()) {
+          common.popAction()
+        }
+      }, common.ACTION_QUEUE_INTERVAL
+    )
+  }
+
   private stopPollingActions() {
     clearInterval(this.actionsInterval)
+  }
+
+  private stopPollingActionQueue() {
+    clearInterval(this.actionQueueInterval)
   }
 
 

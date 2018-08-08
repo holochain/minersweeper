@@ -23,24 +23,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
     }
   }
 
-  public componentDidMount() {
-    if (this.collapser.current) {
-      this.collapser.current!.addEventListener(
-        'mousemove',
-        this.mouseMoveListener
-      )
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.collapser.current) {
-      this.collapser.current!.removeEventListener(
-        'mousemove',
-        this.mouseMoveListener
-      )
-    }
-  }
-
   public render() {
     const currentGame = store.getState().currentGame!
     const collapsedClass = this.state.collapsed ? "collapsed" : ""
@@ -71,11 +53,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
     })
   }
 
-  private mouseMoveListener (e) {
-    // NOTE: wrote this to prevent interference with mouse pan indicators,
-    // then realized it won't work. So this does nothing.
-    // e.stopPropagation()
-  }
 }
 
 export default GameHUD;
