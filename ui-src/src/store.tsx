@@ -39,7 +39,7 @@ const compareActions = (a: Action, b: Action) => {
   if(a.timestamp === b.timestamp) {
     return hashCode(JSON.stringify(a)) - hashCode(JSON.stringify(b));
   } else {
-    return a.timestamp - b.timestamp;
+    return a.timestamp! - b.timestamp!;
   }
 }
 
@@ -48,8 +48,9 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   if (gameState === null) {
     return gameState
   }
+
   const {matrix, gameBoard} = gameState!
-  let {chats, scores} = gameState!
+  let {chats, actionQueue, scores} = gameState!
 
   switch (action.type) {
     // TODO: use matrix.takeAction
@@ -92,12 +93,22 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       scores = Map(getScores(gameBoard, action.actions));
       break;
     }
+    case 'ENQUEUE_ACTION': {
+      const {moveDef} = action
+      actionQueue = actionQueue.push(moveDef)
+      break;
+    }
+    case 'DEQUEUE_ACTION': {
+      actionQueue = actionQueue.shift()
+      break;
+    }
   }
 
   const gameOver:boolean = matrix.isCompleted();
 
   return {
     ...gameState,
+    actionQueue,
     scores,
     gameOver,
     matrix,
@@ -123,6 +134,7 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       const currentGame: StoreGameState = {
         chats: List(),
         gameHash: hash,
+        actionQueue: List(),
         matrix,
         scores,
         gameBoard,

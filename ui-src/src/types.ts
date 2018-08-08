@@ -3,7 +3,7 @@ import { List, Map } from 'immutable';
 import CellMatrix from './CellMatrix';
 
 import {Hash} from '../../holochain';
-import {GameBoard} from '../../minersweeper'
+import {GameBoard, MoveDefinition} from '../../minersweeper'
 
 
 export type ChatLog = {
@@ -28,6 +28,7 @@ export type StoreGameState = {
   chats: List<ChatLog>,
   gameHash: Hash,
   gameBoard: GameBoard,
+  actionQueue: List<MoveDefinition>,
   scores: Map<Hash, number> | null,
   gameOver:boolean,
 } | null;

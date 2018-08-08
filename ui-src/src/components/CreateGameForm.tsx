@@ -109,7 +109,6 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   private handleEnter = (event: React.KeyboardEvent) => {
     const { inDescription } = this;
-    // console.log("inDescription ", inDescription!.value);
     if (event.keyCode === 13 && inDescription!.value) {
       this.handleCreate();
     }
