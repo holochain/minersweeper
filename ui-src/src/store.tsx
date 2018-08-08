@@ -1,6 +1,5 @@
 import { List, Map } from 'immutable';
 import * as redux from 'redux';
-import {combineReducers} from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
@@ -49,7 +48,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   if (gameState === null) {
     return gameState
   }
-  const {matrix, gameHash, gameBoard} = gameState!
+  const {matrix, gameBoard} = gameState!
   let {chats, actionQueue, scores} = gameState!
 
   switch (action.type) {
