@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import {connect} from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import './App.css';
 
@@ -12,9 +10,10 @@ import store from '../store'
 import Lobby from './Lobby';
 import GameView from './GameView';
 
+
 class App extends React.Component<{}, {doAnimation: boolean}> {
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props)
     this.state = {
        doAnimation: true,
