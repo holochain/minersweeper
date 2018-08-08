@@ -18,10 +18,9 @@ enum BoardSize {
   Small = 20,
   Medium = 50,
   Large = 100,
-  Mega = 500,
 }
 
-const bestNPlayers = ['2-3', '4-5', '6-8', '8+']
+const bestNPlayers = ['2-3', '4-5', '6+']
 
 type CreateGameFormState = {
   errorMessage: string | null
