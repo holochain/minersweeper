@@ -156,7 +156,7 @@ class Cell extends React.Component<CellProps, CellState> {
     setTimeout(() => this.setState({animating: false}), 2000)
 
     // common.fetchJSON('/fn/minersweeper/makeMove', payload).then(ok => {
-    common.pushAction(payload)
+    common.enqueueAction(payload)
   }
 
   private redrawNeighborhood = () => {

@@ -55,22 +55,22 @@ export const fetchJSON =
 /**
  * Enqueue an action instead of sending it right off
  */
-export const pushAction =
+export const enqueueAction =
 (moveDef: MoveDefinition): void => {
-  store.dispatch({type: 'PUSH_ACTION', moveDef})
+  store.dispatch({type: 'ENQUEUE_ACTION', moveDef})
 }
 
 /**
  * Pop an action and make the request, if queue nonempty
  */
-export const popAction =
+export const dequeueAndPerformAction =
 (): Promise<boolean> | null => {
   const {currentGame} = store.getState()
   if (currentGame) {
     const {actionQueue} = currentGame
     const move = actionQueue.first()
     if (move) {
-      store.dispatch({type: 'POP_ACTION'})
+      store.dispatch({type: 'DEQUEUE_ACTION'})
       return fetchJSON('/fn/minersweeper/makeMove', move)
     }
   }
