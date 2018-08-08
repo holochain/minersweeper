@@ -31,8 +31,15 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
       scores.sort(descending).forEach((agentScore:number, agentHash:Hash) => {
         const agentHandler:string = allPlayerHandles.get(agentHash!)
+        let agentName = "";
+        if (agentHandler!.length > 15 && agentHandler) {
+          agentName = agentHandler.substring(0,15);
+        }
+        else {
+          agentName = agentHandler;
+        }
         displayBoard.push(
-          <LeaderItem key={agentHash} hash={agentHash} handle={agentHandler} score={agentScore} />
+          <LeaderItem key={agentHash} hash={agentHash} handle={agentName} score={agentScore} />
         )
       })
     }

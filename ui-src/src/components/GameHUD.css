@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 325px; /* change back to 325 after done with chatbox. */
+  max-width: 90%;
   background: #222;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
   z-index: 1;
@@ -23,6 +24,7 @@
   padding: 10px;
   height: 50px;
   width: auto;
+  /* max-width: 90%; */
   margin: auto;
 }
 
