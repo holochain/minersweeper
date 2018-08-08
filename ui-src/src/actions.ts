@@ -1,5 +1,3 @@
-import {fetchJSON} from './common'
-import {StoreState} from './types'
 
 import {Hash} from '../../holochain'
 import {Action, GameBoard, GameParams, XY} from '../../minersweeper'

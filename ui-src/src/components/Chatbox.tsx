@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { List } from 'immutable';
-
-import { Action, ActionType } from '../../../minersweeper';
 
 import './Chatbox.css';
 
@@ -12,13 +9,13 @@ import Jdenticon from './Jdenticon';
 import { fetchJSON } from '../common';
 import store from '../store';
 
-type ChatProps = {
-  gameHash: Hash,
-  agentHash: Hash,
-  chat: any,
-  allPlayerHandles: Map<Hash, string>
-  authorName: string,
-}
+// type ChatProps = {
+//   gameHash: Hash,
+//   agentHash: Hash,
+//   chat: any,
+//   allPlayerHandles: Map<Hash, string>
+//   authorName: string,
+// }
 
 /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
@@ -137,7 +134,6 @@ class AuthorBlockMessage extends React.Component<any, any> {
 ///////////////////////////////////////////////////////////////
 
 class InputForm extends React.Component<any, any> {
-  private authorName: React.RefObject<any> = React.createRef()
   private text: React.RefObject<any> = React.createRef()
 
   constructor(props) {
@@ -181,38 +177,3 @@ class InputForm extends React.Component<any, any> {
 }
 
 ///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
-const mapStateToProps = ({ identities, currentGame, whoami }) => ({
-  identities, currentGame, whoami,
-})
-
-
-// console.log("currentGame.......", this.props.currentGame)
-// // Chats are available as: this.props.currentGame.chats
-// console.log("identities.......", this.props.identities)
-// // Agent Hashs are available as: this.props.identities
-// console.log("whoami.......", this.props.whoami)
-// // Whoami (current user's Hash) available as: this.props.whoami.agentHash
-// // Whoami (current user's Username) available as: this.props.whoami.identity
-
-///////////////////////////////////////////////////////////////////////////////
-
-// public componentWillMount() {
-//   const authorHash = this.props.identities.hash;
-//   const text = this.props.currentGame.chats;
-//   const nameCheck = this.props.identities.ownerID;
-//   let authorName = ""
-//
-//   if (nameCheck.length > 15 ) {
-//     authorName = nameCheck.substring(0,15);
-//     console.log("authorName", authorName);
-//   } else {
-//     authorName = nameCheck;
-//     console.log("authorName", authorName);
-//   }
-//
-//   this.setState({
-//     messages: { id: authorHash, authorName, text: this.props.currentGame.chats }
-//   });
-// };

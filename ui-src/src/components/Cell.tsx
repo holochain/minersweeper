@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import { Grid } from 'react-virtualized';
 
-import { MoveDefinition, ActionType, Pos} from '../../../minersweeper'
+import { MoveDefinition, BoardActionType, Pos} from '../../../minersweeper'
 
 import './Cell.css';
 
@@ -120,7 +120,7 @@ class Cell extends React.Component<CellProps, CellState> {
     return {x: columnIndex, y: rowIndex}
   }
 
-  private handleMove = (actionType: ActionType) => {
+  private handleMove = (actionType: BoardActionType) => {
     const pos = this.getPos()
     const {currentGame, whoami} = store.getState()
     const {matrix} = currentGame!

@@ -3,7 +3,7 @@ import { Map } from "immutable";
 
 import { Hash } from '../../holochain';
 import {
-  Action,
+  BoardAction,
   GameBoard,
   Pos,
   Size
@@ -43,7 +43,7 @@ export default class CellMatrix {
     });
   }
 
-  public takeAction(action: Action): number {
+  public takeAction(action: BoardAction): number {
     let numRevealed = 0
     switch (action.actionType) {
       case "flag":
@@ -56,8 +56,6 @@ export default class CellMatrix {
         break;
       case "reveal":
         numRevealed = this.triggerReveal(action.position);
-        break;
-      case "chat":
         break;
       default:
         break;

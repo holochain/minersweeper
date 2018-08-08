@@ -5,18 +5,31 @@ export type XY = {x: number, y: number}
 export type Size = XY
 export type Pos = XY
 
-export type ActionType
+export type BoardActionType
   = "reveal"
   | "flag"
-  | "chat"
 
+export type ChatActionType
+  = "chat"
+
+export type ActionType
+  = BoardActionType  
+  | ChatActionType
+
+export type BoardActionDefinition
+  = {actionType: BoardActionType, position: Pos}
+
+export type ChatActionDefinition
+  = {actionType: ChatActionType, text: string}
 
 export type ActionDefinition
-  = { actionType: "reveal", position: Pos }
-  | { actionType: "flag", position: Pos }
-  | { actionType: "chat", text: string }
+  = BoardActionDefinition
+  | ChatActionDefinition
 
-export type Action = ActionDefinition & { agentHash: Hash, timestamp: number }
+
+export type BoardAction = BoardActionDefinition & { agentHash: Hash, timestamp: number }
+export type ChatAction = ChatActionDefinition & { agentHash: Hash, timestamp: number }
+export type Action = BoardAction | ChatAction
 
 export interface MoveDefinition {
   gameHash: Hash;
