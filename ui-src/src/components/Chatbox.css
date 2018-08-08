@@ -16,12 +16,14 @@
 
 .messages-pane {
   flex: 2 1 50%;
+  max-width: 100%;
   overflow: auto;
   background: #1A1E24;
 }
 
 .input-area {
-  flex: 0 1;
+  /* flex: 0 1; */
+  max-width: 100%;
   display: flex;
   flex-flow: column nowrap;
 }

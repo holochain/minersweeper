@@ -23,8 +23,7 @@
 .game-hud .banner-img {
   padding: 10px;
   height: 50px;
-  width: auto;
-  /* max-width: 90%; */
+  max-width: 90%;
   margin: auto;
 }
 
@@ -40,6 +39,7 @@
 
 .game-hud .game-hud-nav {
   display: flex;
+  max-width: 100%;
   font-size: 1.1em;
 }
 
