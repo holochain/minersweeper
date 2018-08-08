@@ -30,7 +30,7 @@ export const PAN_INTERVAL = 50
 // used to disable animation after the first time
 export const LOBBY_INTRO_TIMEOUT = 8000
 
-export const xor = (a, b) => a && !b || !a && b
+export const xor = (a: number, b: number) => a && !b || !a && b
 
 
 /*************************
@@ -103,7 +103,7 @@ export const fetchActions =
       type: 'FETCH_ACTIONS',
       actions
     })
-    const playerHashes = actions.map(action => action.agentHash);
+    const playerHashes = actions.map((action: Action) => action.agentHash);
     fetchIdentities(Set(playerHashes));
     return actions;
   })
