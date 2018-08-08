@@ -11,8 +11,8 @@ export type ReduxAction
   | { type: 'QUICK_FLAG', coords: XY }
   | { type: 'FETCH_ACTIONS', actions: Action[] }
 
-  | { type: 'PUSH_ACTION', moveDef: MoveDefinition }
-  | { type: 'POP_ACTION' }
+  | { type: 'ENQUEUE_ACTION', moveDef: MoveDefinition }
+  | { type: 'DEQUEUE_ACTION' }
 
   | { type: 'CONFIRM_NEW_GAME', params: GameParams }
   | { type: 'FETCH_WHOAMI', agentHash: Hash, identity: string }
