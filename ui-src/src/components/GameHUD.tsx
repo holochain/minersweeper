@@ -16,30 +16,30 @@ class GameHUD extends React.Component<any, GameHUDState> {
 
   private collapser: React.RefObject<HTMLDivElement> = React.createRef()
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       collapsed: false
     }
   }
 
-  public componentDidMount() {
-    if (this.collapser.current) {
-      this.collapser.current!.addEventListener(
-        'mousemove',
-        this.mouseMoveListener
-      )
-    }
-  }
+  // public componentDidMount() {
+  //   if (this.collapser.current) {
+  //     this.collapser.current!.addEventListener(
+  //       'mousemove',
+  //       this.mouseMoveListener
+  //     )
+  //   }
+  // }
 
-  public componentWillUnmount() {
-    if (this.collapser.current) {
-      this.collapser.current!.removeEventListener(
-        'mousemove',
-        this.mouseMoveListener
-      )
-    }
-  }
+  // public componentWillUnmount() {
+  //   if (this.collapser.current) {
+  //     this.collapser.current!.removeEventListener(
+  //       'mousemove',
+  //       this.mouseMoveListener
+  //     )
+  //   }
+  // }
 
   public render() {
     const currentGame = store.getState().currentGame!
@@ -63,18 +63,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
       <LeaderBoard />
       { ChatboxComponents() }
     </div>
-  }
-
-  private onCollapse = (e) => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
-  }
-
-  private mouseMoveListener (e) {
-    // NOTE: wrote this to prevent interference with mouse pan indicators,
-    // then realized it won't work. So this does nothing.
-    // e.stopPropagation()
   }
 }
 

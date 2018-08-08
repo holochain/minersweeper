@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 import './CreateGameForm.css';
+import {connect} from 'react-redux'
 
-import * as actions from '../actions';
 import { fetchJSON } from '../common';
-import store from '../store';
 
 
 enum Difficulty {
@@ -33,7 +31,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
 
   private inDescription: HTMLInputElement | null = null
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {errorMessage: null, selectedDifficulty: Difficulty.Easy, selectedGameSize: BoardSize.Medium}
   }
@@ -97,7 +95,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
     }
   }
 
-  private handleChange = (event) => {
+  private handleChange = (event: any) => {
     switch(event.target.id) {
       case "difficultySelect":
         this.setState({selectedDifficulty: parseFloat(event.target.value)});
@@ -109,7 +107,7 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
     console.log("state: ", this.state);
   }
 
-  private handleEnter = (event) => {
+  private handleEnter = (event: React.KeyboardEvent) => {
     const { inDescription } = this;
     // console.log("inDescription ", inDescription!.value);
     if (event.keyCode === 13 && inDescription!.value) {

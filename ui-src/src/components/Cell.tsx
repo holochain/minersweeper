@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import { Grid } from 'react-virtualized';
 
-import { MoveDefinition, ActionType } from '../../../minersweeper'
+import { MoveDefinition, ActionType, Pos} from '../../../minersweeper'
 
 import './Cell.css';
 
@@ -120,7 +120,7 @@ class Cell extends React.Component<CellProps, CellState> {
     return {x: columnIndex, y: rowIndex}
   }
 
-  private handleMove = (actionType: ActionType) => {
+  private handleMove = (actionType) => {
     const pos = this.getPos()
     const {currentGame, whoami} = store.getState()
     const {matrix} = currentGame!
@@ -128,6 +128,7 @@ class Cell extends React.Component<CellProps, CellState> {
       // can't flag or reveal a revealed square
       return;
     }
+
 
     // XXX: modifying state outside of a reducer!!!
     const numRevealed = matrix.takeAction({
@@ -145,7 +146,7 @@ class Cell extends React.Component<CellProps, CellState> {
     this.makeMove(actionType, pos)
   }
 
-  private makeMove = (actionType: ActionType, position: Pos) => {
+  private makeMove = (actionType, position: Pos) => {
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
       action: {actionType, position}

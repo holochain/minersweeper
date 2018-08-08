@@ -150,7 +150,7 @@ class Field extends React.Component<FieldProps, FieldState> {
     }
   }
 
-  private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
+  private CellWrapped = ({key, columnIndex, rowIndex, ...props}: any) => (
     <Cell
       {...props}
       myActions={this.props.myActions}

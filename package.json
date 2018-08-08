@@ -17,6 +17,7 @@
   "author": "",
   "license": "GPL",
   "dependencies": {
+    "@types/react-redux": "^6.0.6",
     "@types/react-router-dom": "^4.3.0",
     "autoprefixer": "7.1.6",
     "babel-jest": "^22.1.0",
