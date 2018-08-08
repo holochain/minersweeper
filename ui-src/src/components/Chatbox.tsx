@@ -142,9 +142,6 @@ class InputForm extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
-    // this.onClickBtnClear = this.onClickBtnClear.bind(this);
-    // this.onClickBtnSend = this.onClickBtnSend.bind(this);
-    // this.handleEnter = this.handleEnter.bind(this);
   }
 
   public onClickBtnSend = () => {
