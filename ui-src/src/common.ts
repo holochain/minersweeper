@@ -25,7 +25,7 @@ export const KEY_PAN_SPEED = CELL_SIZE * 1.0
 export const FETCH_ACTIONS_INTERVAL = 1500
 export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
-export const ACTION_QUEUE_INTERVAL = 1000
+export const ACTION_QUEUE_INTERVAL = 250
 
 // anount of time it takes for lobby intro to finish
 // used to disable animation after the first time
@@ -52,18 +52,17 @@ export const fetchJSON =
   }).then(r => r.json())
 }
 
+/**
+ * Enqueue an action instead of sending it right off
+ */
 export const pushAction =
 (moveDef: MoveDefinition): void => {
-  // TODO: set max size of queue
-  // {actionQueue} = store.getState()
   store.dispatch({type: 'PUSH_ACTION', moveDef})
-  console.log('pushed action:', moveDef)
-  // if (actionQueue.isEmpty()) {
-
-  // } else {
-  // }
 }
 
+/**
+ * Pop an action and make the request, if queue nonempty
+ */
 export const popAction =
 (): Promise<boolean> | null => {
   const {currentGame} = store.getState()
@@ -71,7 +70,6 @@ export const popAction =
     const {actionQueue} = currentGame
     const move = actionQueue.first()
     if (move) {
-      console.log('popped action:', move)
       store.dispatch({type: 'POP_ACTION'})
       return fetchJSON('/fn/minersweeper/makeMove', move)
     }
