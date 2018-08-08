@@ -16,7 +16,7 @@ class GameHUD extends React.Component<any, GameHUDState> {
 
   private collapser: React.RefObject<HTMLDivElement> = React.createRef()
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = {
       collapsed: false
@@ -46,13 +46,6 @@ class GameHUD extends React.Component<any, GameHUDState> {
       { ChatboxComponents() }
     </div>
   }
-
-  private onCollapse = (e) => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
-  }
-
 }
 
 export default GameHUD;
