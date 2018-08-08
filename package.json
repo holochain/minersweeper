@@ -11,7 +11,7 @@
     "hc:win": "npm run hc:build-win && cd build && hcdev web",
     "hc:test": "cp -r ./test/ ./build/test/ && cd build && hcdev test",
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && cp -r ui-src/build/ build/ui/",
     "test": "node scripts/test.js --env=jsdom"
   },
   "author": "",
