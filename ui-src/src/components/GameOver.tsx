@@ -21,10 +21,11 @@ type PlayerStats<T> = {
   numActions: T
 }
 
+type StatsList = Array<[Hash, number]>
+
 type GameOverState = {
-  topStats: PlayerStats<[Hash, number]>,
-  myStats: PlayerStats<number>
-} | {}
+  topStats: PlayerStats<StatsList>
+}
 
 type StatsMap = Map<Hash, number>
 type StatsFunc = (gameBoard: GameBoard, actions: Action[]) => StatsMap
@@ -32,7 +33,15 @@ type StatsFunc = (gameBoard: GameBoard, actions: Action[]) => StatsMap
 class GameOver extends React.Component<any, GameOverState> {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      topStats: {
+        score: [],
+        streak: [],
+        accuracy: [],
+        mines: [],
+        numActions: []
+      }
+    }
   }
 
   public componentDidMount() {
@@ -46,25 +55,10 @@ class GameOver extends React.Component<any, GameOverState> {
         ['mines', getMinesClicked],
         ['numActions', getNumberOfActions],
       ]
-      const state: any = {topStats: {}, myStats: {}}
-      everything.forEach(pair => {
-        const name = pair[0]
-        const getter = pair[1]
+      const state = this.state
+      everything.forEach(([name, getter]) => {
         const stats: StatsMap = getter(gameBoard, actions)
-        let highest = 0
-        let winner: Hash | null = null
-        let own = 0
-        for (const [agentHash, value] of stats) {
-          if (value > highest) {
-            highest = value
-            winner = agentHash
-          }
-          if (agentHash === whoami!.agentHash) {
-            own = value
-          }
-        }
-        state.topStats[name] = [winner, highest]
-        state.myStats[name] = own
+        state.topStats[name] = [...stats.entries()].sort((a, b) => b[1] - a[1])
       })
       this.setState(state)
     })
