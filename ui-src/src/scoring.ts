@@ -62,7 +62,7 @@ export const isMine = (gameBoard: GameBoard, pos: Pos): boolean => {
 // number of actions
 // flagging accuracy (nCorrectFlags / nFlags)
 // longest streak (consecutive actions without hitting a mine)
-// 
+//
 
 export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
@@ -72,7 +72,7 @@ export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreM
       newScore += 1;
     }
     return scores.set(action.agentHash, newScore);
-  }, new Map<Hash, number>());  
+  }, new Map<Hash, number>());
 }
 
 export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
@@ -83,7 +83,7 @@ export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): Sco
       newScore += 1;
     }
     return scores.set(action.agentHash, newScore);
-  }, new Map<Hash, number>());  
+  }, new Map<Hash, number>());
 }
 
 export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
@@ -97,7 +97,7 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
       }
     }
     return scores.set(action.agentHash, newScore);
-  }, new Map<Hash, [number, number]>());  
+  }, new Map<Hash, [number, number]>());
 
   const result = new Map<Hash, number>();
 
@@ -125,13 +125,13 @@ export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): Score
         }
       } else {
         if(action.actionType === "flag") {
-          newScore[0] = 0; // flagging a non-mine resets          
+          newScore[0] = 0; // flagging a non-mine resets
         }
       }
       newScore[1] = Math.max(newScore[0], newScore[1]); // increment the best streak if exceeded
     }
     return scores.set(action.agentHash, newScore);
-  }, new Map<Hash, [number, number]>());  
+  }, new Map<Hash, [number, number]>());
 
   const result = new Map<Hash, number>();
 
@@ -139,5 +139,5 @@ export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): Score
     const counts = scoreTuples.get(hash)!;
     result.set(hash, counts[1]);
   }
-  return result  
+  return result
 }

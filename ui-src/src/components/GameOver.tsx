@@ -1,81 +1,74 @@
 import * as React from 'react';
 import './GameOver.css';
+import { fromJS } from 'immutable';
+import * as I from 'immutable';
+
 import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
 
 import {Hash} from '../../../holochain';
+import {GameBoard, Action} from '../../../minersweeper';
+
 import * as common from '../common';
 import { getLongestStreak, getFlaggingAccuracy, getMinesClicked, getNumberOfActions, getScores } from '../scoring'
 
-type GameOverState = {
-  highestScore: Hash | null,
-  longestSteak: Hash | null,
-  bestAccuracy: Hash | null,
-  mostMinesClicked: Hash | null,
-  mostActions: Hash | null
+type PlayerStats<T> = {
+  score: T,
+  streak: T,
+  accuracy: T,
+  mines: T,
+  numActions: T
 }
+
+type GameOverState = {
+  topStats: PlayerStats<[Hash, number]>,
+  myStats: PlayerStats<number>
+} | {}
+
+type StatsMap = Map<Hash, number>
+type StatsFunc = (gameBoard: GameBoard, actions: Action[]) => StatsMap
 
 class GameOver extends React.Component<any, GameOverState> {
   constructor(props) {
-     super(props);
-     this.state = {
-        highestScore: null,
-        longestSteak: null,
-        bestAccuracy: null,
-        mostMinesClicked: null,
-        mostActions: null
-     }
-   }
+    super(props);
+    this.state = {}
+  }
 
   public componentDidMount() {
-    const { identities, currentGame } = this.props
-    //setstate with new score stats:
-    identities.forEach(player => {
-      const {highestScore, longestSteak, bestAccuracy, mostMinesClicked, mostActions} = this.state
-      const stats = []
-      const score = getScores(player)
-      const streak = getLongestStreak(player)
-      const accuracy = getFlaggingAccuracy(player)
-      const mines = getMinesClicked(player)
-      const actions = getNumberOfActions(player)
-      stats.push(score, streak, accuracy, mines, actions)
-
-      stats.forEach(stat => {
-        switch (stat) {
-          case score :
-            if (score > highestScore) {
-              this.setState({hightestScore:player})
-            }
-            break;
-          case streak:
-            if (score > longestSteak) {
-              this.setState({longestSteak:player})
-            }
-            break;
-          case accuracy:
-            if (score > bestAccuracy) {
-              this.setState({bestAccuracy:player})
-            }
-            break;
-          case mines:
-            if (score > mostMinesClicked) {
-              this.setState({mostMinesClicked:player})
-            }
-            break;
-          case actions:
-            if (score > mostActions) {
-              this.setState({mostActions:player})
-            }
-            break;
-          default:
-            break;
+    const { identities, currentGame, whoami } = this.props
+    const { gameHash, gameBoard } = currentGame!
+    common.fetchActions(gameHash).then(actions => {
+      const everything: Array<[string, StatsFunc]> = [
+        ['score', getScores],
+        ['streak', getLongestStreak],
+        ['accuracy', getFlaggingAccuracy],
+        ['mines', getMinesClicked],
+        ['numActions', getNumberOfActions],
+      ]
+      const state: any = {topStats: {}, myStats: {}}
+      everything.forEach(pair => {
+        const name = pair[0]
+        const getter = pair[1]
+        const stats: StatsMap = getter(gameBoard, actions)
+        let highest = 0
+        let winner: Hash | null = null
+        let own = 0
+        for (const [agentHash, value] of stats) {
+          if (value > highest) {
+            highest = value
+            winner = agentHash
           }
-          return stats;
-        })
-      });
-      console.log("this.state", this.state);
-    }
+          if (agentHash === whoami!.agentHash) {
+            own = value
+          }
+        }
+        state.topStats[name] = [winner, highest]
+        state.myStats[name] = own
+      })
+      this.setState(state)
+    })
+  }
 
   public render() {
     return <div className="game-over">
@@ -88,7 +81,7 @@ class GameOver extends React.Component<any, GameOverState> {
             </div>
             <div className="stats-body">
               <h4>The List of Stats Go Here</h4>
-              <GameList winners={this.state.winners}/>
+              {/* <GameList winners={this.state.winners}/> */}
             </div>
           </div>
         </div>
@@ -96,49 +89,49 @@ class GameOver extends React.Component<any, GameOverState> {
     </div>
   }
 }
+//
+// const GameList = ({ currentGame }) => {
+//   if(!currentGame) {
+//     return (
+//       <div className="stats-table">
+//         <h4 className="no-stats-warning">Please return to the lobby to begin again!</h4>
+//       </div>
+//     )
+//   }
+//   else if (currentGame) {
+//     return <div className="stats-table">
+//       <h3 className="stats-header">Live Games</h3>
+//       <table>
+//         <thead>
+//           <tr>
+//             <th className="author">Author</th>
+//             <th className="stats">Stats</th>
+//             <th className="medal">Medal</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {this.props.winners.forEach(winnerType => {
+//               console.log(winnerType);
+//               {/* const winner = store.getState().identities.get(agentHash)
+//               return <tr key={winnerType}>
+//                 <td className="author">
+//                   <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={agentHash}/>
+//                   <span className="middle-align-item">{author}</span>
+//                 </td>
+//                 <td className="stats"/>
+//                 <td className="medal"/>
+//               </tr> */}
+//           })}
+//         </tbody>
+//       </table>
+//     </div>
+//   } else {
+//     return <ul />
+//   }
+// }
 
-const GameList = ({ currentGame }) => {
-  if(!currentGame) {
-    return (
-      <div className="stats-table">
-        <h4 className="no-stats-warning">Please return to the lobby to begin again!</h4>
-      </div>
-    )
-  }
-  else if (currentGame) {
-    return <div className="stats-table">
-      <h3 className="stats-header">Live Games</h3>
-      <table>
-        <thead>
-          <tr>
-            <th className="author">Author</th>
-            <th className="stats">Stats</th>
-            <th className="medal">Medal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.winners.forEach(winnerType => {
-              console.log(winnerType);
-              {/* const winner = store.getState().identities.get(agentHash)
-              return <tr key={winnerType}>
-                <td className="author">
-                  <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={agentHash}/>
-                  <span className="middle-align-item">{author}</span>
-                </td>
-                <td className="stats"/>
-                <td className="medal"/>
-              </tr> */}
-          })}
-        </tbody>
-      </table>
-    </div>
-  } else {
-    return <ul />
-  }
-}
-
-const mapStateToProps = ({ currentGame, identities }) => ({
-  currentGame, identities
+const mapStateToProps = ({ currentGame, identities, whoami }) => ({
+  currentGame, identities, whoami
 })
 
 export default connect(mapStateToProps)(GameOver);
