@@ -1,0 +1,10 @@
+.minimap {
+  border: 2px solid white;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  min-width: 100px;
+  min-height: 100px;
+  image-rendering: pixelated;
+  opacity: 0.75;
+}

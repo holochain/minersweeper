@@ -8,6 +8,7 @@ import {Hash} from '../../../holochain';
 import {Pos} from '../../../minersweeper';
 
 import Cell from './Cell';
+import Minimap from './Minimap';
 import CellMatrix from '../CellMatrix';
 
 import * as common from '../common';
@@ -134,6 +135,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             isScrollingOptOut={false}
           />
         }</AutoSizer>
+        <Minimap />
         { mousePanIndicators }
       </div>
     )

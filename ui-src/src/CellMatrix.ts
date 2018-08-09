@@ -19,6 +19,7 @@ const MASK_ADJACENT = 0b00001111
 const MASK_REVEALED = 0b00010000
 const MASK_FLAGGED  = 0b00100000
 const MASK_MINE     = 0b01000000
+const MASK_REVEALED_MINE = MASK_MINE | MASK_REVEALED
 
 
 export default class CellMatrix {
@@ -168,6 +169,24 @@ export default class CellMatrix {
 
   public isInBounds(x: number, y: number): boolean {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
+  }
+
+  public minimapColor(pos: Pos, scale: number) {
+    let pixel = 0
+    for (let x = pos.x * scale; x < pos.x + scale; x++) {
+      for (let y = pos.y * scale; y < pos.y + scale; y++) {
+        pixel |= this.getValue({x, y})
+      }
+    }
+    if ((pixel & MASK_REVEALED_MINE) === MASK_REVEALED_MINE) {
+      return [255, 64, 64, 255]
+    } else if (pixel & MASK_FLAGGED) {
+      return [192, 255, 64, 255]
+    } else if (pixel & MASK_REVEALED) {
+      return [64, 64, 64, 255]
+    } else {
+      return [127, 127, 127, 255]
+    }
   }
 
   private forEachNeighbor(pos: Pos, func: (pos: Pos) => void) {
