@@ -72,12 +72,19 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
     const ctx = this.ctx()
     const {matrix, gameBoard} = store.getState().currentGame!
     const [[width, height], scale] = this.sizeAndScale()
+    ctx.clearRect(0, 0, width, height)
     const imageData = ctx.getImageData(0, 0, width, height)
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
         const pixel = matrix.minimapColor({x, y}, scale)
-        for (let i = 0; i < 4; i++) {
-          imageData.data[y * (width * 4) + (x * 4) + i] = pixel[i]
+        if (pixel) {
+          for (let b = 0; b < 4; b++) {
+            for (let i = 0; i < scale; i++) {
+              for (let j = 0; j < scale; j++) {
+                imageData.data[(y + j) * (width * 4) + ((x + i) * 4) + b] = pixel[b]
+              }
+            }
+          }
         }
       }
     }
@@ -87,8 +94,13 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
   private sizeAndScale(): [[number, number], number] {
     const {gameBoard} = store.getState().currentGame!
     const {x, y} = gameBoard.size
-    const dim = Math.max(x, y)
-    const scale = Math.ceil(dim / MAX_MINIMAP_SIZE)
+    let dim = Math.max(x, y)
+    let scale = 1
+    // scale down dim by the closest power of two
+    while (dim > MAX_MINIMAP_SIZE) {
+      dim >>= 1
+      scale <<= 1
+    }
     return [[x / scale, y / scale], scale]
   }
 }

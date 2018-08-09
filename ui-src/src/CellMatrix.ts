@@ -171,22 +171,47 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
+  /**
+   * Get color of a pixel on the minimap, using custom interpolation
+   * in the case of scaling
+   *
+   * If scale === 1, cells are mapped one-to-one with minimap pixels
+   * If scale > 1, it will always be a power of two, and interpolation
+   * will occur as follows:
+   *
+   * For example, if scale === 4, each pixel on the minimap will correspond
+   * to a 4x4 square on the grid. The color will be picked with precedence:
+   * - If any of those 16 cells are a revealed mine, color it red
+   * - Else, if any of those 16 cells are flagged, color it yellow
+   * - Else, if any of those 16 cells are revealed, color it dark gray
+   * - Else, don't color it
+   *
+   * @param {Pos}    pos   scaled x,y coord on the minimap
+   * @param {number} scale factor to scale, if > 1 will interpolate
+   */
   public minimapColor(pos: Pos, scale: number) {
-    let pixel = 0
-    for (let x = pos.x * scale; x < pos.x + scale; x++) {
-      for (let y = pos.y * scale; y < pos.y + scale; y++) {
-        pixel |= this.getValue({x, y})
+    let composite = 0
+    for (let x = pos.x * scale; x < pos.x * scale + scale; x++) {
+      for (let y = pos.y * scale; y < pos.y * scale + scale; y++) {
+        const pixel = this.getValue({x, y})
+        // this is tricky since we only want to track revealed mines
+        if ((pixel & MASK_REVEALED_MINE) === MASK_REVEALED_MINE) {
+          composite |= MASK_MINE
+        } else {
+          // don't add mine bit unless it shows up with revealed
+          composite |= pixel & (~MASK_MINE)
+        }
       }
     }
-    if ((pixel & MASK_REVEALED_MINE) === MASK_REVEALED_MINE) {
+    // the mine bit for composite represents revealed mines now
+    if (composite & MASK_MINE) {
       return [255, 64, 64, 255]
-    } else if (pixel & MASK_FLAGGED) {
+    } else if (composite & MASK_FLAGGED) {
       return [192, 255, 64, 255]
-    } else if (pixel & MASK_REVEALED) {
-      return [64, 64, 64, 255]
-    } else {
-      return [127, 127, 127, 255]
+    } else if (composite & MASK_REVEALED) {
+      return [32, 32, 32, 255]
     }
+    return null
   }
 
   private forEachNeighbor(pos: Pos, func: (pos: Pos) => void) {
