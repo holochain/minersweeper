@@ -13,19 +13,19 @@ import {GameBoard, Action} from '../../../minersweeper';
 import * as common from '../common';
 import { getLongestStreak, getFlaggingAccuracy, getMinesClicked, getNumberOfActions, getScores } from '../scoring'
 
-type PlayerStats<T> = {
-  score: T,
-  streak: T,
-  accuracy: T,
-  mines: T,
-  numActions: T
+type PlayerStats = {
+  score: StatsList,
+  streak: StatsList,
+  accuracy: StatsList,
+  mines: StatsList,
+  numActions: StatsList
 }
 
 type StatsList = Array<[Hash, number]>
 
 type GameOverState = {
-  topStats: PlayerStats<StatsList>
-}
+  sortedStats: PlayerStats
+} | null
 
 type StatsMap = Map<Hash, number>
 type StatsFunc = (gameBoard: GameBoard, actions: Action[]) => StatsMap
@@ -33,15 +33,7 @@ type StatsFunc = (gameBoard: GameBoard, actions: Action[]) => StatsMap
 class GameOver extends React.Component<any, GameOverState> {
   constructor(props) {
     super(props);
-    this.state = {
-      topStats: {
-        score: [],
-        streak: [],
-        accuracy: [],
-        mines: [],
-        numActions: []
-      }
-    }
+    this.state = null
   }
 
   public componentDidMount() {
@@ -55,17 +47,24 @@ class GameOver extends React.Component<any, GameOverState> {
         ['mines', getMinesClicked],
         ['numActions', getNumberOfActions],
       ]
-      const state = this.state
+      const sortedStats: PlayerStats = {
+        score: [],
+        streak: [],
+        accuracy: [],
+        mines: [],
+        numActions: []
+      }
       everything.forEach(([name, getter]) => {
         const stats: StatsMap = getter(gameBoard, actions)
-        state.topStats[name] = [...stats.entries()].sort((a, b) => b[1] - a[1])
+        sortedStats[name] = [...stats.entries()].sort((a, b) => b[1] - a[1])
       })
-      this.setState(state)
+      this.setState({sortedStats})
     })
   }
 
   public render() {
-    return <div className="game-over">
+    const { identities, whoami } = this.props
+    return !this.state ? <div/> : <div className="game-over">
       <h2 {...this.props} className="game-over-title" >Game Over</h2>
       <div className="stats-overlay">
         <div className="stats-info">
@@ -75,7 +74,12 @@ class GameOver extends React.Component<any, GameOverState> {
             </div>
             <div className="stats-body">
               <h4>The List of Stats Go Here</h4>
-              {/* <GameList winners={this.state.winners}/> */}
+              <WinnersPodium
+                scores={this.state.sortedStats.score}
+                identities={identities}
+                myHash={whoami!.agentHash}
+              />
+              <MedalList sortedStats={this.state.sortedStats} identities={identities}/>
             </div>
           </div>
         </div>
@@ -83,46 +87,80 @@ class GameOver extends React.Component<any, GameOverState> {
     </div>
   }
 }
-//
-// const GameList = ({ currentGame }) => {
-//   if(!currentGame) {
-//     return (
-//       <div className="stats-table">
-//         <h4 className="no-stats-warning">Please return to the lobby to begin again!</h4>
-//       </div>
-//     )
-//   }
-//   else if (currentGame) {
-//     return <div className="stats-table">
-//       <h3 className="stats-header">Live Games</h3>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th className="author">Author</th>
-//             <th className="stats">Stats</th>
-//             <th className="medal">Medal</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {this.props.winners.forEach(winnerType => {
-//               console.log(winnerType);
-//               {/* const winner = store.getState().identities.get(agentHash)
-//               return <tr key={winnerType}>
-//                 <td className="author">
-//                   <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={agentHash}/>
-//                   <span className="middle-align-item">{author}</span>
-//                 </td>
-//                 <td className="stats"/>
-//                 <td className="medal"/>
-//               </tr> */}
-//           })}
-//         </tbody>
-//       </table>
-//     </div>
-//   } else {
-//     return <ul />
-//   }
-// }
+
+
+const WinnersPodium = ({ scores, identities, myHash }) => {
+  const top3 = scores.slice(0, 3)
+  const myPlace = scores.findIndex((hash, _) => hash === myHash)
+  const imaWinner = myPlace < 3
+
+  const winners = top3.map(([hash, score], i) => {
+    return <Winner
+            key={i}
+            agentHash={hash}
+            agentName={identities.get(hash)}
+            score={score}
+            place={i + 1}
+            isMe={imaWinner}
+          />
+  })
+
+  return (
+    <div className="winners-podium">
+      { winners }
+    </div>
+  )
+}
+
+const Winner = ({agentHash, agentName, score, place, isMe}) => {
+  const jdenticonSize = 40
+  return (
+    <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
+      <Jdenticon hash={agentHash} size={jdenticonSize} /> { agentName } : { score }
+    </div>
+  )
+}
+
+const MedalList = ({ sortedStats, identities }) => {
+  const titles = {
+    streak: 'Longest streak',
+    accuracy: 'Most accurate',
+    mines: 'Most mines',
+    numActions: 'Most actions',
+  }
+  const medals = Object.keys(titles).map(name => {
+    const title = titles[name]
+    const [agentHash, stat] = sortedStats[name][0]
+    const agentName = identities.get(agentHash)
+    const props: MedalProps = {
+      agentHash, agentName, stat, title
+    }
+    return <Medal key={name} {...props} />
+  })
+  return (
+    <div className="medals-list">
+      { medals }
+    </div>
+  )
+}
+
+type MedalProps = {
+  title: string,
+  stat: number,
+  agentHash: string,
+  agentName: string
+}
+
+const Medal = (props: MedalProps) => {
+  const jdenticonSize = 30
+  const {title, stat, agentHash, agentName} = props
+  return <div className="medal">
+    <Jdenticon hash={agentHash} size={jdenticonSize} />
+    {title}
+    {agentName}
+    {stat}
+  </div>
+}
 
 const mapStateToProps = ({ currentGame, identities, whoami }) => ({
   currentGame, identities, whoami
