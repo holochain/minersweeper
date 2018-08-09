@@ -12,7 +12,7 @@ html,body {
 }
 
 /* ------------ Scrollbar CSS-------------- */
-
+/* Chrome */
 .lobby-overlay::-webkit-scrollbar {
   width: 10px;
   background-color: #F5F5F5;
@@ -37,6 +37,15 @@ html,body {
   background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
 
+/* Mozilla: */
+.scroll-content {
+    position: relative;
+    width: 400px;
+    height: 414px;
+    top: -17px;
+    padding: 20px 10px 20px 10px;
+    overflow-y: auto;
+}
 
 /* ------------ Lobby Content CSS-------------- */
 
@@ -294,10 +303,6 @@ html,body {
   text-align: left;
 }
 
-/* .game-title {
-  text-transform: uppercase;
-} */
-
 .live-games-header {
   margin-top: 30px;
   margin-bottom: 50px;
@@ -308,31 +313,13 @@ html,body {
   background: -webkit-linear-gradient(#eee, #4148b1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  /* animation: blink 1s steps(4, start) infinite; */
 }
-/*
-h3:active {
-  -webkit-box-shadow:
-      0px 3px rgba(128,128,128,1),
-      0px 4px rgba(118,118,118,1),
-      0px 5px rgba(108,108,108,1),
-      0px 6px rgba(98,98,98,1),
-      0px 7px rgba(88,88,88,1),
-      0px 8px rgba(78,78,78,1),
-      0px 10px 2px 0px rgba(128,128,128,.6);
-}
-*/
+
 .no-game-warning {
   color: #979ac5;
   font-size: 35px;
   margin-top: -5px;
 }
-
- /* @keyframes blink{
-   to{
-     visibility: hidden
-   }
-} */
 
 /* ---------------- Modal CSS ------------------------ */
 

@@ -12,7 +12,7 @@
 }
 
 .buffer-cell {
-  background: #444;
+  background: #222; /*Previously was: #444 */
 }
 
 .Cell.revealed {

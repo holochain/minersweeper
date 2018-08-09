@@ -1,27 +1,173 @@
 
 .game-over h2 {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  top: 30%;
+  right: 0%;
   height: 190px;
-  color: white;
+  color: #336;
   width: 100%;
   text-align: center;
   margin: auto;
   font-size: 100px;
   line-height: 100px;
   letter-spacing: 10px;
-  text-shadow: -5px 0 0 #fdff2a,
-    -10px 0 0 #df4a42,
-    5px 0 0 #91fcfe,
-    10px 0 0 #4405fc;
-  animation: blink 1s steps(4, start) infinite;
+  text-shadow: 1px 1px 2px #e3e4f3,
+    0 0 25px #21acba,  /* 5d0b0d */
+    0 0 5px #91fcfe,
+    0 0 10px #4405fc;
+  animation: blink 1s steps(4, start) 3;
 }
+
+/* 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue; */
 
  @keyframes blink{
    to{
      visibility: hidden
    }
+}
+
+.game-over-title {
+  flex: 1 1;
+}
+
+.stats-jumbotron {
+  padding-left: 60px;
+  padding-right: 60px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+  display: block;
+}
+
+.stats-header {
+  font-size: 63px;
+  font-weight: 500px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0.8em;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+  background: -webkit-linear-gradient(#6600ff, #150a4e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  animation: title 2s 4s 1 ease both;
+}
+
+@keyframes title {
+  0% {
+    transform: translateZ(500px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0px);
+    opacity: 1;
+  }
+}
+
+
+.stats-overlay {
+  overflow: hidden;
+  position: absolute;
+  top: 150px;
+  left: 2.5%;
+  width: 95%;
+  height: 750px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, .92);
+  border: 5px dotted slateblue;;
+  z-index: 99999;
+  animation: end-game-stats 3s 3.8s 1 ease both;
+}
+
+@keyframes end-game-stats {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  100% {
+    top: 20px;
+  }
+}
+
+.stats-info {
+  font-weight: 400;
+  font-size: 30px;
+  color: #0d1375;
+  border: transparent;
+  background: transparent;
+  display: inline-block;
+  margin: 100px auto 15px;
+  cursor: pointer;
+}
+.stats-header {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  width: 100%;
+  font-size: 3rem;
+  line-height: 40px;
+  letter-spacing: 3px;
+  background: -webkit-linear-gradient(#eee, #4148b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.no-game-warning {
+  color: #979ac5;
+  font-size: 35px;
+  margin-top: -5px;
+}
+
+
+/*-------- Stats-Table CSS ---------*/
+.stats-table {
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 9999;
+}
+
+.stats-table table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.stats-table tbody tr {
+  transition: background 200ms;
+}
+
+.stats-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stats-table th, .stats-table td {
+  padding: 6px 15px;
+}
+
+.stats-table th {
+  height: 30px;
+  font-size: 25px;
+  text-align: center;
+  /*color: #787DB8;*/
+  color: #548E8A;
+}
+
+.stats-table td {
+  font-size: 18px;
+  border: 10px;
+  height: 30px;
+  text-align: center;
+  color: #ddd;
+}
+
+.stats-table .author {
+  text-align: left;
 }

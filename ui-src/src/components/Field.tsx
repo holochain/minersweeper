@@ -135,6 +135,7 @@ class Field extends React.Component<FieldProps, FieldState> {
           />
         }</AutoSizer>
         { mousePanIndicators }
+        { this.props.children }
       </div>
     )
   }
