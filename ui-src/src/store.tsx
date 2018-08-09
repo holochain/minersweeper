@@ -69,8 +69,8 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
-      action.actions.sort(compareActions).filter(isFirst);
-      action.actions.forEach(a => {
+      action.actions.sort(compareActions);
+      action.actions.filter(isFirst).forEach(a => {
         switch (a.actionType) {
           case "flag":
           case "reveal":
