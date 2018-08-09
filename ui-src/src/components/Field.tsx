@@ -47,6 +47,7 @@ const PAN_OFFSETS = {
 class Field extends React.Component<FieldProps, FieldState> {
 
   private grid = React.createRef<Grid>()
+  private minimap = React.createRef<Minimap>()
 
   // tracks key down/up state for each arrow key
   private panKeys: any = {}
@@ -140,7 +141,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             isScrollingOptOut={false}
           />
         }</AutoSizer>
-        <Minimap viewport={this.state.viewport}/>
+        <Minimap ref={this.minimap}/>
         { mousePanIndicators }
       </div>
     )
@@ -148,14 +149,14 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   private onScroll =
   ({scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight}) => {
-    this.setState({
-      viewport: {
+    if (this.minimap.current) {
+      this.minimap.current!.setViewport({
         x: scrollLeft / scrollWidth,
         y: scrollTop / scrollHeight,
         w: clientWidth / scrollWidth,
         h: clientHeight / scrollHeight,
-      }
-    })
+      })
+    }
   }
 
   private fieldContainer = () => {
