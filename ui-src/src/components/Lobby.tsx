@@ -1,10 +1,9 @@
-import { List, Set } from 'immutable';
+import { Set } from 'immutable';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { Action, ActionType, GameBoard, GameParams, MoveDefinition, XY } from '../../../minersweeper'
-
+import { Hash } from '../../../holochain'
 import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
@@ -22,7 +21,7 @@ class Lobby extends React.Component<any, LobbyState> {
 
   private updateLobbyInterval: any = null
 
-  constructor(props) {
+  constructor(props: any) {
      super(props);
      this.state = {
        showModal: false,
@@ -131,9 +130,9 @@ const GameList = ({ allGames, identities }) => {
         </thead>
         <tbody>
           {
-            allGames.keySeq().map(hash => {
+            allGames.keySeq().map((hash: Hash) => {
               const game = allGames.get(hash)
-              const {creatorHash, description, mines, size} = game
+              const {creatorHash, mines, size} = game
               let author = (
                 identities.get(creatorHash)
                 || creatorHash
@@ -173,4 +172,4 @@ const mapStateToProps = ({ allGames, identities }) => ({
   allGames, identities
 })
 
-export default connect(mapStateToProps)(Lobby);
+export default connect<any, any, any>(mapStateToProps)(Lobby);

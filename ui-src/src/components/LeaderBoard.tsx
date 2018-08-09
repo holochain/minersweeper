@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Hash} from "../../../holochain";
-import {Map, fromJS} from 'immutable';
+import {Map} from 'immutable';
 
 import './LeaderBoard.css';
 
 import { truncateName } from '../common';
 
 import store from '../store';
+import {StoreState} from '../types';
 import Jdenticon from './Jdenticon';
 
 type LeaderBoardProps = {
@@ -64,14 +65,9 @@ const LeaderItem = ({hash, handle, score}) => {
   </tr>
 }
 
-const mapStateToProps = gameState => ({
-  scores: gameState.currentGame.scores,
+const mapStateToProps = (gameState: StoreState) => ({
+  scores: gameState.currentGame!.scores,
   allPlayerHandles: gameState.identities,
 })
 
-export default connect(mapStateToProps)(LeaderBoard);
-
-
-
-// WEBPACK FOOTER //
-// ./ui-src/src/components/LeaderBoard.tsx
+export default connect<any, any, any>(mapStateToProps)(LeaderBoard);

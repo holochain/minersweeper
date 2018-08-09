@@ -1,19 +1,16 @@
 import * as React from 'react';
 import './Field.css';
-import {Set} from 'immutable';
 
 import {connect} from 'react-redux';
-import { withRouter } from 'react-router-dom'
 import { AutoSizer, Grid } from 'react-virtualized';
 
 import {Hash} from '../../../holochain';
-import {Pos, Action} from '../../../minersweeper';
+import {Pos} from '../../../minersweeper';
 
 import Cell from './Cell';
 import CellMatrix from '../CellMatrix';
 
 import * as common from '../common';
-import store from '../store';
 
 type FieldProps = {
   gameHash: Hash,
@@ -62,9 +59,6 @@ class Field extends React.Component<FieldProps, FieldState> {
   // used to turn off action polling and other things
   private keyPanOffset: Pos = {x: 0, y: 0}
   private mousePanOffset: Pos = {x: 0, y: 0}
-
-  // used to redraw all cells without scrolling
-  private upperLeft = {columnIndex: 0, rowIndex: 0}
 
   constructor(props) {
     super(props)
@@ -147,13 +141,14 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   private fieldContainer = () => {
     if (this.grid.current) {
+      // @ts-ignore
       return this.grid.current!._scrollingContainer.parentElement.parentElement
     } else {
       return null
     }
   }
 
-  private CellWrapped = ({key, columnIndex, rowIndex, ...props}) => (
+  private CellWrapped = ({key, columnIndex, rowIndex, ...props}: any) => (
     <Cell
       {...props}
       myActions={this.props.myActions}
@@ -181,13 +176,14 @@ class Field extends React.Component<FieldProps, FieldState> {
   }
 
   private mouseMoveListener = e => {
-    const grid: Grid = this.grid.current
+    const grid: Grid = this.grid.current!
     if (!grid) {
       return
     }
     this.fieldContainer()!.focus()
     e.preventDefault()
     this.setState({hasMouseFocus: true})
+    // @ts-ignore
     const div = grid!._scrollingContainer
     const {offsetWidth, offsetHeight} = div
     const {clientX, clientY} = e
@@ -238,6 +234,7 @@ class Field extends React.Component<FieldProps, FieldState> {
   private performPan() {
     const grid: Grid | null = this.grid.current
     if (grid) {
+      // @ts-ignore
       const container = grid._scrollingContainer
       const {scrollLeft, scrollTop} = container
       const pos = {scrollLeft, scrollTop}
@@ -272,9 +269,9 @@ class Field extends React.Component<FieldProps, FieldState> {
     )
   }
 
-  private stopPollingPan() {
-    clearInterval(this.panInterval)
-  }
+  // private stopPollingPan() {
+  //   clearInterval(this.panInterval)
+  // }
 
   private startPollingActions() {
     const hash = this.props.gameHash

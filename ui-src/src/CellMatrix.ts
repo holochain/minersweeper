@@ -3,10 +3,8 @@ import { Map } from "immutable";
 
 import { Hash } from '../../holochain';
 import {
-  Action,
-  ActionType,
+  BoardAction,
   GameBoard,
-  GameParams,
   Pos,
   Size
 } from '../../minersweeper';
@@ -45,7 +43,7 @@ export default class CellMatrix {
     });
   }
 
-  public takeAction(action: Action): number {
+  public takeAction(action: BoardAction): number {
     let numRevealed = 0
     switch (action.actionType) {
       case "flag":
@@ -58,8 +56,6 @@ export default class CellMatrix {
         break;
       case "reveal":
         numRevealed = this.triggerReveal(action.position);
-        break;
-      case "chat":
         break;
       default:
         break;
@@ -174,7 +170,7 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
-  private forEachNeighbor(pos: Pos, func: (Pos) => void) {
+  private forEachNeighbor(pos: Pos, func: (pos: Pos) => void) {
     [-1, 0, 1].forEach(dx => {
       [-1, 0, 1].forEach(dy => {
         if (dx !== 0 || dy !== 0) {

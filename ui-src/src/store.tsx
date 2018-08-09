@@ -1,10 +1,9 @@
 import { List, Map } from 'immutable';
 import * as redux from 'redux';
-import {combineReducers} from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
-import {getScores} from './scoring'
+import {getScores, isFirst} from './scoring'
 import {Hash} from '../../holochain';
 
 import {
@@ -49,7 +48,8 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
   if (gameState === null) {
     return gameState
   }
-  const {matrix, gameHash, gameBoard} = gameState!
+
+  const {matrix, gameBoard} = gameState!
   let {chats, actionQueue, scores} = gameState!
 
   switch (action.type) {
@@ -69,8 +69,8 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
-      action.actions.sort(compareActions)
-      action.actions.forEach(a => {
+      action.actions.sort(compareActions);
+      action.actions.filter(isFirst).forEach(a => {
         switch (a.actionType) {
           case "flag":
           case "reveal":

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import { Grid } from 'react-virtualized';
 
-import {Action, ActionType, GameParams, MoveDefinition, XY} from '../../../minersweeper'
+import { MoveDefinition, BoardActionType, Pos} from '../../../minersweeper'
 
 import './Cell.css';
 
@@ -29,7 +29,7 @@ type CellState = {
 
 class Cell extends React.Component<CellProps, CellState> {
 
-  constructor(props) {
+  constructor(props: CellProps) {
     super(props)
     this.state = {
       animating: false
@@ -37,7 +37,7 @@ class Cell extends React.Component<CellProps, CellState> {
   }
 
   public render() {
-    const {matrix, gameHash} = store.getState().currentGame!
+    const {matrix} = store.getState().currentGame!
     const {style} = this.props
     const pos = this.getPos()
 
@@ -90,17 +90,17 @@ class Cell extends React.Component<CellProps, CellState> {
     </div>
   }
 
-  private handleReveal = e => {
+  private handleReveal = (e: React.SyntheticEvent) => {
     e.preventDefault()
     this.handleMove('reveal')
   }
 
-  private handleFlag = e => {
+  private handleFlag = (e: React.SyntheticEvent) => {
     e.preventDefault()
     this.handleMove('flag')
   }
 
-  private handleAutoReveal = e => {
+  private handleAutoReveal = (e: React.SyntheticEvent) => {
     e.preventDefault()
     const pos = this.getPos()
     const {matrix} = store.getState().currentGame!
@@ -120,7 +120,7 @@ class Cell extends React.Component<CellProps, CellState> {
     return {x: columnIndex, y: rowIndex}
   }
 
-  private handleMove = (actionType) => {
+  private handleMove = (actionType: BoardActionType) => {
     const pos = this.getPos()
     const {currentGame, whoami} = store.getState()
     const {matrix} = currentGame!
@@ -128,6 +128,7 @@ class Cell extends React.Component<CellProps, CellState> {
       // can't flag or reveal a revealed square
       return;
     }
+
 
     // XXX: modifying state outside of a reducer!!!
     const numRevealed = matrix.takeAction({
@@ -145,7 +146,7 @@ class Cell extends React.Component<CellProps, CellState> {
     this.makeMove(actionType, pos)
   }
 
-  private makeMove = (actionType, position) => {
+  private makeMove = (actionType, position: Pos) => {
     const payload: MoveDefinition = {
       gameHash: this.props.gameHash,
       action: {actionType, position}
