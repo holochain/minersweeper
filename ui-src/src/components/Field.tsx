@@ -22,6 +22,7 @@ type FieldProps = {
 type FieldState = {
   panOffset: Pos,
   hasMouseFocus: boolean,
+  viewport: any
 }
 
 const LEFT = {x: -1, y: 0}
@@ -66,6 +67,10 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.state = {
       panOffset: {x: 0, y: 0},
       hasMouseFocus: true,
+      viewport: {
+        x: 0.2, y: 0.2,
+        w: 0.5, h: 0.3,
+      },
     }
   }
 
@@ -77,7 +82,6 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   public componentDidMount() {
     const el = this.fieldContainer()
-    console.log('el', el)
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
     el.addEventListener('mousemove', this.mouseMoveListener)
@@ -128,6 +132,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             height={height}
             tabIndex={null}
             width={width}
+            onScroll={this.onScroll}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
@@ -135,10 +140,22 @@ class Field extends React.Component<FieldProps, FieldState> {
             isScrollingOptOut={false}
           />
         }</AutoSizer>
-        <Minimap />
+        <Minimap viewport={this.state.viewport}/>
         { mousePanIndicators }
       </div>
     )
+  }
+
+  private onScroll =
+  ({scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight}) => {
+    this.setState({
+      viewport: {
+        x: scrollLeft / scrollWidth,
+        y: scrollTop / scrollHeight,
+        w: clientWidth / scrollWidth,
+        h: clientHeight / scrollHeight,
+      }
+    })
   }
 
   private fieldContainer = () => {

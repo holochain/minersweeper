@@ -10,13 +10,24 @@ import {StoreState} from '../types';
 
 const MAX_MINIMAP_SIZE = 200
 
-type MinimapProps = {}
+type MinimapProps = {
+  viewport: MinimapViewport
+}
 type MinimapState = {}
+
+type MinimapViewport = {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+}
 
 class Minimap extends React.Component<MinimapProps, MinimapState> {
 
+  // public viewport: MinimapViewport = {
+  //   x: 0, y: 0, w: 0, h: 0
+  // }
   private canvas = React.createRef<HTMLCanvasElement>()
-  // private imageData: ImageData | null = null
   private drawInterval: any = null
 
   public componentWillMount() {
@@ -36,7 +47,17 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
   public render() {
     const {gameBoard} = store.getState().currentGame!
     const [[width, height], scale] = this.sizeAndScale()
-    return <canvas className="minimap" ref={this.canvas} width={width} height={height} />
+    const {x, y, w, h} = this.props.viewport
+    const style = {
+      left: (x * 100) + '%',
+      top: (y * 100) + '%',
+      width: (w * 100) + '%',
+      height: (h * 100) + '%',
+    }
+    return <div className="minimap">
+      <canvas ref={this.canvas} width={width} height={height} />
+      <div className="viewport" style={style}/>
+    </div>
   }
 
   private ctx() {
