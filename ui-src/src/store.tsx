@@ -3,7 +3,7 @@ import * as redux from 'redux';
 
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
-import {getScores} from './scoring'
+import {getScores, isFirst} from './scoring'
 import {Hash} from '../../holochain';
 
 import {
@@ -69,7 +69,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
-      action.actions.sort(compareActions)
+      action.actions.sort(compareActions).filter(isFirst);
       action.actions.forEach(a => {
         switch (a.actionType) {
           case "flag":

@@ -194,17 +194,18 @@ function isDead(gameBoard: GameBoard, actions: Action[]): boolean {
 // the main validation function of the game. All game rules are enforced here
 // only allow actions to be taken on locations that have not aready been acted on
 function validateAddAction(gameHash, actionHash, agentHash) {
-  let action: Action = get(actionHash);
-  if(action.actionType === "chat") return true;
+  return true;
+  // let action: Action = get(actionHash);
+  // if(action.actionType === "chat") return true;
 
-  let gameBoard: GameBoard = get(gameHash);
-  let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) {
-    return elem.Entry;
-  });
-  return !actions.some((existingAction: Action) => {
-    if(existingAction.actionType === "chat" || action.actionType === "chat") return false;
-    return action.position.x === existingAction.position.x && action.position.y === existingAction.position.y;
-  });
+  // let gameBoard: GameBoard = get(gameHash);
+  // let actions = getLinks(gameHash, "", {Load: true}).map(function(elem) {
+  //   return elem.Entry;
+  // });
+  // return !actions.some((existingAction: Action) => {
+  //   if(existingAction.actionType === "chat" || action.actionType === "chat") return false;
+  //   return action.position.x === existingAction.position.x && action.position.y === existingAction.position.y;
+  // });
 }
 
 // ensures a game board is valid before it can be added
