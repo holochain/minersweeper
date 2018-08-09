@@ -50,7 +50,7 @@ export default class CellMatrix {
         if (!this.isMine(action.position)) {
           numRevealed = this.triggerReveal(action.position);
         } else if (!this.isFlagged(action.position) && !this.isRevealed(action.position)) {
-          this.nRevealedMines += 1;         
+          this.nRevealedMines += 1;
         }
         this.flagCell(action.position, action.agentHash);
         break;

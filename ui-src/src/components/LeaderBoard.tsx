@@ -5,6 +5,9 @@ import {Map} from 'immutable';
 
 import './LeaderBoard.css';
 
+import { truncateName } from '../common';
+
+import store from '../store';
 import {StoreState} from '../types';
 import Jdenticon from './Jdenticon';
 
@@ -31,8 +34,10 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
       scores.sort(descending).forEach((agentScore:number, agentHash:Hash) => {
         const agentHandler:string = allPlayerHandles.get(agentHash!)
+        const agentName = truncateName(agentHandler);
+
         displayBoard.push(
-          <LeaderItem key={agentHash} hash={agentHash} handle={agentHandler} score={agentScore} />
+          <LeaderItem key={agentHash} hash={agentHash} handle={agentName} score={agentScore} />
         )
       })
     }

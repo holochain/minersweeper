@@ -172,3 +172,14 @@ function cantor(a: number, b: number): number {
   // from https://math.stackexchange.com/questions/23503/create-unique-number-from-2-numbers
   return ((a + b) * (a + b + 1)) / 2 + b
 }
+
+export function truncateName(authorName) {
+  let username = "";
+  if (authorName.length > 15 ) {
+    username = authorName.substring(0,15) + "...";
+  }
+  else {
+    username = authorName;
+  }
+  return username
+}
