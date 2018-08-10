@@ -21,7 +21,6 @@ type FieldState = {
 
 class GameView extends React.Component<FieldProps, FieldState> {
 
-
   constructor(props: FieldProps) {
     super(props)
     this.state = {
