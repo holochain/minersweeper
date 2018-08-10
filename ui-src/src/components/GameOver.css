@@ -2,7 +2,7 @@
 .game-over h2 {
   position: absolute;
   top: 30%;
-  right: 0%;
+  left: 0%;
   height: 190px;
   color: #336;
   width: 100%;
@@ -29,6 +29,9 @@
 .game-over-title {
   flex: 1 1;
 }
+
+
+/* ----------------------  GameOver Stats Screen ---------------- */
 
 .stats-jumbotron {
   padding-left: 60px;
@@ -71,14 +74,13 @@
   }
 }
 
-
 .stats-overlay {
   overflow: hidden;
   position: absolute;
   top: 150px;
   left: 2.5%;
   width: 95%;
-  height: 750px;
+  height: 795px;
   margin: 0 auto;
   background: rgba(0, 0, 0, .92);
   border: 5px dotted slateblue;;
@@ -99,7 +101,7 @@
 .stats-info {
   font-weight: 400;
   font-size: 30px;
-  color: #0d1375;
+  color: slateblue;
   border: transparent;
   background: transparent;
   display: inline-block;
@@ -118,56 +120,119 @@
     -webkit-text-fill-color: transparent;
 }
 
-.no-game-warning {
-  color: #979ac5;
-  font-size: 35px;
-  margin-top: -5px;
+.circle {
+  z-index: 201;
+  color: black;
+  background: black;
+	border-radius: 50%;
+  height: 7em;
+  width: 7em;
+  left: calc(50% - 3em);
+  bottom: 17.6em;
+  position: absolute;
 }
 
+.holochain-logo {
+  z-index: 200;
+  height: 13em;
+  width: 13em;
+  left: calc(50% - 6em);
+  bottom: 14.6em;
+  position: absolute;
+  animation: spin 3s infinite linear;
+  animation-delay: 0.1s;
+}
 
-/*-------- Stats-Table CSS ---------*/
-.stats-table {
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(359deg);
+    }
+}
+
+.winner-jdenticon {
+  width: 75px;
+  height: 75px;
+  display:block;
   margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  box-sizing: border-box;
+}
+
+.winner {
+  z-index: 300;
   text-align: center;
-  z-index: 9999;
 }
 
-.stats-table table {
-  margin: auto;
-  border-collapse: collapse;
+.winner p {
+  justify-content: center;
+  margin: 5px;
 }
 
-.stats-table tbody tr {
-  transition: background 200ms;
+/* .place-1 */
+.place-1 {
+  left: calc(50% - 1.6em);
+  bottom: 18em;
+  position: absolute;
+  height: 170px;
 }
 
-.stats-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.1);
+.place-1.me {
+  color: #eec02c;
 }
 
-.stats-table th, .stats-table td {
-  padding: 6px 15px;
+/* .place-2 */
+.place-2 {
+  left: calc(50% - 10.5em);
+  bottom: 12em;
+  position: absolute;
+  border: 2px solid #bdbece;
+  border-radius: 20px;
+  height: 170px;
 }
 
-.stats-table th {
-  height: 30px;
-  font-size: 25px;
-  text-align: center;
-  /*color: #787DB8;*/
-  color: #548E8A;
+.place-2.me {
+  color: #bdbece;
 }
 
-.stats-table td {
-  font-size: 18px;
-  border: 10px;
-  height: 30px;
-  text-align: center;
-  color: #ddd;
+/* .place-3 */
+.place-3 {
+  left: calc(50% + 5.6em);
+  bottom: 11em;
+  position: absolute;
+  border: 2px solid #cd7f32;
+  border-radius: 20px;
+  height: 170px;
 }
 
-.stats-table .author {
-  text-align: left;
+.place-3.me {
+  color: #cd7f32;
+}
+
+.winners-podium {
+
+}
+
+.medal-list-container {
+  position: absolute;
+  bottom: 5%;
+  left: 0%;
+}
+
+.medals-list {
+  display: inline-block;
+  display: flex;
+  width: 100%;
+  height: 260px;
+  margin-left: 3%;
+}
+
+.medal {
+  width: 100px;
+  height: 100px;
+  margin: 15px 30px;
+}
+
+.medal-title {
+  color: #29a19e;
 }

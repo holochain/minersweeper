@@ -69,17 +69,21 @@ class GameOver extends React.Component<any, GameOverState> {
       <div className="stats-overlay">
         <div className="stats-info">
           <div>
-            <div className="stats-jumbotron">
-              <h1 className="stats-header">Game Stats</h1>
-            </div>
             <div className="stats-body">
-              <h4>The List of Stats Go Here</h4>
               <WinnersPodium
                 scores={this.state.sortedStats.score}
                 identities={identities}
                 myHash={whoami!.agentHash}
               />
-              <MedalList sortedStats={this.state.sortedStats} identities={identities}/>
+              <div className="medal-list-container">
+                <MedalList
+                  sortedStats={this.state.sortedStats}
+                  identities={identities}
+                  myHash={whoami!.agentHash}
+                />
+              </div>
+              <div className="circle" />
+              <img className="holochain-logo" src="/images/holochain-logo.png"/>
             </div>
           </div>
         </div>
@@ -88,12 +92,10 @@ class GameOver extends React.Component<any, GameOverState> {
   }
 }
 
-
 const WinnersPodium = ({ scores, identities, myHash }) => {
   const top3 = scores.slice(0, 3)
   const myPlace = scores.findIndex((hash, _) => hash === myHash)
-  const imaWinner = myPlace < 3
-
+  const imaWinner = false
   const winners = top3.map(([hash, score], i) => {
     return <Winner
             key={i}
@@ -113,15 +115,17 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
 }
 
 const Winner = ({agentHash, agentName, score, place, isMe}) => {
-  const jdenticonSize = 40
+  const jdenticonSize = 75
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
-      <Jdenticon hash={agentHash} size={jdenticonSize} /> { agentName } : { score }
+      <p>{ agentName }</p>
+      <Jdenticon className="winner-jdenticon" hash={ agentHash } size={ jdenticonSize } />
+      <p>{ score }</p>
     </div>
   )
 }
 
-const MedalList = ({ sortedStats, identities }) => {
+const MedalList = ({ sortedStats, identities, myHash }) => {
   const titles = {
     streak: 'Longest streak',
     accuracy: 'Most accurate',
@@ -132,8 +136,12 @@ const MedalList = ({ sortedStats, identities }) => {
     const title = titles[name]
     const [agentHash, stat] = sortedStats[name][0]
     const agentName = identities.get(agentHash)
+    let imaWinner = false
+    if (agentHash === myHash) {
+      imaWinner = true
+    }
     const props: MedalProps = {
-      agentHash, agentName, stat, title
+      agentHash, agentName, stat, title, imaWinner
     }
     return <Medal key={name} {...props} />
   })
@@ -148,17 +156,24 @@ type MedalProps = {
   title: string,
   stat: number,
   agentHash: string,
-  agentName: string
+  agentName: string,
+  imaWinner: boolean
 }
 
 const Medal = (props: MedalProps) => {
   const jdenticonSize = 30
-  const {title, stat, agentHash, agentName} = props
+  const {title, stat, agentHash, agentName, imaWinner} = props
+
   return <div className="medal">
-    <Jdenticon hash={agentHash} size={jdenticonSize} />
-    {title}
-    {agentName}
-    {stat}
+    <div className="medal-title">{title}</div>
+    <hr style={{color: "white"}} />
+    <Winner
+      key={title}
+      agentHash={agentHash}
+      agentName={agentName}
+      score={stat}
+      place={title}
+      isMe={imaWinner}/>
   </div>
 }
 
