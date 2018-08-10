@@ -186,12 +186,13 @@
 
 /* .place-2 */
 .place-2 {
-  left: 50%;
-  margin-left: -10.5em;
-  bottom: 12em;
+  z-index: 199;
+  left: 1%;
+  bottom: 11em;
   position: absolute;
   border: 2px solid #bdbece;
   border-radius: 20px;
+  padding: 10px;
 }
 
 .place-2.me {
@@ -199,16 +200,17 @@
 }
 
 /* .place-3 */
-.place-3 {
-  left: 50%;
-  margin-left: +5.6em;
-  bottom: 11em;
+.place-2 {
+  z-index: 199;
+  left: calc(100% - 12em);
+  bottom: 10em;
   position: absolute;
   border: 2px solid #cd7f32;
   border-radius: 20px;
+  padding: 10px;
 }
 
-.place-3.me {
+.place-2.me {
   color: #cd7f32;
 }
 
@@ -217,7 +219,7 @@
 }
 
 .medal-list-container {
-  margin-top: 48%;
+  margin-top: 47%;
 }
 
 .medals-list {
