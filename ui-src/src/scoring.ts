@@ -42,7 +42,7 @@ export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, nu
 // only the first action on each square is allowed to generate a score.
 // Assumes actions are sorted ascending in time
 export const isFirst = (action: Action, index: number, actions: Action[]): boolean => {
-  if (action.actionType === "chat") { return false; }
+  if (action.actionType === "chat") { return true; }
   return actions.findIndex((compareAction: Action): boolean => {
     if (compareAction.actionType === "chat") { return false; }
     return action.position.x === compareAction.position.x && action.position.y === compareAction.position.y;
@@ -62,7 +62,7 @@ export const isMine = (gameBoard: GameBoard, pos: Pos): boolean => {
 // number of actions
 // flagging accuracy (nCorrectFlags / nFlags)
 // longest streak (consecutive actions without hitting a mine)
-//
+
 
 export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
