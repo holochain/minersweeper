@@ -77,13 +77,13 @@
 .stats-overlay {
   overflow: hidden;
   position: absolute;
-  top: 150px;
+  top: 20px;
   left: 2.5%;
   width: 95%;
   height: 795px;
   margin: 0 auto;
   background: rgba(0, 0, 0, .92);
-  border: 5px dotted slateblue;;
+  border: 5px dotted slateblue;
   z-index: 99999;
   animation: end-game-stats 3s 3.8s 1 ease both;
 }
@@ -136,10 +136,11 @@
   z-index: 200;
   height: 13em;
   width: 13em;
-  left: calc(50% - 6em);
+  left: 50%;
+  margin-left: -6em;
   bottom: 14.6em;
   position: absolute;
-  animation: spin 3s infinite linear;
+  animation: spin 7s 2 linear;
   animation-delay: 0.1s;
 }
 
@@ -148,7 +149,7 @@
         transform:rotate(0deg);
     }
     to {
-        transform:rotate(359deg);
+        transform:rotate(360deg);
     }
 }
 
@@ -162,6 +163,8 @@
 .winner {
   z-index: 300;
   text-align: center;
+  padding: 12px;
+  min-width: 150px;
 }
 
 .winner p {
@@ -171,10 +174,10 @@
 
 /* .place-1 */
 .place-1 {
-  left: calc(50% - 1.6em);
+  left: 50%;
+  margin-left: -1.9em;
   bottom: 18em;
   position: absolute;
-  height: 170px;
 }
 
 .place-1.me {
@@ -183,12 +186,12 @@
 
 /* .place-2 */
 .place-2 {
-  left: calc(50% - 10.5em);
+  left: 50%;
+  margin-left: -10.5em;
   bottom: 12em;
   position: absolute;
   border: 2px solid #bdbece;
   border-radius: 20px;
-  height: 170px;
 }
 
 .place-2.me {
@@ -197,12 +200,12 @@
 
 /* .place-3 */
 .place-3 {
-  left: calc(50% + 5.6em);
+  left: 50%;
+  margin-left: +5.6em;
   bottom: 11em;
   position: absolute;
   border: 2px solid #cd7f32;
   border-radius: 20px;
-  height: 170px;
 }
 
 .place-3.me {
