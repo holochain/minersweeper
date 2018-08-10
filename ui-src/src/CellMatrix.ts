@@ -151,14 +151,14 @@ export default class CellMatrix {
   }
 
   public isCompleted(): boolean {
-    // for (let y = 0; y < this.size.y; y++) {
-    //   for (let x = 0; x < this.size.x; x++) {
-    //     const pos = {x,y}
-    //     if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
-    //       return false
-    //     }
-    //   }
-    // }
+    for (let y = 0; y < this.size.y; y++) {
+      for (let x = 0; x < this.size.x; x++) {
+        const pos = {x,y}
+        if (!this.isRevealed(pos) && !this.isFlagged(pos)) {
+          return false
+        }
+      }
+    }
     return true
   }
 
