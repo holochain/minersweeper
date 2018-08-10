@@ -6,7 +6,7 @@ import {Hash} from '../../../holochain';
 
 import Jdenticon from './Jdenticon';
 
-import { fetchJSON, truncateName } from '../common';
+import { fetchJSON, getDisplayName } from '../common';
 import store from '../store';
 
 // type ChatProps = {
@@ -84,8 +84,7 @@ class MessagesList extends React.Component<any, any> {
 ///////////////////////////////////////////////////////////////
 
 const SingleMessage = ({author, message}) => {
-  const authorName = store.getState().identities.get(author)
-  const username = truncateName(authorName);
+  const username = getDisplayName(author);
 
   return(
     <div className='single-message'>
@@ -100,8 +99,7 @@ const SingleMessage = ({author, message}) => {
 //////////////////////////////////////////////////////////////////
 
 const AuthorBlock = ({author, messages}) => {
-  const authorName = store.getState().identities.get(author)
-  const username = truncateName(authorName);
+  const username = getDisplayName(author);
 
   return(
     <div className='author-block'>

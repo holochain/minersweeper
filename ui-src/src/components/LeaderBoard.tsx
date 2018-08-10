@@ -5,7 +5,7 @@ import {Map} from 'immutable';
 
 import './LeaderBoard.css';
 
-import { truncateName } from '../common';
+import { getDisplayName } from '../common';
 
 import store from '../store';
 import {StoreState} from '../types';
@@ -13,18 +13,17 @@ import Jdenticon from './Jdenticon';
 
 type LeaderBoardProps = {
   scores: Map<Hash, number>,
-  allPlayerHandles: Map<Hash, string>,
 }
 
 class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
 
   public render () {
     // Fetch the score
-    const {scores, allPlayerHandles} = this.props
+    const {scores} = this.props
 
     const displayBoard:any[] = []
 
-    if(scores !== null && allPlayerHandles.size !== 0) {
+    if(scores !== null) {
       const descending = (a:number, b:number) => {
         if (a < b) { return 1; }
         if (a > b) { return -1; }
@@ -33,8 +32,7 @@ class LeaderBoard extends React.Component<LeaderBoardProps, {}> {
       }
 
       scores.sort(descending).forEach((agentScore:number, agentHash:Hash) => {
-        const agentHandler:string = allPlayerHandles.get(agentHash!)
-        const agentName = truncateName(agentHandler);
+        const agentName = getDisplayName(agentHash);
 
         displayBoard.push(
           <LeaderItem key={agentHash} hash={agentHash} handle={agentName} score={agentScore} />
@@ -67,7 +65,6 @@ const LeaderItem = ({hash, handle, score}) => {
 
 const mapStateToProps = (gameState: StoreState) => ({
   scores: gameState.currentGame!.scores,
-  allPlayerHandles: gameState.identities,
 })
 
 export default connect<any, any, any>(mapStateToProps)(LeaderBoard);
