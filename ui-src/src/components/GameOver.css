@@ -175,10 +175,11 @@
 
 /* .place-1 */
 .place-1 {
-  left: 50%;
+  left: 47.5%;
   margin-left: -1.9em;
   bottom: 18em;
   position: absolute;
+  width: 200px;
 }
 
 .place-1.me {
@@ -189,7 +190,7 @@
 .place-2 {
   z-index: 199;
     left: calc(1% + 5em);
-  bottom: 11em;
+  bottom: 12em;
   position: absolute;
   border: 2px solid #bdbece;
   border-radius: 20px;
@@ -204,7 +205,7 @@
 .place-3 {
   z-index: 199;
   left: calc(100% - 10em);
-  bottom: 10.3em;
+  bottom: 11.3em;
   position: absolute;
   border: 2px solid #cd7f32;
   border-radius: 20px;
@@ -233,7 +234,7 @@
 .medal {
   flex: 1 1 auto;
   height: 100px;
-  margin: 8px 26px;
+  margin: 8px 5px;
 }
 
 .medal-title {

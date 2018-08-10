@@ -179,8 +179,8 @@ export function getDisplayName(agentHash) {
   const name = identities
     ? identities.get(agentHash) || agentHash
     : agentHash
-  if (name.length > 15 ) {
-    return name.substring(0,15) + "...";
+  if (name.length > 8 ) {
+    return name.substring(0,8) + "...";
   }
   else {
     return name;

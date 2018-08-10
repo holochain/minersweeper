@@ -116,7 +116,7 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
 
 const Winner = ({agentHash, agentName, score, place, isMe}) => {
   const jdenticonSize = 75
-  const username = getDisplayName(agentHash);
+  const username = getDisplayName(agentHash).substring(0,8);
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
       <p>{ username }</p>
