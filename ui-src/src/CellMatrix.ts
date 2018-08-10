@@ -19,7 +19,6 @@ const MASK_ADJACENT = 0b00001111
 const MASK_REVEALED = 0b00010000
 const MASK_FLAGGED  = 0b00100000
 const MASK_MINE     = 0b01000000
-const MASK_REVEALED_MINE = MASK_MINE | MASK_REVEALED
 
 
 export default class CellMatrix {
@@ -190,25 +189,27 @@ export default class CellMatrix {
    * @param {number} scale factor to scale, if > 1 will interpolate
    */
   public minimapColor(pos: Pos, scale: number) {
-    let composite = 0
+    let red = false
+    let yellow = false
+    let green = false
+    let gray = false
     for (let x = pos.x * scale; x < pos.x * scale + scale; x++) {
       for (let y = pos.y * scale; y < pos.y * scale + scale; y++) {
-        const pixel = this.getValue({x, y})
-        // this is tricky since we only want to track revealed mines
-        if ((pixel & MASK_REVEALED_MINE) === MASK_REVEALED_MINE) {
-          composite |= MASK_MINE
-        } else {
-          // don't add mine bit unless it shows up with revealed
-          composite |= pixel & (~MASK_MINE)
-        }
+        const p = {x, y}
+        const revealed = this.isRevealed(p)
+        red = revealed && this.isMine(p)
+        yellow = revealed && this.isFlagged(p)
+        green = !revealed && this.isFlagged(p)
+        gray = revealed
       }
     }
-    // the mine bit for composite represents revealed mines now
-    if (composite & MASK_MINE) {
-      return [255, 64, 64, 255]
-    } else if (composite & MASK_FLAGGED) {
-      return [192, 255, 64, 255]
-    } else if (composite & MASK_REVEALED) {
+    if (red) {
+      return [0xDE, 0x4E, 0x4F, 255]
+    } else if (yellow) {
+      return [0xF6, 0xA5, 0x5C, 255]
+    } else if (green) {
+      return [0x8E, 0xA9, 0x6E, 255]
+    } else if (gray) {
       return [32, 32, 32, 255]
     }
     return null
