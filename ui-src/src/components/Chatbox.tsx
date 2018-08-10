@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
 
 import './Chatbox.css';
 
@@ -28,16 +29,20 @@ export const ChatboxComponents = () => {
     const {gameHash, chats} = currentGame
     return(
       [
-        <MessagesList key="messages" chats={chats} mode="blocks" />,
+        <MessagesList key="messages" mode="blocks" />,
         <InputForm key="inputs" gameHash={gameHash} />
       ]
     )
   }
 }
 
+///////////////////////////////////////////////////////////////
 
-  ///////////////////////////////////////////////////////////////
-
+@connect(
+  ({currentGame}) => ({
+    chats: currentGame ? currentGame.chats : []
+  })
+)
 class MessagesList extends React.Component<any, any> {
   public render() {
     if (this.props.mode === "single") {
