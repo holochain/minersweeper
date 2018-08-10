@@ -8,7 +8,7 @@ import {Hash} from '../../../holochain';
 import {Pos} from '../../../minersweeper';
 
 import Cell from './Cell';
-import Minimap from './Minimap';
+import Minimap, {MinimapViewport} from './Minimap';
 import CellMatrix from '../CellMatrix';
 
 import * as common from '../common';
@@ -22,7 +22,7 @@ type FieldProps = {
 type FieldState = {
   panOffset: Pos,
   hasMouseFocus: boolean,
-  viewport: any
+  viewport: MinimapViewport
 }
 
 const LEFT = {x: -1, y: 0}

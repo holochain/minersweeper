@@ -15,7 +15,7 @@ type MinimapState = {
   swapState: boolean
 }
 
-type MinimapViewport = {
+export type MinimapViewport = {
   x: number,
   y: number,
   w: number,
