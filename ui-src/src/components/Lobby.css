@@ -37,16 +37,6 @@ html,body {
   background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
 
-/* Mozilla: */
-.scroll-content {
-    position: relative;
-    width: 400px;
-    height: 414px;
-    top: -17px;
-    padding: 20px 10px 20px 10px;
-    overflow-y: auto;
-}
-
 /* ------------ Lobby Content CSS-------------- */
 
 .middle-align-item {
