@@ -170,6 +170,51 @@ export default class CellMatrix {
     return (x >= 0 && y >= 0 && x < this.size.x && y < this.size.y);
   }
 
+  /**
+   * Get color of a pixel on the minimap, using custom interpolation
+   * in the case of scaling
+   *
+   * If scale === 1, cells are mapped one-to-one with minimap pixels
+   * If scale > 1, it will always be a power of two, and interpolation
+   * will occur as follows:
+   *
+   * For example, if scale === 4, each pixel on the minimap will correspond
+   * to a 4x4 square on the grid. The color will be picked with precedence:
+   * - If any of those 16 cells are a revealed mine, color it red
+   * - Else, if any of those 16 cells are flagged, color it yellow
+   * - Else, if any of those 16 cells are revealed, color it dark gray
+   * - Else, don't color it
+   *
+   * @param {Pos}    pos   scaled x,y coord on the minimap
+   * @param {number} scale factor to scale, if > 1 will interpolate
+   */
+  public minimapColor(pos: Pos, scale: number) {
+    let red = false
+    let yellow = false
+    let green = false
+    let gray = false
+    for (let x = pos.x * scale; x < pos.x * scale + scale; x++) {
+      for (let y = pos.y * scale; y < pos.y * scale + scale; y++) {
+        const p = {x, y}
+        const revealed = this.isRevealed(p)
+        red = revealed && this.isMine(p)
+        yellow = revealed && this.isFlagged(p)
+        green = !revealed && this.isFlagged(p)
+        gray = revealed
+      }
+    }
+    if (red) {
+      return [0xDE, 0x4E, 0x4F, 255]
+    } else if (yellow) {
+      return [0xF6, 0xA5, 0x5C, 255]
+    } else if (green) {
+      return [0x8E, 0xA9, 0x6E, 255]
+    } else if (gray) {
+      return [32, 32, 32, 255]
+    }
+    return null
+  }
+
   private forEachNeighbor(pos: Pos, func: (pos: Pos) => void) {
     [-1, 0, 1].forEach(dx => {
       [-1, 0, 1].forEach(dy => {

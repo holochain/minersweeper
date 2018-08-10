@@ -1,0 +1,27 @@
+.minimap {
+  border: 1px solid #777;
+  background: rgba(96, 96, 96, 0.75);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.minimap.swap {
+  left: 10px;
+  right: auto;
+}
+
+.minimap canvas {
+  display: block;
+  opacity: 0.75;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.minimap .viewport {
+  position: absolute;
+  border: 1px solid white;
+}

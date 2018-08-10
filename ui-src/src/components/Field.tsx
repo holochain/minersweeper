@@ -8,6 +8,7 @@ import {Hash} from '../../../holochain';
 import {Pos} from '../../../minersweeper';
 
 import Cell from './Cell';
+import Minimap, {MinimapViewport} from './Minimap';
 import CellMatrix from '../CellMatrix';
 
 import * as common from '../common';
@@ -21,6 +22,7 @@ type FieldProps = {
 type FieldState = {
   panOffset: Pos,
   hasMouseFocus: boolean,
+  viewport: MinimapViewport
 }
 
 const LEFT = {x: -1, y: 0}
@@ -45,6 +47,7 @@ const PAN_OFFSETS = {
 class Field extends React.Component<FieldProps, FieldState> {
 
   private grid = React.createRef<Grid>()
+  private minimap = React.createRef<Minimap>()
 
   // tracks key down/up state for each arrow key
   private panKeys: any = {}
@@ -65,6 +68,10 @@ class Field extends React.Component<FieldProps, FieldState> {
     this.state = {
       panOffset: {x: 0, y: 0},
       hasMouseFocus: true,
+      viewport: {
+        x: 0.2, y: 0.2,
+        w: 0.5, h: 0.3,
+      },
     }
   }
 
@@ -76,7 +83,6 @@ class Field extends React.Component<FieldProps, FieldState> {
 
   public componentDidMount() {
     const el = this.fieldContainer()
-    console.log('el', el)
     window.addEventListener('keydown', this.keyDownListener)
     window.addEventListener('keyup', this.keyUpListener)
     el.addEventListener('mousemove', this.mouseMoveListener)
@@ -127,6 +133,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             height={height}
             tabIndex={null}
             width={width}
+            onScroll={this.onScroll}
             overscanColumnCount={overscan}
             overscanRowCount={overscan}
             overscanIndicesGetter={this.overscanIndicesGetter}
@@ -134,9 +141,22 @@ class Field extends React.Component<FieldProps, FieldState> {
             isScrollingOptOut={false}
           />
         }</AutoSizer>
+        { common.MINIMAP_DRAW_INTERVAL ? <Minimap ref={this.minimap}/> : null }
         { mousePanIndicators }
       </div>
     )
+  }
+
+  private onScroll =
+  ({scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight}) => {
+    if (this.minimap.current) {
+      this.minimap.current!.setViewport({
+        x: scrollLeft / scrollWidth,
+        y: scrollTop / scrollHeight,
+        w: clientWidth / scrollWidth,
+        h: clientHeight / scrollHeight,
+      })
+    }
   }
 
   private fieldContainer = () => {
