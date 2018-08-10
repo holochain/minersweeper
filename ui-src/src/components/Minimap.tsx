@@ -56,6 +56,7 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
       top: (y * 100) + '%',
       width: (w * 100) + '%',
       height: (h * 100) + '%',
+      display: w >= 1 || h >= 1 ? 'none' : 'block',
     }
     return <div className="minimap">
       <canvas ref={this.canvas} width={width} height={height} />
