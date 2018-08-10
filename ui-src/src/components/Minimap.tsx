@@ -11,7 +11,9 @@ import {StoreState} from '../types';
 const MAX_MINIMAP_SIZE = 200
 
 type MinimapProps = {}
-type MinimapState = {}
+type MinimapState = {
+  swapState: boolean
+}
 
 type MinimapViewport = {
   x: number,
@@ -27,6 +29,13 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
   }
   private canvas = React.createRef<HTMLCanvasElement>()
   private drawInterval: any = null
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      swapState: false
+    }
+  }
 
   public setViewport(viewport: MinimapViewport) {
     this.viewport = viewport
@@ -51,17 +60,22 @@ class Minimap extends React.Component<MinimapProps, MinimapState> {
     const {gameBoard} = store.getState().currentGame!
     const [[width, height], scale] = this.sizeAndScale()
     const {x, y, w, h} = this.viewport
-    const style = {
+    const className = this.state.swapState ? 'swap' : ''
+    const viewportStyle = {
       left: (x * 100) + '%',
       top: (y * 100) + '%',
       width: (w * 100) + '%',
       height: (h * 100) + '%',
       display: w >= 1 || h >= 1 ? 'none' : 'block',
     }
-    return <div className="minimap">
+    return <div className={"minimap " + className} onMouseOver={this.onMouseOver} >
       <canvas ref={this.canvas} width={width} height={height} />
-      <div className="viewport" style={style}/>
+      <div className="viewport" style={viewportStyle}/>
     </div>
+  }
+
+  private onMouseOver = e => {
+    this.setState({swapState: !this.state.swapState})
   }
 
   private ctx() {
