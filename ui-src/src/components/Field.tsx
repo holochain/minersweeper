@@ -143,6 +143,7 @@ class Field extends React.Component<FieldProps, FieldState> {
         }</AutoSizer>
         { common.MINIMAP_DRAW_INTERVAL ? <Minimap ref={this.minimap}/> : null }
         { mousePanIndicators }
+        { this.props.children }
       </div>
     )
   }

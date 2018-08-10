@@ -10,6 +10,7 @@ node_modules/
 
 # OS generated files #
 ######################
+.tags*
 .DS_Store
 ._*
 .Spotlight-V100

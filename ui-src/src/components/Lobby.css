@@ -12,7 +12,7 @@ html,body {
 }
 
 /* ------------ Scrollbar CSS-------------- */
-
+/* Chrome */
 .lobby-overlay::-webkit-scrollbar {
   width: 10px;
   background-color: #F5F5F5;
@@ -36,7 +36,6 @@ html,body {
   border-radius: 10px;
   background-image: -webkit-linear-gradient(#33ccff, #0066cc);
 }
-
 
 /* ------------ Lobby Content CSS-------------- */
 
@@ -278,7 +277,6 @@ html,body {
   height: 30px;
   font-size: 25px;
   text-align: center;
-  /*color: #787DB8;*/
   color: #548E8A;
 }
 
@@ -294,10 +292,6 @@ html,body {
   text-align: left;
 }
 
-/* .game-title {
-  text-transform: uppercase;
-} */
-
 .live-games-header {
   margin-top: 30px;
   margin-bottom: 50px;
@@ -308,31 +302,13 @@ html,body {
   background: -webkit-linear-gradient(#eee, #4148b1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  /* animation: blink 1s steps(4, start) infinite; */
 }
-/*
-h3:active {
-  -webkit-box-shadow:
-      0px 3px rgba(128,128,128,1),
-      0px 4px rgba(118,118,118,1),
-      0px 5px rgba(108,108,108,1),
-      0px 6px rgba(98,98,98,1),
-      0px 7px rgba(88,88,88,1),
-      0px 8px rgba(78,78,78,1),
-      0px 10px 2px 0px rgba(128,128,128,.6);
-}
-*/
+
 .no-game-warning {
   color: #979ac5;
   font-size: 35px;
   margin-top: -5px;
 }
-
- /* @keyframes blink{
-   to{
-     visibility: hidden
-   }
-} */
 
 /* ---------------- Modal CSS ------------------------ */
 
@@ -572,27 +548,26 @@ h3:active {
 .screen .coin:nth-child(19) {animation-delay: 1.9s;}
 .screen .coin:nth-child(20) {animation-delay: 2.0s;}
 .screen .coin:nth-child(21) {animation-delay: 2.1s;}
-.screen .coin:nth-child(22) {animation-delay: 2.2s;}
 
-.screen .coin:nth-child(2)::before   {content: url("/images/btc.svg"); animation-delay: 3.0s;animation-iteration-count: 0.9524;}
-.screen .coin:nth-child(1)::before   {content: url("/images/dbc.svg"); animation-delay: 2.9s;animation-iteration-count: 1;}
-.screen .coin:nth-child(3)::before   {content: url("/images/doge.svg"); animation-delay: 3.1s;animation-iteration-count: 0.9048;}
-.screen .coin:nth-child(4)::before   {content: url("/images/elix.svg"); animation-delay: 3.2s;animation-iteration-count: 0.8571;}
-.screen .coin:nth-child(5)::before   {content: url("/images/eth.svg"); animation-delay: 3.3s;animation-iteration-count: 0.8095;}
-.screen .coin:nth-child(6)::before   {content: url("/images/huc.svg"); animation-delay: 3.4s;animation-iteration-count: 0.7619;}
-.screen .coin:nth-child(7)::before   {content: url("/images/kmd.svg"); animation-delay: 3.5s;animation-iteration-count: 0.7143;}
-.screen .coin:nth-child(8)::before   {content: url("/images/lrc.svg"); animation-delay: 3.6s;animation-iteration-count: 0.6580;}
-.screen .coin:nth-child(9)::before   {content: url("/images/ltc.svg"); animation-delay: 3.7s;animation-iteration-count: 0.6190;}
-.screen .coin:nth-child(10)::before  {content: url("/images/mkr.svg"); animation-delay: 3.8s;animation-iteration-count: 0.5714;}
-.screen .coin:nth-child(11)::before  {content: url("/images/nmc.svg"); animation-delay: 3.9s;animation-iteration-count: 0.5238;}
-.screen .coin:nth-child(12)::before  {content: url("/images/nxs.svg"); animation-delay: 4.0s;animation-iteration-count: 0.4762;}
-.screen .coin:nth-child(13)::before  {content: url("/images/ox.svg"); animation-delay: 4.1s;animation-iteration-count: 0.4286;}
-.screen .coin:nth-child(14)::before  {content: url("/images/pay.svg"); animation-delay: 4.2s;animation-iteration-count: 0.3810;}
-.screen .coin:nth-child(15)::before  {content: url("/images/pot.svg"); animation-delay: 4.3s;animation-iteration-count: 0.3365;}
-.screen .coin:nth-child(16)::before  {content: url("/images/powr.svg"); animation-delay: 4.4s;animation-iteration-count: 0.2857;}
-.screen .coin:nth-child(17)::before  {content: url("/images/tel.svg"); animation-delay: 4.5s;animation-iteration-count: 0.2381;}
-.screen .coin:nth-child(18)::before  {content: url("/images/xmr.svg"); animation-delay: 4.6s;animation-iteration-count: 0.1905;}
-.screen .coin:nth-child(19)::before  {content: url("/images/zec.svg"); animation-delay: 4.7s;animation-iteration-count: 0.1429;}
+
+.screen .coin:nth-child(1)::before   {content: url("/images/btc.svg"); animation-delay: 3.0s;animation-iteration-count: 0.9524;}
+.screen .coin:nth-child(2)::before   {content: url("/images/doge.svg"); animation-delay: 3.1s;animation-iteration-count: 0.9048;}
+.screen .coin:nth-child(3)::before   {content: url("/images/elix.svg"); animation-delay: 3.2s;animation-iteration-count: 0.8571;}
+.screen .coin:nth-child(4)::before   {content: url("/images/eth.svg"); animation-delay: 3.3s;animation-iteration-count: 0.8095;}
+.screen .coin:nth-child(5)::before   {content: url("/images/huc.svg"); animation-delay: 3.4s;animation-iteration-count: 0.7619;}
+.screen .coin:nth-child(6)::before   {content: url("/images/kmd.svg"); animation-delay: 3.5s;animation-iteration-count: 0.7143;}
+.screen .coin:nth-child(7)::before   {content: url("/images/lrc.svg"); animation-delay: 3.6s;animation-iteration-count: 0.6580;}
+.screen .coin:nth-child(8)::before   {content: url("/images/ltc.svg"); animation-delay: 3.7s;animation-iteration-count: 0.6190;}
+.screen .coin:nth-child(9)::before  {content: url("/images/mkr.svg"); animation-delay: 3.8s;animation-iteration-count: 0.5714;}
+.screen .coin:nth-child(10)::before  {content: url("/images/nmc.svg"); animation-delay: 3.9s;animation-iteration-count: 0.5238;}
+.screen .coin:nth-child(11)::before  {content: url("/images/nxs.svg"); animation-delay: 4.0s;animation-iteration-count: 0.4762;}
+.screen .coin:nth-child(12)::before  {content: url("/images/ox.svg"); animation-delay: 4.1s;animation-iteration-count: 0.4286;}
+.screen .coin:nth-child(13)::before  {content: url("/images/pay.svg"); animation-delay: 4.2s;animation-iteration-count: 0.3810;}
+.screen .coin:nth-child(14)::before  {content: url("/images/pot.svg"); animation-delay: 4.3s;animation-iteration-count: 0.3365;}
+.screen .coin:nth-child(15)::before  {content: url("/images/powr.svg"); animation-delay: 4.4s;animation-iteration-count: 0.2857;}
+.screen .coin:nth-child(16)::before  {content: url("/images/tel.svg"); animation-delay: 4.5s;animation-iteration-count: 0.2381;}
+.screen .coin:nth-child(17)::before  {content: url("/images/xmr.svg"); animation-delay: 4.6s;animation-iteration-count: 0.1905;}
+.screen .coin:nth-child(18)::before  {content: url("/images/zec.svg"); animation-delay: 4.7s;animation-iteration-count: 0.1429;}
 .screen .coin:nth-child(20)::before  {content: url("/images/xvg.svg"); animation-delay: 4.8s;animation-iteration-count: 0.0952;}
 .screen .coin:nth-child(21)::before  {content: url("/images/drgn.svg"); animation-delay: 4.9s;animation-iteration-count: 0.0476;}
 

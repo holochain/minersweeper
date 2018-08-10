@@ -106,7 +106,7 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
     if(counts[0] === 0) { // catch for divide by zero
       result.set(hash, 0)
     } else {
-      result.set(hash, counts[1] / counts[0]);
+      result.set(hash, ((counts[1] / counts[0])*100)); // returns the percentage of the accuracy count.
     }
   }
   return result

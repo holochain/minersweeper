@@ -1,7 +1,7 @@
 .game-hud {
   display: flex;
   flex-direction: column;
-  width: 325px; /* change back to 325 after done with chatbox. */
+  width: 325px;
   max-width: 90%;
   background: #222;
   box-shadow: -2px 0 3px rgba(0, 0, 0, 0.3);
