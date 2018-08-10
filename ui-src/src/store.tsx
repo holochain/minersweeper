@@ -147,7 +147,6 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
     }
     case 'FETCH_WHOAMI': {
       const {agentHash, identity} = action
-      console.log('whoami:', agentHash, identity)
       return {
         ...state,
         whoami: {agentHash, identity}
@@ -157,7 +156,6 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return {...state, allGames: Map(action.games) }
     }
     case 'UPDATE_IDENTITIES': {
-      // console.log("Updating IDs: ", Map([state.identities, action.identities])
       const newIdentities: Map<Hash, string> = Map(action.identities);
       const oldIdentities: Map<Hash, string> = Map(state.identities);
 

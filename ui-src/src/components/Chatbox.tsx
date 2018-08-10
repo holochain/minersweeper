@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
 
 import './Chatbox.css';
 
@@ -6,7 +7,7 @@ import {Hash} from '../../../holochain';
 
 import Jdenticon from './Jdenticon';
 
-import { fetchJSON, truncateName } from '../common';
+import { fetchJSON, getDisplayName } from '../common';
 import store from '../store';
 
 // type ChatProps = {
@@ -28,16 +29,20 @@ export const ChatboxComponents = () => {
     const {gameHash, chats} = currentGame
     return(
       [
-        <MessagesList key="messages" chats={chats} mode="blocks" />,
+        <MessagesList key="messages" mode="blocks" />,
         <InputForm key="inputs" gameHash={gameHash} />
       ]
     )
   }
 }
 
+///////////////////////////////////////////////////////////////
 
-  ///////////////////////////////////////////////////////////////
-
+@connect(
+  ({currentGame}) => ({
+    chats: currentGame ? currentGame.chats : []
+  })
+)
 class MessagesList extends React.Component<any, any> {
   public render() {
     if (this.props.mode === "single") {
@@ -84,8 +89,7 @@ class MessagesList extends React.Component<any, any> {
 ///////////////////////////////////////////////////////////////
 
 const SingleMessage = ({author, message}) => {
-  const authorName = store.getState().identities.get(author)
-  const username = truncateName(authorName);
+  const username = getDisplayName(author);
 
   return(
     <div className='single-message'>
@@ -100,8 +104,7 @@ const SingleMessage = ({author, message}) => {
 //////////////////////////////////////////////////////////////////
 
 const AuthorBlock = ({author, messages}) => {
-  const authorName = store.getState().identities.get(author)
-  const username = truncateName(authorName);
+  const username = getDisplayName(author);
 
   return(
     <div className='author-block'>

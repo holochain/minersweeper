@@ -173,13 +173,15 @@ function cantor(a: number, b: number): number {
   return ((a + b) * (a + b + 1)) / 2 + b
 }
 
-export function truncateName(authorName) {
-  let username = "";
-  if (authorName.length > 15 ) {
-    username = authorName.substring(0,15) + "...";
+export function getDisplayName(agentHash) {
+  const {identities} = store.getState()
+  const name = identities
+    ? identities.get(agentHash) || agentHash
+    : agentHash
+  if (name.length > 15 ) {
+    return name.substring(0,15) + "...";
   }
   else {
-    username = authorName;
+    return name;
   }
-  return username
 }
