@@ -125,6 +125,7 @@
   color: black;
   background: black;
 	border-radius: 50%;
+  border: 1.5px solid #eec02c;
   height: 7em;
   width: 7em;
   left: calc(50% - 3em);
@@ -187,7 +188,7 @@
 /* .place-2 */
 .place-2 {
   z-index: 199;
-  left: 1%;
+    left: calc(1% + 5em);
   bottom: 11em;
   position: absolute;
   border: 2px solid #bdbece;
@@ -200,17 +201,17 @@
 }
 
 /* .place-3 */
-.place-2 {
+.place-3 {
   z-index: 199;
-  left: calc(100% - 12em);
-  bottom: 10em;
+  left: calc(100% - 10em);
+  bottom: 10.3em;
   position: absolute;
   border: 2px solid #cd7f32;
   border-radius: 20px;
   padding: 10px;
 }
 
-.place-2.me {
+.place-3.me {
   color: #cd7f32;
 }
 
