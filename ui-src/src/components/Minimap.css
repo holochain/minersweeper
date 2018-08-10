@@ -8,6 +8,11 @@
   min-height: 100px;
 }
 
+.minimap.swap {
+  left: 10px;
+  right: auto;
+}
+
 .minimap canvas {
   display: block;
   opacity: 0.75;
