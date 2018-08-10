@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
 
-import { truncateName } from '../common';
+import { getDisplayName } from '../common';
 import {Hash} from '../../../holochain';
 import {GameBoard, Action} from '../../../minersweeper';
 
@@ -116,7 +116,7 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
 
 const Winner = ({agentHash, agentName, score, place, isMe}) => {
   const jdenticonSize = 75
-  const username = agentName ? truncateName(agentName) : agentName
+  const username = getDisplayName(agentHash);
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
       <p>{ username }</p>
