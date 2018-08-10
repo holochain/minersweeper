@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
 
+import { truncateName } from '../common';
 import {Hash} from '../../../holochain';
 import {GameBoard, Action} from '../../../minersweeper';
 
@@ -106,7 +107,6 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
             isMe={imaWinner}
           />
   })
-
   return (
     <div className="winners-podium">
       { winners }
@@ -116,9 +116,10 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
 
 const Winner = ({agentHash, agentName, score, place, isMe}) => {
   const jdenticonSize = 75
+  const username = agentName ? truncateName(agentName) : agentName
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
-      <p>{ agentName }</p>
+      <p>{ username }</p>
       <Jdenticon className="winner-jdenticon" hash={ agentHash } size={ jdenticonSize } />
       <p>{ score }</p>
     </div>
@@ -127,10 +128,10 @@ const Winner = ({agentHash, agentName, score, place, isMe}) => {
 
 const MedalList = ({ sortedStats, identities, myHash }) => {
   const titles = {
-    streak: 'Longest streak',
-    accuracy: 'Most accurate',
-    mines: 'Most mines',
-    numActions: 'Most actions',
+    streak: 'Longest Streak',
+    accuracy: 'Most Accurate',
+    mines: 'Most Mines',
+    numActions: 'Most Actions',
   }
   const medals = Object.keys(titles).map(name => {
     const title = titles[name]
@@ -140,8 +141,9 @@ const MedalList = ({ sortedStats, identities, myHash }) => {
     if (agentHash === myHash) {
       imaWinner = true
     }
+    const accuracyStat = sortedStats.accuracy[0][1].toString().substring(0,2);
     const props: MedalProps = {
-      agentHash, agentName, stat, title, imaWinner
+      agentHash, agentName, stat, accuracyStat, title, imaWinner
     }
     return <Medal key={name} {...props} />
   })
@@ -155,6 +157,7 @@ const MedalList = ({ sortedStats, identities, myHash }) => {
 type MedalProps = {
   title: string,
   stat: number,
+  accuracyStat: string,
   agentHash: string,
   agentName: string,
   imaWinner: boolean
@@ -162,19 +165,33 @@ type MedalProps = {
 
 const Medal = (props: MedalProps) => {
   const jdenticonSize = 30
-  const {title, stat, agentHash, agentName, imaWinner} = props
-
-  return <div className="medal">
-    <div className="medal-title">{title}</div>
-    <hr style={{color: "white"}} />
-    <Winner
-      key={title}
-      agentHash={agentHash}
-      agentName={agentName}
-      score={stat}
-      place={title}
-      isMe={imaWinner}/>
-  </div>
+  const {title, stat, accuracyStat, agentHash, agentName, imaWinner} = props
+  if (title === "Most Accurate") {
+    return <div className="medal">
+      <div className="medal-title">{title}</div>
+      <hr style={{color: "white"}} />
+      <Winner
+        key={title}
+        agentHash={agentHash}
+        agentName={agentName}
+        score={`${accuracyStat}%`}
+        place={title}
+        isMe={imaWinner}/>
+    </div>
+  }
+  else {
+    return <div className="medal">
+      <div className="medal-title">{title}</div>
+      <hr style={{color: "white"}} />
+      <Winner
+        key={title}
+        agentHash={agentHash}
+        agentName={agentName}
+        score={stat}
+        place={title}
+        isMe={imaWinner}/>
+    </div>
+  }
 }
 
 const mapStateToProps = ({ currentGame, identities, whoami }) => ({
