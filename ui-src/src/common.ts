@@ -175,7 +175,9 @@ function cantor(a: number, b: number): number {
 
 export function getDisplayName(agentHash) {
   const {identities} = store.getState()
-  const name = identities.get(agentHash) || agentHash
+  const name = identities
+    ? identities.get(agentHash) || agentHash
+    : agentHash
   if (name.length > 15 ) {
     return name.substring(0,15) + "...";
   }
