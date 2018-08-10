@@ -141,7 +141,7 @@ class Field extends React.Component<FieldProps, FieldState> {
             isScrollingOptOut={false}
           />
         }</AutoSizer>
-        <Minimap ref={this.minimap}/>
+        { common.MINIMAP_DRAW_INTERVAL ? <Minimap ref={this.minimap}/> : null }
         { mousePanIndicators }
       </div>
     )
