@@ -166,11 +166,25 @@
   text-align: center;
   padding: 12px;
   min-width: 150px;
+  position: relative;
 }
 
-.winner p {
+.winner .username,
+.winner .score {
   justify-content: center;
+}
+.winner .score {
   margin: 5px;
+}
+
+.winner .username {
+  position: absolute;
+  top: 24px;
+  left: 5%;
+  width: 90%;
+  height: 50px;
+  line-height: 50px;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* .place-1 */
@@ -180,10 +194,24 @@
   bottom: 18em;
   position: absolute;
   width: 200px;
+  color: #eec02c;
 }
 
 .place-1.me {
   color: #eec02c;
+}
+
+.place-1::before {
+  content: "1st";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #eec02c;
+  border-radius: 10px;
+  color: black;
 }
 
 /* .place-2 */
@@ -192,6 +220,7 @@
     left: calc(1% + 5em);
   bottom: 12em;
   position: absolute;
+  color: #bdbece;
   border: 2px solid #bdbece;
   border-radius: 20px;
   padding: 10px;
@@ -201,12 +230,26 @@
   color: #bdbece;
 }
 
+.place-2::before {
+  content: "2nd";
+  position: absolute;
+  top: -33px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #bdbece;
+  border-radius: 10px 10px 0 0;
+  color: black;
+}
+
 /* .place-3 */
 .place-3 {
   z-index: 199;
   left: calc(100% - 10em);
-  bottom: 11.3em;
+  bottom: 12em;
   position: absolute;
+  color: #cd7f32;
   border: 2px solid #cd7f32;
   border-radius: 20px;
   padding: 10px;
@@ -214,6 +257,19 @@
 
 .place-3.me {
   color: #cd7f32;
+}
+
+.place-3::before {
+  content: "3rd";
+  position: absolute;
+  top: -33px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #cd7f32;
+  border-radius: 10px 10px 0 0;
+  color: black;
 }
 
 .winners-podium {
@@ -232,6 +288,7 @@
 }
 
 .medal {
+  position: relative;
   flex: 1 1 auto;
   height: 100px;
   margin: 8px 5px;

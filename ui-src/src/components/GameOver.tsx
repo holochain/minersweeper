@@ -119,9 +119,9 @@ const Winner = ({agentHash, agentName, score, place, isMe}) => {
   const username = getDisplayName(agentHash).substring(0,8);
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
-      <p>{ username }</p>
+      <div className="username">{ username }</div>
       <Jdenticon className="winner-jdenticon" hash={ agentHash } size={ jdenticonSize } />
-      <p>{ score }</p>
+      <div className="score">{ score }</div>
     </div>
   )
 }
