@@ -139,7 +139,7 @@ const MedalList = ({ sortedStats, identities, myHash }) => {
     if (agentHash === myHash) {
       imaWinner = true
     }
-    const accuracyStat = sortedStats.accuracy[0][1].toString().substring(0,2);
+    const accuracyStat = Math.floor(sortedStats.accuracy[0][1]).toString();
     const props: MedalProps = {
       agentHash, agentName, stat, accuracyStat, title, imaWinner
     }

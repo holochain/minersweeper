@@ -27,6 +27,7 @@ export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
 export const MINIMAP_DRAW_INTERVAL = 2000  // set to 0 to disable minimap
 export const ACTION_QUEUE_INTERVAL = 50
+export const EARLY_ABORT_TIMEOUT = 10
 
 // anount of time it takes for lobby intro to finish
 // used to disable animation after the first time
@@ -44,13 +45,41 @@ export const xor = (a: number, b: number) => a && !b || !a && b
  */
 export const fetchJSON =
 (url: string, data?: any): Promise<any> => {
+  return fetchHelper(url, data)
+}
+
+/**
+ * POST to `url` with JSON `data` and parse response as JSON,
+ * Then cancel request immediately, so we don't wait for response
+ */
+export const fetchWithAbortJSON =
+(url: string, data?: any): null => {
+  const controller = new AbortController()
+  const {signal} = controller
+  let received = false
+  fetchHelper(url, data, {signal}).then(r => {
+    received = true
+    return r
+  }).catch(err => err)
+  setTimeout(() => {
+    controller.abort()
+  }, EARLY_ABORT_TIMEOUT)
+  return null
+}
+
+const fetchHelper =
+(url: string, data?: any, extraPayload?: any): Promise<any> => {
+  extraPayload = extraPayload || {}
   return fetch(url, {
+    ...extraPayload,
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'post',
-  }).then(r => r.json())
+  }).then(r => {
+    return r.json()
+  })
 }
 
 /**
@@ -72,7 +101,7 @@ export const dequeueAndPerformAction =
     const move = actionQueue.first()
     if (move) {
       store.dispatch({type: 'DEQUEUE_ACTION'})
-      return fetchJSON('/fn/minersweeper/makeMove', move)
+      fetchWithAbortJSON('/fn/minersweeper/makeMove', move)
     }
   }
   return null
