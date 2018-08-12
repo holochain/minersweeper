@@ -10,12 +10,12 @@
   margin: auto;
   font-size: 100px;
   line-height: 100px;
-  letter-spacing: 10px;
+  letter-spacing: 3px;
   text-shadow: 1px 1px 2px #e3e4f3,
     0 0 25px #21acba,  /* 5d0b0d */
     0 0 5px #91fcfe,
     0 0 10px #4405fc;
-  animation: blink 1s steps(4, start) 3;
+  animation: blink 1s steps(4, start) 2;
 }
 
 /* 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue; */
@@ -83,9 +83,9 @@
   height: 795px;
   margin: 0 auto;
   background: rgba(0, 0, 0, .92);
-  border: 5px dotted slateblue;
+  border: 5px dotted #6100ff;
   z-index: 99999;
-  animation: end-game-stats 3s 3.8s 1 ease both;
+  animation: end-game-stats 2s 3.3s 1 ease both;
 }
 
 @keyframes end-game-stats {
@@ -101,12 +101,14 @@
 .stats-info {
   font-weight: 400;
   font-size: 30px;
-  color: slateblue;
+  /*color: #8fffc4;*/
+  color: #6100ff;
   border: transparent;
   background: transparent;
   display: inline-block;
   margin: 100px auto 15px;
   cursor: pointer;
+  width: 100%;
 }
 .stats-header {
   margin-top: 30px;
@@ -166,11 +168,25 @@
   text-align: center;
   padding: 12px;
   min-width: 150px;
+  position: relative;
 }
 
-.winner p {
+.winner .username,
+.winner .score {
   justify-content: center;
+}
+.winner .score {
   margin: 5px;
+}
+
+.winner .username {
+  position: absolute;
+  top: 32px;
+  left: 5%;
+  width: 90%;
+  height: 33px;
+  line-height: 33px;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* .place-1 */
@@ -180,10 +196,24 @@
   bottom: 18em;
   position: absolute;
   width: 200px;
+  color: #eec02c;
 }
 
 .place-1.me {
   color: #eec02c;
+}
+
+.place-1::before {
+  content: "1st";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #eec02c;
+  border-radius: 10px;
+  color: black;
 }
 
 /* .place-2 */
@@ -192,6 +222,7 @@
     left: calc(1% + 5em);
   bottom: 12em;
   position: absolute;
+  color: #bdbece;
   border: 2px solid #bdbece;
   border-radius: 20px;
   padding: 10px;
@@ -201,12 +232,26 @@
   color: #bdbece;
 }
 
+.place-2::before {
+  content: "2nd";
+  position: absolute;
+  top: -33px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #bdbece;
+  border-radius: 10px 10px 0 0;
+  color: black;
+}
+
 /* .place-3 */
 .place-3 {
   z-index: 199;
   left: calc(100% - 10em);
-  bottom: 11.3em;
+  bottom: 12em;
   position: absolute;
+  color: #cd7f32;
   border: 2px solid #cd7f32;
   border-radius: 20px;
   padding: 10px;
@@ -216,27 +261,56 @@
   color: #cd7f32;
 }
 
+.place-3::before {
+  content: "3rd";
+  position: absolute;
+  top: -33px;
+  left: 50%;
+  margin-left: -22px;
+  font-size: 0.7em;
+  padding: 3px 8px;
+  background: #cd7f32;
+  border-radius: 10px 10px 0 0;
+  color: black;
+}
+
 .winners-podium {
 
 }
 
 .medal-list-container {
-  margin-top: 47%;
+  margin-top: 370px;
 }
 
 .medals-list {
   display: inline-block;
   display: flex;
+  justify-content: space-around;
   width: 100%;
-  height: 260px;
+  border-top: 5px dotted #6100ff;
+  padding: 30px 0;
 }
 
 .medal {
-  flex: 1 1 auto;
+  position: relative;
+  flex: 0 1 auto;
   height: 100px;
   margin: 8px 5px;
 }
 
 .medal-title {
-  color: #29a19e;
+  /*color: #6100ff;*/
+  /*color: #548E8A;*/
+  color: #82e6cf;
+  font-size: 26px;
+  max-width: 100px;
+  margin: auto;
+}
+
+.medal .winner .username {
+  color: #ddd;
+}
+
+.medal .winner .score {
+  color: #82e6cf;
 }

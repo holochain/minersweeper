@@ -66,10 +66,9 @@ class GameOver extends React.Component<any, GameOverState> {
   public render() {
     const { identities, whoami } = this.props
     return !this.state ? <div/> : <div className="game-over">
-      <h2 {...this.props} className="game-over-title" >Game Over</h2>
+      <h2 {...this.props} className="game-over-title" >GAME OVER</h2>
       <div className="stats-overlay">
         <div className="stats-info">
-          <div>
             <div className="stats-body">
               <WinnersPodium
                 scores={this.state.sortedStats.score}
@@ -86,7 +85,6 @@ class GameOver extends React.Component<any, GameOverState> {
               <div className="circle" />
               <img className="holochain-logo" src="/images/holochain-logo.png"/>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -119,9 +117,9 @@ const Winner = ({agentHash, agentName, score, place, isMe}) => {
   const username = getDisplayName(agentHash).substring(0,8);
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
-      <p>{ username }</p>
+      <div className="username">{ username }</div>
       <Jdenticon className="winner-jdenticon" hash={ agentHash } size={ jdenticonSize } />
-      <p>{ score }</p>
+      <div className="score">{ score }</div>
     </div>
   )
 }
@@ -169,7 +167,6 @@ const Medal = (props: MedalProps) => {
   if (title === "Most Accurate") {
     return <div className="medal">
       <div className="medal-title">{title}</div>
-      <hr style={{color: "white"}} />
       <Winner
         key={title}
         agentHash={agentHash}
@@ -182,7 +179,6 @@ const Medal = (props: MedalProps) => {
   else {
     return <div className="medal">
       <div className="medal-title">{title}</div>
-      <hr style={{color: "white"}} />
       <Winner
         key={title}
         agentHash={agentHash}
