@@ -4,10 +4,11 @@ import {connect} from 'react-redux';
 import './Chatbox.css';
 
 import {Hash} from '../../../holochain';
+import {MoveDefinition} from '../../../minersweeper';
 
 import Jdenticon from './Jdenticon';
 
-import { fetchJSON, getDisplayName } from '../common';
+import { enqueueAction, getDisplayName } from '../common';
 import store from '../store';
 
 // type ChatProps = {
@@ -156,14 +157,14 @@ class InputForm extends React.Component<any, any> {
     const text = this.text.current!.value;
     if (text.length) {
       // send chats to redux here:
-      const payload = {
-        gameHash: this.props.gameHash,
+      const payload: MoveDefinition = {
+        gameHash: this.props.gameHash as Hash,
         action: {
           actionType: "chat",
           text,
         }
       }
-      fetchJSON("/fn/minersweeper/makeMove", payload);
+      enqueueAction(payload)
       // can also immediately update chat here:
       ///////////////////
     }
