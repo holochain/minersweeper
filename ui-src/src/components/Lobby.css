@@ -62,7 +62,7 @@ html,body {
   height: 100%;
   margin: 0 auto;
   background: rgba(0, 0, 0, .92);
-  border: 5px dotted slateblue;;
+  border: 5px dotted #6100ff;
   z-index: 99999;
   animation: lobby-games 3s 6.1s 1 ease both;
 }
@@ -277,7 +277,7 @@ html,body {
   height: 30px;
   font-size: 25px;
   text-align: center;
-  color: #548E8A;
+  color: #82e6cf;
 }
 
 .live-games td {

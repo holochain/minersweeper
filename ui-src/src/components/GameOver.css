@@ -83,7 +83,7 @@
   height: 795px;
   margin: 0 auto;
   background: rgba(0, 0, 0, .92);
-  border: 5px dotted slateblue;
+  border: 5px dotted #6100ff;
   z-index: 99999;
   animation: end-game-stats 3s 3.8s 1 ease both;
 }
@@ -101,12 +101,14 @@
 .stats-info {
   font-weight: 400;
   font-size: 30px;
-  color: slateblue;
+  /*color: #8fffc4;*/
+  color: #6100ff;
   border: transparent;
   background: transparent;
   display: inline-block;
   margin: 100px auto 15px;
   cursor: pointer;
+  width: 100%;
 }
 .stats-header {
   margin-top: 30px;
@@ -179,11 +181,11 @@
 
 .winner .username {
   position: absolute;
-  top: 24px;
+  top: 32px;
   left: 5%;
   width: 90%;
-  height: 50px;
-  line-height: 50px;
+  height: 33px;
+  line-height: 33px;
   background: rgba(0, 0, 0, 0.5);
 }
 
@@ -277,23 +279,38 @@
 }
 
 .medal-list-container {
-  margin-top: 47%;
+  margin-top: 370px;
 }
 
 .medals-list {
   display: inline-block;
   display: flex;
+  justify-content: space-around;
   width: 100%;
-  height: 260px;
+  border-top: 5px dotted #6100ff;
+  padding: 30px 0;
 }
 
 .medal {
   position: relative;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   height: 100px;
   margin: 8px 5px;
 }
 
 .medal-title {
-  color: #29a19e;
+  /*color: #6100ff;*/
+  /*color: #548E8A;*/
+  color: #82e6cf;
+  font-size: 26px;
+  max-width: 100px;
+  margin: auto;
+}
+
+.medal .winner .username {
+  color: #ddd;
+}
+
+.medal .winner .score {
+  color: #82e6cf;
 }
