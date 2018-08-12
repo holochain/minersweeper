@@ -66,7 +66,7 @@ class GameOver extends React.Component<any, GameOverState> {
   public render() {
     const { identities, whoami } = this.props
     return !this.state ? <div/> : <div className="game-over">
-      <h2 {...this.props} className="game-over-title" >Game Over</h2>
+      <h2 {...this.props} className="game-over-title" >GAME OVER</h2>
       <div className="stats-overlay">
         <div className="stats-info">
             <div className="stats-body">

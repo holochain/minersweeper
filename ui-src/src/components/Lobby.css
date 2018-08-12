@@ -64,7 +64,7 @@ html,body {
   background: rgba(0, 0, 0, .92);
   border: 5px dotted #6100ff;
   z-index: 99999;
-  animation: lobby-games 3s 6.1s 1 ease both;
+  animation: lobby-games 1.5s 6.1s 1 ease both;
 }
 
 .no-animation .lobby-overlay {

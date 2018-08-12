@@ -10,12 +10,12 @@
   margin: auto;
   font-size: 100px;
   line-height: 100px;
-  letter-spacing: 10px;
+  letter-spacing: 3px;
   text-shadow: 1px 1px 2px #e3e4f3,
     0 0 25px #21acba,  /* 5d0b0d */
     0 0 5px #91fcfe,
     0 0 10px #4405fc;
-  animation: blink 1s steps(4, start) 3;
+  animation: blink 1s steps(4, start) 2;
 }
 
 /* 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue; */
@@ -85,7 +85,7 @@
   background: rgba(0, 0, 0, .92);
   border: 5px dotted #6100ff;
   z-index: 99999;
-  animation: end-game-stats 3s 3.8s 1 ease both;
+  animation: end-game-stats 2s 3.3s 1 ease both;
 }
 
 @keyframes end-game-stats {
