@@ -27,7 +27,7 @@ export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
 export const MINIMAP_DRAW_INTERVAL = 2000  // set to 0 to disable minimap
 export const ACTION_QUEUE_INTERVAL = 50
-export const EARLY_ABORT_TIMEOUT = 10
+export const EARLY_ABORT_TIMEOUT = 75
 
 // anount of time it takes for lobby intro to finish
 // used to disable animation after the first time
