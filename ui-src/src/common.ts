@@ -55,18 +55,15 @@ export const fetchJSON =
 export const fetchWithAbortJSON =
 (url: string, data?: any): void => {
   const xhr = new XMLHttpRequest();
-  let abortInterval: any = null;
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 1) {
-      abortInterval = setInterval(() => {
-        xhr.abort()
-        if (xhr.status === 0) {
-          clearInterval(abortInterval)
-        }
-      }, XHR_ABORT_INTERVAL)
-    }
-  };
   xhr.open("POST", url);
+  const abortInterval = setInterval(() => {
+    // will only abort after request has been sent
+    xhr.abort()
+    if (xhr.status === 0) {
+      // abort succeeded and status has been set to '0: ABORTED'
+      clearInterval(abortInterval)
+    }
+  }, XHR_ABORT_INTERVAL)
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send(JSON.stringify(data));
 }
