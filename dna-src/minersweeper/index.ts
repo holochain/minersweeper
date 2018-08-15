@@ -41,7 +41,6 @@ function makeMove(payload: MoveDefinition): boolean {
     timestamp: actionStamp,
     ...payload.action
   };
-  // bundleStart(1, "");
   try {
     const actionHash = commit('action', action);
     commit('actionLinks', { Links: [

@@ -27,7 +27,7 @@ export const FETCH_LOBBY_INTERVAL = 3000
 export const PAN_INTERVAL = 50
 export const MINIMAP_DRAW_INTERVAL = 2000  // set to 0 to disable minimap
 export const ACTION_QUEUE_INTERVAL = 50
-export const EARLY_ABORT_TIMEOUT = 75
+export const XHR_ABORT_INTERVAL = 25
 
 // anount of time it takes for lobby intro to finish
 // used to disable animation after the first time
@@ -50,21 +50,22 @@ export const fetchJSON =
 
 /**
  * POST to `url` with JSON `data` and parse response as JSON,
- * Then cancel request immediately, so we don't wait for response
+ * Then cancel request ASAP, so we don't spend time waiting for response
  */
 export const fetchWithAbortJSON =
-(url: string, data?: any): null => {
-  const controller = new AbortController()
-  const {signal} = controller
-  let received = false
-  fetchHelper(url, data, {signal}).then(r => {
-    received = true
-    return r
-  }).catch(err => err)
-  setTimeout(() => {
-    controller.abort()
-  }, EARLY_ABORT_TIMEOUT)
-  return null
+(url: string, data?: any): void => {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url);
+  const abortInterval = setInterval(() => {
+    // will only abort after request has been sent
+    xhr.abort()
+    if (xhr.status === 0) {
+      // abort succeeded and status has been set to '0: ABORTED'
+      clearInterval(abortInterval)
+    }
+  }, XHR_ABORT_INTERVAL)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify(data));
 }
 
 const fetchHelper =
