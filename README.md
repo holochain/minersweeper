@@ -1,11 +1,12 @@
-# Holochain Minersweeper
+# Minersweeper 2.0
 
 A massively multiplayer version of the classic game Minesweeper. Instead of sweeping mines the goal is to sweep away those pesky altcoins!
 
 This project was created during the mid 2018 Holo intern program to demonstrate the capabilities of Holochain-proto.
+Now in 2021 it has been update to use Holochain-rsm
 
-![GitHub last commit](https://img.shields.io/github/last-commit/HC-Interns/minersweeper.svg)
-![GitHub](https://img.shields.io/github/license/HC-Interns/minersweeper.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/zo-el/minersweeper.svg)
+![GitHub](https://img.shields.io/github/license/zo-el/minersweeper.svg)
 
 ## Getting Started
 
@@ -13,10 +14,14 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Ensure holochain-proto (at least version 26) is installed on your machine by running. 
+Ensure holochain-rsm (as of 6th Jan) is installed on your machine by running.
 
 ```
-hcd -v
+holochain
+```
+
+```
+dna_utils
 ```
 
 Subsequent steps also assumes npm/yarn is installed.
@@ -31,57 +36,54 @@ npm install
 Build the Holochain dna using
 
 ```
-npm run hc:build
+make build
 ```
 and build the UI with
 ```
 npm run build
 ```
 
-The app can now be started for development purposes using
+The happ can now be started for development purposes using
 ```
-npm run hc:dev
+holochain-run-dna -p 3500 -i minersweeper ./minersweeper.dna.gz
 ```
-and opening the browser to http://localhost:4141 
+and for the ui
+```
+npm run start
+```
+and opening the browser to http://localhost:4141
 
 -----
-
-If you would like to persist data between sessions install to the local holochain directory by running the following from the project root directory:
-```
-hcadmin init <id/name string>
-hcadmin join ./build/ minesweeper
-hcd minesweeper
-```
 
 ## Running the tests
 
 Run holochain test using
 
 ```
-npm run hc:build && npm run hc:test
+make build && make test
 ```
 
 ----
 
-Run jest front-end tests using 
+Run jest front-end tests using
 ```
 npm run test
 ```
 
 ## Built With
 
-* [Holochain](https://github.com/holochain/holochain-proto)
+* [Holochain](https://github.com/holochain/holochain)
 * [Typescript](https://github.com/Microsoft/TypeScript)
 * [React](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
 
 ## Authors
 
+* **Joel U** - [zo-el](https://github.com/zo-el)
 * **Michael Dougherty** - [maackle](https://github.com/maackle)
 * **Willem Olding** - [willemolding](https://github.com/willemolding)
 * **Lisa Jetton** - [JettTech](https://github.com/JettTech)
 * **bifeitang** - [bifeitang](https://github.com/bifeitang)
-* **Joel U** - [zo-el](https://github.com/zo-el)
 * **dtholmes187** - [dtholmes187](https://github.com/dtholmes187)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
@@ -93,4 +95,3 @@ This project is licensed under the GPL-3 License - see the [LICENSE.md](LICENSE.
 ## Acknowledgments
 
 * Credit to http://minesweeper.io/ for the original inspiration for MMO minesweeper
-
