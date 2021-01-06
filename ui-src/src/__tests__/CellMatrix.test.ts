@@ -15,7 +15,7 @@ const assertNoDupes = board => {
 }
 
 const allMinesBoard = {
-  creatorHash: "xxx",
+  creator_hash: "xxx",
   description: "a game board with ALL MINES",
   mines: [0,1,2,3,4].map(x =>
     [0,1,2,3].map(y => ({x, y}))
@@ -24,21 +24,21 @@ const allMinesBoard = {
 }
 
 const testGameBoard = {
-  creatorHash: "xxx",
+  creator_hash: "xxx",
   description: "a game board for testing",
   mines: [{x: 10, y: 20}, {x: 20, y: 10}],
   size: {x: 100, y: 100},
 }
 
 const smallTestBoard = {
-  creatorHash: "xxx",
+  creator_hash: "xxx",
   description: "a small game board for testing",
   mines: [{x: 2, y: 2}],
   size: {x: 5, y: 5},
 }
 
 const troublesomeTestBoard = {
-  creatorHash: "xxx",
+  creator_hash: "xxx",
   description: "a small game board for testing",
   mines: [{x: 4, y: 1}, {x: 5, y: 0}, {x: 6, y: 0}],
   size: {x: 11, y: 11},
@@ -108,7 +108,7 @@ it('Can reveal cells on a large grid', () => {
 
 it('Can reveal a flagged cell', () => {
   const cm = new CellMatrix(testGameBoard);
-  cm.takeAction({timestamp: 0, position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 1, y: 1}, action_type: "flag", agent_hash: "XXX"});
   expect(cm.isFlagged({x: 1, y: 1})).toEqual(true);
   expect(cm.isRevealed({x: 1, y: 1})).toEqual(true)
 });
@@ -130,32 +130,32 @@ it('Assures that adjacent count <= 8 even in an extreme case', () => {
 
 it('Check for Game Over state', () => {
   const cm = new CellMatrix(smallTestBoard);
-  cm.takeAction({timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 0, y: 1}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 0, y: 2}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 0, y: 3}, actionType: "flag", agentHash: "XXX"});
-  // cm.takeAction({timestamp: 0, position: {x: 0, y: 4}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 1, y: 1}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 1, y: 2}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 1, y: 3}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 1, y: 4}, actionType: "flag", agentHash: "XXX"});
-  // cm.takeAction({timestamp: 0, position: {x: 1, y: 0}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 2, y: 1}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 2, y: 2}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 2, y: 3}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 2, y: 4}, actionType: "flag", agentHash: "XXX"});
-  // cm.takeAction({timestamp: 0, position: {x: 2, y: 0}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 3, y: 1}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 3, y: 2}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 3, y: 3}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 3, y: 3}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 3, y: 4}, actionType: "flag", agentHash: "XXX"});
-  // cm.takeAction({timestamp: 0, position: {x: 3, y: 0}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 4, y: 1}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 4, y: 2}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 4, y: 3}, actionType: "flag", agentHash: "XXX"});
-  cm.takeAction({timestamp: 0, position: {x: 4, y: 4}, actionType: "flag", agentHash: "XXX"});
-  // cm.takeAction({timestamp: 0, position: {x: 4, y: 0}, actionType: "flag", agentHash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 0, y: 0}, action_type: "reveal", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 0, y: 1}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 0, y: 2}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 0, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  // cm.takeAction({timestamp: 0, position: {x: 0, y: 4}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 1, y: 1}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 1, y: 2}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 1, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 1, y: 4}, action_type: "flag", agent_hash: "XXX"});
+  // cm.takeAction({timestamp: 0, position: {x: 1, y: 0}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 2, y: 1}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 2, y: 2}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 2, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 2, y: 4}, action_type: "flag", agent_hash: "XXX"});
+  // cm.takeAction({timestamp: 0, position: {x: 2, y: 0}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 3, y: 1}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 3, y: 2}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 3, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 3, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 3, y: 4}, action_type: "flag", agent_hash: "XXX"});
+  // cm.takeAction({timestamp: 0, position: {x: 3, y: 0}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 4, y: 1}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 4, y: 2}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 4, y: 3}, action_type: "flag", agent_hash: "XXX"});
+  cm.takeAction({timestamp: 0, position: {x: 4, y: 4}, action_type: "flag", agent_hash: "XXX"});
+  // cm.takeAction({timestamp: 0, position: {x: 4, y: 0}, action_type: "flag", agent_hash: "XXX"});
   // expect(cm.isFlagged({x: 0, y: 0})).toEqual(true);
   // expect(cm.isRevealed({x: 0, y: 0})).toEqual(true)
   expect(cm.isCompleted()).toEqual(true)

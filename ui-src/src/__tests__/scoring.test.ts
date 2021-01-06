@@ -5,28 +5,28 @@ const testGameBoard = {
   mines: [{x: 10, y: 20}, {x: 20, y: 10}],
   size: {x: 100, y: 100},
   description: "a game board for testing",
-  creatorHash: "xxx"
+  creator_hash: "xxx"
 }
 
 const testActions: Action[] = [
-  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 10, y: 20}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"}
+  {timestamp: 0, position: {x: 0, y: 0}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 10}, action_type: "flag", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 20}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 20, y: 10}, action_type: "flag", agent_hash: "XXX"}
 ];
 
 const statsTestActions: Action[] = [
-  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 1, y: 0}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 0, y: 1}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 1, y: 1}, actionType: "reveal", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "XXX"},
-  {timestamp: 0, position: {x: 10, y: 10}, actionType: "flag", agentHash: "XXX"}, // incorrect flag esets the streak
-  {timestamp: 0, position: {x: 10, y: 20}, actionType: "flag", agentHash: "XXX"}, // correct flat
+  {timestamp: 0, position: {x: 0, y: 0}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 1, y: 0}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 0, y: 1}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 1, y: 1}, action_type: "reveal", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 20, y: 10}, action_type: "flag", agent_hash: "XXX"},
+  {timestamp: 0, position: {x: 10, y: 10}, action_type: "flag", agent_hash: "XXX"}, // incorrect flag esets the streak
+  {timestamp: 0, position: {x: 10, y: 20}, action_type: "flag", agent_hash: "XXX"}, // correct flat
 
-  {timestamp: 0, position: {x: 0, y: 0}, actionType: "reveal", agentHash: "YYY"}, // should not trigger as it is repeat
-  {timestamp: 0, position: {x: 3, y: 2}, actionType: "reveal", agentHash: "YYY"}, // new action
-  {timestamp: 0, position: {x: 2, y: 3}, actionType: "reveal", agentHash: "YYY"}, // new action
+  {timestamp: 0, position: {x: 0, y: 0}, action_type: "reveal", agent_hash: "YYY"}, // should not trigger as it is repeat
+  {timestamp: 0, position: {x: 3, y: 2}, action_type: "reveal", agent_hash: "YYY"}, // new action
+  {timestamp: 0, position: {x: 2, y: 3}, action_type: "reveal", agent_hash: "YYY"}, // new action
 
 ];
 
@@ -42,16 +42,16 @@ it('Can reduce a sequence of actions to a score', () => {
 });
 
 it('Can calculate the score of multiple agents', () => {
-  const newTestActions = testActions.concat({timestamp: 0, position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
+  const newTestActions = testActions.concat({timestamp: 0, position: {x: 11, y: 11}, action_type: "reveal", agent_hash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(1);
   expect(getScores(testGameBoard, newTestActions).get("XXX")).toEqual(-6);
 })
 
 it('Can ignore subsequent actions in the same tile irrespective of hash', () => {
-  let newTestActions = testActions.concat({timestamp: 0, position: {x: 20, y: 10}, actionType: "flag", agentHash: "YYY"})
+  let newTestActions = testActions.concat({timestamp: 0, position: {x: 20, y: 10}, action_type: "flag", agent_hash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("XXX")).toEqual(-6);
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(0);
-  newTestActions = newTestActions.concat({timestamp: 0, position: {x: 11, y: 11}, actionType: "reveal", agentHash: "YYY"})
+  newTestActions = newTestActions.concat({timestamp: 0, position: {x: 11, y: 11}, action_type: "reveal", agent_hash: "YYY"})
   expect(getScores(testGameBoard, newTestActions).get("YYY")).toEqual(1);
 })
 

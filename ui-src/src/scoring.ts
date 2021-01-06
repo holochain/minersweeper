@@ -13,10 +13,10 @@ type ScoreTupleMap = Map<Hash, [number,number]>
 // returns the scores for all players that have made moves in the game
 export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, number> => {
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
-    let newScore = scores.get(action.agentHash);
+    let newScore = scores.get(action.agent_hash);
     if (newScore === undefined) { newScore = 0; }
     if (isFirst(action, index, actions)) {
-      switch(action.actionType) {
+      switch(action.action_type) {
         case "flag":
           if(isMine(gameBoard, action.position)) {
             newScore += FLAG_MINE;
@@ -35,16 +35,16 @@ export const getScores = (gameBoard: GameBoard, actions: Action[]): Map<Hash, nu
           break;
       }
     }
-    return scores.set(action.agentHash, newScore);
+    return scores.set(action.agent_hash, newScore);
   }, new Map<Hash, number>());
 }
 
 // only the first action on each square is allowed to generate a score.
 // Assumes actions are sorted ascending in time
 export const isFirst = (action: Action, index: number, actions: Action[]): boolean => {
-  if (action.actionType === "chat") { return true; }
+  if (action.action_type === "chat") { return true; }
   return actions.findIndex((compareAction: Action): boolean => {
-    if (compareAction.actionType === "chat") { return false; }
+    if (compareAction.action_type === "chat") { return false; }
     return action.position.x === compareAction.position.x && action.position.y === compareAction.position.y;
   }) === index; // returns true for the first action at each position
 }
@@ -66,37 +66,37 @@ export const isMine = (gameBoard: GameBoard, pos: Pos): boolean => {
 
 export const getMinesClicked = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
-    let newScore = scores.get(action.agentHash);
+    let newScore = scores.get(action.agent_hash);
     if (newScore === undefined) { newScore = 0; }
-    if (isFirst(action, index, actions) && action.actionType === "reveal" && isMine(gameBoard, action.position)) {
+    if (isFirst(action, index, actions) && action.action_type === "reveal" && isMine(gameBoard, action.position)) {
       newScore += 1;
     }
-    return scores.set(action.agentHash, newScore);
+    return scores.set(action.agent_hash, newScore);
   }, new Map<Hash, number>());
 }
 
 export const getNumberOfActions = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   return actions.reduce<ScoreMap>((scores: ScoreMap, action: Action, index: number): ScoreMap => {
-    let newScore = scores.get(action.agentHash);
+    let newScore = scores.get(action.agent_hash);
     if (newScore === undefined) { newScore = 0; }
-    if (isFirst(action, index, actions) && action.actionType !== "chat") {
+    if (isFirst(action, index, actions) && action.action_type !== "chat") {
       newScore += 1;
     }
-    return scores.set(action.agentHash, newScore);
+    return scores.set(action.agent_hash, newScore);
   }, new Map<Hash, number>());
 }
 
 export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   const scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
-    let newScore = scores.get(action.agentHash);
+    let newScore = scores.get(action.agent_hash);
     if (newScore === undefined) { newScore = [0,0]; }
-    if (isFirst(action, index, actions) && action.actionType === "flag") {
+    if (isFirst(action, index, actions) && action.action_type === "flag") {
       newScore[0] += 1;
       if(isMine(gameBoard, action.position)) {
         newScore[1] += 1;
       }
     }
-    return scores.set(action.agentHash, newScore);
+    return scores.set(action.agent_hash, newScore);
   }, new Map<Hash, [number, number]>());
 
   const result = new Map<Hash, number>();
@@ -115,22 +115,22 @@ export const getFlaggingAccuracy = (gameBoard: GameBoard, actions: Action[]): Sc
 
 export const getLongestStreak = (gameBoard: GameBoard, actions: Action[]): ScoreMap => {
   const scoreTuples = actions.reduce<ScoreTupleMap>((scores: ScoreTupleMap, action: Action, index: number): ScoreTupleMap => {
-    let newScore = scores.get(action.agentHash);
+    let newScore = scores.get(action.agent_hash);
     if (newScore === undefined) { newScore = [0,0]; }
-    if (isFirst(action, index, actions) && action.actionType !== "chat") {
+    if (isFirst(action, index, actions) && action.action_type !== "chat") {
       newScore[0] += 1; // increment the streak count
       if(isMine(gameBoard, action.position)) {
-        if(action.actionType === "reveal") {
+        if(action.action_type === "reveal") {
           newScore[0] = 0; // revealing a mine resets
         }
       } else {
-        if(action.actionType === "flag") {
+        if(action.action_type === "flag") {
           newScore[0] = 0; // flagging a non-mine resets
         }
       }
       newScore[1] = Math.max(newScore[0], newScore[1]); // increment the best streak if exceeded
     }
-    return scores.set(action.agentHash, newScore);
+    return scores.set(action.agent_hash, newScore);
   }, new Map<Hash, [number, number]>());
 
   const result = new Map<Hash, number>();

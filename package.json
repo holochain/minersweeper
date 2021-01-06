@@ -5,18 +5,15 @@
   "proxy": "http://localhost:4141",
   "private": true,
   "scripts": {
-    "hc:build": "rm -r build/dna; tsc -p dna-src && cpx \"dna-src/**/*.json\" build/dna-src/ && mv build/dna-src build/dna",
-    "hc:build-win": "rm -r build/dna && tsc -p dna-src && cpx \"dna-src/**/*.json\" build/dna-src/ && mv build/dna-src build/dna",
-    "hc:dev": "npm run hc:build && cd build && hcdev web",
-    "hc:win": "npm run hc:build-win && cd build && hcdev web",
-    "hc:test": "cp -r ./test/ ./build/test/ && cd build && hcdev test",
-    "start": "node scripts/start.js",
+    "start": "REACT_APP_DNA_INTERFACE_URL=ws://localhost:3500 node scripts/start.js",
     "build": "node scripts/build.js && cp -r ui-src/build/ build/ui/",
     "test": "node scripts/test.js --env=jsdom"
   },
   "author": "",
   "license": "GPL",
   "dependencies": {
+    "@holochain/conductor-api": "0.0.1-dev.15",
+    "@types/ws": "^7.4.0",
     "autoprefixer": "7.1.6",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
@@ -32,6 +29,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "immutable": "^3.8.2",
+    "isomorphic-ws": "^4.0.1",
     "jest": "22.4.2",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
@@ -47,6 +45,7 @@
     "redux": "^4.0.0",
     "redux-immutable": "^4.0.0",
     "resolve": "1.6.0",
+    "rpc-websockets": "^7.4.8",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -61,7 +60,8 @@
     "webpack": "3.8.1",
     "webpack-dev-server": "2.9.4",
     "webpack-manifest-plugin": "1.3.2",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "ws": "^7.4.2"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",

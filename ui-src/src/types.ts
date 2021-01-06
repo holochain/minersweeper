@@ -18,7 +18,7 @@ export type StoreState = {
   currentGame: StoreGameState,
   myActions: number,
   whoami: {
-    agentHash: Hash,
+    agent_hash: Hash,
     identity: string
   } | null
 };

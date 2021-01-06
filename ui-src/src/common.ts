@@ -3,7 +3,7 @@ import store from './store'
 
 import {Hash} from '../../holochain'
 import {Action, GameBoard, MoveDefinition, Pos} from '../../minersweeper'
-
+import {createZomeCall} from "./rsm_zome_call.js"
 // make mines visible even when concealed
 export const DEBUG_MODE = false
 
@@ -102,7 +102,7 @@ export const dequeueAndPerformAction =
     const move = actionQueue.first()
     if (move) {
       store.dispatch({type: 'DEQUEUE_ACTION'})
-      fetchWithAbortJSON('/fn/minersweeper/makeMove', move)
+      createZomeCall('mines','make_move')(move)
     }
   }
   return null
@@ -110,7 +110,7 @@ export const dequeueAndPerformAction =
 
 export const fetchCurrentGames =
 (): Promise<Array<[Hash, GameBoard]>> =>
-  fetchJSON('/fn/minersweeper/getCurrentGames')
+  createZomeCall('mines','get_current_games')()
     .then(games => {
       store.dispatch({
         games,
@@ -153,14 +153,13 @@ export const fetchIdentitiesForce =
 
 export const fetchActions =
 (gameHash: Hash): Promise<Array<Action>> =>
-  fetchJSON('/fn/minersweeper/getState', {
-    gameHash
-  }).then(actions => {
+  createZomeCall('mines','get_state')({game_hash: gameHash})
+  .then(actions => {
     store.dispatch({
       type: 'FETCH_ACTIONS',
       actions
     })
-    const playerHashes = actions.map((action: Action) => action.agentHash);
+    const playerHashes = actions.map((action: Action) => action.agent_hash);
     fetchIdentities(Set(playerHashes));
     return actions;
   })

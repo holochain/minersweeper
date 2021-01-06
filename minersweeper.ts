@@ -13,26 +13,26 @@ export type ChatActionType
   = "chat"
 
 export type ActionType
-  = BoardActionType  
+  = BoardActionType
   | ChatActionType
 
 export type BoardActionDefinition
-  = {actionType: BoardActionType, position: Pos}
+  = {action_type: BoardActionType, position: Pos}
 
 export type ChatActionDefinition
-  = {actionType: ChatActionType, text: string}
+  = {action_type: ChatActionType, text: string}
 
 export type ActionDefinition
   = BoardActionDefinition
   | ChatActionDefinition
 
 
-export type BoardAction = BoardActionDefinition & { agentHash: Hash, timestamp: number }
-export type ChatAction = ChatActionDefinition & { agentHash: Hash, timestamp: number }
+export type BoardAction = BoardActionDefinition & { agent_hash: Hash, timestamp: number }
+export type ChatAction = ChatActionDefinition & { agent_hash: Hash, timestamp: number }
 export type Action = BoardAction | ChatAction
 
 export interface MoveDefinition {
-  gameHash: Hash;
+  game_hash: Hash;
   action: ActionDefinition;
 }
 
@@ -40,7 +40,7 @@ export type GameState = GameBoard & {actions: Action[]}
 
 export interface GameParams {
   description: string;
-  nMines: number;
+  n_mines: number;
   size: Size;
 }
 
@@ -48,5 +48,5 @@ export interface GameBoard {
   description: string;
   mines: Pos[];
   size: Size;
-  creatorHash: Hash;
+  creator_hash: Hash;
 }
