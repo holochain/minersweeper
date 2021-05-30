@@ -45,14 +45,14 @@ export default class CellMatrix {
 
   public takeAction(action: BoardAction): number {
     let numRevealed = 0
-    switch (action.actionType) {
+    switch (action.action_type) {
       case "flag":
         if (!this.isMine(action.position)) {
           numRevealed = this.triggerReveal(action.position);
         } else if (!this.isFlagged(action.position) && !this.isRevealed(action.position)) {
           this.nRevealedMines += 1;
         }
-        this.flagCell(action.position, action.agentHash);
+        this.flagCell(action.position, action.agent_hash);
         break;
       case "reveal":
         numRevealed = this.triggerReveal(action.position);

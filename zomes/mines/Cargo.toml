@@ -1,0 +1,15 @@
+[package]
+name = "mines"
+version = "2.0.0"
+authors = ["zo-el <joel.ulahanna@holo.host>"]
+edition = "2018"
+
+[dependencies]
+serde = "=1.0.123"
+thiserror = "1.0.22"
+hdk = "0.0.101-alpha.0"
+hc_utils = "0"
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]

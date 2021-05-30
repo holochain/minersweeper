@@ -132,9 +132,9 @@ class Cell extends React.Component<CellProps, CellState> {
 
     // XXX: modifying state outside of a reducer!!!
     const numRevealed = matrix.takeAction({
-      actionType,
+      action_type: actionType,
       position: pos,
-      agentHash: whoami!.agentHash,
+      agent_hash: "", // whoami!.agent_hash,
       timestamp: -1,  // kinda doesn't matter...
     })
 
@@ -148,8 +148,8 @@ class Cell extends React.Component<CellProps, CellState> {
 
   private makeMove = (actionType, position: Pos) => {
     const payload: MoveDefinition = {
-      gameHash: this.props.gameHash,
-      action: {actionType, position}
+      game_hash: this.props.gameHash,
+      action: {action_type: actionType, position}
     }
 
     // give it 2 seconds to animate

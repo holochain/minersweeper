@@ -39,7 +39,7 @@ export function asciiBoard(text): [GameBoard, CellMatrix] {
     })
   })
   const board = {
-    creatorHash: 'xxx',
+    creator_hash: 'xxx',
     description: 'auto generated ascii board',
     mines, size
   }
@@ -56,4 +56,3 @@ export function asciiBoard(text): [GameBoard, CellMatrix] {
   })
   return [board, cm]
 }
-

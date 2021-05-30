@@ -21,13 +21,13 @@ class App extends React.Component<{}, {doAnimation: boolean}> {
   }
 
   public componentWillMount() {
-    fetchJSON('/fn/minersweeper/whoami').then(([agentHash, identity]) =>
-      store.dispatch({
-        type: 'FETCH_WHOAMI',
-        agentHash,
-        identity
-      })
-    )
+    // fetchJSON('/fn/minersweeper/whoami').then(([agent_hash, identity]) =>
+    //   store.dispatch({
+    //     type: 'FETCH_WHOAMI',
+    //     agent_hash,
+    //     identity
+    //   })
+    // )
   }
 
   public componentDidMount() {

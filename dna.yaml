@@ -1,0 +1,16 @@
+---
+manifest_version: "1"
+name: "MinerSweeper"
+version: "1.0.1"
+uid: 00000000-0000-0000-0000-000000000000
+description: ""
+authors:
+  - indentifier: "zo-el <joelulahanna@gmail.com>"
+properties:
+  test: false
+  development_stage: "pre-beta"
+  t_and_c: "https://holo.host/alpha-terms"
+  t_and_c_agreement: "By downloading the HoloFuel DNA, you agree to abide by our terms and conditions"
+zomes:
+  - name: mines
+    bundled: "./target/wasm32-unknown-unknown/release/mines.wasm"
