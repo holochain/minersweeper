@@ -20,4 +20,6 @@ ehthumbs.db
 Thumbs.db
 
 target
-minersweeper.dna.gz
+*.dna
+*.happ
+.cargo

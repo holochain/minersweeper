@@ -3,9 +3,9 @@ use crate::entries::*;
 use crate::error::MinesResult;
 use crate::GAME_ROOT_PATH;
 use hc_utils::{get_links_and_load_type, WrappedAgentPubKey, WrappedEntryHash};
-use hdk3::prelude::*;
+use hdk::prelude::*;
 
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct GameParams {
     n_mines: i64,
     size: Properties,
@@ -30,7 +30,7 @@ pub fn _new_game(game_params: GameParams) -> MinesResult<EntryHash> {
     Ok(hash)
 }
 
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct WrapperGame(Vec<(WrappedEntryHash, GameBoardSchema)>);
 
 pub fn _get_current_games() -> MinesResult<WrapperGame> {
@@ -46,11 +46,11 @@ pub fn _get_current_games() -> MinesResult<WrapperGame> {
     Ok(WrapperGame(list))
 }
 
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct GetState {
     game_hash: WrappedEntryHash,
 }
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct ActionVec(Vec<ActionSchema>);
 pub fn _get_state(payload: GetState) -> MinesResult<ActionVec> {
     let actions: Vec<ActionSchema> =
@@ -58,12 +58,12 @@ pub fn _get_state(payload: GetState) -> MinesResult<ActionVec> {
     Ok(ActionVec(actions))
 }
 
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct MoveDefinition {
     game_hash: WrappedEntryHash,
     action: Action,
 }
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 pub struct Action {
     pub action_type: String,
     pub position: Option<Properties>,

@@ -1,31 +1,19 @@
 import { InstalledHapp } from '@holochain/tryorama'
 import path = require('path')
-import { InstallAppRequest } from '@holochain/conductor-api'
 import * as _ from 'lodash'
 import { wait } from '../util'
 const delay = ms => new Promise(r => setTimeout(r, ms))
-import { CONFIG, MINE_BUNDLE } from '../common_config'
+import { LOCAL_CONFIG, installAgents } from '../common_config'
 
 module.exports = (orchestrator) => {
 
   orchestrator.registerScenario('test mines zomes', async (s, t) => {
     // spawn the conductor process
-    const [ conductor ] = await s.players([CONFIG])
-    const admin = conductor.adminWs();
-    const agentNames = ['alice', 'bobbo']
-    const agents: Array<InstalledHapp> = await Promise.all(agentNames.map(
-      async agent => {
-        const req: InstallAppRequest = {
-          installed_app_id: `${agent}_mines`,
-          agent_key: await admin.generateAgentPubKey(),
-          dnas: MINE_BUNDLE
-        }
-        return await conductor._installHapp(req)
-      }
-    ))
-    const [alice_happ , bobbo_happ] = agents
-    const alice = alice_happ.cells[0]
-    const bobbo = bobbo_happ.cells[0]
+    const [ conductor ] = await s.players([ LOCAL_CONFIG ])
+    let [alice_happ, bobbo_happ] = await installAgents(conductor,  ["alice", 'bobbo'])
+    const [alice] = alice_happ.cells
+    const [bobbo] = bobbo_happ.cells
+
 
     // Create a channel
     const game_input = {

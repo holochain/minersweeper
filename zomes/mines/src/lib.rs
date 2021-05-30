@@ -1,9 +1,8 @@
 mod entries;
 mod handler;
 use entries::*;
-use hdk3::prelude::*;
+use hdk::prelude::*;
 mod error;
-use error::MinesResult;
 use handler::*;
 use hc_utils::WrappedEntryHash;
 
@@ -16,7 +15,7 @@ entry_defs![
 pub const GAME_ROOT_PATH: &str = "minersweeper";
 
 #[hdk_extern]
-fn init(_: ()) -> MinesResult<InitCallbackResult> {
+fn init(_: ()) -> ExternResult<InitCallbackResult> {
     // create the path for happs
     Path::from(GAME_ROOT_PATH).ensure()?;
 
@@ -24,26 +23,26 @@ fn init(_: ()) -> MinesResult<InitCallbackResult> {
 }
 
 #[hdk_extern]
-fn new_game(game_params: GameParams) -> MinesResult<WrappedEntryHash> {
+fn new_game(game_params: GameParams) -> ExternResult<WrappedEntryHash> {
     Ok(WrappedEntryHash(_new_game(game_params)?))
 }
 
-#[derive(Serialize, Deserialize, SerializedBytes)]
+#[derive(Serialize, Deserialize, Debug, SerializedBytes)]
 struct WrappedBool(bool);
 
 #[hdk_extern]
-fn make_move(payload: MoveDefinition) -> MinesResult<WrappedBool> {
+fn make_move(payload: MoveDefinition) -> ExternResult<WrappedBool> {
     Ok(WrappedBool(_make_move(payload)?))
 }
 
 #[hdk_extern]
-fn get_current_games(_: ()) -> MinesResult<WrapperGame> {
-    _get_current_games()
+fn get_current_games(_: ()) -> ExternResult<WrapperGame> {
+    Ok(_get_current_games()?)
 }
 
 #[hdk_extern]
-fn get_state(payload: GetState) -> MinesResult<ActionVec> {
-    _get_state(payload)
+fn get_state(payload: GetState) -> ExternResult<ActionVec> {
+    Ok(_get_state(payload)?)
 }
 
 // Required Functions

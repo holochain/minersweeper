@@ -7,7 +7,7 @@
 #
 SHELL		= bash
 DNANAME		= minersweeper
-DNA		= $(DNANAME).dna.gz
+DNA		= $(DNANAME).dna
 WASM		= target/wasm32-unknown-unknown/release/mines.wasm
 
 # External targets; Uses a nix-shell environment to obtain Holochain runtimes, run tests, etc.
@@ -33,7 +33,8 @@ build:		$(DNA)
 # Package the DNA from the built target release WASM
 $(DNA):		$(WASM) FORCE
 	@echo "Packaging DNA:"
-	@dna-util -c $(DNANAME).dna.workdir
+	@hc dna pack . -o ./$(DNANAME).dna
+	@hc app pack . -o ./$(DNANAME).happ
 	@ls -l $@
 
 # Recompile the target release WASM

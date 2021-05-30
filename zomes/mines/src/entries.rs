@@ -1,5 +1,5 @@
 use hc_utils::*;
-use hdk3::prelude::*;
+use hdk::prelude::*;
 
 #[hdk_entry(id = "action_schema", visibility = "public", required_validations = 2)]
 pub struct ActionSchema {
@@ -28,7 +28,7 @@ pub struct Properties {
     visibility = "public",
     required_validations = 2
 )]
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct GameBoardSchema {
     pub creator_hash: WrappedAgentPubKey,
     pub description: Option<String>,
