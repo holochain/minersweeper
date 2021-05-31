@@ -114,22 +114,15 @@ fn gen_game_board(game_params: GameParams) -> MinesResult<GameBoardSchema> {
     let mut random = || {
         seed+=1.0;
         let x = seed.sin() * 10000 as f64;
-        debug!("Seed {:?}", x);
         return (x + x.floor()) as i64;
     };
 
     for i in 0..n_squares {
         let remaining_mines = n_mines - mines.len() as i64;
         let remaining_squares = n_squares - i;
-        debug!("round {:?}", i);
-        debug!("remaining_mines {:?}", remaining_mines.clone());
-        debug!("remaining_squares {:?}", remaining_squares.clone());
         if (remaining_mines / remaining_squares) >= random() {
             let x = i % size.x;
             let y = ((i / size.x) as f64).floor();
-            debug!(">>XXXXX {:?}", x);
-            debug!(">>YYYY {:?}", y);
-
             mines.push(Properties { x, y: y as i64 });
         }
     }
