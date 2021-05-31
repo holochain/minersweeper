@@ -4,7 +4,7 @@ use entries::*;
 use hdk::prelude::*;
 mod error;
 use handler::*;
-use hc_utils::WrappedEntryHash;
+use hc_utils::{WrappedEntryHash, WrappedAgentPubKey};
 
 entry_defs![
     Path::entry_def(),
@@ -43,6 +43,11 @@ fn get_current_games(_: ()) -> ExternResult<WrapperGame> {
 #[hdk_extern]
 fn get_state(payload: GetState) -> ExternResult<ActionVec> {
     Ok(_get_state(payload)?)
+}
+
+#[hdk_extern]
+fn whoami(_:()) -> ExternResult<WrappedAgentPubKey> {
+    Ok(WrappedAgentPubKey(agent_info()?.agent_initial_pubkey))
 }
 
 // Required Functions

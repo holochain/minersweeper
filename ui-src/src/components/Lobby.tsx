@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { Hash } from '../../../holochain'
+import { Hash } from '../holochain'
 import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';

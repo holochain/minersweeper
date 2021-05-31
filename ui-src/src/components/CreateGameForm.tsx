@@ -3,7 +3,6 @@ import * as React from 'react';
 import './CreateGameForm.css';
 import {connect} from 'react-redux'
 
-import { fetchJSON } from '../common';
 import {createZomeCall} from "../rsm_zome_call.js"
 
 

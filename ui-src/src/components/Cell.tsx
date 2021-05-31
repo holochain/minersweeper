@@ -2,11 +2,11 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import { Grid } from 'react-virtualized';
 
-import { MoveDefinition, BoardActionType, Pos} from '../../../minersweeper'
+import { MoveDefinition, BoardActionType, Pos} from '../minersweeper'
 
 import './Cell.css';
 
-import {Hash} from '../../../holochain';
+import {Hash} from '../holochain';
 
 import Jdenticon from './Jdenticon';
 

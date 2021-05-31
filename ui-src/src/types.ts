@@ -2,8 +2,8 @@ import { List, Map } from 'immutable';
 
 import CellMatrix from './CellMatrix';
 
-import {Hash} from '../../holochain';
-import {GameBoard, MoveDefinition} from '../../minersweeper'
+import {Hash} from './holochain';
+import {GameBoard, MoveDefinition} from './minersweeper'
 
 
 export type ChatLog = {

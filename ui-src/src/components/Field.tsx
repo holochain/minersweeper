@@ -4,8 +4,8 @@ import './Field.css';
 import {connect} from 'react-redux';
 import { AutoSizer, Grid } from 'react-virtualized';
 
-import {Hash} from '../../../holochain';
-import {Pos} from '../../../minersweeper';
+import {Hash} from '../holochain';
+import {Pos} from '../minersweeper';
 
 import Cell from './Cell';
 import Minimap, {MinimapViewport} from './Minimap';

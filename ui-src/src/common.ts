@@ -1,8 +1,8 @@
 import {Set} from 'immutable';
 import store from './store'
 
-import {Hash} from '../../holochain'
-import {Action, GameBoard, MoveDefinition, Pos} from '../../minersweeper'
+import {Hash} from './holochain'
+import {Action, GameBoard, MoveDefinition, Pos} from './minersweeper'
 import {createZomeCall} from "./rsm_zome_call.js"
 // make mines visible even when concealed
 export const DEBUG_MODE = false
@@ -41,49 +41,6 @@ export const xor = (a: number, b: number) => a && !b || !a && b
 **************************/
 
 /**
- * POST to `url` with JSON `data` and parse response as JSON
- */
-export const fetchJSON =
-(url: string, data?: any): Promise<any> => {
-  return fetchHelper(url, data)
-}
-
-/**
- * POST to `url` with JSON `data` and parse response as JSON,
- * Then cancel request ASAP, so we don't spend time waiting for response
- */
-export const fetchWithAbortJSON =
-(url: string, data?: any): void => {
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", url);
-  const abortInterval = setInterval(() => {
-    // will only abort after request has been sent
-    xhr.abort()
-    if (xhr.status === 0) {
-      // abort succeeded and status has been set to '0: ABORTED'
-      clearInterval(abortInterval)
-    }
-  }, XHR_ABORT_INTERVAL)
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(JSON.stringify(data));
-}
-
-const fetchHelper =
-(url: string, data?: any, extraPayload?: any): Promise<any> => {
-  extraPayload = extraPayload || {}
-  return fetch(url, {
-    ...extraPayload,
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    method: 'post',
-  }).then(r => {
-    return r.json()
-  })
-}
-
-/**
  * Enqueue an action instead of sending it right off
  */
 export const enqueueAction =
@@ -112,6 +69,8 @@ export const fetchCurrentGames =
 (): Promise<Array<[Hash, GameBoard]>> =>
   createZomeCall('mines','get_current_games')()
     .then(games => {
+      console.log("GAMES::", games);
+
       store.dispatch({
         games,
         type: 'FETCH_CURRENT_GAMES'
@@ -140,16 +99,19 @@ export const fetchIdentities =
  * Fetch specified identities even if they have already been fetched,
  * and update the store
  */
+// This is a temp solution just to match the legacy code
 export const fetchIdentitiesForce =
-(agentHashes: Array<Hash>): Promise<void> =>
-  fetchJSON('/fn/minersweeper/getIdentities', {agentHashes})
-    .then(identities => {
-      store.dispatch({
-        identities,
-        type: 'UPDATE_IDENTITIES'
-      })
-      return undefined
-    })
+(agentHashes: Array<Hash>): void => {
+  const identities: [Hash, string][] = [];
+  agentHashes.forEach((hash) => {
+    identities.push([hash, hash]);
+  })
+  store.dispatch({
+    identities,
+    type: 'UPDATE_IDENTITIES'
+  })
+  return undefined
+}
 
 export const fetchActions =
 (gameHash: Hash): Promise<Array<Action>> =>

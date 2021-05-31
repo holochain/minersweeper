@@ -1,19 +1,19 @@
 {
   "name": "minersweeper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "proxy": "http://localhost:4141",
   "private": true,
+  "proxy": "http://localhost:4141",
   "scripts": {
-    "start": "REACT_APP_DNA_INTERFACE_URL=ws://localhost:3500 node scripts/start.js",
+    "start": "REACT_APP_DNA_INTERFACE_URL=ws://localhost:8800 node scripts/start.js",
     "build": "node scripts/build.js && cp -r ui-src/build/ build/ui/",
     "test": "node scripts/test.js --env=jsdom"
   },
   "author": "",
   "license": "GPL",
   "dependencies": {
-    "@holochain/conductor-api": "0.0.1-dev.15",
-    "@types/ws": "^7.4.0",
+    "@holochain/conductor-api": "git://github.com/holochain/holochain-conductor-api.git#c5f7f4b38636146e261cde890e5b75fbffc5a78c",
+    "@types/ws": "^7.4.4",
     "autoprefixer": "7.1.6",
     "babel-jest": "^22.1.0",
     "babel-loader": "^7.1.2",
@@ -64,7 +64,6 @@
     "ws": "^7.4.2"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.1",
     "@types/node": "^10.5.4",
     "@types/react": "^16.4.8",
     "cpx": "^1.5.0",

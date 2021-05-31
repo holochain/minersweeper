@@ -108,13 +108,28 @@ fn gen_game_board(game_params: GameParams) -> MinesResult<GameBoardSchema> {
     let n_mines = game_params.n_mines;
     let size = game_params.size;
     let n_squares = size.x * size.y;
-    let seed = 420;
+    let mut seed: f64 = 420.0;
+
+    // fn random() -> i64
+    let mut random = || {
+        seed+=1.0;
+        let x = seed.sin() * 10000 as f64;
+        debug!("Seed {:?}", x);
+        return (x + x.floor()) as i64;
+    };
+
     for i in 0..n_squares {
         let remaining_mines = n_mines - mines.len() as i64;
         let remaining_squares = n_squares - i;
-        if remaining_mines / remaining_squares >= random((seed.clone() + i.clone()) as f64) {
+        debug!("round {:?}", i);
+        debug!("remaining_mines {:?}", remaining_mines.clone());
+        debug!("remaining_squares {:?}", remaining_squares.clone());
+        if (remaining_mines / remaining_squares) >= random() {
             let x = i % size.x;
             let y = ((i / size.x) as f64).floor();
+            debug!(">>XXXXX {:?}", x);
+            debug!(">>YYYY {:?}", y);
+
             mines.push(Properties { x, y: y as i64 });
         }
     }
@@ -126,7 +141,49 @@ fn gen_game_board(game_params: GameParams) -> MinesResult<GameBoardSchema> {
         size,
     });
 }
-fn random(seed: f64) -> i64 {
-    let x = seed.sin() * 10000 as f64;
-    return (x - x.floor()) as i64;
-}
+
+// fn gen_game_board(game_params: GameParams) -> MinesResult<GameBoardSchema> {
+//     let mut mines: Vec<Properties> = Vec::new();
+//     let description = game_params.description;
+//     let n_mines = game_params.n_mines;
+//     let size = game_params.size;
+//     let mut seed: f64 = 420.0;
+//
+//     // fn random() -> i64
+//     let mut random = || {
+//         seed+=1.0;
+//         let x = seed.sin() * 10000 as f64;
+//         debug!("Seed {:?}", x);
+//         return (x - x.floor()) as i64;
+//     };
+//
+//     // fn rand_int(min: i64, max: i64) -> i64
+//     let mut rand_int = || {
+//         let min = 0;
+//         let max = size.x;
+//         return (((random() * (max - min +1)) as f64).floor() + min as f64) as i64
+//     };
+//
+//     for _ in 0..n_mines {
+//         let mut x;
+//         let mut y;
+//         loop {
+//             x = rand_int();
+//             y = rand_int();
+//             debug!("YYYY {:?}", y);
+//             if mines.iter().any(|axis:&Properties| (x == axis.x) && (y == axis.y)) == false {
+//                 break;
+//             }
+//         }
+//         mines.push(Properties { x, y });
+//     }
+//
+//
+//
+//     return Ok(GameBoardSchema {
+//         creator_hash: WrappedAgentPubKey(agent_info()?.agent_initial_pubkey),
+//         description,
+//         mines,
+//         size,
+//     });
+// }

@@ -1,3 +1,4 @@
+// tslint:disable:no-console
 /*************************
 **   RSM zome functions    **
 **************************/
@@ -9,14 +10,19 @@ let isInitiatingHcConnection = false
 export let CELL_ID;
 export let AGENT_KEY;
 
-const INSTALLED_APP_ID = "minersweeper"
+const INSTALLED_APP_ID = "minersweeper-1"
 async function initHolochainClient () {
-  holochainClient = await AppWebsocket.connect(process.env.REACT_APP_DNA_INTERFACE_URL)
+  try {
+    holochainClient = await AppWebsocket.connect(process.env.REACT_APP_DNA_INTERFACE_URL)
+  }
+  catch (e) {
+    console.error("Error>>", e);
+  }
   await holochainClient
         .appInfo({ installed_app_id: INSTALLED_APP_ID })
         .then(appInfo => {
           // console.log("appInfo : ", appInfo);
-          CELL_ID = appInfo.cell_data[0][0];
+          CELL_ID = appInfo.cell_data[0].cell_id;
           const dnaHash = arrayBufferToBase64(CELL_ID[0]);
           // console.log("CELL_ID : ", dnaHash, arrayBufferToBase64(CELL_ID[1]));
 

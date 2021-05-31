@@ -1,12 +1,14 @@
-agent.txt
-priv.key
-
 build/
 ui/
-dna/
 node_modules/
 .dist/
 .cache/
+
+target
+*.dna
+*.happ
+.cargo
+.hc*
 
 # OS generated files #
 ######################
@@ -18,8 +20,3 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-target
-*.dna
-*.happ
-.cargo
