@@ -84,7 +84,7 @@ class Lobby extends React.Component<any, LobbyState> {
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
-              <h1 className="lobby-header">Welcome to Minersweeper</h1>
+              <h1 className="lobby-header">Welcome to Minersweeper 2.0</h1>
             </div>
           </div>
           <div className="coins">
