@@ -1,13 +1,13 @@
 
 import { Map } from "immutable";
 
-import { Hash } from '../../holochain';
+import { Hash } from './holochain';
 import {
   BoardAction,
   GameBoard,
   Pos,
   Size
-} from '../../minersweeper';
+} from './minersweeper';
 
 export enum CellStatus {
   Concealed,

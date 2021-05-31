@@ -33,6 +33,7 @@ module.exports = (orchestrator) => {
 
     let list_games = await alice.call('mines', 'get_current_games', null);
     console.log("Game_list:", list_games);
+    console.log("Game_list:", list_games[0][1].mines);
     t.ok(list_games)
 
     let made_move = {

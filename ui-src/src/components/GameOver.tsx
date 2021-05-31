@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import Jdenticon from './Jdenticon';
 
 import { getDisplayName } from '../common';
-import {Hash} from '../../../holochain';
-import {GameBoard, Action} from '../../../minersweeper';
+import {Hash} from '../holochain';
+import {GameBoard, Action} from '../minersweeper';
 
 import * as common from '../common';
 import { getLongestStreak, getFlaggingAccuracy, getMinesClicked, getNumberOfActions, getScores } from '../scoring'

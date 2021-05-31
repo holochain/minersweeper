@@ -4,14 +4,14 @@ import * as redux from 'redux';
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
 import {getScores, isFirst} from './scoring'
-import {Hash} from '../../holochain';
+import {Hash} from './holochain';
 
 import {
   StoreGameState,
   StoreState,
 } from './types';
 
-import {Action} from '../../minersweeper'
+import {Action} from './minersweeper'
 
 
 const defaultState: StoreState = {

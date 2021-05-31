@@ -62,6 +62,19 @@ test-dna-debug:
 
 test-e2e:	test-dna
 
+# Spin up agents
+
+gen-agent:
+	hc sandbox clean
+	hc sandbox generate ./minersweeper.happ -a='minersweeper-1'
+	hc sandbox generate ./minersweeper.happ -a='minersweeper-2'
+
+run-agent1:
+	hc sandbox r 0 -p=8800
+
+run-agent2:
+	hc sandbox r 1 -p=9300
+
 # Generic targets; does not require a Nix environment
 .PHONY: clean
 clean:

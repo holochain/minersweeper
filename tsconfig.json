@@ -10,7 +10,7 @@
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": "./",
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
@@ -20,9 +20,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false
   },
-  "files": [
-    "./holochain.d.ts"
-  ],
   "include": [
     "ui-src/src/**/*"
   ],

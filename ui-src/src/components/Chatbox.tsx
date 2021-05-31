@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import './Chatbox.css';
 
-import {Hash} from '../../../holochain';
-import {MoveDefinition} from '../../../minersweeper';
+import {Hash} from '../holochain';
+import {MoveDefinition} from '../minersweeper';
 
 import Jdenticon from './Jdenticon';
 

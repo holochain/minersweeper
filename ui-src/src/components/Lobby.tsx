@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { Hash } from '../../../holochain'
+import { Hash } from '../holochain'
 import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
@@ -84,7 +84,7 @@ class Lobby extends React.Component<any, LobbyState> {
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
-              <h1 className="lobby-header">Welcome to Minersweeper</h1>
+              <h1 className="lobby-header">Welcome to Minersweeper 2.0</h1>
             </div>
           </div>
           <div className="coins">

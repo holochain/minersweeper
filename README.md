@@ -21,7 +21,7 @@ holochain
 ```
 
 ```
-dna_utils
+hc
 ```
 
 Subsequent steps also assumes npm/yarn is installed.
@@ -45,7 +45,9 @@ npm run build
 
 The happ can now be started for development purposes using
 ```
-holochain-run-dna -p 3500 -i minersweeper ./minersweeper.dna.gz
+make gen-agent # to generate agents
+
+make run-agent1 # to run a conductor that is running agent 1
 ```
 and for the ui
 ```

@@ -3,8 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 
 import './App.css';
-
-import {fetchJSON, LOBBY_INTRO_TIMEOUT} from '../common'
+import {createZomeCall} from "../rsm_zome_call.js"
+import { LOBBY_INTRO_TIMEOUT } from '../common'
 import store from '../store'
 
 import Lobby from './Lobby';
@@ -21,13 +21,17 @@ class App extends React.Component<{}, {doAnimation: boolean}> {
   }
 
   public componentWillMount() {
-    // fetchJSON('/fn/minersweeper/whoami').then(([agent_hash, identity]) =>
-    //   store.dispatch({
-    //     type: 'FETCH_WHOAMI',
-    //     agent_hash,
-    //     identity
-    //   })
-    // )
+    createZomeCall('mines','whoami')()
+    .then(agentHash => {
+      console.log("Agent ID::", agentHash);
+
+      store.dispatch({
+        type: 'FETCH_WHOAMI',
+        agent_hash: agentHash,
+        identity: agentHash
+      })
+      return null
+    })
   }
 
   public componentDidMount() {
