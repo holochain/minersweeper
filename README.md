@@ -87,7 +87,7 @@ npm run test
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org/)
 
-## Authors
+## Developer
 
 - **Joel U** - [zo-el](https://github.com/zo-el)
 

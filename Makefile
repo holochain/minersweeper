@@ -42,6 +42,8 @@ $(WASM): FORCE
 	@echo "Building  DNA WASM:"
 	@RUST_BACKTRACE=1 CARGO_TARGET_DIR=target cargo build \
 	    --release --target wasm32-unknown-unknown
+	@echo "Optimizing wasms:"
+	@wasm-opt -Oz $(WASM) --output $(WASM)
 
 .PHONY: test test-all test-unit test-e2e test-dna test-dna-debug test-stress test-sim2h test-node
 test-all:	test
@@ -74,6 +76,13 @@ run-agent1:
 
 run-agent2:
 	hc sandbox r 1 -p=9300
+
+webhapp:
+	rm -rf ./build
+	npm run build
+	rm -f minersweeper.zip
+	cd build && rm -rf service-worker.js && zip -r ../minersweeper.zip $$(ls .)
+	hc web-app pack .
 
 
 #############################

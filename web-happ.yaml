@@ -1,0 +1,7 @@
+---
+manifest_version: "1"
+name: minersweeper
+ui:
+  bundled: "./minersweeper.zip"
+happ_manifest:
+  bundled: "./minersweeper.happ"
