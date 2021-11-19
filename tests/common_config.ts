@@ -48,7 +48,7 @@ export const installAgents = async (conductor, agentNames, memProofArray?) => {
 
       let dna = {
         hash: dnaHash,
-        nick: 'minersweeper',
+        role_id: 'minersweeper',
       }
       if (memProofArray) {
         dna["membrane_proof"] = Array.from(memProofArray[i])

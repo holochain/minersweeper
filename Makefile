@@ -75,6 +75,31 @@ run-agent1:
 run-agent2:
 	hc sandbox r 1 -p=9300
 
+
+#############################
+# █▀█ █▀▀ █░░ █▀▀ ▄▀█ █▀ █▀▀
+# █▀▄ ██▄ █▄▄ ██▄ █▀█ ▄█ ██▄
+#############################
+# requirements
+# - cargo-edit crate: `cargo install cargo-edit`
+# - jq linux terminal tool : `sudo apt-get install jq`
+# How to make a release?
+# make HC_REV="HC_REV" release-0.0.0-alpha0
+
+update:
+	echo '⚙️  Updating hdk crate...'
+	cargo upgrade hdk@=$(shell jq .hdk ./version-manager.json) --workspace
+	echo '⚙️  Updating hc_utils crate...'
+	cargo upgrade hc_utils@=$(shell jq .hc_utils ./version-manager.json) --workspace	
+	echo '⚙️  Updating holochainVersionId in nix...'
+	sed -i -e 's/^  holonixRevision = .*/  holonixRevision = $(shell jq .holonix_rev ./version-manager.json);/' config.nix;\
+	sed -i -e 's/^  holochainVersionId = .*/  holochainVersionId = $(shell jq .holochain_rev ./version-manager.json);/' config.nix;\
+	echo '⚙️  Building dnas and happ...'
+	rm -rf Cargo.lock
+	make nix-build
+	echo '⚙️  Running tests...'
+	make nix-test-dna
+
 # Generic targets; does not require a Nix environment
 .PHONY: clean
 clean:

@@ -11,8 +11,8 @@ opt-level = "z"
 opt-level = "z"
 
 [patch.crates-io]
-hc_utils = {git = "https://github.com/holochain/hc-utils", branch = "0.0.101-alpha.0", package = "hc_utils"}
-# hdk = { path = "../holochain/crates/hdk" }
-hdk = {git = "https://github.com/holochain/holochain", rev = "59c8632876795125a8d0a3770b2fd6733529bfcd", package = "hdk"}
-# hdk = { path = "../holochain/crates/hdk" }
-holo_hash = {git = "https://github.com/holochain/holochain", rev = "59c8632876795125a8d0a3770b2fd6733529bfcd", package = "holo_hash"}
+# hc_utils = {git = "https://github.com/holochain/hc-utils", branch = "0.0.101-alpha.0", package = "hc_utils"}
+# # hdk = { path = "../holochain/crates/hdk" }
+# hdk = {git = "https://github.com/holochain/holochain", rev = "59c8632876795125a8d0a3770b2fd6733529bfcd", package = "hdk"}
+# # hdk = { path = "../holochain/crates/hdk" }
+# holo_hash = {git = "https://github.com/holochain/holochain", rev = "59c8632876795125a8d0a3770b2fd6733529bfcd", package = "holo_hash"}
