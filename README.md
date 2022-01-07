@@ -33,29 +33,36 @@ Install the javascript/typescript packages with
 ```
 npm install
 ```
+
 Build the Holochain dna using
 
 ```
 make build
 ```
+
 and build the UI with
+
 ```
 npm run build
 ```
 
 The happ can now be started for development purposes using
+
 ```
 make gen-agent # to generate agents
 
 make run-agent1 # to run a conductor that is running agent 1
 ```
+
 and for the ui
+
 ```
 npm run start
 ```
+
 and opening the browser to http://localhost:4141
 
------
+---
 
 ## Running the tests
 
@@ -65,28 +72,33 @@ Run holochain test using
 make build && make test
 ```
 
-----
+---
 
 Run jest front-end tests using
+
 ```
 npm run test
 ```
 
 ## Built With
 
-* [Holochain](https://github.com/holochain/holochain)
-* [Typescript](https://github.com/Microsoft/TypeScript)
-* [React](https://reactjs.org/)
-* [Redux](https://redux.js.org/)
+- [Holochain](https://github.com/holochain/holochain)
+- [Typescript](https://github.com/Microsoft/TypeScript)
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
 
-## Authors
+## Developer
 
-* **Joel U** - [zo-el](https://github.com/zo-el)
-* **Michael Dougherty** - [maackle](https://github.com/maackle)
-* **Willem Olding** - [willemolding](https://github.com/willemolding)
-* **Lisa Jetton** - [JettTech](https://github.com/JettTech)
-* **bifeitang** - [bifeitang](https://github.com/bifeitang)
-* **dtholmes187** - [dtholmes187](https://github.com/dtholmes187)
+- **Joel U** - [zo-el](https://github.com/zo-el)
+
+## Original team
+
+- **Joel U** - [zo-el](https://github.com/zo-el)
+- **Michael Dougherty** - [maackle](https://github.com/maackle)
+- **Willem Olding** - [willemolding](https://github.com/willemolding)
+- **Lisa Jetton** - [JettTech](https://github.com/JettTech)
+- **bifeitang** - [bifeitang](https://github.com/bifeitang)
+- **dtholmes187** - [dtholmes187](https://github.com/dtholmes187)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -96,4 +108,4 @@ This project is licensed under the GPL-3 License - see the [LICENSE.md](LICENSE.
 
 ## Acknowledgments
 
-* Credit to http://minesweeper.io/ for the original inspiration for MMO minesweeper
+- Credit to http://minesweeper.io/ for the original inspiration for MMO minesweeper

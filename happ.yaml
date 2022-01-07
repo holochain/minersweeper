@@ -2,7 +2,7 @@
 manifest_version: "1"
 name: minersweeper
 description: ""
-slots:
+roles:
   - id: mines
     provisioning:
       strategy: create

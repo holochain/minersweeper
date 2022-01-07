@@ -72,9 +72,7 @@ pub struct Action {
 
 pub fn _make_move(payload: MoveDefinition) -> MinesResult<bool> {
     let game_hash = payload.game_hash.0;
-    let action_stamp = get_links(game_hash.clone().into(), Some(ActionTag::tag()))?
-        .into_inner()
-        .len();
+    let action_stamp = get_links(game_hash.clone().into(), Some(ActionTag::tag()))?.len();
     // let mut action_type = ActionType::REVEAL;
     // if payload.action.action_type == "chat" {
     //     action_type = ActionType::CHAT
@@ -112,7 +110,7 @@ fn gen_game_board(game_params: GameParams) -> MinesResult<GameBoardSchema> {
 
     // fn random() -> i64
     let mut random = || {
-        seed+=1.0;
+        seed += 1.0;
         let x = seed.sin() * 10000 as f64;
         return (x + x.floor()) as i64;
     };
