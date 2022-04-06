@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 
 import './Chatbox.css';
 
-import {Hash} from '../../../holochain';
-import {MoveDefinition} from '../../../minersweeper';
+import {Hash} from '../holochain';
+import {MoveDefinition} from '../minersweeper';
 
 import Jdenticon from './Jdenticon';
 
@@ -13,7 +13,7 @@ import store from '../store';
 
 // type ChatProps = {
 //   gameHash: Hash,
-//   agentHash: Hash,
+//   agent_hash: Hash,
 //   chat: any,
 //   allPlayerHandles: Map<Hash, string>
 //   authorName: string,
@@ -158,9 +158,9 @@ class InputForm extends React.Component<any, any> {
     if (text.length) {
       // send chats to redux here:
       const payload: MoveDefinition = {
-        gameHash: this.props.gameHash as Hash,
+        game_hash: this.props.gameHash as Hash,
         action: {
-          actionType: "chat",
+          action_type: "chat",
           text,
         }
       }

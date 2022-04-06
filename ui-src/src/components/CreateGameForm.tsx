@@ -3,7 +3,7 @@ import * as React from 'react';
 import './CreateGameForm.css';
 import {connect} from 'react-redux'
 
-import { fetchJSON } from '../common';
+import {createZomeCall} from "../rsm_zome_call.js"
 
 
 enum Difficulty {
@@ -81,8 +81,8 @@ class CreateGameForm extends React.Component<any, CreateGameFormState> {
       const nMines = Math.round(nCells*(this.state.selectedDifficulty));
 
       // this.props.newGame({width, height, description})
-      fetchJSON('/fn/minersweeper/newGame', {description, nMines, size: {x,y}})
-        .then(response => {
+      createZomeCall('mines','new_game')({description, n_mines: nMines, size: {x,y}})
+      .then(response => {
           if (response.errorMessage) {
             // TODO: better message
             this.setState({errorMessage: "We can't start without your preferences. Please enter a game size, difficutly level and title."})

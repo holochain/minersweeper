@@ -4,14 +4,14 @@ import * as redux from 'redux';
 import {ReduxAction} from './actions';
 import CellMatrix from './CellMatrix';
 import {getScores, isFirst} from './scoring'
-import {Hash} from '../../holochain';
+import {Hash} from './holochain';
 
 import {
   StoreGameState,
   StoreState,
 } from './types';
 
-import {Action} from '../../minersweeper'
+import {Action} from './minersweeper'
 
 
 const defaultState: StoreState = {
@@ -64,14 +64,14 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
       if (!matrix.isMine(coords)) {
         matrix.triggerReveal(coords)
       }
-      matrix.flagCell(coords, state.whoami!.agentHash)
+      matrix.flagCell(coords, state.whoami!.agent_hash)
       break;
     }
     case 'FETCH_ACTIONS': {
       chats = chats.clear()
       action.actions.sort(compareActions);
       action.actions.filter(isFirst).forEach(a => {
-        switch (a.actionType) {
+        switch (a.action_type) {
           case "flag":
           case "reveal":
             // update game board
@@ -79,7 +79,7 @@ function reduceGame (state: StoreState, action: ReduxAction): StoreGameState {
             break;
           case "chat":
             chats = chats.push({
-              author: a.agentHash,
+              author: a.agent_hash,
               message: a.text,
               timestamp: a.timestamp!,
             })
@@ -146,10 +146,10 @@ export function reducer (oldState: StoreState = defaultState, action: ReduxActio
       return state
     }
     case 'FETCH_WHOAMI': {
-      const {agentHash, identity} = action
+      const {agent_hash, identity} = action
       return {
         ...state,
-        whoami: {agentHash, identity}
+        whoami: {agent_hash, identity}
       }
     }
     case 'FETCH_CURRENT_GAMES': {

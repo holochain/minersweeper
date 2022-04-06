@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import Jdenticon from './Jdenticon';
 
 import { getDisplayName } from '../common';
-import {Hash} from '../../../holochain';
-import {GameBoard, Action} from '../../../minersweeper';
+import {Hash} from '../holochain';
+import {GameBoard, Action} from '../minersweeper';
 
 import * as common from '../common';
 import { getLongestStreak, getFlaggingAccuracy, getMinesClicked, getNumberOfActions, getScores } from '../scoring'
@@ -73,13 +73,13 @@ class GameOver extends React.Component<any, GameOverState> {
               <WinnersPodium
                 scores={this.state.sortedStats.score}
                 identities={identities}
-                myHash={whoami!.agentHash}
+                myHash={whoami!.agent_hash}
               />
               <div className="medal-list-container">
                 <MedalList
                   sortedStats={this.state.sortedStats}
                   identities={identities}
-                  myHash={whoami!.agentHash}
+                  myHash={whoami!.agent_hash}
                 />
               </div>
               <div className="circle" />
@@ -98,7 +98,7 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
   const winners = top3.map(([hash, score], i) => {
     return <Winner
             key={i}
-            agentHash={hash}
+            agent_hash={hash}
             agentName={identities.get(hash)}
             score={score}
             place={i + 1}
@@ -112,13 +112,13 @@ const WinnersPodium = ({ scores, identities, myHash }) => {
   )
 }
 
-const Winner = ({agentHash, agentName, score, place, isMe}) => {
+const Winner = ({agent_hash, agentName, score, place, isMe}) => {
   const jdenticonSize = 75
-  const username = getDisplayName(agentHash).substring(0,8);
+  const username = getDisplayName(agent_hash).substring(0,8);
   return (
     <div className={`winner place-${place} ${isMe ? 'me' : ''}`}>
       <div className="username">{ username }</div>
-      <Jdenticon className="winner-jdenticon" hash={ agentHash } size={ jdenticonSize } />
+      <Jdenticon className="winner-jdenticon" hash={ agent_hash } size={ jdenticonSize } />
       <div className="score">{ score }</div>
     </div>
   )
@@ -169,7 +169,7 @@ const Medal = (props: MedalProps) => {
       <div className="medal-title">{title}</div>
       <Winner
         key={title}
-        agentHash={agentHash}
+        agent_hash={agentHash}
         agentName={agentName}
         score={`${accuracyStat}%`}
         place={title}
@@ -181,7 +181,7 @@ const Medal = (props: MedalProps) => {
       <div className="medal-title">{title}</div>
       <Winner
         key={title}
-        agentHash={agentHash}
+        agent_hash={agentHash}
         agentName={agentName}
         score={stat}
         place={title}

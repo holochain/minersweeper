@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './Lobby.css';
 
-import { Hash } from '../../../holochain'
+import { Hash } from '../holochain'
 import { connect } from 'react-redux';
 
 import Jdenticon from './Jdenticon';
@@ -32,7 +32,7 @@ class Lobby extends React.Component<any, LobbyState> {
   public componentWillMount() {
     const updateLobby = () => {
       common.fetchCurrentGames().then(games => {
-        const creators = games.map(([_, game]) => game.creatorHash)
+        const creators = games.map(([_, game]) => game.creator_hash)
         common.fetchIdentities(Set(creators))
       })
     }
@@ -84,7 +84,7 @@ class Lobby extends React.Component<any, LobbyState> {
         <div className="screen">
           <div className="Lobby">
             <div className="lobby-jumbotron">
-              <h1 className="lobby-header">Welcome to Minersweeper</h1>
+              <h1 className="lobby-header">Welcome to Minersweeper 2.0</h1>
             </div>
           </div>
           <div className="coins">
@@ -132,10 +132,10 @@ const GameList = ({ allGames, identities }) => {
           {
             allGames.keySeq().map((hash: Hash) => {
               const game = allGames.get(hash)
-              const {creatorHash, mines, size} = game
+              const {creator_hash, mines, size} = game
               let author = (
-                identities.get(creatorHash)
-                || creatorHash
+                identities.get(creator_hash)
+                || creator_hash
               )
               const truncatedAuthor = author.substring(0,15)
               if (author !== truncatedAuthor) {
@@ -143,7 +143,7 @@ const GameList = ({ allGames, identities }) => {
               }
               return <tr key={hash}>
                 <td className="author">
-                  <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={creatorHash}/>
+                  <Jdenticon style={{marginRight: 3}} className="middle-align-item" size={30} hash={creator_hash}/>
                   <span className="middle-align-item">{author}</span>
                 </td>
                 <td className="mine">{mines.length}</td>

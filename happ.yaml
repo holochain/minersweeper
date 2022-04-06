@@ -1,0 +1,15 @@
+---
+manifest_version: "1"
+name: minersweeper
+description: ""
+roles:
+  - id: mines
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: ./minersweeper.dna
+      properties: ~
+      uuid: ~
+      version: ~
+      clone_limit: 0
